@@ -121,6 +121,13 @@ const Node = () => {
           placeholder="0"
           className="input input-bordered w-full"
           onChange={(e) => {
+            if (e.target.value > 30000) {
+              e.target.value = 30000;
+            }
+            if (e.target.value < 0) {
+              e.target.value = 0;
+            }
+            e.target.value = Math.floor(e.target.value);
             setData({ ...data, amount: e.target.value });
           }}
         />
