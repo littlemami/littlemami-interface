@@ -9,10 +9,7 @@ import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
   [goerli],
-  [
-    alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" }),
-    publicProvider(),
-  ]
+  [alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" })]
 );
 const { connectors } = getDefaultWallets({
   appName: "App",

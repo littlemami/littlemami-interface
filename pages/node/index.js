@@ -1,8 +1,57 @@
 import Loading from "@/components/Loading/Index";
 import WriteButton from "@/components/WriteButton";
 import { useEffect, useState } from "react";
+import { contract } from "@/config";
+import { useNetwork, useContractReads, useAccount } from "wagmi";
+import { erc20ABI } from "@wagmi/core";
+import BigNumber from "bignumber.js";
 
 const Node = () => {
+  const [render, setRender] = useState(0);
+  const { chain } = useNetwork();
+
+  const { address } = useAccount();
+
+  const nodeContract = contract[chain?.id]?.node;
+
+  const { data: read0 } = useContractReads({
+    contracts: [
+      { ...nodeContract, functionName: "tokenAddress" },
+      { ...nodeContract, functionName: "tokenPrice" },
+      { ...nodeContract, functionName: "totalSell" },
+    ],
+    scopeKey: render,
+  });
+  const tokenAddress = read0?.[0]?.result;
+  const tokenPrice = read0?.[1]?.result;
+  const totalSell = read0?.[2]?.result;
+
+  const tokenContract = {
+    address: tokenAddress,
+    abi: erc20ABI,
+  };
+
+  const { data: read1 } = useContractReads({
+    contracts: [
+      {
+        ...tokenContract,
+        functionName: "allowance",
+        args: [address, nodeContract?.address],
+      },
+      {
+        ...tokenContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      { ...tokenContract, functionName: "decimals" },
+    ],
+    scopeKey: render,
+  });
+
+  const allowance = read1?.[0]?.result;
+  const tokenBalance = read1?.[1]?.result;
+  const decimals = read1?.[2]?.result;
+
   const [data, setData] = useState({});
   const [mount, setMount] = useState(false);
   useEffect(() => {
@@ -10,11 +59,68 @@ const Node = () => {
   }, []);
   const buy = {
     buttonName: "Buy",
+    data: {
+      ...nodeContract,
+      functionName: "buy",
+      args: [data?.amount],
+    },
+    callback: (confirmed) => {
+      if (confirmed) {
+        setRender(render + 1);
+      }
+    },
   };
+
+  const approve = {
+    buttonName: "Approve USDT",
+    data: {
+      ...tokenContract,
+      functionName: "approve",
+      args: [nodeContract?.address, 2 ** 255],
+    },
+    callback: (confirmed) => {
+      if (confirmed) {
+        setRender(render + 1);
+      }
+    },
+  };
+
+  const price = BigNumber(tokenPrice)
+    .div(10 ** decimals)
+    .toFixed();
+
+  const balance = BigNumber(tokenBalance)
+    .div(10 ** decimals)
+    .toFixed();
+
+  let showApprove;
+  if (allowance < 2 ** 254) {
+    showApprove = true;
+  } else {
+    showApprove = false;
+  }
+
+  let totalCost = 0;
+  let tempSell = Number(totalSell);
+  let tempPrice = Number(price);
+
+  for (let i = 0; i < Number(data?.amount); i++) {
+    totalCost += tempPrice;
+    tempSell += 1;
+    if (tempSell % 50 == 0) {
+      tempPrice = Math.ceil(tempPrice * 1.005);
+    }
+  }
+
   return mount ? (
     <>
-      <div className="m-auto w-96 text-center">
-        <div className="text-right">Price : 1 USDT</div>
+      <div className="m-auto w-96 text-center mt-20">
+        <div className="text-right">
+          Current progress : {totalSell?.toString()}
+        </div>
+
+        <div className="text-right">Token Balance : {balance} USDT</div>
+        <div className="text-right">Price : {price} USDT</div>
         <input
           type="number"
           placeholder="0"
@@ -23,8 +129,9 @@ const Node = () => {
             setData({ ...data, amount: e.target.value });
           }}
         />
-        <div className="my-2">Total cost : {data?.amount * 1 || 0} USDT</div>
-        <WriteButton {...buy} className="" />
+
+        <div className="my-2">Total cost : {totalCost || 0} USDT</div>
+        {showApprove ? <WriteButton {...approve} /> : <WriteButton {...buy} />}
       </div>
     </>
   ) : (

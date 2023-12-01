@@ -1,13 +1,19 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 const Navbar = () => {
   return (
     <div className="navbar items-center h-20">
       <div className="navbar-start">
         <div className="font-black ml-2">Littlemami</div>
       </div>
-      <div className="navbar-center"></div>
+      <div className="navbar-center">
+        <Link href="/node" className="btn">
+          node
+        </Link>
+        <Link href="/ranklist" className="btn">ranklist</Link>
+      </div>
       <div className="navbar-end">
         <ConnectButton />
         <label className="cursor-pointer grid place-items-center m-2">

@@ -1,5 +1,5 @@
 const Ranklist = () => {
-  return <div>Ranklist</div>;
+  return <div></div>;
 };
 
 export default Ranklist;
