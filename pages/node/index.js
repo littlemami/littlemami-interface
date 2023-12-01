@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
 import { erc20ABI } from "@wagmi/core";
-import BigNumber from "bignumber.js";
 
 const Node = () => {
   const [render, setRender] = useState(0);
@@ -85,13 +84,9 @@ const Node = () => {
     },
   };
 
-  const price = BigNumber(tokenPrice)
-    .div(10 ** decimals)
-    .toFixed();
+  const price = tokenPrice && (tokenPrice / 10n ** 18n)?.toString();
 
-  const balance = BigNumber(tokenBalance)
-    .div(10 ** decimals)
-    .toFixed();
+  const balance = tokenBalance && (tokenBalance / 10n ** 18n)?.toString();
 
   let showApprove;
   if (allowance < 2 ** 254) {
@@ -116,11 +111,11 @@ const Node = () => {
     <>
       <div className="m-auto w-96 text-center mt-20">
         <div className="text-right">
-          Current progress : {totalSell?.toString()}
+          Current progress : {totalSell?.toString() || "--"}
         </div>
 
-        <div className="text-right">Token Balance : {balance} USDT</div>
-        <div className="text-right">Price : {price} USDT</div>
+        <div className="text-right">Token Balance : {balance || "--"} USDT</div>
+        <div className="text-right">Price : {price || "--"} USDT</div>
         <input
           type="number"
           placeholder="0"
@@ -130,7 +125,7 @@ const Node = () => {
           }}
         />
 
-        <div className="my-2">Total cost : {totalCost || 0} USDT</div>
+        <div className="my-2">Total cost : {totalCost || "--"} USDT</div>
         {showApprove ? <WriteButton {...approve} /> : <WriteButton {...buy} />}
       </div>
     </>
