@@ -84,12 +84,14 @@ const Node = () => {
     },
   };
 
-  const price = tokenPrice && (tokenPrice / 10n ** 18n)?.toString();
+  const price =
+    tokenPrice && (tokenPrice / 10n ** BigInt(decimals))?.toString();
 
-  const balance = tokenBalance && (tokenBalance / 10n ** 18n)?.toString();
+  const balance =
+    tokenBalance && (tokenBalance / 10n ** BigInt(decimals))?.toString();
 
   let showApprove;
-  if (allowance < 2 ** 254) {
+  if (allowance < Number(data?.amount) * 10 ** Number(decimals)) {
     showApprove = true;
   } else {
     showApprove = false;
