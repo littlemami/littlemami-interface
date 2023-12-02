@@ -58,6 +58,7 @@ const Node = () => {
   }, []);
   const buy = {
     buttonName: "Buy",
+    disabled: !data.amount || data.amount == 0,
     data: {
       ...nodeContract,
       functionName: "buy",
