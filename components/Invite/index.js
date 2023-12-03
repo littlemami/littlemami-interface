@@ -32,6 +32,7 @@ const Invite = (props) => {
         type="text"
         placeholder={props.inviteCode || "10001"}
         className="input input-bordered w-full"
+        value={data.inviteCode}
         onChange={(e) => {
           setData({ ...data, inviteCode: e.target.value });
         }}
