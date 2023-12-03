@@ -188,8 +188,8 @@ const Node = (props) => {
                 <tr className="bg-base-200" key={index}>
                   <th>#</th>
                   <td>{invite.address}</td>
-                  <td>0</td>
-                  <td>0</td>
+                  <td>--</td>
+                  <td>--</td>
                 </tr>
               );
             })}
