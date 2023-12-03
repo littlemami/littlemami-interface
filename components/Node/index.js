@@ -6,6 +6,7 @@ import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
 import { erc20ABI } from "@wagmi/core";
 import { useRouter } from "next/router";
+import rpc from "@/components/Rpc";
 
 const Node = (props) => {
   const router = useRouter();
@@ -73,7 +74,12 @@ const Node = (props) => {
   };
 
   useEffect(() => {
-    setMount(true);
+    async function fetchData() {
+      const user = await rpc.getUser(address);
+      setData({ ...data, user });
+      setMount(true);
+    }
+    fetchData();
   }, []);
 
   const approve = {
@@ -116,6 +122,7 @@ const Node = (props) => {
   }
 
   const invites = props?.invites;
+  const user = data.user;
 
   return mount ? (
     <>
@@ -161,12 +168,12 @@ const Node = (props) => {
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
       <div className="ml-4 flex gap-4">
-        Invite Link : {window.location.href}?leader={address}
+        Invite Link : {window.location.href}?inviteCode={user?.id}
         <div
           className="btn btn-success btn-xs"
           onClick={(e) => {
             navigator.clipboard.writeText(
-              window.location.href + "/?leader=" + address
+              window.location.href + "?inviteCode=" + user?.id
             );
             setData({ ...data, copy: true });
           }}

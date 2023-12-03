@@ -12,7 +12,7 @@ const Home = (props) => {
   const router = useRouter();
 
   const { query } = router;
-  const { leader } = query;
+  const { inviteCode } = query;
 
   useEffect(() => {
     async function fetchData() {
@@ -34,7 +34,7 @@ const Home = (props) => {
 
   return mount ? (
     !user?.leader ? (
-      <Invite leader={leader} />
+      <Invite inviteCode={inviteCode} />
     ) : (
       <Node {...user} />
     )

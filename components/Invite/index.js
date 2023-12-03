@@ -3,15 +3,15 @@ import SignButton from "../SignButton";
 import rpc from "@/components/Rpc";
 import { useRouter } from "next/router";
 const Invite = (props) => {
-  const [data, setData] = useState({ leader: props.leader });
+  const [data, setData] = useState({ inviteCode: props.inviteCode });
   const router = useRouter();
 
   const sign = {
     buttonName: "Confirm",
-    disabled: !data.leader,
-    message: JSON.stringify({ leader: data.leader }),
+    disabled: !data.inviteCode,
+    message: JSON.stringify({ inviteCode: data.inviteCode }),
     callback: async (signature) => {
-      const res = await rpc.register(data.leader, signature);
+      const res = await rpc.register(data.inviteCode, signature);
 
       if (res?.error) {
         setData({ ...data, error: res.error });
@@ -23,13 +23,13 @@ const Invite = (props) => {
 
   return (
     <div className="m-auto w-96 text-center mt-20">
-      Submit Invite Address
+      Submit Invite Code
       <input
         type="text"
-        placeholder={props.leader || "0x..."}
+        placeholder={props.inviteCode || "10001"}
         className="input input-bordered w-full"
         onChange={(e) => {
-          setData({ ...data, leader: e.target.value });
+          setData({ ...data, inviteCode: e.target.value });
         }}
       />
       <SignButton {...sign} className="mt-2" />
