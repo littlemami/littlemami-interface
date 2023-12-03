@@ -2,8 +2,8 @@ import { useState } from "react";
 import SignButton from "../SignButton";
 import rpc from "@/components/Rpc";
 import { useRouter } from "next/router";
-const Invite = () => {
-  const [data, setData] = useState({});
+const Invite = (props) => {
+  const [data, setData] = useState({ leader: props.leader });
   const router = useRouter();
 
   const sign = {
@@ -26,7 +26,7 @@ const Invite = () => {
       Submit Invite Address
       <input
         type="text"
-        placeholder="0x..."
+        placeholder={props.leader || "0x..."}
         className="input input-bordered w-full"
         onChange={(e) => {
           setData({ ...data, leader: e.target.value });

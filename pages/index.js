@@ -1,14 +1,46 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import WriteButton from "@/components/WriteButton";
+import Node from "@/components/Node";
+import Invite from "@/components/Invite";
+import rpc from "@/components/Rpc";
 import { useAccount } from "wagmi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loading from "@/components/Loading/Index";
 import { useRouter } from "next/router";
-
-export default function Home() {
+const Home = (props) => {
+  const [mount, setMount] = useState(false);
+  const { address } = useAccount();
+  const [data, setData] = useState({});
   const router = useRouter();
+
+  const { query } = router;
+  const { leader } = query;
+
   useEffect(() => {
-    router.push("/node");
-  }, []);
-  return <></>;
-}
+    async function fetchData() {
+      const user = await rpc.getUser(address);
+      if (user) {
+        setData({ ...data, user });
+      } else {
+        delete data.user;
+        setData({ ...data });
+      }
+      setMount(true);
+    }
+    fetchData();
+  }, [address]);
+
+  const user = data.user;
+
+  console.log(user);
+
+  return mount ? (
+    !user?.leader ? (
+      <Invite leader={leader} />
+    ) : (
+      <Node {...user} />
+    )
+  ) : (
+    <Loading />
+  );
+};
+
+export default Home;
