@@ -119,9 +119,8 @@ const Node = (props) => {
       <div className="divider"></div>
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
-
+        <div>Current Node Price : {price || "--"} USDT</div>
         <div className="m-auto w-96 text-center">
-          <div className="text-right">Price : {price || "--"} USDT</div>
           <input
             type="number"
             placeholder="0"
