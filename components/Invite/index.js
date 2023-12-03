@@ -21,6 +21,7 @@ const Invite = (props) => {
         setData({ ...data, error: res.error });
       } else {
         router.reload();
+        router.push("/");
       }
     },
   };
