@@ -23,7 +23,9 @@ const send = async (method, params) => {
         id: 1,
       }),
     });
-  } catch (e) {}
+  } catch (e) {
+    return { error: e.message };
+  }
 
   const json = await res?.json();
 
