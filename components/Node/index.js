@@ -113,6 +113,8 @@ const Node = (props) => {
     }
   }
 
+  const invites = props?.invites;
+
   return mount ? (
     <>
       <div className="ml-4 font-black mt-10">Buy Node</div>
@@ -167,12 +169,16 @@ const Node = (props) => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-base-200">
-              <th>#</th>
-              <td>0x5351665ba811C7E0d085cF1040eDEBd4249cB385</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
+            {invites?.map((invite, index) => {
+              return (
+                <tr className="bg-base-200" key={index}>
+                  <th>#</th>
+                  <td>{invite.address}</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

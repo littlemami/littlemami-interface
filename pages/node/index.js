@@ -25,6 +25,8 @@ const Home = (props) => {
 
   const user = data.user;
 
+  console.log(user);
+
   return mount ? !user?.leader ? <Invite /> : <Node {...user} /> : <Loading />;
 };
 
