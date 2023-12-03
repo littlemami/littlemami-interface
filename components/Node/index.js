@@ -56,7 +56,7 @@ const Node = (props) => {
   const [mount, setMount] = useState(false);
 
   const buy = {
-    buttonName: "Buy",
+    buttonName: "Buy Node",
     disabled: !data.amount || data.amount == 0,
     data: {
       ...nodeContract,
@@ -122,7 +122,7 @@ const Node = (props) => {
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
         <div>Current Node Price : {price || "--"} USDT</div>
-        <div className="m-auto w-96 text-center">
+        <div className="m-auto w-96 text-center flex gap-4">
           <input
             type="number"
             placeholder="0"
@@ -139,13 +139,14 @@ const Node = (props) => {
             }}
           />
 
-          <div className="my-2">Total cost : {totalCost || "--"} USDT</div>
+
           {showApprove ? (
             <WriteButton {...approve} />
           ) : (
             <WriteButton {...buy} />
           )}
         </div>
+        <div className="my-2 text-center">Total cost : {totalCost || "--"} USDT</div>
       </div>
       <div className="ml-4 font-black mt-10">My Info</div>
       <div className="divider"></div>
