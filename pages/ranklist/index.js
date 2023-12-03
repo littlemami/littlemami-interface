@@ -16,9 +16,9 @@ const Ranklist = () => {
           <tbody>
             <tr className="bg-base-200">
               <td>#</td>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Quality Control Specialist</td>
+              <td>0x5351665ba811C7E0d085cF1040eDEBd4249cB385</td>
+              <td>0</td>
+              <td>0</td>
             </tr>
           </tbody>
         </table>

@@ -115,38 +115,46 @@ const Node = (props) => {
 
   return mount ? (
     <>
-      <div className="m-auto w-96 text-center mt-10">
-        <div className="text-right">Price : {price || "--"} USDT</div>
-        <input
-          type="number"
-          placeholder="0"
-          className="input input-bordered w-full"
-          onChange={(e) => {
-            if (e.target.value > 30000) {
-              e.target.value = 30000;
-            }
-            if (e.target.value < 0) {
-              e.target.value = 0;
-            }
-            e.target.value = Math.floor(e.target.value);
-            setData({ ...data, amount: e.target.value });
-          }}
-        />
-
-        <div className="my-2">Total cost : {totalCost || "--"} USDT</div>
-        {showApprove ? <WriteButton {...approve} /> : <WriteButton {...buy} />}
-      </div>
-      <div className="ml-4 font-black mt-10">Info</div>
+      <div className="ml-4 font-black mt-10">Buy Node</div>
       <div className="divider"></div>
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
 
+        <div className="m-auto w-96 text-center">
+          <div className="text-right">Price : {price || "--"} USDT</div>
+          <input
+            type="number"
+            placeholder="0"
+            className="input input-bordered w-full"
+            onChange={(e) => {
+              if (e.target.value > 30000) {
+                e.target.value = 30000;
+              }
+              if (e.target.value < 0) {
+                e.target.value = 0;
+              }
+              e.target.value = Math.floor(e.target.value);
+              setData({ ...data, amount: e.target.value });
+            }}
+          />
+
+          <div className="my-2">Total cost : {totalCost || "--"} USDT</div>
+          {showApprove ? (
+            <WriteButton {...approve} />
+          ) : (
+            <WriteButton {...buy} />
+          )}
+        </div>
+      </div>
+      <div className="ml-4 font-black mt-10">My Info</div>
+      <div className="divider"></div>
+      <div className="ml-4">
         <div>Token Balance : {balance || "--"} USDT</div>
         <div>Current Score : {0 || "--"}</div>
         <div>Current Bought Node : {0 || "--"}</div>
         <div>Leader : {props?.leader || "--"}</div>
       </div>
-      <div className="ml-4 font-black mt-10">Invites</div>
+      <div className="ml-4 font-black mt-10">My Invites</div>
       <div className="divider"></div>
       <div className="overflow-x-auto">
         <table className="table">
@@ -162,9 +170,9 @@ const Node = (props) => {
           <tbody>
             <tr className="bg-base-200">
               <th>#</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Quality Control Specialist</td>
+              <td>0x5351665ba811C7E0d085cF1040eDEBd4249cB385</td>
+              <td>0</td>
+              <td>0</td>
             </tr>
           </tbody>
         </table>
