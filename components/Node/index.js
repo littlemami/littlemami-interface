@@ -115,12 +115,7 @@ const Node = (props) => {
 
   return mount ? (
     <>
-      <div className="m-auto w-96 text-center mt-20">
-        <div className="text-right">
-          Current progress : {totalSell?.toString() || "--"}
-        </div>
-
-        <div className="text-right">Token Balance : {balance || "--"} USDT</div>
+      <div className="m-auto w-96 text-center mt-10">
         <div className="text-right">Price : {price || "--"} USDT</div>
         <input
           type="number"
@@ -141,11 +136,18 @@ const Node = (props) => {
         <div className="my-2">Total cost : {totalCost || "--"} USDT</div>
         {showApprove ? <WriteButton {...approve} /> : <WriteButton {...buy} />}
       </div>
+      <div className="ml-4 font-black mt-10">Info</div>
+      <div className="divider"></div>
+      <div className="ml-4">
+        <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
 
-      <div className="text-center mt-10">Current Score : {0 || "--"}</div>
-      <div className="text-center ">Current bought node : {0 || "--"}</div>
-      <div className="text-center ">Leader : {props?.leader || "--"}</div>
-      <div className="text-center mt-10">Invites</div>
+        <div>Token Balance : {balance || "--"} USDT</div>
+        <div>Current Score : {0 || "--"}</div>
+        <div>Current Bought Node : {0 || "--"}</div>
+        <div>Leader : {props?.leader || "--"}</div>
+      </div>
+      <div className="ml-4 font-black mt-10">Invites</div>
+      <div className="divider"></div>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
