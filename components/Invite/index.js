@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignButton from "../SignButton";
 import rpc from "@/components/Rpc";
 import { useRouter } from "next/router";
 const Invite = (props) => {
-  const [data, setData] = useState({ inviteCode: props.inviteCode });
+  const [data, setData] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    setData({ ...data, inviteCode: props.inviteCode });
+  }, [props.inviteCode]);
 
   const sign = {
     buttonName: "Confirm",

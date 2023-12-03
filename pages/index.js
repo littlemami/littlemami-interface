@@ -9,11 +9,6 @@ const Home = (props) => {
   const [mount, setMount] = useState(false);
   const { address } = useAccount();
   const [data, setData] = useState({});
-  const router = useRouter();
-
-  const { query } = router;
-  const { inviteCode } = query;
-
   useEffect(() => {
     async function fetchData() {
       const user = await rpc.getUser(address);
@@ -32,15 +27,7 @@ const Home = (props) => {
 
   console.log(user);
 
-  return mount ? (
-    !user?.leader ? (
-      <Invite inviteCode={inviteCode} />
-    ) : (
-      <Node {...user} />
-    )
-  ) : (
-    <Loading />
-  );
+  return mount ? !user?.leader ? <Invite /> : <Node {...user} /> : <Loading />;
 };
 
 export default Home;

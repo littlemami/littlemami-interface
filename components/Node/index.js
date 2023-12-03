@@ -168,13 +168,12 @@ const Node = (props) => {
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
       <div className="ml-4 flex gap-4">
-        Invite Link : {window.location.href}?inviteCode={user?.id}
+        Invite Link : {window.location.href}
+        {user?.id}
         <div
           className="btn btn-success btn-xs"
           onClick={(e) => {
-            navigator.clipboard.writeText(
-              window.location.href + "?inviteCode=" + user?.id
-            );
+            navigator.clipboard.writeText(window.location.href + user?.id);
             setData({ ...data, copy: true });
           }}
         >
