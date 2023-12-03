@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="font-black ml-2">Littlemami</div>
       </div>
       <div className="navbar-center">
-        <Link href="/node" className="btn">
+        <Link href="/" className="btn">
           node
         </Link>
         <Link href="/ranklist" className="btn">ranklist</Link>

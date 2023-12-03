@@ -157,12 +157,12 @@ const Node = (props) => {
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
       <div className="ml-4 flex gap-4">
-        Invite Link : https://app.littlemami.io/{address}
+        Invite Link : {window.location.href}?leader={address}
         <div
           className="btn btn-success btn-xs"
           onClick={(e) => {
             navigator.clipboard.writeText(
-              "https://app.littlemami.io/" + address
+              window.location.href + "/?leader=" + address
             );
             setData({ ...data, copy: true });
           }}
