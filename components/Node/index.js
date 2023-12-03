@@ -162,6 +162,7 @@ const Node = (props) => {
       <div className="divider"></div>
       <div className="ml-4">
         <div>Token Balance : {balance || "--"} USDT</div>
+        <div>Current Score : {0 || "--"}</div>
         <div>Current Bought Node : {0 || "--"}</div>
         <div>Leader : {props?.leader || "--"}</div>
       </div>
@@ -188,7 +189,6 @@ const Node = (props) => {
               <th></th>
               <th>Address</th>
               <th>Current Bought Node</th>
-              <th>Current Score</th>
             </tr>
           </thead>
           <tbody>
@@ -197,7 +197,6 @@ const Node = (props) => {
                 <tr className="bg-base-200" key={index}>
                   <th>#</th>
                   <td>{invite.address}</td>
-                  <td>--</td>
                   <td>--</td>
                 </tr>
               );
