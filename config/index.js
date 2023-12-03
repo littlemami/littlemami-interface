@@ -1,4 +1,4 @@
-export const rpcUrl = "http://127.0.0.1:5555";
+export const rpcUrl = "https://api.littlemami.io/";
 
 export const contract = {
   5: {

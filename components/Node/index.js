@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
 import { erc20ABI } from "@wagmi/core";
+import { useRouter } from "next/router";
 
 const Node = (props) => {
+  const router = useRouter();
   const [render, setRender] = useState(0);
   const { chain } = useNetwork();
 
@@ -139,14 +141,15 @@ const Node = (props) => {
             }}
           />
 
-
           {showApprove ? (
             <WriteButton {...approve} />
           ) : (
             <WriteButton {...buy} />
           )}
         </div>
-        <div className="my-2 text-center">Total cost : {totalCost || "--"} USDT</div>
+        <div className="my-2 text-center">
+          Total cost : {totalCost || "--"} USDT
+        </div>
       </div>
       <div className="ml-4 font-black mt-10">My Info</div>
       <div className="divider"></div>
