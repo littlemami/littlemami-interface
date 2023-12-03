@@ -156,6 +156,20 @@ const Node = (props) => {
         <div>Leader : {props?.leader || "--"}</div>
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
+      <div className="ml-4 flex gap-4">
+        Invite Link : https://app.littlemami.io/{address}
+        <div
+          className="btn btn-success btn-xs"
+          onClick={(e) => {
+            navigator.clipboard.writeText(
+              "https://app.littlemami.io/" + address
+            );
+            setData({ ...data, copy: true });
+          }}
+        >
+          {data.copy ? "Copied" : "Copy"}
+        </div>
+      </div>
       <div className="divider"></div>
       <div className="overflow-x-auto">
         <table className="table">
