@@ -3,9 +3,8 @@ const getUser = async (address) => {
   return send("getUser", [address]);
 };
 
-const register = async (leader, signature) => {
-  console.log(leader);
-  return send("register", [leader, signature]);
+const register = async (inviteCode, signature) => {
+  return send("register", [inviteCode, signature]);
 };
 
 const send = async (method, params) => {
