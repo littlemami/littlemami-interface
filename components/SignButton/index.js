@@ -8,6 +8,7 @@ function SignButton(props) {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log(data);
       props.callback?.(data);
     }
   }, [data]);

@@ -4,7 +4,7 @@ export const rpcUrl = "https://api.littlemami.io/";
 export const contract = {
   5: {
     node: {
-      address: "0xA6b89667f4FB8233E7548D37e415311b609bd899",
+      address: "0x98bc39BF6BfAf3A9Ce6344DC11fB1e47B0a592d4",
       abi: [
         {
           inputs: [],
@@ -217,6 +217,12 @@ export const contract = {
               name: "totalTokenNeed",
               type: "uint256",
             },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "tokenAddress",
+              type: "address",
+            },
           ],
           name: "Buy",
           type: "event",
@@ -404,7 +410,7 @@ export const contract = {
               type: "uint256",
             },
           ],
-          name: "claim",
+          name: "claimNFT",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -652,6 +658,19 @@ export const contract = {
         },
         {
           inputs: [],
+          name: "open",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "owner",
           outputs: [
             {
@@ -672,6 +691,74 @@ export const contract = {
             },
           ],
           name: "ownerOf",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes",
+              name: "signature",
+              type: "bytes",
+            },
+            {
+              internalType: "uint256",
+              name: "maxNum",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "num",
+              type: "uint256",
+            },
+          ],
+          name: "preBuy",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "preBuyers",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "preOpen",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "preSigner",
           outputs: [
             {
               internalType: "address",
@@ -744,24 +831,6 @@ export const contract = {
           inputs: [
             {
               internalType: "address",
-              name: "token",
-              type: "address",
-            },
-            {
-              internalType: "uint256",
-              name: "price",
-              type: "uint256",
-            },
-          ],
-          name: "set",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
               name: "operator",
               type: "address",
             },
@@ -816,6 +885,55 @@ export const contract = {
             },
           ],
           name: "setDefaultURI",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bool",
+              name: "preO",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "o",
+              type: "bool",
+            },
+          ],
+          name: "setOpen",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "signer",
+              type: "address",
+            },
+          ],
+          name: "setPreRoot",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "token",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+          ],
+          name: "setToken",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

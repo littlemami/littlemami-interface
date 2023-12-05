@@ -22,12 +22,18 @@ const Node = (props) => {
       { ...nodeContract, functionName: "tokenAddress" },
       { ...nodeContract, functionName: "tokenPrice" },
       { ...nodeContract, functionName: "totalSell" },
+      { ...nodeContract, functionName: "open" },
+      { ...nodeContract, functionName: "preOpen" },
+      { ...nodeContract, functionName: "preBuyers", args: [address] },
     ],
     scopeKey: render,
   });
   const tokenAddress = read0?.[0]?.result;
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
+  const open = read0?.[3]?.result;
+  const preOpen = read0?.[4]?.result;
+  const preBuyers = read0?.[5]?.result;
 
   const tokenContract = {
     address: tokenAddress,
@@ -57,6 +63,7 @@ const Node = (props) => {
 
   const [data, setData] = useState({});
   const [mount, setMount] = useState(false);
+  const user = data.user;
 
   const buy = {
     buttonName: "Buy Node",
@@ -65,6 +72,26 @@ const Node = (props) => {
       ...nodeContract,
       functionName: "buy",
       args: [data?.amount],
+    },
+    callback: (confirmed) => {
+      if (confirmed) {
+        setRender(render + 1);
+      }
+    },
+  };
+
+  const phase1 = user?.phase1;
+
+  const preBuy = {
+    buttonName: "Pre Buy Node",
+    disabled:
+      !data.amount ||
+      data.amount == 0 ||
+      data.amount > phase1?.max - Number(preBuyers),
+    data: {
+      ...nodeContract,
+      functionName: "preBuy",
+      args: [phase1?.signature, phase1?.max, data?.amount],
     },
     callback: (confirmed) => {
       if (confirmed) {
@@ -122,11 +149,12 @@ const Node = (props) => {
   }
 
   const invites = props?.invites;
-  const user = data.user;
+
+  console.log(user);
 
   return mount ? (
     <>
-      <div className="ml-4 font-black mt-10">Buy Node</div>
+      <div className="ml-4 font-black mt-10">Buy Node (phase1)</div>
       <div className="divider"></div>
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
@@ -151,7 +179,10 @@ const Node = (props) => {
           {showApprove ? (
             <WriteButton {...approve} />
           ) : (
-            <WriteButton {...buy} />
+            <>
+              {preOpen && <WriteButton {...preBuy} />}
+              {/* {open && <WriteButton {...buy} />} */}
+            </>
           )}
         </div>
         <div className="my-2 text-center">
@@ -161,25 +192,34 @@ const Node = (props) => {
       <div className="ml-4 font-black mt-10">My Info</div>
       <div className="divider"></div>
       <div className="ml-4">
+        <div>Pre Max : {phase1?.max || "--"}</div>
+        <div>Pre Bought : {preBuyers?.toString() || "--"}</div>
         <div>Token Balance : {balance || "--"} USDT</div>
-        <div>Current Score : {0 || "--"}</div>
+        <div>Current Code : {user?.code || "--"}</div>
+        <div>Current Score : {user?.score || "--"}</div>
         <div>Current Bought Node : {user?.boughtNode || "--"}</div>
         <div>Leader : {props?.leader || "--"}</div>
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
-      <div className="ml-4 flex gap-4">
-        Invite Link : {window.location.href}
-        {user?.id}
-        <div
-          className="btn btn-success btn-xs"
-          onClick={(e) => {
-            navigator.clipboard.writeText(window.location.href + user?.id);
-            setData({ ...data, copy: true });
-          }}
-        >
-          {data.copy ? "Copied" : "Copy"}
+
+      {user.inviteOpen ? (
+        <div className="ml-4 flex gap-4">
+          Invite Link : {window.location.href}
+          {user?.id}
+          <div
+            className="btn btn-success btn-xs"
+            onClick={(e) => {
+              navigator.clipboard.writeText(window.location.href + user?.id);
+              setData({ ...data, copy: true });
+            }}
+          >
+            {data.copy ? "Copied" : "Copy"}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="ml-4">Not Invite Open</div>
+      )}
+
       <div className="divider"></div>
       <div className="overflow-x-auto">
         <table className="table">
