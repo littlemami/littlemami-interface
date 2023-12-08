@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import rpc from "@/components/Rpc";
+import Loading from "@/components/Loading/Index";
 
 const Ranklist = () => {
   const [data, setData] = useState({});
@@ -14,7 +15,7 @@ const Ranklist = () => {
   }, []);
 
   console.log(data);
-  return (
+  return mount ? (
     <div>
       <div className="text-center mt-10 font-black">Score Rank List</div>
       <div className="divider"></div>
@@ -42,6 +43,8 @@ const Ranklist = () => {
         </table>
       </div>
     </div>
+  ) : (
+    <Loading />
   );
 };
 
