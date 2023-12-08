@@ -159,6 +159,7 @@ const Node = (props) => {
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
         <div>Current Node Price : {price || "--"} USDT</div>
+        <div>Current Score Treasury : {user.scoreTreasury || "--"}</div>
         <div className="m-auto w-96 text-center flex gap-4">
           <input
             type="number"
@@ -181,7 +182,7 @@ const Node = (props) => {
           ) : (
             <>
               {preOpen && <WriteButton {...preBuy} />}
-              {/* {open && <WriteButton {...buy} />} */}
+              {open && <WriteButton {...buy} />}
             </>
           )}
         </div>
@@ -199,6 +200,7 @@ const Node = (props) => {
         <div>Current Score : {user?.score || "--"}</div>
         <div>Current Bought Node : {user?.boughtNode || "--"}</div>
         <div>Leader : {props?.leader || "--"}</div>
+        <div>Current Prize : {user?.tokenPrize || "--"} USDT</div>
       </div>
       <div className="ml-4 font-black mt-10">My Invites</div>
 
