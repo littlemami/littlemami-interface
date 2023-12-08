@@ -7,6 +7,10 @@ const register = async (inviteCode, signature) => {
   return send("register", [inviteCode, signature]);
 };
 
+const getScoreRank = async () => {
+  return send("getScoreRank", []);
+};
+
 const send = async (method, params) => {
   let res;
   try {
@@ -37,4 +41,5 @@ const send = async (method, params) => {
 module.exports = {
   getUser,
   register,
+  getScoreRank,
 };
