@@ -1,4 +1,16 @@
+import { useEffect, useState } from "react";
+import rpc from "@/components/Rpc";
+
 const Ranklist = () => {
+  const [data, setData] = useState({});
+  const [mount, setMount] = useState(false);
+  useEffect(() => {
+    async function fetchData() {
+
+      setMount(true);
+    }
+    fetchData();
+  }, []);
   return (
     <div>
       <div className="text-center mt-10 font-black">RankList</div>
