@@ -22,8 +22,7 @@ const Node = (props) => {
       { ...nodeContract, functionName: "tokenAddress" },
       { ...nodeContract, functionName: "tokenPrice" },
       { ...nodeContract, functionName: "totalSell" },
-      { ...nodeContract, functionName: "open" },
-      { ...nodeContract, functionName: "preOpen" },
+      { ...nodeContract, functionName: "phase" },
       { ...nodeContract, functionName: "preBuyers", args: [address] },
     ],
     scopeKey: render,
@@ -31,9 +30,8 @@ const Node = (props) => {
   const tokenAddress = read0?.[0]?.result;
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
-  const open = read0?.[3]?.result;
-  const preOpen = read0?.[4]?.result;
-  const preBuyers = read0?.[5]?.result;
+  const phase = read0?.[3]?.result;
+  const preBuyers = read0?.[4]?.result;
 
   const tokenContract = {
     address: tokenAddress,
@@ -154,7 +152,7 @@ const Node = (props) => {
 
   return mount ? (
     <>
-      <div className="ml-4 font-black mt-10">Buy Node (phase1)</div>
+      <div className="ml-4 font-black mt-10">Buy Node (phase {phase?.toString()})</div>
       <div className="divider"></div>
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
@@ -181,8 +179,8 @@ const Node = (props) => {
             <WriteButton {...approve} />
           ) : (
             <>
-              {preOpen && <WriteButton {...preBuy} />}
-              {open && <WriteButton {...buy} />}
+              {phase == 1 && <WriteButton {...preBuy} />}
+              {phase == 2 && <WriteButton {...buy} />}
             </>
           )}
         </div>

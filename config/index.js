@@ -4,7 +4,7 @@ export const rpcUrl = "https://api.littlemami.io/";
 export const contract = {
   5: {
     node: {
-      address: "0xBd85456Af5227Aafd6E9e04643dEF36F5460A6Ff",
+      address: "0x1fF408bDea0640c5e2B94777890fD05789f5400d",
       abi: [
         {
           inputs: [],
@@ -406,6 +406,24 @@ export const contract = {
           inputs: [
             {
               internalType: "uint256",
+              name: "max",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes32[]",
+              name: "proof",
+              type: "bytes32[]",
+            },
+          ],
+          name: "claimLMC",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "num",
               type: "uint256",
             },
@@ -416,6 +434,19 @@ export const contract = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "claimRoot",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -423,7 +454,26 @@ export const contract = {
               type: "address",
             },
           ],
-          name: "claimed",
+          name: "claimedLMC",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "claimedNFT",
           outputs: [
             {
               internalType: "uint256",
@@ -445,6 +495,13 @@ export const contract = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "endPrePhase",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -619,6 +676,19 @@ export const contract = {
         },
         {
           inputs: [],
+          name: "lmc",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "maxSell",
           outputs: [
             {
@@ -658,19 +728,6 @@ export const contract = {
         },
         {
           inputs: [],
-          name: "open",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
           name: "owner",
           outputs: [
             {
@@ -696,6 +753,19 @@ export const contract = {
               internalType: "address",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "phase",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
             },
           ],
           stateMutability: "view",
@@ -738,19 +808,6 @@ export const contract = {
               internalType: "uint256",
               name: "",
               type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "preOpen",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -879,12 +936,12 @@ export const contract = {
         {
           inputs: [
             {
-              internalType: "string",
-              name: "_defaultURI",
-              type: "string",
+              internalType: "bytes32",
+              name: "root",
+              type: "bytes32",
             },
           ],
-          name: "setDefaultURI",
+          name: "setClaimRoot",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -892,17 +949,12 @@ export const contract = {
         {
           inputs: [
             {
-              internalType: "bool",
-              name: "preO",
-              type: "bool",
-            },
-            {
-              internalType: "bool",
-              name: "o",
-              type: "bool",
+              internalType: "string",
+              name: "_defaultURI",
+              type: "string",
             },
           ],
-          name: "setOpen",
+          name: "setDefaultURI",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
