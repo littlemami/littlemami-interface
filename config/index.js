@@ -4,7 +4,7 @@ export const rpcUrl = "https://api.littlemami.io/";
 export const contract = {
   5: {
     node: {
-      address: "0x1fF408bDea0640c5e2B94777890fD05789f5400d",
+      address: "0x19C0cb512B96730AC31dd494042B47258783EB69",
       abi: [
         {
           inputs: [],
