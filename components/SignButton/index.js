@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { useSignMessage } from "wagmi";
+import ArrowSvg from "@/public/images/svg/arrow.svg";
+
+import Loading from "@/public/images/svg/loading.svg";
+import Tip from "@/public/images/svg/tip.svg";
 
 function SignButton(props) {
   const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
@@ -16,16 +20,25 @@ function SignButton(props) {
   return (
     <div className={props.className}>
       <button
-        className={
-          (props?.disabled && "btn-disabled") +
-          " btn btn-primary btn-outline text-xs"
-        }
-        disabled={isLoading}
+        className={"lit-btn"}
+        disabled={props?.disabled || isLoading}
         onClick={() => signMessage()}
       >
-        {props.buttonName}
+        <ArrowSvg />
       </button>
-      {isError && <div>Error signing message</div>}
+      {isLoading && (
+        <div className="tips-pop">
+          {/* <Loading /> */}
+          <img className="anticon-spin" src="/images/svg/loading.png" alt="" />
+          <p>Transaction in process</p>
+        </div>
+      )}
+      {isError && (
+        <div className="tips-pop error">
+          <Tip />
+          <p>Error signing message</p>
+        </div>
+      )}
     </div>
   );
 }

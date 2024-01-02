@@ -1,7 +1,7 @@
 import Navbar from "../Navbar";
 const Layout = ({ children }) => {
   return (
-    <main>
+    <main className="main-box m-auto">
       <Navbar />
       {children}
     </main>

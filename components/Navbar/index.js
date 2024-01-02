@@ -1,60 +1,116 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React from "react";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
 import Image from "next/image";
 import Link from "next/link";
-const Navbar = () => {
-  return (
-    <div className="navbar items-center h-20">
-      <div className="navbar-start">
-        <div className="font-black ml-2">Littlemami</div>
-      </div>
-      <div className="navbar-center">
-        <Link href="/" className="btn">
-          node
-        </Link>
-        <Link href="/ranklist" className="btn">ranklist</Link>
-      </div>
-      <div className="navbar-end">
-        <ConnectButton />
-        <label className="cursor-pointer grid place-items-center m-2">
-          <input
-            type="checkbox"
-            value="light"
-            className="toggle theme-controller bg-base-content row-start-1 col-start-1 col-span-2"
-          />
-          <svg
-            className="col-start-1 row-start-1 stroke-base-100 fill-base-100"
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="5" />
-            <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-          </svg>
-          <svg
-            className="col-start-2 row-start-1 stroke-base-100 fill-base-100"
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </label>
-      </div>
-    </div>
-  );
-};
 
-export default Navbar;
+import { useRouter } from "next/router";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import styles from "./index.module.scss";
+
+const navigation = [
+  { name: "Node", href: "/" },
+  { name: "Ranklist", href: "/ranklist" },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function Example() {
+  const router = useRouter();
+
+  return (
+    <Disclosure as="nav">
+      {({ open }) => (
+        <>
+          <div className="mx-auto sm:px-6">
+            <div
+              className={`relative flex items-center justify-between ${styles["nav-box"]}`}
+            >
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-12 w-12" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-12 w-12" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <Link href="/">
+                    <div className={`hidden sm:block ${styles["logo"]}`}>
+                      <Image
+                        src="/images/logo.png"
+                        alt="Littlemami"
+                        layout="fill"
+                      />
+                    </div>
+
+                    <div className={`sm:hidden ${styles["in-logo"]}`}>
+                      <Image
+                        src="/images/in_logo.png"
+                        alt="Littlemami"
+                        layout="fill"
+                      />
+                    </div>
+                  </Link>
+                </div>
+                <div className="hidden sm:ml-24 sm:flex items-center">
+                  <div className={`flex ${styles["nav-link"]}`}>
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          router.pathname === item.href
+                            ? "text-white"
+                            : "text-slate-500 hover:text-white",
+                          "px-3 mr-14 "
+                        )}
+                        aria-current={
+                          router.pathname === item.href ? "page" : undefined
+                        }
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <ConnectButton className="abc" />
+              </div>
+            </div>
+          </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <div className={`space-y-1 px-2 pb-3 pt-2 ${styles["dowm-nav"]}`}>
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2"
+                  )}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
+  );
+}

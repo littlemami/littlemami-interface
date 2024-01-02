@@ -4,7 +4,8 @@ import rpc from "@/components/Rpc";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading/Index";
-import { useRouter } from "next/router";
+import Welcome from "@/components/Welcome";
+
 const Home = (props) => {
   const [mount, setMount] = useState(false);
   const { address } = useAccount();
@@ -25,7 +26,25 @@ const Home = (props) => {
 
   const user = data.user;
 
-  return mount ? !user?.leader ? <Invite /> : <Node {...user} /> : <Loading />;
+  useEffect(() => {
+    if (!address || !user?.leader) {
+      document.body.className = "";
+    } else {
+      document.body.className = "star";
+    }
+  }, [address, user?.leader]);
+
+  return mount ? (
+    !address ? (
+      <Welcome />
+    ) : !user?.leader ? (
+      <Invite />
+    ) : (
+      <Node {...user} />
+    )
+  ) : (
+    <Loading />
+  );
 };
 
 export default Home;

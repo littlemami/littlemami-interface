@@ -1,7 +1,16 @@
 import "@/styles/globals.css";
+import "@/styles/index.scss";
+import "animate.css";
+import Head from "next/head";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { useRouter } from "next/router";
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  darkTheme,
+} from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -23,18 +32,33 @@ const wagmiConfig = createConfig({
   publicClient,
 });
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const rainbowKitConfig = {
     chains: chains,
     showRecentTransactions: true,
     coolMode: true,
+    locale: "en-US",
   };
+
+  useEffect(() => {
+    if (router.pathname === "/") {
+      document.body.className = "";
+    } else {
+      document.body.className = "star";
+    }
+  }, [router]);
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider {...rainbowKitConfig}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <>
+      <Head>
+        <title>Littlemami</title>
+      </Head>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider {...rainbowKitConfig}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </>
   );
 }

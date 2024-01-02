@@ -6,11 +6,19 @@ import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
 import { erc20ABI } from "@wagmi/core";
 import { useRouter } from "next/router";
+import InputNumber from "@/components/InputNumber";
 import rpc from "@/components/Rpc";
+import styles from "./index.module.scss";
+import { Modal } from "antd";
+import Goods from "@/public/images/svg/goods.svg";
+import Time from "@/public/images/svg/time.svg";
+import Link from "@/public/images/svg/link.svg";
+import ArrowRight from "@/public/images/svg/arrow_right.svg";
 
 const Node = (props) => {
   const router = useRouter();
   const [render, setRender] = useState(0);
+  const [open, setOpen] = useState(false);
   const { chain } = useNetwork();
 
   const { address } = useAccount();
@@ -147,12 +155,86 @@ const Node = (props) => {
   }
 
   const invites = props?.invites;
-
+  const onChange = (value) => {
+    console.log("changed", value);
+  };
   console.log(user);
 
   return mount ? (
     <>
-      <div className="ml-4 font-black mt-10">Buy Node (phase {phase?.toString()})</div>
+      <div className={styles["node-box"]}>
+        <h3 className={styles["title"]}>phase {phase?.toString()}</h3>
+        <p className={styles["title-info"]}>Genesis Node</p>
+        <div className={styles["node-main"]}>
+          <div className={styles["node-main-con"]}>
+            <div className={styles["node-intro"]}>
+              <div className={styles["circle-bg"]}></div>
+              <div className={styles["con"]}>
+                <div className={styles["node-goods"]}>
+                  <Goods className="mx-auto" />
+                </div>
+
+                <h2>Holo Head mural</h2>
+                <p>
+                  <strong>300</strong>
+                  <span>USDT</span>
+                </p>
+              </div>
+            </div>
+            <div className={styles["node-numb"]}>
+              <InputNumber
+                min={0}
+                max={2}
+                defaultValue={0}
+                onChange={onChange}
+                precision={0}
+              />
+              <p>6000 USDT</p>
+              <button className="lit-btn small">Buy node</button>
+            </div>
+          </div>
+          <div className={styles["node-main-info"]}>
+            <div className={styles["my-info"]}>
+              <h4>My Info</h4>
+              <ul>
+                <li>
+                  <p>Node Amount</p>
+                  <span>0</span>
+                </li>
+                <li>
+                  <p>Value</p>
+                  <span>0</span>
+                </li>
+                <li>
+                  <p>Code Value</p>
+                  <span>400 U</span>
+                </li>
+              </ul>
+              <div className={`price-btn ${styles["price"]}`}>
+                <span>My Price</span>
+                <p>
+                  <span>2000U</span>
+                  <ArrowRight />
+                </p>
+              </div>
+            </div>
+            <button className={`price-btn small ${styles["block-btn"]}`}>
+              <Link />
+              Copy Invite Lite
+            </button>
+            <button
+              onClick={setOpen}
+              className={`price-btn small ${styles["block-btn"]}`}
+            >
+              <Time />
+              View Invite Node
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="ml-4 font-black mt-10">
+        Buy Node (phase {phase?.toString()})
+      </div>
       <div className="divider"></div>
       <div className="ml-4">
         <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
@@ -221,6 +303,7 @@ const Node = (props) => {
       )}
 
       <div className="divider"></div>
+
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -244,6 +327,67 @@ const Node = (props) => {
           </tbody>
         </table>
       </div>
+      <Modal
+        centered
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        footer={null}
+        width={824}
+        wrapClassName="cur-modal-box"
+        classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
+      >
+        <h4>Invite Record</h4>
+        <ul>
+          <li>Buy a node to get 100 scores.</li>
+          <li>
+            Invite a friend to buy a node for 100 points, and LMC bonus of 5% of
+            the price of the node purchased by the invited friend.
+          </li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th width="80%" align="left">
+                Address
+              </th>
+              <th width="20%" align="center">
+                Node Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr key={1}>
+              <td>0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>
+            {invites?.map((invite, index) => {
+              return (
+                <tr key={index}>
+                  <td>{invite?.address || "--"}</td>
+                  <td align="center">{invite?.boughtNode || "--"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Modal>
     </>
   ) : (
     <Loading />

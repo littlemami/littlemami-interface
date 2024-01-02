@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SignButton from "../SignButton";
 import rpc from "@/components/Rpc";
 import { useRouter } from "next/router";
+import styles from "./index.module.scss";
 const Invite = (props) => {
   const [data, setData] = useState({});
   const router = useRouter();
@@ -27,19 +28,26 @@ const Invite = (props) => {
   };
 
   return (
-    <div className="m-auto w-96 text-center mt-20">
-      Submit Invite Code
-      <input
-        type="text"
-        placeholder={props.inviteCode || "10001"}
-        className="input input-bordered w-full"
-        value={data.inviteCode}
-        onChange={(e) => {
-          setData({ ...data, inviteCode: e.target.value });
-        }}
-      />
-      <SignButton {...sign} className="mt-2" />
-      {data.error && <div className="text-red-500">{data.error}</div>}
+    <div className={styles["invite-box"]}>
+      <div className={styles.top}>
+        <h2 className={styles["invite-h2"]}>Invite Code</h2>
+        <div className={`${styles["invite-info"]}`}>
+          You can get invite code from your friend.
+        </div>
+        <input
+          type="text"
+          // placeholder={props.inviteCode || "10001"}
+          className={styles["invite-input"]}
+          value={data.inviteCode}
+          onChange={(e) => {
+            setData({ ...data, inviteCode: e.target.value });
+          }}
+        />
+        <SignButton {...sign} className="mt-2" />
+      </div>
+      <div className={styles.bot}>
+        <a href="">Follow Us to Get Node</a>
+      </div>
     </div>
   );
 };

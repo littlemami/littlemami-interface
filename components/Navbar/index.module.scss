@@ -1,0 +1,45 @@
+.nav-box {
+  position: relative;
+  height: 6.25rem;
+
+  &:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(30%, -50%);
+    width: 22.375rem;
+    height: 22.375rem;
+    flex-shrink: 0;
+    border-radius: 100%;
+    background: linear-gradient(142deg, rgba(70, 54, 255, 0.18) 30.43%, rgba(22, 72, 255, 0.06) 76.49%);
+    filter: blur(6.25rem);
+  }
+}
+
+.logo {
+  position: relative;
+  width: 16.1875rem;
+  height: 3rem;
+
+}
+
+.in-logo {
+  position: relative;
+  width: 3.125rem;
+  height: 2.875rem;
+
+}
+
+.nav-link {
+  font-size: 18px;
+}
+
+.dowm-nav {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 6.25rem;
+  width: 100%;
+  font-size: 14px;
+}

@@ -1,0 +1,62 @@
+.home_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  min-height: calc(100vh - 6.25rem);
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 36.375rem;
+    height: 29.9375rem;
+    flex-shrink: 0;
+    border-radius: 100%;
+    background: linear-gradient(134deg, rgba(54, 183, 255, 0.30) 7.71%, rgba(174, 71, 255, 0.11) 75.27%);
+    filter: blur(9.375rem);
+  }
+}
+
+
+.home-h1 {
+  text-align: center;
+
+  /* 大标题 */
+  // text-shadow: 0px 1px 8.9px #482AFF;
+  font-size: 6.625rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  /* 106px */
+  letter-spacing: 3.18px;
+  text-transform: capitalize;
+  background: linear-gradient(90deg, #E1D2FF 18.03%, #7962FF 71.28%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-h2 {
+  color: #FFF;
+  font-size: 6rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 2.88px;
+  text-transform: capitalize;
+}
+
+.home-p {
+  margin: 1rem 0 5.25rem;
+  color: #9F8FC1;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.72px;
+}
