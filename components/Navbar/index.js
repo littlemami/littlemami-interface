@@ -12,6 +12,7 @@ import styles from "./index.module.scss";
 const navigation = [
   { name: "Node", href: "/" },
   { name: "Ranklist", href: "/ranklist" },
+  { name: "FAQ", href: "/faq" },
 ];
 
 function classNames(...classes) {
