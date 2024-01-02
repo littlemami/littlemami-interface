@@ -515,3 +515,11 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.open {
+  transition: all 0.5s;
+
+  &.yes {
+    transform: rotate(180deg);
+  }
+}

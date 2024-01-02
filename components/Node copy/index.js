@@ -9,15 +9,13 @@ import { useRouter } from "next/router";
 import InputNumber from "@/components/InputNumber";
 import rpc from "@/components/Rpc";
 import styles from "./index.module.scss";
-import { Modal, message, Popconfirm } from "antd";
+import { Modal } from "antd";
 import Goods from "@/public/images/svg/goods.svg";
 import Time from "@/public/images/svg/time.svg";
 import Link from "@/public/images/svg/link.svg";
 import ArrowRight from "@/public/images/svg/arrow_right.svg";
-import Chat from "@/public/images/svg/chat.svg";
 
 const Node = (props) => {
-  const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [render, setRender] = useState(0);
   const [open, setOpen] = useState(false);
@@ -164,7 +162,6 @@ const Node = (props) => {
 
   return mount ? (
     <>
-      {contextHolder}
       <div className={styles["node-box"]}>
         <h3 className={styles["title"]}>phase {phase?.toString()}</h3>
         <p className={styles["title-info"]}>
@@ -239,24 +236,7 @@ const Node = (props) => {
                 {phase == 3 && (
                   <li>
                     <p>Stake</p>
-                    <span>
-                      233LMC
-                      <div className={styles["stake-pop-box"]}>
-                        <div className={styles["stake-pop"]}>
-                          <div className={styles["pop-arrow"]}></div>
-                          <p>Holding node gets LMC airdrop</p>
-                          <div>
-                            <strong>Staking</strong>
-                            <span>0.12LMC/Block</span>
-                          </div>
-                          <div>
-                            <strong>Leadership Rewards</strong>
-                            <span>122 LMC</span>
-                          </div>
-                        </div>
-                        <Chat />
-                      </div>
-                    </span>
+                    <span>{user.scoreTreasury || "--"} U</span>
                   </li>
                 )}
               </ul>
@@ -270,27 +250,12 @@ const Node = (props) => {
                 </div>
               )}
             </div>
-            {phase != 1 && (
+            {phase == 1 && (
               <>
-                {!user.inviteOpen ? (
-                  <button
-                    className={`price-btn small ${styles["block-btn"]}`}
-                    onClick={(e) => {
-                      navigator.clipboard.writeText(
-                        window.location.href + user?.id
-                      );
-                      messageApi.open({
-                        type: "success",
-                        content: "Copied",
-                      });
-                      setData({ ...data, copy: true });
-                    }}
-                  >
-                    <Link />
-                    Copy Invite Lite
-                  </button>
-                ) : null}
-
+                <button className={`price-btn small ${styles["block-btn"]}`}>
+                  <Link />
+                  Copy Invite Lite
+                </button>
                 <button
                   onClick={setOpen}
                   className={`price-btn small ${styles["block-btn"]}`}
@@ -303,7 +268,101 @@ const Node = (props) => {
           </div>
         </div>
       </div>
+      <div className="ml-4 font-black mt-10">
+        Buy Node (phase {phase?.toString()})
+      </div>
+      <div className="divider"></div>
+      <div className="ml-4">
+        <div>Current Node Progress : {totalSell?.toString() || "--"}</div>
+        <div>Current Node Price : {price || "--"} USDT</div>
+        <div>Current Score Treasury : {user.scoreTreasury || "--"}</div>
+        <div className="m-auto w-96 text-center flex gap-4">
+          <input
+            type="number"
+            placeholder="0"
+            className="input input-bordered w-full"
+            onChange={(e) => {
+              if (e.target.value > 30000) {
+                e.target.value = 30000;
+              }
+              if (e.target.value < 0) {
+                e.target.value = 0;
+              }
+              e.target.value = Math.floor(e.target.value);
+              setData({ ...data, amount: e.target.value });
+            }}
+          />
 
+          {showApprove ? (
+            <WriteButton {...approve} />
+          ) : (
+            <>
+              {phase == 1 && <WriteButton {...preBuy} />}
+              {phase == 2 && <WriteButton {...buy} />}
+            </>
+          )}
+        </div>
+        <div className="my-2 text-center">
+          Total cost : {totalCost || "--"} USDT
+        </div>
+      </div>
+      <div className="ml-4 font-black mt-10">My Info</div>
+      <div className="divider"></div>
+      <div className="ml-4">
+        <div>Pre Max : {phase1?.max || "--"}</div>
+        <div>Pre Bought : {preBuyers?.toString() || "--"}</div>
+        <div>Token Balance : {balance || "--"} USDT</div>
+        <div>Current Code : {user?.code || "--"}</div>
+        <div>Current Score : {user?.score || "--"}</div>
+        <div>Current Bought Node : {user?.boughtNode || "--"}</div>
+        <div>Leader : {props?.leader || "--"}</div>
+        <div>Current Prize : {user?.tokenPrize || "--"} USDT</div>
+      </div>
+      <div className="ml-4 font-black mt-10">My Invites</div>
+
+      {user.inviteOpen ? (
+        <div className="ml-4 flex gap-4">
+          Invite Link : {window.location.href}
+          {user?.id}
+          <div
+            className="btn btn-success btn-xs"
+            onClick={(e) => {
+              navigator.clipboard.writeText(window.location.href + user?.id);
+              setData({ ...data, copy: true });
+            }}
+          >
+            {data.copy ? "Copied" : "Copy"}
+          </div>
+        </div>
+      ) : (
+        <div className="ml-4">Not Invite Open</div>
+      )}
+
+      <div className="divider"></div>
+
+      <div className="overflow-x-auto">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Address</th>
+              <th>Current Bought Node</th>
+            </tr>
+          </thead>
+          <tbody>
+            {invites?.map((invite, index) => {
+              return (
+                <tr className="bg-base-200" key={index}>
+                  <th>#</th>
+                  <td>{invite?.address || "--"}</td>
+                  <td>{invite?.boughtNode || "--"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <Modal
         centered
         open={open}
@@ -334,6 +393,26 @@ const Node = (props) => {
             </tr>
           </thead>
           <tbody>
+            <tr key={1}>
+              <td>0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>{" "}
+            <tr key={1}>
+              <td>sdSDasd</td>
+              <td align="center">asDSDASD</td>
+            </tr>
             {invites?.map((invite, index) => {
               return (
                 <tr key={index}>

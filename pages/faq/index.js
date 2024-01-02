@@ -1,6 +1,7 @@
 import { Collapse, ConfigProvider } from "antd";
 import styles from "./index.module.scss";
 
+import ColRight from "@/public/images/svg/col_right.svg";
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
@@ -50,6 +51,9 @@ const Faq = () => {
         }}
       >
         <Collapse
+          expandIcon={(panelProps) => (
+            <ColRight className={`open ${panelProps.isActive ? "yes" : ""}`} />
+          )}
           className="lit-collapse"
           expandIconPosition="end"
           items={items}

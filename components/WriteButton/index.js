@@ -41,9 +41,9 @@ const WriteButton = (props) => {
           <button
             className={
               (props?.disabled || !write || confirming ? "btn-disabled " : "") +
-              "btn btn-primary btn-outline text-xs "
+              "lit-btn small"
             }
-            // disabled={props?.disabled || !write || confirming}
+            disabled={props?.disabled || !write || confirming}
             style={{ minWidth: 112 }}
             onClick={() => {
               if (!isConnected) {

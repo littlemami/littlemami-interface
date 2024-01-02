@@ -8,6 +8,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styles from "./index.module.scss";
+// import UserInfo from "@/components/UserInfo";
+import dynamic from "next/dynamic";
+
+const UserInfo = dynamic(() => import("@/components/UserInfo"), {
+  ssr: false,
+  loading: () => <>Loading...</>,
+});
 
 const navigation = [
   { name: "Node", href: "/" },
@@ -85,7 +92,8 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <ConnectButton className="abc" />
+                {/* <ConnectButton className="abc" /> */}
+                <UserInfo />
               </div>
             </div>
           </div>
