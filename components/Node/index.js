@@ -180,6 +180,8 @@ const Node = (props) => {
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
+  const totalPrize = stakePrize + stakePrize;
+
   return mount ? (
     <>
       {contextHolder}
