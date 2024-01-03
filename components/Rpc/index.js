@@ -7,8 +7,8 @@ const register = async (inviteCode, signature) => {
   return send("register", [inviteCode, signature]);
 };
 
-const getScoreRank = async () => {
-  return send("getScoreRank", []);
+const getScoreRank = async (page = 1, size = 100) => {
+  return send("getScoreRank", [page, size]);
 };
 
 const send = async (method, params) => {

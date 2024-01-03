@@ -8,7 +8,7 @@ const Ranklist = () => {
   const [mount, setMount] = useState(false);
   useEffect(() => {
     async function fetchData() {
-      const scoreRank = await rpc.getScoreRank();
+      const scoreRank = await rpc.getScoreRank(1, 100);
       setData({ ...data, scoreRank });
       setMount(true);
     }

@@ -29,7 +29,6 @@ const Node = (props) => {
 
   const { address } = useAccount();
 
-
   const nodeContract = contract[chain?.id]?.node;
 
   const { data: read0 } = useContractReads({
@@ -167,7 +166,19 @@ const Node = (props) => {
 
   const invites = props?.invites;
 
-  console.log(user);
+  const code = user?.phase1?.code;
+
+  const score = user?.phase1?.score;
+
+  const tokenPrize = user?.phase2?.tokenPrize;
+
+  const scoreTreasury = user?.phase2?.scoreTreasury;
+
+  const stakePrize = user?.phase3?.stakePrize;
+
+  const stakeRate = user?.phase3?.stakeRate;
+
+  const leaderPrize = user?.phase3?.leaderPrize;
 
   return mount ? (
     <>
@@ -235,12 +246,12 @@ const Node = (props) => {
                 </li>
                 <li>
                   <p>Code Value</p>
-                  <span>{user?.code || "--"}</span>
+                  <span>{code || "--"}</span>
                 </li>
                 {phase != 1 && (
                   <li>
                     <p>Score Treasure</p>
-                    <span>{user.scoreTreasury || "--"} U</span>
+                    <span>{scoreTreasury || "--"} U</span>
                   </li>
                 )}
                 {phase == 3 && (
@@ -271,7 +282,7 @@ const Node = (props) => {
                 <div className={`price-btn ${styles["price"]}`}>
                   <span>Claim Prize</span>
                   <p>
-                    <span>{user?.tokenPrize || "--"}U</span>
+                    <span>{tokenPrize || "--"}U</span>
                     <ArrowRight />
                   </p>
                 </div>
