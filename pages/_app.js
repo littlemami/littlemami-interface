@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@/styles/index.scss";
 import "animate.css";
+
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
@@ -15,6 +16,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import useRem from "@/hooks/rem";
 
 const { chains, publicClient } = configureChains(
   [goerli],
@@ -32,6 +34,7 @@ const wagmiConfig = createConfig({
   publicClient,
 });
 export default function App({ Component, pageProps }) {
+  const [size] = useRem();
   const router = useRouter();
   const rainbowKitConfig = {
     chains: chains,
