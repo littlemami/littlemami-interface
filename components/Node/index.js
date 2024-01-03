@@ -384,7 +384,10 @@ const Node = (props) => {
         <button
           className={`price-btn small`}
           onClick={(e) => {
-            window.open("https://twitter.com/Littlemamilabs", "_blank");
+            const text = encodeURIComponent("Hello World!");
+            const tweetUrl = `https://twitter.com/Littlemamilabs?text=${text}`; // https://twitter.com/intent/tweet
+
+            window.open(tweetUrl, "_blank");
           }}
         >
           <Twitter />

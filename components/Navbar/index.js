@@ -51,7 +51,14 @@ export default function Example() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Link href="/">
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      if (router.pathname !== "/") {
+                        router.push("/");
+                      }
+                    }}
+                  >
                     <div className={`hidden sm:block ${styles["logo"]}`}>
                       <Image
                         src="/images/logo.png"
@@ -67,26 +74,31 @@ export default function Example() {
                         layout="fill"
                       />
                     </div>
-                  </Link>
+                  </div>
                 </div>
                 <div className="hidden sm:ml-24 sm:flex items-center">
                   <div className={`flex ${styles["nav-link"]}`}>
                     {navigation.map((item) => (
-                      <Link
+                      <span
                         key={item.name}
-                        href={item.href}
+                        // href={item.href}
                         className={classNames(
                           router.pathname === item.href
                             ? "text-white"
                             : "text-slate-500 hover:text-white",
-                          "px-3 mr-14 "
+                          "px-3 mr-14 cursor-pointer"
                         )}
+                        onClick={() => {
+                          if (router.pathname !== item.href) {
+                            router.push(item.href);
+                          }
+                        }}
                         aria-current={
                           router.pathname === item.href ? "page" : undefined
                         }
                       >
                         {item.name}
-                      </Link>
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -103,14 +115,20 @@ export default function Example() {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  as="span"
+                  // href={item.href}
+
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2"
+                    "block rounded-md px-3 py-2 cursor-pointer"
                   )}
+                  onClick={() => {
+                    if (router.pathname !== item.href) {
+                      router.push(item.href);
+                    }
+                  }}
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
