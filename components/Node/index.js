@@ -17,7 +17,7 @@ import ArrowRight from "@/public/images/svg/arrow_right.svg";
 import Chat from "@/public/images/svg/chat.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 import Vector from "@/public/images/svg/vector.svg";
-
+//aa
 const Node = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
@@ -28,6 +28,7 @@ const Node = (props) => {
   const { chain } = useNetwork();
 
   const { address } = useAccount();
+
 
   const nodeContract = contract[chain?.id]?.node;
 
