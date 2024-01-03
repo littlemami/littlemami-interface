@@ -372,6 +372,12 @@ body {
         width: 100%;
       }
 
+      tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+
       tr th,
       tr td {
         font-size: 18px;
@@ -439,6 +445,11 @@ body {
       filter: blur(8.800000190734863px);
     }
   }
+}
+
+.no-data {
+  color: #fff;
+  text-align: center;
 }
 
 @media screen and (max-width:1200px) {

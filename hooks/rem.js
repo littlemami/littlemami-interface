@@ -12,9 +12,9 @@ const useRem = () => {
     if (winWid > 1920) {
       htmlEl.style.fontSize = "16px";
     } else if (winWid < 1200) {
-      htmlEl.style.fontSize = "12px";
+      htmlEl.style.fontSize = "10px";
     } else {
-      htmlEl.style.fontSize = `${(winWid / 1200) * 12}px`;
+      htmlEl.style.fontSize = `${(winWid / 1920) * 16}px`;
     }
   };
   useEffect(() => {

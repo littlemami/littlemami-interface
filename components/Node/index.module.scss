@@ -263,3 +263,18 @@
 .stake-pop-box {
   position: relative;
 }
+
+
+@media screen and (max-width:860px) {
+  .node-main {
+    flex-wrap: wrap;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+
+    .node-main-con,
+    .node-main-info {
+      width: 100%;
+    }
+  }
+}

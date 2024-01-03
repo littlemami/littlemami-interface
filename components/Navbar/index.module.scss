@@ -36,10 +36,11 @@
 }
 
 .dowm-nav {
-  z-index: 1;
+  z-index: 1001;
   position: absolute;
   left: 0;
   right: 6.25rem;
   width: 100%;
   font-size: 14px;
+  background: #1C1D21;
 }

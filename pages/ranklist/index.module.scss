@@ -10,7 +10,7 @@
 
 .rank-list-con {
   position: relative;
-  max-width: 50.25rem;
+  max-width: 804px;
   width: 100%;
 
   &>.con {
@@ -55,6 +55,12 @@
     width: 100%;
     table-layout: fixed;
     overflow: hidden;
+
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
 
     tr th,
     tr td {

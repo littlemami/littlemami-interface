@@ -270,7 +270,7 @@ const Node = (props) => {
                 </div>
               )}
             </div>
-            {phase != 1 && (
+            {phase == 1 && (
               <>
                 {!user.inviteOpen ? (
                   <button
@@ -325,10 +325,8 @@ const Node = (props) => {
         <table>
           <thead>
             <tr>
-              <th width="80%" align="left">
-                Address
-              </th>
-              <th width="20%" align="center">
+              <th align="left">Address</th>
+              <th width="150" align="center">
                 Node Amount
               </th>
             </tr>
@@ -338,12 +336,15 @@ const Node = (props) => {
               return (
                 <tr key={index}>
                   <td>{invite?.address || "--"}</td>
-                  <td align="center">{invite?.boughtNode || "--"}</td>
+                  <td width="150" align="center">
+                    {invite?.boughtNode || "--"}
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        {invites.length == 0 && <p className="no-data">No data</p>}
       </Modal>
     </>
   ) : (

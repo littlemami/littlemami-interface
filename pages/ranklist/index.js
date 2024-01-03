@@ -25,23 +25,33 @@ const Ranklist = () => {
             {/* head */}
             <thead>
               <tr>
-                <th align="center">Rank</th>
+                <th width="100" align="center">
+                  Rank
+                </th>
                 <th align="center">Address</th>
-                <th align="center">Score</th>
+                <th width="100" align="center">
+                  Score
+                </th>
               </tr>
             </thead>
             <tbody>
               {data?.scoreRank?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td align="center">{index}</td>
+                    <td width="100" align="center">
+                      {index}
+                    </td>
                     <td align="center">{item.address}</td>
-                    <td align="center">{item.score}</td>
+                    <td width="100" align="center">
+                      {item.score}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+
+          {data?.scoreRank?.length == 0 && <p className="no-data">No data</p>}
         </div>
       </div>
     </div>
