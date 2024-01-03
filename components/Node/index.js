@@ -270,7 +270,7 @@ const Node = (props) => {
                 </div>
               )}
             </div>
-            {phase == 1 && (
+            {phase != 1 && (
               <>
                 {!user.inviteOpen ? (
                   <button
