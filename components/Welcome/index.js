@@ -14,6 +14,7 @@ import styles from "./index.module.scss";
 
 const Welcome = (props) => {
   const { openConnectModal } = useConnectModal();
+
   return (
     <div className={styles["home_box"]}>
       <h1

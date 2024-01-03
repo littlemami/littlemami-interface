@@ -346,6 +346,10 @@ body {
         color: rgba(255, 255, 255, 0.80);
         font-size: 14px;
 
+        strong {
+          color: #2AD9FF;
+        }
+
         &:before {
           content: '';
           position: absolute;
@@ -398,6 +402,34 @@ body {
         padding-right: 3.56rem;
         color: rgba(42, 217, 255, 0.80);
       }
+    }
+  }
+
+  .suc-modal-body {
+    .suc {
+      margin-top: 3.125rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      gap: 2.5rem;
+
+
+      strong {
+        display: block;
+        text-shadow: 0px 1px 8.9px #482AFF;
+        font-size: 1.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      p {
+        font-weight: lighter;
+      }
+    }
+
+    .price-btn {
+      margin: 2.5rem auto 0;
     }
   }
 }

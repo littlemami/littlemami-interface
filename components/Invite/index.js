@@ -46,7 +46,9 @@ const Invite = (props) => {
         <SignButton {...sign} className="mt-2" />
       </div>
       <div className={styles.bot}>
-        <a href="">Follow Us to Get Node</a>
+        <a href="https://t.me/XNM0620" target="_blank">
+          Follow Us to Get Node
+        </a>
       </div>
     </div>
   );

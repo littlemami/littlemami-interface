@@ -15,12 +15,16 @@ import Time from "@/public/images/svg/time.svg";
 import Link from "@/public/images/svg/link.svg";
 import ArrowRight from "@/public/images/svg/arrow_right.svg";
 import Chat from "@/public/images/svg/chat.svg";
+import Twitter from "@/public/images/svg/twitter.svg";
+import Vector from "@/public/images/svg/vector.svg";
 
 const Node = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [render, setRender] = useState(0);
   const [open, setOpen] = useState(false);
+  const [sucOpen, setSsucOpen] = useState(false);
+
   const { chain } = useNetwork();
 
   const { address } = useAccount();
@@ -85,6 +89,7 @@ const Node = (props) => {
     },
     callback: (confirmed) => {
       if (confirmed) {
+        setSsucOpen(true);
         setRender(render + 1);
       }
     },
@@ -105,6 +110,7 @@ const Node = (props) => {
     },
     callback: (confirmed) => {
       if (confirmed) {
+        setSsucOpen(true);
         setRender(render + 1);
       }
     },
@@ -303,7 +309,6 @@ const Node = (props) => {
           </div>
         </div>
       </div>
-
       <Modal
         centered
         open={open}
@@ -315,11 +320,21 @@ const Node = (props) => {
         classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
       >
         <h4>Invite Record</h4>
+
         <ul>
-          <li>Buy a node to get 100 scores.</li>
           <li>
-            Invite a friend to buy a node for 100 points, and LMC bonus of 5% of
-            the price of the node purchased by the invited friend.
+            Holding nodes qualifies for LMC airdrops at a rate of
+            <strong>69.5 LMC</strong> per block.
+          </li>
+          <li>
+            Total supply of <strong>one hundred million.</strong>
+          </li>
+          <li>
+            For every node that the referral friends enjoy a <strong>5%</strong>
+            share of their airdrop earnings. Upon successfully inviting three
+            node friends, activate indirect Airdrop Boost earnings, which can be
+            further stacked with an additional 5% from each indirect node
+            friend.
           </li>
         </ul>
         <table>
@@ -345,6 +360,36 @@ const Node = (props) => {
           </tbody>
         </table>
         {invites.length == 0 && <p className="no-data">No data</p>}
+      </Modal>
+      <Modal
+        centered
+        open={sucOpen}
+        onOk={() => setSsucOpen(false)}
+        onCancel={() => setSsucOpen(false)}
+        footer={null}
+        width={550}
+        wrapClassName="cur-modal-box"
+        classNames={{
+          mask: "cur-modal-mask",
+          body: "cur-modal-body suc-modal-body",
+        }}
+      >
+        <div className="suc">
+          <Vector />
+          <div>
+            <strong> Purchase successful!</strong>
+            <p>You now have 2 nodes in total.</p>
+          </div>
+        </div>
+        <button
+          className={`price-btn small`}
+          onClick={(e) => {
+            window.open("https://twitter.com/Littlemamilabs", "_blank");
+          }}
+        >
+          <Twitter />
+          Share it!
+        </button>
       </Modal>
     </>
   ) : (
