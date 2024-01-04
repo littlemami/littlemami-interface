@@ -164,6 +164,7 @@ const Node = (props) => {
     }
   }
 
+  console.log(user);
   const invites = props?.invites;
 
   const code = user?.phase1?.code;
@@ -181,6 +182,9 @@ const Node = (props) => {
   const leaderPrize = user?.phase3?.leaderPrize;
 
   const totalPrize = stakePrize + stakePrize;
+
+  //0 no 1 direct 2 indirect + direct
+  const leaderPrizeOpen = user?.phase3?.leaderPrizeOpen;
 
   return mount ? (
     <>
