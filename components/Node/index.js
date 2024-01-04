@@ -183,8 +183,10 @@ const Node = (props) => {
 
   const totalPrize = stakePrize + stakePrize;
 
+  const inviteOpen = user?.inviteOpen;
+
   //0 no 1 direct 2 indirect + direct
-  const leaderPrizeOpen = user?.phase3?.leaderPrizeOpen;
+  const leaderPrizeOpen = user?.leaderPrizeOpen;
 
   return mount ? (
     <>
