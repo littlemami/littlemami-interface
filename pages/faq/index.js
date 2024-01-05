@@ -52,12 +52,14 @@ const Faq = () => {
       >
         <Collapse
           expandIcon={(panelProps) => (
-            <ColRight className={`open ${panelProps.isActive ? "yes" : ""}`} />
+            <ColRight
+              width={"1.1875rem"}
+              className={`open ${panelProps.isActive ? "yes" : ""}`}
+            />
           )}
           className="lit-collapse"
           expandIconPosition="end"
           items={items}
-          defaultActiveKey={["1"]}
           onChange={onChange}
         />
       </ConfigProvider>

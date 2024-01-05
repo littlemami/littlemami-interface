@@ -25,7 +25,10 @@ const InputNumberCon = ({ onChange, ...props }) => {
         className="cur-input-number"
         {...props}
         onChange={onChange}
-        controls={{ upIcon: <Plus />, downIcon: <Minus /> }}
+        controls={{
+          upIcon: <Plus width={"1.125rem"} />,
+          downIcon: <Minus width={"1.125rem"} />,
+        }}
       />
     </ConfigProvider>
   );

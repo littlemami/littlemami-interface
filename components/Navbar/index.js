@@ -43,9 +43,17 @@ export default function Example() {
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-12 w-12" aria-hidden="true" />
+                    <XMarkIcon
+                      style={{ width: "2.625rem", height: "2.625rem" }}
+                      className="block h-12 w-12"
+                      aria-hidden="true"
+                    />
                   ) : (
-                    <Bars3Icon className="block h-12 w-12" aria-hidden="true" />
+                    <Bars3Icon
+                      style={{ width: "2.625rem", height: "2.625rem" }}
+                      className="block h-12 w-12"
+                      aria-hidden="true"
+                    />
                   )}
                 </Disclosure.Button>
               </div>
@@ -67,7 +75,7 @@ export default function Example() {
                       />
                     </div>
 
-                    <div className={`sm:hidden ${styles["in-logo"]}`}>
+                    <div className={`hidden ${styles["in-logo"]}`}>
                       <Image
                         src="/images/in_logo.png"
                         alt="Littlemami"
@@ -81,12 +89,11 @@ export default function Example() {
                     {navigation.map((item) => (
                       <span
                         key={item.name}
-                        // href={item.href}
                         className={classNames(
                           router.pathname === item.href
                             ? "text-white"
-                            : "text-slate-500 hover:text-white",
-                          "px-3 mr-14 cursor-pointer"
+                            : "text-white/[0.5] hover:text-white",
+                          "px-3 mr-14 cursor-pointer nav-title"
                         )}
                         onClick={() => {
                           if (router.pathname !== item.href) {

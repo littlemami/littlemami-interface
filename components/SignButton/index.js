@@ -24,7 +24,7 @@ function SignButton(props) {
         disabled={props?.disabled || isLoading}
         onClick={() => signMessage()}
       >
-        <ArrowSvg />
+        <ArrowSvg width={"2.125rem"} />
       </button>
       {isLoading && (
         <div className="tips-pop">
@@ -35,7 +35,7 @@ function SignButton(props) {
       )}
       {isError && (
         <div className="tips-pop error">
-          <Tip />
+          <Tip width={"1.875rem"} />
           <p>Error signing message</p>
         </div>
       )}

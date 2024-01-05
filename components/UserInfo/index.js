@@ -8,6 +8,7 @@ import {
   useChainModal,
 } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
+import copy from "copy-to-clipboard";
 
 import Head from "@/public/images/svg/head.svg";
 
@@ -59,21 +60,24 @@ const UserInfo = () => {
   return (
     <div>
       {contextHolder}
-      <div style={{ position: "relative", zIndex: 1001 }}>
+      <div style={{ position: "relative", zIndex: 999 }}>
         {address ? (
           <div className={styles["connected"]}>
             <div>{balance || 0} USDT</div>
             <div onClick={() => setOpen((pre) => !pre)}>
-              <Head />
+              <Head width={"1.25rem"} />
               {address?.slice(0, 8)}
 
-              <Down className={`open ${open ? "yes" : ""}`} />
+              <Down
+                width={"0.875rem"}
+                className={`open ${open ? "yes" : ""}`}
+              />
             </div>
             {open && (
               <ul>
                 <li
                   onClick={(e) => {
-                    navigator.clipboard.writeText(address);
+                    copy(address);
                     messageApi.open({
                       type: "success",
                       content: "Copied",
