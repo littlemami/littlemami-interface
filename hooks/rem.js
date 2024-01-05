@@ -19,7 +19,7 @@ const useRem = () => {
   };
   useEffect(() => {
     setRem();
-    window.addEventListener("reset", setRem);
+    window.addEventListener("resize", setRem);
     return () => window.removeEventListener("reset", setRem);
   }, []);
 

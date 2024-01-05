@@ -14,6 +14,7 @@ import Goods from "@/public/images/svg/goods.svg";
 import Time from "@/public/images/svg/time.svg";
 import Link from "@/public/images/svg/link.svg";
 import ArrowRight from "@/public/images/svg/arrow_right.svg";
+import copy from "copy-to-clipboard";
 
 const Node = (props) => {
   const router = useRouter();
@@ -327,7 +328,7 @@ const Node = (props) => {
           <div
             className="btn btn-success btn-xs"
             onClick={(e) => {
-              navigator.clipboard.writeText(window.location.href + user?.id);
+              copy(window.location.href + user?.id);
               setData({ ...data, copy: true });
             }}
           >

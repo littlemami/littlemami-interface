@@ -39,7 +39,7 @@ const Ranklist = () => {
                 return (
                   <tr key={index}>
                     <td width="100" align="center">
-                      {index}
+                      {index + 1}
                     </td>
                     <td align="center">{item.address}</td>
                     <td width="100" align="center">

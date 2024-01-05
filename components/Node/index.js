@@ -7,6 +7,8 @@ import { useNetwork, useContractReads, useAccount } from "wagmi";
 import { erc20ABI } from "@wagmi/core";
 import { useRouter } from "next/router";
 import InputNumber from "@/components/InputNumber";
+import ProgressLine from "@/components/ProgressLine";
+
 import rpc from "@/components/Rpc";
 import styles from "./index.module.scss";
 import { Modal, message, Popconfirm } from "antd";
@@ -17,7 +19,8 @@ import ArrowRight from "@/public/images/svg/arrow_right.svg";
 import Chat from "@/public/images/svg/chat.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 import Vector from "@/public/images/svg/vector.svg";
-//aa
+import copy from "copy-to-clipboard";
+
 const Node = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
@@ -284,7 +287,7 @@ const Node = (props) => {
                             <span>122 LMC</span>
                           </div>
                         </div>
-                        <Chat />
+                        <Chat width={"1.375rem"} />
                       </div>
                     </span>
                   </li>
@@ -295,43 +298,43 @@ const Node = (props) => {
                   <span>Claim Prize</span>
                   <p>
                     <span>{tokenPrize || "--"}U</span>
-                    <ArrowRight />
+                    <ArrowRight width={"0.5rem"} />
                   </p>
                 </div>
               )}
             </div>
-            {phase != 1 && (
+            {phase != 1 && user.inviteOpen ? (
               <>
-                {!user.inviteOpen ? (
-                  <button
-                    className={`price-btn small ${styles["block-btn"]}`}
-                    onClick={(e) => {
-                      navigator.clipboard.writeText(
-                        window.location.href + user?.id
-                      );
-                      messageApi.open({
-                        type: "success",
-                        content: "Copied",
-                      });
-                      setData({ ...data, copy: true });
-                    }}
-                  >
-                    <Link />
-                    Copy Invite Lite
-                  </button>
-                ) : null}
+                <button
+                  className={`price-btn small ${styles["block-btn"]}`}
+                  onClick={(e) => {
+                    copy(window.location.href + user?.id);
+
+                    messageApi.open({
+                      type: "success",
+                      content: "Copied",
+                    });
+                    setData({ ...data, copy: true });
+                  }}
+                >
+                  <Link width={"1.25rem"} />
+                  Copy Invite Lite
+                </button>
 
                 <button
                   onClick={setOpen}
                   className={`price-btn small ${styles["block-btn"]}`}
                 >
-                  <Time />
+                  <Time width={"1.125rem"} />
                   View Invite Node
                 </button>
               </>
-            )}
+            ) : null}
           </div>
         </div>
+      </div>
+      <div className={styles["progress-big-box"]}>
+        <ProgressLine total={totalSell?.toString() || 0} />
       </div>
       <Modal
         centered
@@ -399,7 +402,7 @@ const Node = (props) => {
         }}
       >
         <div className="suc">
-          <Vector />
+          <Vector width={"3.75rem"} />
           <div>
             <strong> Purchase successful!</strong>
             <p>You now have 2 nodes in total.</p>
@@ -414,7 +417,7 @@ const Node = (props) => {
             window.open(tweetUrl, "_blank");
           }}
         >
-          <Twitter />
+          <Twitter width={"1.6875rem"} />
           Share it!
         </button>
       </Modal>

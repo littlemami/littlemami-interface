@@ -1,6 +1,19 @@
 .faq-box {
   margin-top: 8.75rem;
   padding-bottom: 1.875rem;
+  min-height: 80vh;
+
+  &::before {
+    z-index: -1;
+    content: ' ';
+    width: 41.8125rem;
+    height: 42.75rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url("/images/faq_bg.png");
+    background-size: cover;
+  }
 }
 
 .faq-box-h2 {

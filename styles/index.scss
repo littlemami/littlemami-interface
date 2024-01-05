@@ -1,8 +1,17 @@
+@font-face {
+  font-family: Poppins;
+  // src: url(“icofont.eot”);
+  src: url("/font/poppins.ttf") format("truetype");
+}
+
+
 .main-box {
   max-width: 1200px;
+  padding: 1px 0;
 }
 
 :root {
+  --nav-size: 18px;
   background-color: #1C1D21;
   color: #fff;
 }
@@ -13,12 +22,13 @@ html {
 
 body {
   min-height: 100%;
-  font-family: Poppins;
+  font-family: Poppins, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
   overflow-x: hidden;
 
   &.star {
     background: url("/images/star_bg.png");
     background-repeat: repeat;
+    background-size: 1836px 654px;
   }
 }
 
@@ -440,22 +450,24 @@ body {
   margin: 0 auto;
   text-align: left;
   font-size: 20px;
+  border-radius: .9375rem;
+  overflow: hidden;
 
   .ant-collapse-item-active {
     .ant-collapse-header {
       background: linear-gradient(119deg, rgba(153, 135, 204, 0.15) 7.24%, rgba(49, 51, 73, 0.00) 118.98%);
-
+      border-radius: 0;
     }
   }
 
   .ant-collapse-header {
-    padding: 1.6875rem 2.8125rem;
+    padding: 1.25rem 2.5rem;
     background: linear-gradient(90deg, rgba(205, 198, 221, 0.03) 0.02%, rgba(151, 125, 251, 0.00) 101.41%);
     backdrop-filter: blur(25.549999237060547px);
   }
 
   .ant-collapse-content-box {
-    padding: 3.125rem 2.8125rem;
+    padding: 2.5rem 2.5rem;
     position: relative;
     background: linear-gradient(91deg, rgba(152, 102, 215, 0.07) 19.69%, rgba(16, 36, 34, 0.04) 101.98%);
     backdrop-filter: blur(25.549999237060547px);
@@ -484,7 +496,16 @@ body {
   text-align: center;
 }
 
+.nav-title {
+  font-size: var(--nav-size);
+}
+
 @media screen and (max-width:1200px) {
+  :root {
+    --nav-size: 16px;
+
+  }
+
   html {
     font-size: 12px;
   }
@@ -513,6 +534,11 @@ body {
 }
 
 @media screen and (max-width:640px) {
+  :root {
+    --nav-size: 14px;
+
+  }
+
   html {
     font-size: 8px;
   }
@@ -536,7 +562,24 @@ body {
   }
 
   .ant-collapse.lit-collapse {
-    font-size: 16px;
+    width: 95%;
+    font-size: 14px;
+  }
+
+  .ant-modal-wrap.cur-modal-box .ant-modal-content {
+    max-height: 80vh;
+    padding: 15px;
+    overflow: hidden;
+
+    .ant-modal-close {
+      top: 15px;
+      right: 15px;
+    }
+
+    .cur-modal-body {
+      height: calc(80vh - 30px);
+      overflow: auto;
+    }
   }
 }
 

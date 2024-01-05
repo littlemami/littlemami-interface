@@ -14,13 +14,14 @@
     border-radius: 100%;
     background: linear-gradient(142deg, rgba(70, 54, 255, 0.18) 30.43%, rgba(22, 72, 255, 0.06) 76.49%);
     filter: blur(6.25rem);
+
   }
 }
 
 .logo {
   position: relative;
-  width: 16.1875rem;
-  height: 3rem;
+  width: 6.6875rem;
+  height: 5rem;
 
 }
 
@@ -31,9 +32,6 @@
 
 }
 
-.nav-link {
-  font-size: 18px;
-}
 
 .dowm-nav {
   z-index: 1001;
@@ -43,4 +41,11 @@
   width: 100%;
   font-size: 14px;
   background: #1C1D21;
+
+
+  border-radius: 0.625rem;
+  border: 1.625px solid rgba(255, 255, 255, 0.33);
+  background: rgba(28, 29, 33, .9);
+  box-shadow: 0px 4px 4.6px 0px rgba(0, 0, 0, 0.08);
+
 }
