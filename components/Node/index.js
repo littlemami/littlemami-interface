@@ -194,7 +194,11 @@ const Node = (props) => {
       <div className={styles["node-box"]}>
         <h3 className={styles["title"]}>phase {phase?.toString()}</h3>
         <p className={styles["title-info"]}>
-          {["Genesis", "Vanguard", "Vibrant"][`${BigInt(phase) - BigInt(1)}`]}{" "}
+          {
+            ["Genesis", "Vanguard", "Vibrant"][
+              `${BigInt(phase || 1) - BigInt(1)}`
+            ]
+          }{" "}
           Node
         </p>
         <div className={styles["node-main"]}>
@@ -216,7 +220,7 @@ const Node = (props) => {
             <div className={styles["node-numb"]}>
               <InputNumber
                 min={0}
-                max={BigInt(phase1?.max) - BigInt(preBuyers) || 0}
+                max={BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)}
                 value={nowNumb}
                 onChange={(value) => {
                   if (value > 30000) {
