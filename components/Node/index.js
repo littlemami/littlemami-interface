@@ -501,7 +501,7 @@ const Node = (props) => {
             </div>
             <div>
               <em>Staking</em>
-              <span>{stakePrize ?? "--"} LMC/Block</span>
+              <span>{stakeRate ?? "--"} LMC/Block</span>
             </div>
             <div>
               <em>Leadership Rewards</em>
