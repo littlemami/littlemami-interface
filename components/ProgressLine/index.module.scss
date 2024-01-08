@@ -24,6 +24,14 @@
 
       transform: translate(-50%, -50%);
 
+      &.ball2>span {
+        animation-delay: 0.3s;
+      }
+
+      &.ball3>span {
+        animation-delay: 0.6s;
+      }
+
       &>span {
         display: block;
         width: 10px;

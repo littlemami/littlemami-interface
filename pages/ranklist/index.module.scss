@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  min-height: calc(100vh - 6.25rem);
+  min-height: calc(100vh - 8rem);
 
 }
 
@@ -12,10 +12,11 @@
   position: relative;
   max-width: 804px;
   width: 100%;
+  min-height: calc(100vh - 15rem);
+
 
   &>.con {
     width: 100%;
-    min-height: calc(100vh - 15rem);
     padding: 3.125rem 1.875rem;
     border-radius: 1.875rem;
     border: 1px solid #2AD9FF;

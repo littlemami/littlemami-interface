@@ -19,6 +19,8 @@ import ArrowRight from "@/public/images/svg/arrow_right.svg";
 import Chat from "@/public/images/svg/chat.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 import Vector from "@/public/images/svg/vector.svg";
+import Hammer from "@/public/images/svg/hammer.svg";
+
 import copy from "copy-to-clipboard";
 
 const Node = (props) => {
@@ -27,6 +29,7 @@ const Node = (props) => {
   const [render, setRender] = useState(0);
   const [open, setOpen] = useState(false);
   const [sucOpen, setSsucOpen] = useState(false);
+  const [hammerOpen, setHammerOpen] = useState(false);
 
   const { chain } = useNetwork();
 
@@ -184,7 +187,7 @@ const Node = (props) => {
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
-  const totalPrize = stakePrize + stakePrize;
+  const totalPrize = +stakePrize + +leaderPrize;
 
   const inviteOpen = user?.inviteOpen;
 
@@ -213,7 +216,7 @@ const Node = (props) => {
                   <img src="/images/goods.png" alt="" />
                 </div>
 
-                <h2>Littlemami Node</h2>
+                <h2>MarsNode</h2>
                 <p>
                   <strong>{price || "--"}</strong>
                   <span>USDT</span>
@@ -257,19 +260,69 @@ const Node = (props) => {
               <ul>
                 <li>
                   <p>Node Amount</p>
-                  <span>{user?.boughtNode || "--"}</span>
+                  <span>
+                    {user?.boughtNode ?? "--"}
+                    {phase == 3 && (
+                      <Hammer
+                        className="cursor-pointer"
+                        onClick={setHammerOpen}
+                        width={"1.375rem"}
+                      />
+                    )}
+                  </span>
+                  <div className={styles["stake-pop"]}>
+                    <div className={styles["pop-arrow"]}></div>
+                    <p>Total number of nodes purchased</p>
+                  </div>
                 </li>
+                {phase == 1 && (
+                  <li>
+                    <p>Code</p>
+                    <span>{code ?? "--"}</span>{" "}
+                    <div className={styles["stake-pop"]}>
+                      <div className={styles["pop-arrow"]}></div>
+                      <p>
+                        Can be used for future unreleased MARS NFT lotteries.
+                        Purchasing nodes and recommending others to purchase
+                        nodes both earn 1 code each. Unidirectional
+                        recommendations for node purchases can earn a maximum of
+                        3 codes.
+                      </p>
+                    </div>
+                  </li>
+                )}
                 <li>
-                  <p>Code Value</p>
-                  <span>{code || "--"}</span>
+                  <p>Score</p>
+                  <span>{score ?? "--"}</span>{" "}
+                  <div className={styles["stake-pop"]}>
+                    <div className={styles["pop-arrow"]}></div>
+                    <p>
+                      The Leaderboard will automatically rank the top 100 users
+                      based on their points accumulation, and all rewards will
+                      be distributed according to the proportion of points.
+                    </p>
+                  </div>
                 </li>
                 {phase != 1 && (
                   <li>
                     <p>Score Treasure</p>
-                    <span>{scoreTreasury || "--"} U</span>
+                    <span>{scoreTreasury ?? "--"} U</span>
+                    <div className={styles["stake-pop"]}>
+                      <div className={styles["pop-arrow"]}></div>
+                      <p>
+                        Each node&apos;s creation will automatically contribute
+                        5 points to the Points Treasury.
+                      </p>
+                    </div>
                   </li>
                 )}
                 {phase == 3 && (
+                  <li>
+                    <p>Total Prize</p>
+                    <span>{totalPrize ?? "--"} LMC</span>
+                  </li>
+                )}
+                {false && (
                   <li>
                     <p>Stake</p>
                     <span>
@@ -293,7 +346,7 @@ const Node = (props) => {
                   </li>
                 )}
               </ul>
-              {phase != 1 && (
+              {false && (
                 <div className={`price-btn ${styles["price"]}`}>
                   <span>Claim Prize</span>
                   <p>
@@ -318,7 +371,7 @@ const Node = (props) => {
                   }}
                 >
                   <Link width={"1.25rem"} />
-                  Copy Invite Lite
+                  Copy Invite Link
                 </button>
 
                 <button
@@ -411,14 +464,53 @@ const Node = (props) => {
         <button
           className={`price-btn small`}
           onClick={(e) => {
-            const text = encodeURIComponent("Hello World!");
-            const tweetUrl = `https://twitter.com/Littlemamilabs?text=${text}`; // https://twitter.com/intent/tweet
+            const text = encodeURIComponent(
+              `I have officially be a #MarsNode, an innovative approach for users to engage with the blockchain by leveraging social relationships.  I will receive mining rewards and actively contribute to earn more LMC and Mars airdrops.  Let’s faming ${
+                window.location.href + user?.id
+              }`
+            );
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`; // https://twitter.com/Littlemamilabs
 
             window.open(tweetUrl, "_blank");
           }}
         >
           <Twitter width={"1.6875rem"} />
           Share it!
+        </button>
+      </Modal>
+
+      <Modal
+        centered
+        open={hammerOpen}
+        onOk={() => setHammerOpen(false)}
+        onCancel={() => setHammerOpen(false)}
+        footer={null}
+        width={560}
+        wrapClassName="cur-modal-box"
+        classNames={{
+          mask: "cur-modal-mask",
+          body: "cur-modal-body suc-modal-body",
+        }}
+      >
+        <div className="hammer">
+          <strong>Holding node gets LMC airdrop</strong>
+          <div className="hammer-bd">
+            <div>
+              <em>Total Rewards</em>
+              <span>{totalPrize ?? "--"} LMC</span>
+            </div>
+            <div>
+              <em>Staking</em>
+              <span>{stakePrize ?? "--"} LMC/Block</span>
+            </div>
+            <div>
+              <em>Leadership Rewards</em>
+              <span>{leaderPrize ?? "--"} LMC</span>
+            </div>
+          </div>
+        </div>
+        <button className={`price-btn small`} onClick={(e) => {}}>
+          Chaim Prize
         </button>
       </Modal>
     </>

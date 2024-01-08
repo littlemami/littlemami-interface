@@ -8,7 +8,7 @@ const useRem = () => {
       document.documentElement.clientWidth ||
       document.body.clientWidth;
     const htmlEl = document.documentElement;
-    console.log("1asf", winWid);
+
     if (winWid > 1920) {
       htmlEl.style.fontSize = "16px";
     } else if (winWid < 1200) {
