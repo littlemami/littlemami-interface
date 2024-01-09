@@ -174,6 +174,8 @@ const Node = (props) => {
 
   const score = user?.phase1?.score;
 
+  const marsPrize = user?.phase1?.marsPrize;
+
   const tokenPrize = user?.phase2?.tokenPrize;
 
   const scoreTreasury = user?.phase2?.scoreTreasury;
