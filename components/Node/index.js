@@ -173,9 +173,13 @@ const Node = (props) => {
   console.log(user);
   const invites = props?.invites;
 
+  const scoreTreasuryInfo = user?.phase2?.scoreTreasuryInfo;
+
   const code = user?.phase1?.code;
 
   const score = user?.phase1?.score;
+
+  const marsPrize = user?.phase1?.marsPrize;
 
   const tokenPrize = user?.phase2?.tokenPrize;
 
