@@ -170,7 +170,7 @@ const Node = (props) => {
   console.log(user);
   const invites = props?.invites;
 
-  const scoreTreasuryInfo = user?.scoreTreasuryInfo;
+  const scoreTreasuryInfo = user?.phase2?.scoreTreasuryInfo;
 
   const code = user?.phase1?.code;
 
