@@ -170,9 +170,7 @@ const Node = (props) => {
   console.log(user);
   const invites = props?.invites;
 
-  const leftBlockScoreTreasuryShare = user?.scoreTreasuryInfo?.leftBlock;
-
-  const last100ScoreTreasuryShare = user?.scoreTreasuryInfo?.last100Addrs;
+  const scoreTreasuryInfo = user?.scoreTreasuryInfo;
 
   const code = user?.phase1?.code;
 
