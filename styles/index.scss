@@ -151,6 +151,17 @@ body {
   &:visited {
     background: #482AFF;
   }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+
+    &:hover,
+    &:active,
+    &:visited {
+      background: rgba(45, 42, 154, 0.30);
+    }
+  }
 }
 
 // theme

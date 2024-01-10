@@ -58,6 +58,17 @@
         }
       }
 
+      &.lastball {
+
+        &>span,
+        &:hover>span {
+          filter: none;
+          background: none;
+          animation: none;
+
+        }
+      }
+
       .in {
         display: none;
         left: 50%;

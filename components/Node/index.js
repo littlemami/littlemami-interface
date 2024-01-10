@@ -252,7 +252,7 @@ const Node = (props) => {
                 ) : (
                   <>
                     {phase == 1 && <WriteButton {...preBuy} />}
-                    {phase == 2 && <WriteButton {...buy} />}
+                    {phase != 1 && <WriteButton {...buy} />}
                   </>
                 )}
               </div>
@@ -360,38 +360,38 @@ const Node = (props) => {
                 </div>
               )}
             </div>
-            {phase != 1 && user.inviteOpen ? (
-              <>
-                <button
-                  className={`price-btn small ${styles["block-btn"]}`}
-                  onClick={(e) => {
-                    copy(window.location.href + user?.id);
+            <button
+              disabled={!user.inviteOpen}
+              className={`price-btn small ${styles["block-btn"]}`}
+              onClick={(e) => {
+                copy(window.location.href + user?.id);
 
-                    messageApi.open({
-                      type: "success",
-                      content: "Copied",
-                    });
-                    setData({ ...data, copy: true });
-                  }}
-                >
-                  <Link width={"1.25rem"} />
-                  Copy Invite Link
-                </button>
+                messageApi.open({
+                  type: "success",
+                  content: "Copied",
+                });
+                setData({ ...data, copy: true });
+              }}
+            >
+              <Link width={"1.25rem"} />
+              Copy Invite Link
+            </button>
 
-                <button
-                  onClick={setOpen}
-                  className={`price-btn small ${styles["block-btn"]}`}
-                >
-                  <Time width={"1.125rem"} />
-                  View Invite Node
-                </button>
-              </>
-            ) : null}
+            <button
+              onClick={setOpen}
+              className={`price-btn small ${styles["block-btn"]}`}
+            >
+              <Time width={"1.125rem"} />
+              View Invite Node
+            </button>
           </div>
         </div>
       </div>
       <div className={styles["progress-big-box"]}>
-        <ProgressLine total={totalSell?.toString() || 0} />
+        <ProgressLine
+          total={totalSell?.toString() || 0}
+          passTotalNum={phase == 3 ? 30000 : 3000}
+        />
       </div>
       <Modal
         centered

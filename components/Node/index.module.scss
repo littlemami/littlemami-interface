@@ -176,6 +176,8 @@
 }
 
 .my-info {
+  position: relative;
+  z-index: 1;
   border-radius: 1.125rem;
   background: linear-gradient(180deg, rgba(69, 69, 177, 0.07) 16.1%, rgba(82, 82, 245, 0.20) 115.35%);
   backdrop-filter: blur(9px);
