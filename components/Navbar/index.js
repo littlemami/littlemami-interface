@@ -35,7 +35,7 @@ export default function Example() {
         <>
           <div className="mx-auto sm:px-6">
             <div
-              className={`relative z-50 flex items-center justify-between ${styles["nav-box"]}`}
+              className={`relative z-50 flex items-center justify-between nav-bar-box ${styles["nav-box"]}`}
             >
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}

@@ -20,7 +20,11 @@ import Chat from "@/public/images/svg/chat.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 import Vector from "@/public/images/svg/vector.svg";
 import Hammer from "@/public/images/svg/hammer.svg";
-
+import InviteModal from "./components/InviteModal";
+import SuccessfulModal from "./components/SuccessfulModal";
+import HammerModal from "./components/HammerModal";
+import CodeModal from "./components/CodeModal";
+import ScoreModal from "./components/ScoreModal";
 import copy from "copy-to-clipboard";
 
 const Node = (props) => {
@@ -30,7 +34,8 @@ const Node = (props) => {
   const [open, setOpen] = useState(false);
   const [sucOpen, setSsucOpen] = useState(false);
   const [hammerOpen, setHammerOpen] = useState(false);
-
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [scoreOpen, setScoreOpen] = useState(false);
   const { chain } = useNetwork();
 
   const { address } = useAccount();
@@ -202,15 +207,14 @@ const Node = (props) => {
     <>
       {contextHolder}
       <div className={styles["node-box"]}>
-        <h3 className={styles["title"]}>phase {phase?.toString()}</h3>
-        <p className={styles["title-info"]}>
+        <h3 className={styles["title"]}>
           {
             ["Genesis", "Vanguard", "Vibrant"][
               `${BigInt(phase || 1) - BigInt(1)}`
             ]
           }{" "}
           Node
-        </p>
+        </h3>
         <div className={styles["node-main"]}>
           <div className={styles["node-main-con"]}>
             <div className={styles["node-intro"]}>
@@ -256,6 +260,10 @@ const Node = (props) => {
                   </>
                 )}
               </div>
+              <p className={styles["max-info"]}>
+                Maximum Purchase:{" "}
+                {(BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)).toString()}
+              </p>
             </div>
           </div>
           <div className={styles["node-main-info"]}>
@@ -263,10 +271,19 @@ const Node = (props) => {
               <h4>My Info</h4>
               <ul>
                 <li>
-                  <p>Node Amount</p>
+                  <p>
+                    Node Amount{" "}
+                    <em>
+                      {" "}
+                      <div className={styles["stake-pop"]}>
+                        <div className={styles["pop-arrow"]}></div>
+                        <p>Total number of nodes purchased</p>
+                      </div>
+                    </em>
+                  </p>
                   <span>
                     {user?.boughtNode ?? "--"}
-                    {phase == 3 && (
+                    {false && (
                       <Hammer
                         className="cursor-pointer"
                         onClick={setHammerOpen}
@@ -274,57 +291,96 @@ const Node = (props) => {
                       />
                     )}
                   </span>
-                  <div className={styles["stake-pop"]}>
-                    <div className={styles["pop-arrow"]}></div>
-                    <p>Total number of nodes purchased</p>
-                  </div>
                 </li>
                 {phase == 1 && (
-                  <li>
-                    <p>Code</p>
+                  <li
+                    className="cursor-pointer"
+                    onClick={() => setCodeOpen(true)}
+                  >
+                    <p>
+                      Code Value{" "}
+                      <em>
+                        {" "}
+                        <div className={styles["stake-pop"]}>
+                          <div className={styles["pop-arrow"]}></div>
+                          <p>
+                            Can be used for future unreleased MARS NFT
+                            lotteries. Purchasing nodes and recommending others
+                            to purchase nodes both earn 1 code each.
+                            Unidirectional recommendations for node purchases
+                            can earn a maximum of 3 codes.
+                          </p>
+                        </div>
+                      </em>
+                    </p>
                     <span>{code ?? "--"}</span>{" "}
-                    <div className={styles["stake-pop"]}>
-                      <div className={styles["pop-arrow"]}></div>
-                      <p>
-                        Can be used for future unreleased MARS NFT lotteries.
-                        Purchasing nodes and recommending others to purchase
-                        nodes both earn 1 code each. Unidirectional
-                        recommendations for node purchases can earn a maximum of
-                        3 codes.
-                      </p>
-                    </div>
                   </li>
                 )}
-                <li>
-                  <p>Score</p>
-                  <span>{score ?? "--"}</span>{" "}
-                  <div className={styles["stake-pop"]}>
-                    <div className={styles["pop-arrow"]}></div>
-                    <p>
-                      The Leaderboard will automatically rank the top 100 users
-                      based on their points accumulation, and all rewards will
-                      be distributed according to the proportion of points.
-                    </p>
-                  </div>
-                </li>
-                {phase != 1 && (
+                {phase != 3 && (
                   <li>
-                    <p>Score Treasure</p>
-                    <span>{scoreTreasury ?? "--"} U</span>
-                    <div className={styles["stake-pop"]}>
-                      <div className={styles["pop-arrow"]}></div>
-                      <p>
-                        Each node&apos;s creation will automatically contribute
-                        5 points to the Points Treasury.
-                      </p>
-                    </div>
+                    <p>
+                      Score{" "}
+                      <em>
+                        {" "}
+                        <div className={styles["stake-pop"]}>
+                          <div className={styles["pop-arrow"]}></div>
+                          <p>
+                            The Leaderboard will automatically rank the top 100
+                            users based on their points accumulation, and all
+                            rewards will be distributed according to the
+                            proportion of points.
+                          </p>
+                        </div>
+                      </em>
+                    </p>
+                    <span>{score ?? "--"}</span>{" "}
                   </li>
+                )}
+                {phase == 2 && (
+                  <>
+                    <li
+                      className="cursor-pointer"
+                      onClick={() => setScoreOpen(true)}
+                    >
+                      <p>
+                        Score Treasure{" "}
+                        <em>
+                          <div className={styles["stake-pop"]}>
+                            <div className={styles["pop-arrow"]}></div>
+                            <p>
+                              Each node&apos;s creation will automatically
+                              contribute 5 points to the Points Treasury.
+                            </p>
+                          </div>
+                        </em>
+                      </p>
+                      <span>{scoreTreasury ?? "--"} U</span>
+                    </li>
+                    <li>
+                      <p>Token Prize</p>
+                      <span>{tokenPrize ?? "--"} U</span>
+                    </li>
+                  </>
                 )}
                 {phase == 3 && (
-                  <li>
-                    <p>Total Prize</p>
-                    <span>{totalPrize ?? "--"} LMC</span>
-                  </li>
+                  <>
+                    <li>
+                      <p>Total Rewards</p>
+                      <span>{totalPrize ?? "--"} LMC</span>
+                    </li>
+                    <li>
+                      <p>Leader Rewards</p>
+                      <span>{leaderPrize ?? "--"} LMC</span>
+                    </li>
+                    <li>
+                      <p>Staking</p>
+                      <span>{stakeRate ?? "--"} LMC/Block</span>
+                    </li>
+                    <li>
+                      <p>Stake Reward</p>
+                      <span>{stakePrize ?? "--"} LMC</span>
+                    </li>
+                  </>
                 )}
                 {false && (
                   <li>
@@ -390,133 +446,27 @@ const Node = (props) => {
       <div className={styles["progress-big-box"]}>
         <ProgressLine
           total={totalSell?.toString() || 0}
-          passTotalNum={phase == 3 ? 30000 : 3000}
+          phase={phase}
+          code={code}
+          scoreTreasury={scoreTreasury}
         />
       </div>
-      <Modal
-        centered
+      <InviteModal
         open={open}
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
-        footer={null}
-        width={824}
-        wrapClassName="cur-modal-box"
-        classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
-      >
-        <h4>Invite Record</h4>
+        invites={invites}
+        handleClose={() => setOpen(false)}
+      />
+      <SuccessfulModal open={sucOpen} handleClose={() => setSsucOpen(false)} />
+      <CodeModal open={codeOpen} handleClose={() => setCodeOpen(false)} />
+      <ScoreModal open={scoreOpen} handleClose={() => setScoreOpen(false)} />
 
-        <ul>
-          <li>
-            Holding nodes qualifies for LMC airdrops at a rate of
-            <strong>69.5 LMC</strong> per block.
-          </li>
-          <li>
-            Total supply of <strong>one hundred million.</strong>
-          </li>
-          <li>
-            For every node that the referral friends enjoy a <strong>5%</strong>
-            share of their airdrop earnings. Upon successfully inviting three
-            node friends, activate indirect Airdrop Boost earnings, which can be
-            further stacked with an additional 5% from each indirect node
-            friend.
-          </li>
-        </ul>
-        <table>
-          <thead>
-            <tr>
-              <th align="left">Address</th>
-              <th width="150" align="center">
-                Node Amount
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {invites?.map((invite, index) => {
-              return (
-                <tr key={index}>
-                  <td>{invite?.address || "--"}</td>
-                  <td width="150" align="center">
-                    {invite?.boughtNode || "--"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {invites.length == 0 && <p className="no-data">No data</p>}
-      </Modal>
-      <Modal
-        centered
-        open={sucOpen}
-        onOk={() => setSsucOpen(false)}
-        onCancel={() => setSsucOpen(false)}
-        footer={null}
-        width={550}
-        wrapClassName="cur-modal-box"
-        classNames={{
-          mask: "cur-modal-mask",
-          body: "cur-modal-body suc-modal-body",
-        }}
-      >
-        <div className="suc">
-          <Vector width={"3.75rem"} />
-          <div>
-            <strong> Purchase successful!</strong>
-            <p>You now have 2 nodes in total.</p>
-          </div>
-        </div>
-        <button
-          className={`price-btn small`}
-          onClick={(e) => {
-            const text = encodeURIComponent(
-              `I have officially be a #MarsNode, an innovative approach for users to engage with the blockchain by leveraging social relationships.  I will receive mining rewards and actively contribute to earn more LMC and Mars airdrops.  Let’s faming ${
-                window.location.href + user?.id
-              }`
-            );
-            const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`; // https://twitter.com/Littlemamilabs
-
-            window.open(tweetUrl, "_blank");
-          }}
-        >
-          <Twitter width={"1.6875rem"} />
-          Share it!
-        </button>
-      </Modal>
-
-      <Modal
-        centered
+      <HammerModal
         open={hammerOpen}
-        onOk={() => setHammerOpen(false)}
-        onCancel={() => setHammerOpen(false)}
-        footer={null}
-        width={560}
-        wrapClassName="cur-modal-box"
-        classNames={{
-          mask: "cur-modal-mask",
-          body: "cur-modal-body suc-modal-body",
-        }}
-      >
-        <div className="hammer">
-          <strong>Holding node gets LMC airdrop</strong>
-          <div className="hammer-bd">
-            <div>
-              <em>Total Rewards</em>
-              <span>{totalPrize ?? "--"} LMC</span>
-            </div>
-            <div>
-              <em>Staking</em>
-              <span>{stakeRate ?? "--"} LMC/Block</span>
-            </div>
-            <div>
-              <em>Leadership Rewards</em>
-              <span>{leaderPrize ?? "--"} LMC</span>
-            </div>
-          </div>
-        </div>
-        <button className={`price-btn small`} onClick={(e) => {}}>
-          Chaim Prize
-        </button>
-      </Modal>
+        handleClose={() => setHammerOpen(false)}
+        totalPrize={totalPrize}
+        stakeRate={stakeRate}
+        leaderPrize={leaderPrize}
+      />
     </>
   ) : (
     <Loading />

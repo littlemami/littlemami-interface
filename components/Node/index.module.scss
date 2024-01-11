@@ -6,26 +6,19 @@
   // position: relative;
   // text-align: center;
   // min-height: calc(100vh - 6.25rem);
-  margin-top: 6.1875rem;
+  margin-top: 5rem;
 
   .title {
     color: #2AD9FF;
     text-align: center;
     text-shadow: 0px 1px 8.9px #482AFF;
-    font-size: 3rem;
+    font-size: 2.75rem;
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1;
     letter-spacing: 1.44px;
     text-transform: capitalize;
   }
 
-  .title-info {
-    text-align: center;
-    text-shadow: 0px 1px 8.9px #482AFF;
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1;
-  }
 }
 
 .node-main {
@@ -33,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 2.1875rem;
-  margin-top: 3.5625rem;
+  margin-top: 2.5rem;
 }
 
 .node-main-con {
@@ -42,7 +35,7 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  padding: 4.25rem 5.5rem 5.0625rem;
+  padding: 3.75rem 5.5rem;
   border-radius: 2.5rem;
   background: linear-gradient(180deg, rgba(69, 69, 177, 0.02) -23.73%, rgba(46, 46, 142, 0.20) 115.35%);
 
@@ -111,7 +104,7 @@
 
   .con {
     position: relative;
-    padding: 3.875rem 2.1875rem 2.375rem;
+    padding: 3.125rem 2.1875rem 2.375rem;
     border-radius: 1.25rem;
     border: .0938rem solid transparent;
     background: linear-gradient(180deg, rgba(24, 22, 21, 1), rgba(28, 28, 46, 1)),
@@ -145,7 +138,7 @@
 
 
   .node-goods {
-    margin-bottom: 3.125rem;
+    margin-bottom: 2.25rem;
   }
 
   span {
@@ -170,8 +163,17 @@
     font-size: 16px;
   }
 
-  & .btns-box {
+  .btns-box {
     margin-top: 3.125rem;
+  }
+
+  .max-info {
+    margin-top: .9375rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.70);
+    text-align: center;
+    font-size: 16px;
+
   }
 }
 
@@ -204,22 +206,43 @@
       font-size: 16px;
       padding: 1rem 1.125rem;
       border-radius: 10px;
+      white-space: nowrap;
 
       &:hover {
         background: rgba(42, 166, 255, 0.08);
 
-        .stake-pop {
+        em {
           display: block;
         }
 
+
       }
 
+      em {
+        display: none;
+        width: 1rem;
+        height: 1rem;
+        margin-left: .625rem;
+        background: #2AD9FF;
+        border-radius: 100%;
+
+        &:hover .stake-pop {
+          display: block;
+        }
+      }
 
       p {
+        display: flex;
+        align-items: center;
         color: #2AD9FF;
+        flex: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       span {
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 5px;
@@ -325,6 +348,10 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 
+  }
+
+  .node-numb .max-info {
+    font-size: 14px;
   }
 }
 
