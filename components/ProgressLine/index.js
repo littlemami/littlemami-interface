@@ -5,7 +5,14 @@ import CodeModal from "@/components/Node/components/CodeModal";
 import ScoreModal from "@/components/Node/components/ScoreModal";
 
 import EndStar from "@/public/images/svg/end_star.svg";
-const ProgressLine = ({ total, phase, code, scoreTreasury, ...props }) => {
+const ProgressLine = ({
+  total,
+  phase,
+  code,
+  list,
+  scoreTreasury,
+  ...props
+}) => {
   const ballInfo = [
     { no: 800, split: "20,000" },
     { no: 1500, split: "40,000" },
@@ -30,7 +37,7 @@ const ProgressLine = ({ total, phase, code, scoreTreasury, ...props }) => {
     const b1 = getPointCoor(800, smallBox, bigBox, totalNum);
     const b2 = getPointCoor(1500, smallBox, bigBox, totalNum);
     const b3 = getPointCoor(2100, smallBox, bigBox, totalNum);
-    const phase1P = getPointCoor(600, smallBox, bigBox, totalNum);
+    const phase1P = getPointCoor(500, smallBox, bigBox, totalNum);
     const phase2P = getPointCoor(3000, smallBox, bigBox, totalNum);
     const lastBall = getPointCoor(totalNum, smallBox, bigBox, totalNum);
     const fb = getPointCoor(total, smallBox, bigBox, totalNum);
@@ -44,10 +51,13 @@ const ProgressLine = ({ total, phase, code, scoreTreasury, ...props }) => {
   };
 
   useEffect(() => {
+    setTotalNum(phase == 3 ? 30000 : 3000);
+  }, [phase]);
+
+  useEffect(() => {
     setPoint();
     window.addEventListener("resize", setPoint);
-  }, []);
-
+  }, [totalNum]);
   return (
     <>
       <div className={styles["big-ball-ball"]}>
@@ -146,8 +156,17 @@ const ProgressLine = ({ total, phase, code, scoreTreasury, ...props }) => {
           </div>
         </div>
       </div>
-      <CodeModal open={codeOpen} handleClose={() => setCodeOpen(false)} />
-      <ScoreModal open={scoreOpen} handleClose={() => setScoreOpen(false)} />
+      <CodeModal
+        open={codeOpen}
+        code={code}
+        handleClose={() => setCodeOpen(false)}
+      />
+      <ScoreModal
+        open={scoreOpen}
+        scoreTreasury={scoreTreasury}
+        list={list}
+        handleClose={() => setScoreOpen(false)}
+      />
     </>
   );
 };

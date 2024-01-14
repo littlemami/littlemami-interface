@@ -11,7 +11,7 @@ import ProgressLine from "@/components/ProgressLine";
 
 import rpc from "@/components/Rpc";
 import styles from "./index.module.scss";
-import { Modal, message, Popconfirm } from "antd";
+import { Modal, message, Popconfirm, Select } from "antd";
 import Goods from "@/public/images/svg/goods.svg";
 import Time from "@/public/images/svg/time.svg";
 import Link from "@/public/images/svg/link.svg";
@@ -36,6 +36,8 @@ const Node = (props) => {
   const [hammerOpen, setHammerOpen] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
+  const [showSelect, setShowSelect] = useState(false);
+  const [phase, setPhase] = useState(1);
   const { chain } = useNetwork();
 
   const { address } = useAccount();
@@ -55,8 +57,13 @@ const Node = (props) => {
   const tokenAddress = read0?.[0]?.result;
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
-  const phase = read0?.[3]?.result;
+  // const phase = read0?.[3]?.result;
+
   const preBuyers = read0?.[4]?.result;
+
+  useEffect(() => {
+    setPhase(read0?.[3]?.result);
+  }, [read0]);
 
   const tokenContract = {
     address: tokenAddress,
@@ -79,7 +86,6 @@ const Node = (props) => {
     ],
     scopeKey: render,
   });
-
   const allowance = read1?.[0]?.result;
   const tokenBalance = read1?.[1]?.result;
   const decimals = read1?.[2]?.result;
@@ -202,7 +208,6 @@ const Node = (props) => {
 
   //0 no 1 direct 2 indirect + direct
   const leaderPrizeOpen = user?.leaderPrizeOpen;
-
   return mount ? (
     <>
       {contextHolder}
@@ -220,7 +225,10 @@ const Node = (props) => {
             <div className={styles["node-intro"]}>
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
-                <div className={styles["node-goods"]}>
+                <div
+                  onClick={() => setShowSelect((pre) => !pre)}
+                  className={styles["node-goods"]}
+                >
                   <img src="/images/goods.png" alt="" />
                 </div>
 
@@ -264,6 +272,18 @@ const Node = (props) => {
                 Maximum Purchase:{" "}
                 {(BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)).toString()}
               </p>
+              {showSelect && (
+                <Select
+                  defaultValue={1}
+                  style={{ width: 120, marginTop: 10 }}
+                  onChange={setPhase}
+                  options={[
+                    { value: 1, label: "phase1" },
+                    { value: 2, label: "phase2" },
+                    { value: 3, label: "phase3" },
+                  ]}
+                />
+              )}
             </div>
           </div>
           <div className={styles["node-main-info"]}>
@@ -449,6 +469,7 @@ const Node = (props) => {
           phase={phase}
           code={code}
           scoreTreasury={scoreTreasury}
+          list={scoreTreasuryInfo?.last100}
         />
       </div>
       <InviteModal
@@ -457,8 +478,17 @@ const Node = (props) => {
         handleClose={() => setOpen(false)}
       />
       <SuccessfulModal open={sucOpen} handleClose={() => setSsucOpen(false)} />
-      <CodeModal open={codeOpen} handleClose={() => setCodeOpen(false)} />
-      <ScoreModal open={scoreOpen} handleClose={() => setScoreOpen(false)} />
+      <CodeModal
+        code={code}
+        open={codeOpen}
+        handleClose={() => setCodeOpen(false)}
+      />
+      <ScoreModal
+        open={scoreOpen}
+        scoreTreasury={scoreTreasury}
+        list={scoreTreasuryInfo?.last100}
+        handleClose={() => setScoreOpen(false)}
+      />
 
       <HammerModal
         open={hammerOpen}
