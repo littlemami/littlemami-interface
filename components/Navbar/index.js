@@ -91,7 +91,7 @@ export default function Example() {
                         key={item.name}
                         className={classNames(
                           router.pathname === item.href
-                            ? "text-white"
+                            ? "text-white active"
                             : "text-white/[0.5] hover:text-white",
                           "px-3 mr-14 cursor-pointer nav-title"
                         )}

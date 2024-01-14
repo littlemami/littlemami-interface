@@ -412,7 +412,7 @@ body {
     }
 
     .new-list-box {
-      padding: 3.125rem;
+      padding: 3.125rem 2.8125rem;
       border-radius: .625rem;
       background: #212233;
 
@@ -608,7 +608,24 @@ body {
 }
 
 .nav-title {
+  position: relative;
   font-size: var(--nav-size);
+
+  &:after {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    content: '';
+    width: 2.375rem;
+    height: .125rem;
+    background: transparent;
+    border-radius: 2px;
+    transform: translate(-50%, .1875rem);
+  }
+
+  &.active:after {
+    background: #482AFF;
+  }
 }
 
 .new-list-box {

@@ -43,9 +43,12 @@ const InviteModal = ({ open, handleClose, invites }) => {
             );
           })}
         </div>
+        {invites.length == 0 && (
+          <p style={{ width: "100%" }} className="no-data">
+            No data
+          </p>
+        )}
       </div>
-
-      {invites.length == 0 && <p className="no-data">No data</p>}
     </Modal>
   );
 };

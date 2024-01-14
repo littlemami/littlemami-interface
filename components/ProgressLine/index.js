@@ -128,7 +128,8 @@ const ProgressLine = ({
               className={`${styles.ball} ${styles.lastball}`}
             >
               <span>
-                <EndStar width={20} />
+                <img src="/images/end_star.png" alt="" />
+                {/* <EndStar width={20} /> */}
               </span>
               <div className={styles.in}>
                 No.{totalNum} Node

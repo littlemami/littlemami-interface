@@ -7,7 +7,7 @@ const CodeModal = ({ open, handleClose, list, scoreTreasury }) => {
       onOk={handleClose}
       onCancel={handleClose}
       footer={null}
-      width={824}
+      width={900}
       wrapClassName="cur-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
     >

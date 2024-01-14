@@ -20,6 +20,7 @@ import Chat from "@/public/images/svg/chat.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 import Vector from "@/public/images/svg/vector.svg";
 import Hammer from "@/public/images/svg/hammer.svg";
+import Tips from "@/public/images/svg/tips.svg";
 import InviteModal from "./components/InviteModal";
 import SuccessfulModal from "./components/SuccessfulModal";
 import HammerModal from "./components/HammerModal";
