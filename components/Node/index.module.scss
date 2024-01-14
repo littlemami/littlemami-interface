@@ -225,20 +225,26 @@
         margin-left: .625rem;
         background: #2AD9FF;
         border-radius: 100%;
+        cursor: pointer;
 
         &:hover .stake-pop {
           display: block;
         }
       }
 
-      p {
+      &>div {
         display: flex;
         align-items: center;
         color: #2AD9FF;
         flex: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         overflow: hidden;
+
+        .tit {
+          max-width: 80%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
 
       span {
@@ -304,6 +310,7 @@
         &>p {
           font-size: 14px;
           color: #2AD9FF;
+          white-space: wrap;
         }
 
         &>div {

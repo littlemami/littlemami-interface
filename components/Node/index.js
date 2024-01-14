@@ -268,10 +268,15 @@ const Node = (props) => {
                   </>
                 )}
               </div>
-              <p className={styles["max-info"]}>
-                Maximum Purchase:{" "}
-                {(BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)).toString()}
-              </p>
+              {phase == 1 && (
+                <p className={styles["max-info"]}>
+                  Maximum Purchase:{" "}
+                  {(
+                    BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
+                  ).toString()}
+                </p>
+              )}
+
               {showSelect && (
                 <Select
                   defaultValue={1}
@@ -291,16 +296,15 @@ const Node = (props) => {
               <h4>My Info</h4>
               <ul>
                 <li>
-                  <p>
-                    Node Amount{" "}
+                  <div>
+                    <p className={styles["tit"]}>Node Amount</p>
                     <em>
-                      {" "}
                       <div className={styles["stake-pop"]}>
                         <div className={styles["pop-arrow"]}></div>
                         <p>Total number of nodes purchased</p>
                       </div>
                     </em>
-                  </p>
+                  </div>
                   <span>
                     {user?.boughtNode ?? "--"}
                     {false && (
@@ -317,10 +321,9 @@ const Node = (props) => {
                     className="cursor-pointer"
                     onClick={() => setCodeOpen(true)}
                   >
-                    <p>
-                      Code Value{" "}
+                    <div>
+                      <p className={styles["tit"]}>Code Value</p>
                       <em>
-                        {" "}
                         <div className={styles["stake-pop"]}>
                           <div className={styles["pop-arrow"]}></div>
                           <p>
@@ -332,16 +335,15 @@ const Node = (props) => {
                           </p>
                         </div>
                       </em>
-                    </p>
+                    </div>
                     <span>{code ?? "--"}</span>{" "}
                   </li>
                 )}
                 {phase != 3 && (
                   <li>
-                    <p>
-                      Score{" "}
+                    <div>
+                      <p className={styles["tit"]}>Score</p>
                       <em>
-                        {" "}
                         <div className={styles["stake-pop"]}>
                           <div className={styles["pop-arrow"]}></div>
                           <p>
@@ -352,7 +354,7 @@ const Node = (props) => {
                           </p>
                         </div>
                       </em>
-                    </p>
+                    </div>
                     <span>{score ?? "--"}</span>{" "}
                   </li>
                 )}
@@ -362,8 +364,8 @@ const Node = (props) => {
                       className="cursor-pointer"
                       onClick={() => setScoreOpen(true)}
                     >
-                      <p>
-                        Score Treasure{" "}
+                      <div>
+                        <p className={styles["tit"]}>Score Treasure</p>
                         <em>
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
@@ -373,11 +375,23 @@ const Node = (props) => {
                             </p>
                           </div>
                         </em>
-                      </p>
+                      </div>
                       <span>{scoreTreasury ?? "--"} U</span>
                     </li>
                     <li>
-                      <p>Token Prize</p>
+                      <div>
+                        <p className={styles["tit"]}>Score</p>
+                        Token Prize{" "}
+                        <em>
+                          <div className={styles["stake-pop"]}>
+                            <div className={styles["pop-arrow"]}></div>
+                            <p>
+                              Split rewards and invitation rewards within Phase
+                              2
+                            </p>
+                          </div>
+                        </em>
+                      </div>
                       <span>{tokenPrize ?? "--"} U</span>
                     </li>
                   </>
@@ -385,26 +399,50 @@ const Node = (props) => {
                 {phase == 3 && (
                   <>
                     <li>
-                      <p>Total Rewards</p>
+                      <div>
+                        <p className={styles["tit"]}>Total Rewards</p>
+                        <em>
+                          <div className={styles["stake-pop"]}>
+                            <div className={styles["pop-arrow"]}></div>
+                            <p>Farming rewards and Airdrop Boost earnings</p>
+                          </div>
+                        </em>
+                      </div>
                       <span>{totalPrize ?? "--"} LMC</span>
                     </li>
                     <li>
-                      <p>Leader Rewards</p>
+                      <div>
+                        <p className={styles["tit"]}>Leader Rewards</p>
+                        <em>
+                          <div className={styles["stake-pop"]}>
+                            <div className={styles["pop-arrow"]}></div>
+                            <p>
+                              Airdrop Boost earnings.For every node that the
+                              referral friends have , enjoy a 5% share of their
+                              airdrop earnings
+                            </p>
+                          </div>
+                        </em>
+                      </div>
                       <span>{leaderPrize ?? "--"} LMC</span>
                     </li>
                     <li>
-                      <p>Staking</p>
+                      <div>
+                        <p className={styles["tit"]}>Staking</p>
+                      </div>
                       <span>{stakeRate ?? "--"} LMC/Block</span>
                     </li>
                     <li>
-                      <p>Stake Reward</p>
+                      <div>
+                        <p className={styles["tit"]}>Stake Reward</p>
+                      </div>
                       <span>{stakePrize ?? "--"} LMC</span>
                     </li>
                   </>
                 )}
                 {false && (
                   <li>
-                    <p>Stake</p>
+                    <div>Stake</div>
                     <span>
                       233LMC
                       <div className={styles["stake-pop-box"]}>

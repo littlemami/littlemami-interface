@@ -64,22 +64,24 @@ const ProgressLine = ({
         <div className={styles["all-pro-box"]}>
           <p className={styles["title-info"]}>phase {phase?.toString()}</p>
           <div className={styles["copy-box"]}>
+            {phase != 1 && (
+              <div
+                style={{
+                  top: `${phase1.top}px`,
+                  left: `${phase1.left}px`,
+                }}
+                onClick={() => setCodeOpen(true)}
+                className={`${styles.ball} ${styles["phase-ball"]}`}
+              >
+                <span></span>
+                <div className={styles.in}>
+                  Phase 1 Finish
+                  <p>Code: {code ?? "--"}</p>
+                </div>
+              </div>
+            )}
             {phase == 3 ? (
               <>
-                <div
-                  style={{
-                    top: `${phase1.top}px`,
-                    left: `${phase1.left}px`,
-                  }}
-                  onClick={() => setCodeOpen(true)}
-                  className={`${styles.ball} ${styles["phase-ball"]}`}
-                >
-                  <span></span>
-                  <div className={styles.in}>
-                    Code Value
-                    <p>{code ?? "--"}</p>
-                  </div>
-                </div>
                 <div
                   style={{
                     top: `${phase2.top}px`,
@@ -90,8 +92,8 @@ const ProgressLine = ({
                 >
                   <span></span>
                   <div className={styles.in}>
-                    Score Treasure
-                    <p>{scoreTreasury ?? "--"}</p>
+                    Phase 2 Finish
+                    <p>Score Treasure: {scoreTreasury ?? "--"}</p>
                   </div>
                 </div>
               </>
