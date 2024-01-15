@@ -38,7 +38,7 @@ const Node = (props) => {
   const [codeOpen, setCodeOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
-  const [phase, setPhase] = useState(1);
+  // const [phase, setPhase] = useState(1);
   const { chain } = useNetwork();
 
   const { address } = useAccount();
@@ -58,13 +58,13 @@ const Node = (props) => {
   const tokenAddress = read0?.[0]?.result;
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
-  // const phase = read0?.[3]?.result;
+  const phase = read0?.[3]?.result;
 
   const preBuyers = read0?.[4]?.result;
 
-  useEffect(() => {
-    setPhase(read0?.[3]?.result);
-  }, [read0]);
+  // useEffect(() => {
+  //   setPhase(read0?.[3]?.result);
+  // }, [read0]);
 
   const tokenContract = {
     address: tokenAddress,
@@ -227,7 +227,7 @@ const Node = (props) => {
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
                 <div
-                  onClick={() => setShowSelect((pre) => !pre)}
+                  // onClick={() => setShowSelect((pre) => !pre)}
                   className={styles["node-goods"]}
                 >
                   <img src="/images/goods.png" alt="" />
@@ -278,7 +278,7 @@ const Node = (props) => {
                 </p>
               )}
 
-              {showSelect && (
+              {/* {showSelect && (
                 <Select
                   defaultValue={1}
                   style={{ width: 120, marginTop: 10 }}
@@ -289,7 +289,7 @@ const Node = (props) => {
                     { value: 3, label: "phase3" },
                   ]}
                 />
-              )}
+              )} */}
             </div>
           </div>
           <div className={styles["node-main-info"]}>
