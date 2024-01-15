@@ -4,7 +4,7 @@ export const rpcUrl = "https://api.littlemami.io/";
 export const contract = {
   5: {
     node: {
-      address: "0x19C0cb512B96730AC31dd494042B47258783EB69",
+      address: "0x38ddb70E6705D6dBA514419438820492F318596C",
       abi: [
         {
           inputs: [],
@@ -301,6 +301,19 @@ export const contract = {
           ],
           name: "Transfer",
           type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address[]",
+              name: "addrs",
+              type: "address[]",
+            },
+          ],
+          name: "adminBuy",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
         },
         {
           inputs: [
@@ -761,6 +774,25 @@ export const contract = {
         {
           inputs: [],
           name: "phase",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "phaseBlockNumber",
           outputs: [
             {
               internalType: "uint256",
