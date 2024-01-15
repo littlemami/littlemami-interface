@@ -35,7 +35,7 @@ export default function Example() {
         <>
           <div className="mx-auto sm:px-6">
             <div
-              className={`relative flex items-center justify-between ${styles["nav-box"]}`}
+              className={`relative z-50 flex items-center justify-between nav-bar-box ${styles["nav-box"]}`}
             >
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -91,7 +91,7 @@ export default function Example() {
                         key={item.name}
                         className={classNames(
                           router.pathname === item.href
-                            ? "text-white"
+                            ? "text-white active"
                             : "text-white/[0.5] hover:text-white",
                           "px-3 mr-14 cursor-pointer nav-title"
                         )}

@@ -255,7 +255,7 @@ const Node = (props) => {
               <>
                 <button className={`price-btn small ${styles["block-btn"]}`}>
                   <Link />
-                  Copy Invite Lite
+                  Copy Invite Link
                 </button>
                 <button
                   onClick={setOpen}

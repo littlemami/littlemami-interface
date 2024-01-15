@@ -14,7 +14,7 @@ export function getJiao(x, y) {
   return angleInRadians * (180 / Math.PI);
 }
 
-export function getPointCoor(point, el, bigEl) {
+export function getPointCoor(point, el, bigEl, total = 30000) {
   console.log(el, bigEl);
   if (el.current && bigEl.current) {
     const elS = el.current.getBoundingClientRect(); // 获取元素位置信息
@@ -26,7 +26,7 @@ export function getPointCoor(point, el, bigEl) {
     const big = getJiao(-w, r - h);
     const small = getJiao(w, r - h);
 
-    const jiao300 = big - ((big - small) / 30000) * point;
+    const jiao300 = big - ((big - small) / total) * point;
 
     return getPoint(jiao300, r, w);
   } else {

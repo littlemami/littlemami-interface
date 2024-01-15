@@ -4,8 +4,8 @@
   src: url("/font/poppins.ttf") format("truetype");
 }
 
-
 .main-box {
+
   max-width: 1200px;
   padding: 1px 0;
 }
@@ -20,6 +20,10 @@ html {
   height: 100%;
 }
 
+em {
+  font-style: normal;
+}
+
 body {
   min-height: 100%;
   font-family: Poppins, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
@@ -30,6 +34,29 @@ body {
     background-repeat: repeat;
     background-size: 1836px 654px;
   }
+
+  /* CSS */
+  ::-webkit-scrollbar {
+    width: 8px;
+    /* 水平滚动条宽度 */
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    /* 滚动条背景色 */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 4px;
+    /* 滑块颜色 */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+    /* 悬停时滑块颜色 */
+  }
+
 }
 
 
@@ -127,6 +154,17 @@ body {
   &:active,
   &:visited {
     background: #482AFF;
+  }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+
+    &:hover,
+    &:active,
+    &:visited {
+      background: rgba(45, 42, 154, 0.30);
+    }
   }
 }
 
@@ -321,9 +359,9 @@ body {
     ul {
       position: relative;
       padding: 1.3125rem 1.6875rem;
-      margin: 1.0625rem 0 .625rem;
+      margin: 1.0625rem 0 .9375rem;
       border-radius: .625rem;
-      background: #2C2B4F;
+      background: rgba(44, 43, 79, 0.20);
       overflow: hidden;
 
       &::before,
@@ -373,6 +411,56 @@ body {
       }
     }
 
+    .new-list-box {
+      padding: 3.125rem 2.8125rem;
+      border-radius: .625rem;
+      background: #212233;
+
+      .score-main {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        overflow: auto;
+
+        &>div {
+          width: 40%;
+        }
+
+        p {
+          width: auto;
+          color: #2AD9FF;
+          font-size: 1.5rem;
+
+          &+p {
+            margin-top: 1.25rem;
+          }
+        }
+
+        img {
+          max-width: 15.625rem;
+          width: 40%;
+        }
+      }
+
+      .item {
+        padding: .625rem 0;
+      }
+
+      .con {
+        max-height: calc((1em + 2.1rem) * 10);
+        overflow: auto;
+      }
+
+      strong {
+        text-align: left;
+      }
+
+      p {
+        width: 150px;
+      }
+    }
+
     table {
       display: block;
       width: 100%;
@@ -417,13 +505,20 @@ body {
 
   .suc-modal-body {
     .suc {
-      margin-top: 3.125rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
       gap: 2.5rem;
 
+      p {
+        font-weight: lighter;
+      }
+    }
+
+    .hammer,
+    .suc {
+      margin-top: 3.125rem;
+      color: #fff;
 
       strong {
         display: block;
@@ -433,10 +528,25 @@ body {
         text-transform: capitalize;
       }
 
-      p {
-        font-weight: lighter;
+    }
+
+    .hammer-bd {
+      &>div {
+        margin-top: 1.875rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+
+
+        em {
+          font-style: normal;
+          color: #2AD9FF;
+        }
+
       }
     }
+
 
     .price-btn {
       margin: 2.5rem auto 0;
@@ -494,13 +604,93 @@ body {
 .no-data {
   color: #fff;
   text-align: center;
+
 }
 
 .nav-title {
+  position: relative;
   font-size: var(--nav-size);
+
+  &:after {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    content: '';
+    width: 2.375rem;
+    height: .125rem;
+    background: transparent;
+    border-radius: 2px;
+    transform: translate(-50%, .1875rem);
+  }
+
+  &.active:after {
+    background: #482AFF;
+  }
+}
+
+.new-list-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+
+
+  .item {
+    display: flex;
+    font-size: 18px;
+    padding: 1.093rem 0;
+    word-break: break-all;
+
+    &.first {
+      font-size: 20px;
+    }
+
+    p,
+    strong {
+      text-align: center;
+    }
+
+    p {
+      width: 100px;
+      flex-shrink: 0;
+      color: #fff;
+    }
+
+    strong {
+      flex: 1;
+      padding-left: .9375rem;
+      padding-right: .9375rem;
+      color: rgba(42, 217, 255, 0.80);
+    }
+
+
+  }
+}
+
+.loading-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background: #2AD9FF;
+    animation: turn 0.6s infinite linear;
+
+    &:last-child {
+      animation-delay: .3s;
+    }
+  }
 }
 
 @media screen and (max-width:1200px) {
+
+
   :root {
     --nav-size: 16px;
 
@@ -508,6 +698,12 @@ body {
 
   html {
     font-size: 12px;
+  }
+
+  .main-box {
+
+    width: 100vw;
+    overflow: hidden;
   }
 
   .tips-pop {
@@ -531,7 +727,19 @@ body {
   .ant-collapse.lit-collapse {
     font-size: 18px;
   }
+
+  .new-list-box {
+    .item {
+      font-size: 14px;
+
+      &.first {
+        font-size: 16px;
+      }
+    }
+  }
 }
+
+
 
 @media screen and (max-width:640px) {
   :root {
@@ -561,6 +769,16 @@ body {
 
   }
 
+  .new-list-box {
+    .item {
+      font-size: 12px;
+
+      &.first {
+        font-size: 14px;
+      }
+    }
+  }
+
   .ant-collapse.lit-collapse {
     width: 95%;
     font-size: 14px;
@@ -578,7 +796,25 @@ body {
 
     .cur-modal-body {
       height: calc(80vh - 30px);
-      overflow: auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      h4,
+      ul {
+        flex-shrink: 0;
+      }
+
+      .new-list-box {
+        height: auto;
+        overflow: hidden;
+
+        .con {
+          max-height: none;
+          height: auto;
+          flex: 1;
+        }
+      }
     }
   }
 }
@@ -586,6 +822,27 @@ body {
 .anticon-spin {
   -webkit-animation: loadingCircle 1s infinite linear;
   animation: loadingCircle 1s infinite linear;
+}
+
+
+.open {
+  transition: all 0.5s;
+
+  &.yes {
+    transform: rotate(180deg);
+  }
+}
+
+@-webkit-keyframes turn {
+  100% {
+    background: #482AFF;
+  }
+}
+
+@keyframes turn {
+  100% {
+    background: #482AFF;
+  }
 }
 
 @-webkit-keyframes loadingCircle {
@@ -599,13 +856,5 @@ body {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
-  }
-}
-
-.open {
-  transition: all 0.5s;
-
-  &.yes {
-    transform: rotate(180deg);
   }
 }
