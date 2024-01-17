@@ -25,7 +25,7 @@ const Welcome = (props) => {
       <h2
         className={`animate__animated animate__fadeInDown animate__delay-1s ${styles["home-h2"]}`}
       >
-        StarNode Initiative.
+        MarsNode
       </h2>
       <p
         className={`animate__animated animate__fadeInUp animate__delay-2s ${styles["home-p"]}`}

@@ -1,5 +1,5 @@
 import { Modal, message, Popconfirm } from "antd";
-const CodeModal = ({ open, handleClose, list, scoreTreasury }) => {
+const CodeModal = ({ open, handleClose, leftBlock, list, scoreTreasury }) => {
   return (
     <Modal
       centered
@@ -11,9 +11,7 @@ const CodeModal = ({ open, handleClose, list, scoreTreasury }) => {
       wrapClassName="cur-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
     >
-      <h4>Score Treasure: {scoreTreasury || "--"} U</h4>
-
-      <ul>
+      <ul style={{ marginTop: "3.125rem" }}>
         <li>
           Each node&apos;s creation will automatically contribute 5 points to
           the Points Treasury.
@@ -26,6 +24,10 @@ const CodeModal = ({ open, handleClose, list, scoreTreasury }) => {
           Simultaneously, the Points Treasury accumulation will reset.
         </li>
       </ul>
+      <h4 className="mid">
+        <span>Score Treasure: {scoreTreasury || "--"} U</span>
+        <span>Left Block: {leftBlock || "--"}</span>
+      </h4>
       <div className="new-list-box">
         <div className="con">
           {list?.map((invite, index) => {

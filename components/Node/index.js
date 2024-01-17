@@ -28,7 +28,7 @@ import CodeModal from "./components/CodeModal";
 import ScoreModal from "./components/ScoreModal";
 import copy from "copy-to-clipboard";
 
-const Node = (props) => {
+const Node = ({ invites, ...props }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [render, setRender] = useState(0);
@@ -38,14 +38,51 @@ const Node = (props) => {
   const [codeOpen, setCodeOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
-  // const [phase, setPhase] = useState(1);
+
+  const [phase, setPhase] = useState(1);
+  const [tokenAddress, setTokenAddress] = useState();
+  const [preBuyers, setPreBuyers] = useState();
+  const [tokenPrice, setTokenPrice] = useState();
+  const [totalSell, setTotalSell] = useState();
+
+  const [allowance, setAllowance] = useState();
+  const [tokenBalance, setTokenBalance] = useState();
+  const [decimals, setDecimals] = useState();
+
+  const [data, setData] = useState({});
+  const [mount, setMount] = useState(false);
+  const [nowNumb, setNowNumb] = useState(0);
+
+  const [user, setUser] = useState();
+  const [scoreTreasuryInfo, setScoreTreasuryInfo] = useState();
+  const [code, setCode] = useState();
+  const [score, setScore] = useState();
+  const [marsPrize, setMarsPrize] = useState();
+  const [tokenPrize, setTokenPrize] = useState();
+  const [scoreTreasury, setScoreTreasury] = useState();
+  const [stakePrize, setStakePrize] = useState();
+  const [stakeRate, setStakeRate] = useState();
+  const [leaderPrize, setLeaderPrize] = useState();
+  const [totalPrize, setTotalPrize] = useState();
+  const [inviteOpen, setInviteOpen] = useState();
+  const [leaderPrizeOpen, setLeaderPrizeOpen] = useState();
+  const [phase1, setPhase1] = useState();
+  const [preBuy, setPreBuy] = useState();
+  const [buy, setBuy] = useState();
+  const [price, setPrice] = useState();
+  const [balance, setBalance] = useState();
+  const [showApprove, setShowApprove] = useState();
+  const [totalCost, setTotalCost] = useState();
+  const [tempSell, setTempSell] = useState();
+  const [tempPrice, setTempPrice] = useState();
+
   const { chain } = useNetwork();
 
   const { address } = useAccount();
 
   const nodeContract = contract[chain?.id]?.node;
-
-  const { data: read0 } = useContractReads({
+  /*---------------------------- */
+  const { data: read0, refetch: read0refetch } = useContractReads({
     contracts: [
       { ...nodeContract, functionName: "tokenAddress" },
       { ...nodeContract, functionName: "tokenPrice" },
@@ -55,25 +92,14 @@ const Node = (props) => {
     ],
     scopeKey: render,
   });
-  const tokenAddress = read0?.[0]?.result;
 
-  console.log(tokenAddress)
-  const tokenPrice = read0?.[1]?.result;
-  const totalSell = read0?.[2]?.result;
-  const phase = read0?.[3]?.result;
-
-  const preBuyers = read0?.[4]?.result;
-
-  // useEffect(() => {
-  //   setPhase(read0?.[3]?.result);
-  // }, [read0]);
-
+  /*---------------------------- */
   const tokenContract = {
     address: tokenAddress,
     abi: erc20ABI,
   };
 
-  const { data: read1 } = useContractReads({
+  const { data: read1, refetch: read1refetch } = useContractReads({
     contracts: [
       {
         ...tokenContract,
@@ -89,59 +115,19 @@ const Node = (props) => {
     ],
     scopeKey: render,
   });
-  const allowance = read1?.[0]?.result;
-  const tokenBalance = read1?.[1]?.result;
-  const decimals = read1?.[2]?.result;
 
-  const [data, setData] = useState({});
-  const [mount, setMount] = useState(false);
-  const [nowNumb, setNowNumb] = useState(0);
-
-  const user = data.user;
-
-  const buy = {
-    buttonName: "Buy Node",
-    disabled: !data.amount || data.amount == 0,
-    data: {
-      ...nodeContract,
-      functionName: "buy",
-      args: [data?.amount],
-    },
-    callback: (confirmed) => {
-      if (confirmed) {
-        setSsucOpen(true);
-        setRender(render + 1);
-      }
-    },
+  /*---------------------------- */
+  async function fetchData() {
+    const user = await rpc.getUser(address);
+    setData({ ...data, user });
+    setMount(true);
+  }
+  const reloadPage = () => {
+    fetchData();
+    read0refetch();
+    read1refetch();
   };
-
-  const phase1 = user?.phase1;
-
-  const preBuy = {
-    buttonName: "Pre Buy Node",
-    disabled:
-      !data.amount ||
-      data.amount == 0 ||
-      data.amount > phase1?.max - Number(preBuyers),
-    data: {
-      ...nodeContract,
-      functionName: "preBuy",
-      args: [phase1?.signature, phase1?.max, data?.amount],
-    },
-    callback: (confirmed) => {
-      if (confirmed) {
-        setSsucOpen(true);
-        setRender(render + 1);
-      }
-    },
-  };
-
   useEffect(() => {
-    async function fetchData() {
-      const user = await rpc.getUser(address);
-      setData({ ...data, user });
-      setMount(true);
-    }
     fetchData();
   }, []);
 
@@ -154,63 +140,114 @@ const Node = (props) => {
     },
     callback: (confirmed) => {
       if (confirmed) {
-        setRender(render + 1);
+        setRender((pre) => pre + 1);
       }
     },
   };
 
-  const price =
-    tokenPrice && (tokenPrice / 10n ** BigInt(decimals || 0))?.toString();
+  useEffect(() => {
+    const tokenPriceIn = read0?.[1]?.result;
+    const decimalsIn = read1?.[2]?.result;
+    const user1 = data.user;
+    const stakePrize1 = user1?.phase3?.stakePrize;
+    const leaderPrize1 = user1?.phase3?.leaderPrize;
+    const phaseIn = user1?.phase1;
+    const priceIn =
+      tokenPriceIn &&
+      (tokenPriceIn / 10n ** BigInt(decimalsIn || 0))?.toString();
+    const tokenBalanceIn = read1?.[1]?.result;
+    const totalSellIn = read0?.[2]?.result;
 
-  const balance =
-    tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString();
+    setTokenAddress(read0?.[0]?.result);
+    setTokenPrice(tokenPriceIn);
+    setTotalSell(totalSellIn);
+    setPhase(read0?.[3]?.result);
+    setPreBuyers(read0?.[4]?.result);
 
-  let showApprove;
-  if (allowance < Number(data?.amount) * 10 ** Number(decimals)) {
-    showApprove = true;
-  } else {
-    showApprove = false;
-  }
+    setAllowance(read1?.[0]?.result);
+    setTokenBalance(tokenBalanceIn);
+    setDecimals(decimalsIn);
 
-  let totalCost = 0;
-  let tempSell = Number(totalSell);
-  let tempPrice = Number(price);
+    setUser(user1);
+    setScoreTreasuryInfo(user1?.phase2?.scoreTreasuryInfo);
+    setCode(user1?.phase1?.code);
+    setScore(user1?.phase1?.score);
+    setMarsPrize(user1?.phase1?.marsPrize);
+    setTokenPrize(user1?.phase2?.tokenPrize);
+    setScoreTreasury(user1?.phase2?.scoreTreasury);
+    setStakeRate(user1?.phase3?.stakeRate);
 
-  for (let i = 0; i < Number(data?.amount); i++) {
-    totalCost += tempPrice;
-    tempSell += 1;
-    if (tempSell % 50 == 0) {
-      tempPrice = Math.ceil(tempPrice * 1.005);
+    setStakePrize(stakePrize1);
+    setLeaderPrize(leaderPrize1);
+    setTotalPrize(+stakePrize1 + +leaderPrize1);
+    setInviteOpen(user1?.inviteOpen);
+    //0 no 1 direct 2 indirect + direct
+    setLeaderPrizeOpen(user1?.leaderPrizeOpen);
+
+    setBuy({
+      buttonName: "Buy Node",
+      disabled: !data.amount || data.amount == 0,
+      data: {
+        ...nodeContract,
+        functionName: "buy",
+        args: [data?.amount],
+      },
+      callback: (confirmed) => {
+        if (confirmed) {
+          reloadPage();
+          setSsucOpen(true);
+          setRender((pre) => pre + 1);
+        }
+      },
+    });
+
+    setPhase1(phaseIn);
+
+    setPreBuy({
+      buttonName: "Pre Buy Node",
+      disabled:
+        !data.amount ||
+        data.amount == 0 ||
+        data.amount > phaseIn?.max - Number(preBuyers),
+      data: {
+        ...nodeContract,
+        functionName: "preBuy",
+        args: [phaseIn?.signature, phaseIn?.max, data?.amount],
+      },
+      callback: (confirmed) => {
+        if (confirmed) {
+          reloadPage();
+          setSsucOpen(true);
+          setRender((pre) => pre + 1);
+        }
+      },
+    });
+
+    setPrice(priceIn);
+
+    setBalance(
+      tokenBalanceIn &&
+        (tokenBalanceIn / 10n ** BigInt(decimalsIn || 0))?.toString()
+    );
+    setShowApprove(allowance < Number(data?.amount) * 10 ** Number(decimalsIn));
+
+    let totalCostIn = 0;
+    let tempSellIn = Number(totalSellIn);
+    let tempPriceIn = Number(priceIn);
+
+    for (let i = 0; i < Number(data?.amount); i++) {
+      totalCostIn += tempPriceIn;
+      tempSellIn += 1;
+      if (tempSellIn % 50 == 0) {
+        tempPriceIn = Math.ceil(tempPriceIn * 1.005);
+      }
     }
-  }
 
-  console.log(user);
-  const invites = props?.invites;
+    setTotalCost(totalCostIn);
+    setTempSell(tempSellIn);
+    setTempPrice(tempPriceIn);
+  }, [read0, read1, data]);
 
-  const scoreTreasuryInfo = user?.phase2?.scoreTreasuryInfo;
-
-  const code = user?.phase1?.code;
-
-  const score = user?.phase1?.score;
-
-  const marsPrize = user?.phase1?.marsPrize;
-
-  const tokenPrize = user?.phase2?.tokenPrize;
-
-  const scoreTreasury = user?.phase2?.scoreTreasury;
-
-  const stakePrize = user?.phase3?.stakePrize;
-
-  const stakeRate = user?.phase3?.stakeRate;
-
-  const leaderPrize = user?.phase3?.leaderPrize;
-
-  const totalPrize = +stakePrize + +leaderPrize;
-
-  const inviteOpen = user?.inviteOpen;
-
-  //0 no 1 direct 2 indirect + direct
-  const leaderPrizeOpen = user?.leaderPrizeOpen;
   return mount ? (
     <>
       {contextHolder}
@@ -245,7 +282,11 @@ const Node = (props) => {
             <div className={styles["node-numb"]}>
               <InputNumber
                 min={0}
-                max={BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)}
+                max={
+                  phase == 1
+                    ? BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
+                    : null
+                }
                 value={nowNumb}
                 onChange={(value) => {
                   if (value > 30000) {
@@ -301,12 +342,12 @@ const Node = (props) => {
                 <li>
                   <div>
                     <p className={styles["tit"]}>Node Amount</p>
-                    <em>
+                    {/* <em>
                       <div className={styles["stake-pop"]}>
                         <div className={styles["pop-arrow"]}></div>
                         <p>Total number of nodes purchased</p>
                       </div>
-                    </em>
+                    </em> */}
                   </div>
                   <span>
                     {user?.boughtNode ?? "--"}
@@ -319,41 +360,39 @@ const Node = (props) => {
                     )}
                   </span>
                 </li>
-                {phase == 1 && (
-                  <li
-                    className="cursor-pointer"
-                    onClick={() => setCodeOpen(true)}
-                  >
-                    <div>
-                      <p className={styles["tit"]}>Code Value</p>
-                      <em>
-                        <div className={styles["stake-pop"]}>
-                          <div className={styles["pop-arrow"]}></div>
-                          <p>
-                            Can be used for future unreleased MARS NFT
-                            lotteries. Purchasing nodes and recommending others
-                            to purchase nodes both earn 1 code each.
-                            Unidirectional recommendations for node purchases
-                            can earn a maximum of 3 codes.
-                          </p>
-                        </div>
-                      </em>
-                    </div>
-                    <span>{code ?? "--"}</span>{" "}
-                  </li>
-                )}
+                <li
+                  className="cursor-pointer"
+                  onClick={() => setCodeOpen(true)}
+                >
+                  <div>
+                    <p className={styles["tit"]}>Code Amount</p>
+                    <em>
+                      <div className={styles["stake-pop"]}>
+                        <div className={styles["pop-arrow"]}></div>
+                        <p>
+                          Both self-purchases and direct referrals purchase will
+                          receive 1 lottery code. Referring friends for
+                          purchases can earn up to 3 lottery codes. These
+                          lottery codes will be used for drawing MARS NFT from
+                          the prizes pool.
+                        </p>
+                      </div>
+                    </em>
+                  </div>
+                  <span>{code ?? "--"}</span>
+                </li>
                 {phase != 3 && (
                   <li>
                     <div>
-                      <p className={styles["tit"]}>Score</p>
+                      <p className={styles["tit"]}>Points</p>
                       <em>
                         <div className={styles["stake-pop"]}>
                           <div className={styles["pop-arrow"]}></div>
                           <p>
-                            The Leaderboard will automatically rank the top 100
-                            users based on their points accumulation, and all
-                            rewards will be distributed according to the
-                            proportion of points.
+                            Earn 100 points for each self-purchased node and an
+                            additional 50 points for successfully referring a
+                            user who makes a purchase. LMC reward airdrops will
+                            be unlocked upon reaching specific milestones.
                           </p>
                         </div>
                       </em>
@@ -363,28 +402,9 @@ const Node = (props) => {
                 )}
                 {phase == 2 && (
                   <>
-                    <li
-                      className="cursor-pointer"
-                      onClick={() => setScoreOpen(true)}
-                    >
-                      <div>
-                        <p className={styles["tit"]}>Score Treasure</p>
-                        <em>
-                          <div className={styles["stake-pop"]}>
-                            <div className={styles["pop-arrow"]}></div>
-                            <p>
-                              Each node&apos;s creation will automatically
-                              contribute 5 points to the Points Treasury.
-                            </p>
-                          </div>
-                        </em>
-                      </div>
-                      <span>{scoreTreasury ?? "--"} U</span>
-                    </li>
                     <li>
                       <div>
-                        <p className={styles["tit"]}>Score</p>
-                        Token Prize{" "}
+                        <p className={styles["tit"]}>Token Prize</p>
                         <em>
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
@@ -443,42 +463,34 @@ const Node = (props) => {
                     </li>
                   </>
                 )}
-                {false && (
-                  <li>
-                    <div>Stake</div>
-                    <span>
-                      233LMC
-                      <div className={styles["stake-pop-box"]}>
-                        <div className={styles["stake-pop"]}>
-                          <div className={styles["pop-arrow"]}></div>
-                          <p>Holding node gets LMC airdrop</p>
-                          <div>
-                            <strong>Staking</strong>
-                            <span>0.12LMC/Block</span>
-                          </div>
-                          <div>
-                            <strong>Leadership Rewards</strong>
-                            <span>122 LMC</span>
-                          </div>
-                        </div>
-                        <Chat width={"1.375rem"} />
-                      </div>
-                    </span>
-                  </li>
-                )}
               </ul>
-              {false && (
-                <div className={`price-btn ${styles["price"]}`}>
-                  <span>Claim Prize</span>
-                  <p>
-                    <span>{tokenPrize || "--"}U</span>
-                    <ArrowRight width={"0.5rem"} />
-                  </p>
+
+              {phase != 1 && (
+                <div
+                  className={`price-btn ${styles["price"]}`}
+                  onClick={() => setScoreOpen(true)}
+                >
+                  <div>
+                    <p className={styles["tit"]}>Score Treasure</p>
+                    <em>
+                      <div className={styles["stake-pop"]}>
+                        <div className={styles["pop-arrow"]}></div>
+                        <p>
+                          Each node&apos;s creation will automatically
+                          contribute 5 points to the Points Treasury.
+                        </p>
+                      </div>
+                    </em>
+                  </div>
+                  <span>{scoreTreasury || "--"}</span>
                 </div>
               )}
             </div>
+            <button className={`price-btn small ${styles["block-btn"]}`}>
+              Chaim
+            </button>
             <button
-              disabled={!user.inviteOpen}
+              disabled={!user?.inviteOpen}
               className={`price-btn small ${styles["block-btn"]}`}
               onClick={(e) => {
                 copy(window.location.href + user?.id);
@@ -499,7 +511,7 @@ const Node = (props) => {
               className={`price-btn small ${styles["block-btn"]}`}
             >
               <Time width={"1.125rem"} />
-              View Invite Node
+              Your Invitation
             </button>
           </div>
         </div>
@@ -511,6 +523,7 @@ const Node = (props) => {
           code={code}
           scoreTreasury={scoreTreasury}
           list={scoreTreasuryInfo?.last100}
+          leftBlock={scoreTreasuryInfo?.leftBlock}
         />
       </div>
       <InviteModal
@@ -518,7 +531,12 @@ const Node = (props) => {
         invites={invites}
         handleClose={() => setOpen(false)}
       />
-      <SuccessfulModal open={sucOpen} handleClose={() => setSsucOpen(false)} />
+      <SuccessfulModal
+        id={user?.id}
+        num={nowNumb}
+        open={sucOpen}
+        handleClose={() => setSsucOpen(false)}
+      />
       <CodeModal
         code={code}
         open={codeOpen}
@@ -528,6 +546,7 @@ const Node = (props) => {
         open={scoreOpen}
         scoreTreasury={scoreTreasury}
         list={scoreTreasuryInfo?.last100}
+        leftBlock={scoreTreasuryInfo?.leftBlock}
         handleClose={() => setScoreOpen(false)}
       />
 

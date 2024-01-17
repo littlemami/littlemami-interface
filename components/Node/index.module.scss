@@ -202,139 +202,144 @@
   ul {
     margin: 1.625rem 1rem 0;
 
-    li {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 16px;
-      padding: 1rem 1.125rem;
-      border-radius: 10px;
+
+  }
+
+  ul li,
+  .price {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 1rem 1.125rem;
+    border-radius: 10px;
 
 
-      &:hover {
-        background: rgba(42, 166, 255, 0.08);
-
-        em {
-          opacity: 1;
-        }
-
-
-      }
+    &:hover {
+      background: rgba(42, 166, 255, 0.08);
 
       em {
-        opacity: 0;
-        width: 1rem;
-        height: 1rem;
-        margin-left: .625rem;
-        border-radius: 100%;
-        cursor: pointer;
-        background: url("/images/svg/tips.svg");
-        background-size: 100% 100%;
-
-        &:hover .stake-pop {
-          display: block;
-        }
+        opacity: 1;
       }
 
-      &>div {
-        display: flex;
-        align-items: center;
-        color: #2AD9FF;
-        flex: 1;
-        overflow: hidden;
 
-        .tit {
-          max-width: 80%;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-      }
+    }
 
-      span {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
+    em {
+      opacity: 0;
+      width: 1rem;
+      height: 1rem;
+      margin-left: .625rem;
+      border-radius: 100%;
+      cursor: pointer;
+      background: url("/images/svg/tips.svg");
+      background-size: 100% 100%;
 
-      .stake-pop-box {
-        cursor: pointer;
-      }
-
-      // .stake-pop-box:hover .stake-pop {
-      //   display: block;
-      // }
-
-      .stake-pop {
-        z-index: 1;
-        display: none;
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translateX(-50%);
-        margin-top: 1rem;
-        border-radius: 1.25rem;
-        padding: 1.625rem;
-        width: 115%;
-        border: 1px solid #2AD9FF;
-        background: rgba(28, 29, 33, 0.9);
-        box-shadow: 0px 0px 13px 0px #482AFF;
-        backdrop-filter: blur(1.25rem);
-
-
-        .pop-arrow {
-          position: absolute;
-          top: 0;
-          left: 50%;
-          width: 1rem;
-          height: 1rem;
-          overflow: hidden;
-          pointer-events: none;
-          transform: translate(-50%, -2.1rem);
-
-
-
-          &::after {
-            content: ' ';
-            position: absolute;
-            bottom: 0;
-            width: 1rem;
-            height: 1rem;
-
-            border: 1px solid #2AD9FF;
-            background: rgba(28, 29, 33, 1);
-
-            /* 边框 */
-            box-shadow: 0px 0px 1rem 0px #482AFF;
-            transform: translateY(0.5rem) rotate(45deg);
-          }
-        }
-
-        &>p {
-          font-size: 14px;
-          color: #2AD9FF;
-          white-space: wrap;
-        }
-
-        &>div {
-          display: flex;
-          margin-top: 1.25rem;
-          align-items: center;
-          justify-content: space-between;
-
-          strong {
-            color: #2AD9FF;
-
-          }
-        }
+      &:hover .stake-pop {
+        display: block;
       }
     }
+
+    &>div {
+      display: flex;
+      align-items: center;
+      color: #2AD9FF;
+      flex: 1;
+      overflow: hidden;
+
+      .tit {
+        max-width: 80%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+
+    span {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stake-pop-box {
+      cursor: pointer;
+    }
+
+    // .stake-pop-box:hover .stake-pop {
+    //   display: block;
+    // }
+
+
   }
 
   .price {
     margin: 1.875rem .875rem 0;
+  }
+}
+
+.stake-pop {
+  z-index: 1;
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 1rem;
+  border-radius: 1.25rem;
+  padding: 1.625rem;
+  width: 115%;
+  border: 1px solid #2AD9FF;
+  background: rgba(28, 29, 33, 0.9);
+  box-shadow: 0px 0px 13px 0px #482AFF;
+  backdrop-filter: blur(1.25rem);
+
+
+  .pop-arrow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1rem;
+    height: 1rem;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -2.1rem);
+
+
+
+    &::after {
+      content: ' ';
+      position: absolute;
+      bottom: 0;
+      width: 1rem;
+      height: 1rem;
+
+      border: 1px solid #2AD9FF;
+      background: rgba(28, 29, 33, 1);
+
+      /* 边框 */
+      box-shadow: 0px 0px 1rem 0px #482AFF;
+      transform: translateY(0.5rem) rotate(45deg);
+    }
+  }
+
+  &>p {
+    font-size: 14px;
+    color: #2AD9FF;
+    white-space: wrap;
+  }
+
+  &>div {
+    display: flex;
+    margin-top: 1.25rem;
+    align-items: center;
+    justify-content: space-between;
+
+    strong {
+      color: #2AD9FF;
+
+    }
   }
 }
 

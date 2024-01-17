@@ -7,7 +7,7 @@ const InviteModal = ({ open, handleClose, invites }) => {
       onOk={handleClose}
       onCancel={handleClose}
       footer={null}
-      width={824}
+      width={900}
       wrapClassName="cur-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
     >
@@ -15,17 +15,26 @@ const InviteModal = ({ open, handleClose, invites }) => {
 
       <ul>
         <li>
-          Holding nodes qualifies for LMC airdrops at a rate of
-          <strong>69.5 LMC</strong> per block.
+          Direct referrals of friends who purchase node that you can earn 50
+          points and unlock <strong>$120,000 LMC</strong> reward airdrops upon
+          reaching specific milestones.
         </li>
         <li>
-          Total supply of <strong>one hundred million.</strong>
+          Direct referrals of friends who purchase nodes will receive 1 MARS NFT
+          lottery code, and you can earn up to 3 codes. These lottery codes will
+          be used for drawing MARS NFT prizes.
         </li>
         <li>
-          For every node that the referral friends enjoy a <strong>5%</strong>
-          share of their airdrop earnings. Upon successfully inviting three node
-          friends, activate indirect Airdrop Boost earnings, which can be
-          further stacked with an additional 5% from each indirect node friend.
+          Direct referrals of friends who purchase nodes that you will receive
+          an LMC reward equivalent to <strong>5%</strong> of the purchased
+          node&apos;s price.
+        </li>
+        <li>
+          For every directly referred node friend, you will enjoy 5% of their
+          node mining earnings. When you have three or more directly referred
+          node friends, indirect assistance earnings will be activated, allowing
+          you to accumulate additional earnings from the mining activities of
+          indirectly referred node friends, also at a rate of 5%.
         </li>
       </ul>
       <div className="new-list-box">

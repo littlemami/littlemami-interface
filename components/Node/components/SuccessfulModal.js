@@ -3,7 +3,7 @@ import { Modal, message, Popconfirm } from "antd";
 import Vector from "@/public/images/svg/vector.svg";
 import Twitter from "@/public/images/svg/twitter.svg";
 
-const SuccessfulModal = ({ open, handleClose }) => {
+const SuccessfulModal = ({ num, id, open, handleClose }) => {
   return (
     <Modal
       centered
@@ -22,7 +22,7 @@ const SuccessfulModal = ({ open, handleClose }) => {
         <Vector width={"3.75rem"} />
         <div>
           <strong> Purchase successful!</strong>
-          <p>You now have 2 nodes in total.</p>
+          <p>You now have {num} nodes in total.</p>
         </div>
       </div>
       <button
@@ -30,7 +30,7 @@ const SuccessfulModal = ({ open, handleClose }) => {
         onClick={(e) => {
           const text = encodeURIComponent(
             `I have officially be a #MarsNode, an innovative approach for users to engage with the blockchain by leveraging social relationships.  I will receive mining rewards and actively contribute to earn more LMC and Mars airdrops.  Let’s faming ${
-              window.location.href + user?.id
+              window.location.href + id
             }`
           );
           const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`; // https://twitter.com/Littlemamilabs

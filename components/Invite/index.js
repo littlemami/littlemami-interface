@@ -51,7 +51,7 @@ const Invite = (props) => {
         )}
       </div>
       <div className={styles.bot}>
-        <a href="https://t.me/XNM0620" target="_blank">
+        <a href="https://twitter.com/Littlemamilabs" target="_blank">
           Follow Us to Get Node
         </a>
       </div>
