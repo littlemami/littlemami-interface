@@ -266,7 +266,7 @@ const Node = ({ invites, ...props }) => {
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
                 <div
-                  // onClick={() => setShowSelect((pre) => !pre)}
+                  onClick={() => setShowSelect((pre) => !pre)}
                   className={styles["node-goods"]}
                 >
                   <img src="/images/goods.png" alt="" />
@@ -321,9 +321,9 @@ const Node = ({ invites, ...props }) => {
                 </p>
               )}
 
-              {/* {showSelect && (
+              {showSelect && (
                 <Select
-                  defaultValue={1}
+                  value={phase}
                   style={{ width: 120, marginTop: 10 }}
                   onChange={setPhase}
                   options={[
@@ -332,7 +332,7 @@ const Node = ({ invites, ...props }) => {
                     { value: 3, label: "phase3" },
                   ]}
                 />
-              )} */}
+              )}
             </div>
           </div>
           <div className={styles["node-main-info"]}>
