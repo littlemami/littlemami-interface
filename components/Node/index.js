@@ -199,11 +199,17 @@ const Node = (props) => {
 
   const scoreTreasury = user?.phase2?.scoreTreasury;
 
+  const referralPrize = user?.phase2?.referralPrize;
+
+  const referralPrizeLogs = user?.phase2?.referralPrizeLogs;
+
   const stakePrize = user?.phase3?.stakePrize;
 
   const stakeRate = user?.phase3?.stakeRate;
 
   const leaderPrize = user?.phase3?.leaderPrize;
+
+  const leaderPrizeLogs = user?.phase3?.leaderPrizeLogs;
 
   const totalPrize = (Number(stakePrize) + Number(leaderPrize)).toFixed(2);
 
