@@ -56,6 +56,8 @@ const Node = (props) => {
     scopeKey: render,
   });
   const tokenAddress = read0?.[0]?.result;
+
+  console.log(tokenAddress)
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
   const phase = read0?.[3]?.result;

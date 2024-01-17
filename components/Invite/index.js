@@ -21,8 +21,10 @@ const Invite = (props) => {
       if (res?.error) {
         setData({ ...data, error: res.error });
       } else {
-        router.push("/");
-        router.reload();
+        router.push({
+          pathname: "/",
+          query: {},
+        });
       }
     },
   };
@@ -44,6 +46,9 @@ const Invite = (props) => {
           }}
         />
         <SignButton {...sign} className="mt-2" />
+        {data.error && (
+          <div className="text-center text-error">{data.error}</div>
+        )}
       </div>
       <div className={styles.bot}>
         <a href="https://t.me/XNM0620" target="_blank">
