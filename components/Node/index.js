@@ -57,7 +57,7 @@ const Node = (props) => {
   });
   const tokenAddress = read0?.[0]?.result;
 
-  console.log(tokenAddress)
+  console.log(tokenAddress);
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
   const phase = read0?.[3]?.result;
@@ -205,7 +205,7 @@ const Node = (props) => {
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
-  const totalPrize = +stakePrize + +leaderPrize;
+  const totalPrize = Number(stakePrize) + Number(leaderPrize);
 
   const inviteOpen = user?.inviteOpen;
 
