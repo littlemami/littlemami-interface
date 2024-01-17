@@ -205,7 +205,7 @@ const Node = (props) => {
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
-  const totalPrize = Number(stakePrize) + Number(leaderPrize);
+  const totalPrize = (Number(stakePrize) + Number(leaderPrize)).toFixed(2);
 
   const inviteOpen = user?.inviteOpen;
 
