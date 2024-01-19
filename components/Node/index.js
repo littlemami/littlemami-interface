@@ -108,6 +108,7 @@ const Node = ({ ...props }) => {
       if (confirmed) {
         setSsucOpen(true);
         setRender(render + 1);
+        reloadPage();
       }
     },
   };
@@ -129,6 +130,7 @@ const Node = ({ ...props }) => {
       if (confirmed) {
         setSsucOpen(true);
         setRender(render + 1);
+        reloadPage();
       }
     },
   };
