@@ -486,9 +486,13 @@ const Node = ({ invites, ...props }) => {
                 </div>
               )}
             </div>
-            <button className={`price-btn small ${styles["block-btn"]}`}>
-              Chaim
-            </button>
+
+            {phase != 1 && (
+              <button className={`price-btn small ${styles["block-btn"]}`}>
+                Chaim
+              </button>
+            )}
+
             <button
               disabled={!user?.inviteOpen}
               className={`price-btn small ${styles["block-btn"]}`}
