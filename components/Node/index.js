@@ -28,7 +28,7 @@ import CodeModal from "./components/CodeModal";
 import ScoreModal from "./components/ScoreModal";
 import copy from "copy-to-clipboard";
 
-const Node = (props) => {
+const Node = ({ ...props }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [render, setRender] = useState(0);
@@ -38,14 +38,14 @@ const Node = (props) => {
   const [codeOpen, setCodeOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
-  // const [phase, setPhase] = useState(1);
+
   const { chain } = useNetwork();
 
   const { address } = useAccount();
 
   const nodeContract = contract[chain?.id]?.node;
 
-  const { data: read0 } = useContractReads({
+  const { data: read0, refetch: read0refetch } = useContractReads({
     contracts: [
       { ...nodeContract, functionName: "tokenAddress" },
       { ...nodeContract, functionName: "tokenPrice" },
@@ -55,6 +55,7 @@ const Node = (props) => {
     ],
     scopeKey: render,
   });
+
   const tokenAddress = read0?.[0]?.result;
 
   console.log(tokenAddress);
@@ -64,16 +65,12 @@ const Node = (props) => {
 
   const preBuyers = read0?.[4]?.result;
 
-  // useEffect(() => {
-  //   setPhase(read0?.[3]?.result);
-  // }, [read0]);
-
   const tokenContract = {
     address: tokenAddress,
     abi: erc20ABI,
   };
 
-  const { data: read1 } = useContractReads({
+  const { data: read1, refetch: read1refetch } = useContractReads({
     contracts: [
       {
         ...tokenContract,
@@ -89,6 +86,7 @@ const Node = (props) => {
     ],
     scopeKey: render,
   });
+
   const allowance = read1?.[0]?.result;
   const tokenBalance = read1?.[1]?.result;
   const decimals = read1?.[2]?.result;
@@ -96,7 +94,6 @@ const Node = (props) => {
   const [data, setData] = useState({});
   const [mount, setMount] = useState(false);
   const [nowNumb, setNowNumb] = useState(0);
-
   const user = data.user;
 
   const buy = {
@@ -111,6 +108,7 @@ const Node = (props) => {
       if (confirmed) {
         setSsucOpen(true);
         setRender(render + 1);
+        reloadPage();
       }
     },
   };
@@ -132,16 +130,22 @@ const Node = (props) => {
       if (confirmed) {
         setSsucOpen(true);
         setRender(render + 1);
+        reloadPage();
       }
     },
   };
 
+  async function fetchData() {
+    const user = await rpc.getUser(address);
+    setData({ ...data, user });
+    setMount(true);
+  }
+  const reloadPage = () => {
+    fetchData();
+    read0refetch();
+    read1refetch();
+  };
   useEffect(() => {
-    async function fetchData() {
-      const user = await rpc.getUser(address);
-      setData({ ...data, user });
-      setMount(true);
-    }
     fetchData();
   }, []);
 
@@ -251,7 +255,11 @@ const Node = (props) => {
             <div className={styles["node-numb"]}>
               <InputNumber
                 min={0}
-                max={BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)}
+                max={
+                  phase == 1
+                    ? BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
+                    : null
+                }
                 value={nowNumb}
                 onChange={(value) => {
                   if (value > 30000) {
@@ -288,7 +296,7 @@ const Node = (props) => {
 
               {/* {showSelect && (
                 <Select
-                  defaultValue={1}
+                  value={phase}
                   style={{ width: 120, marginTop: 10 }}
                   onChange={setPhase}
                   options={[
@@ -307,12 +315,12 @@ const Node = (props) => {
                 <li>
                   <div>
                     <p className={styles["tit"]}>Node Amount</p>
-                    <em>
+                    {/* <em>
                       <div className={styles["stake-pop"]}>
                         <div className={styles["pop-arrow"]}></div>
                         <p>Total number of nodes purchased</p>
                       </div>
-                    </em>
+                    </em> */}
                   </div>
                   <span>
                     {user?.boughtNode ?? "--"}
@@ -325,41 +333,39 @@ const Node = (props) => {
                     )}
                   </span>
                 </li>
-                {phase == 1 && (
-                  <li
-                    className="cursor-pointer"
-                    onClick={() => setCodeOpen(true)}
-                  >
-                    <div>
-                      <p className={styles["tit"]}>Code Value</p>
-                      <em>
-                        <div className={styles["stake-pop"]}>
-                          <div className={styles["pop-arrow"]}></div>
-                          <p>
-                            Can be used for future unreleased MARS NFT
-                            lotteries. Purchasing nodes and recommending others
-                            to purchase nodes both earn 1 code each.
-                            Unidirectional recommendations for node purchases
-                            can earn a maximum of 3 codes.
-                          </p>
-                        </div>
-                      </em>
-                    </div>
-                    <span>{code ?? "--"}</span>{" "}
-                  </li>
-                )}
+                <li
+                  className="cursor-pointer"
+                  onClick={() => setCodeOpen(true)}
+                >
+                  <div>
+                    <p className={styles["tit"]}>Code Amount</p>
+                    <em>
+                      <div className={styles["stake-pop"]}>
+                        <div className={styles["pop-arrow"]}></div>
+                        <p>
+                          Both self-purchases and direct referrals purchase will
+                          receive 1 lottery code. Referring friends for
+                          purchases can earn up to 3 lottery codes. These
+                          lottery codes will be used for drawing MARS NFT from
+                          the prizes pool.
+                        </p>
+                      </div>
+                    </em>
+                  </div>
+                  <span>{code ?? "--"}</span>
+                </li>
                 {phase != 3 && (
                   <li>
                     <div>
-                      <p className={styles["tit"]}>Score</p>
+                      <p className={styles["tit"]}>Points</p>
                       <em>
                         <div className={styles["stake-pop"]}>
                           <div className={styles["pop-arrow"]}></div>
                           <p>
-                            The Leaderboard will automatically rank the top 100
-                            users based on their points accumulation, and all
-                            rewards will be distributed according to the
-                            proportion of points.
+                            Earn 100 points for each self-purchased node and an
+                            additional 50 points for successfully referring a
+                            user who makes a purchase. LMC reward airdrops will
+                            be unlocked upon reaching specific milestones.
                           </p>
                         </div>
                       </em>
@@ -369,28 +375,9 @@ const Node = (props) => {
                 )}
                 {phase == 2 && (
                   <>
-                    <li
-                      className="cursor-pointer"
-                      onClick={() => setScoreOpen(true)}
-                    >
-                      <div>
-                        <p className={styles["tit"]}>Score Treasure</p>
-                        <em>
-                          <div className={styles["stake-pop"]}>
-                            <div className={styles["pop-arrow"]}></div>
-                            <p>
-                              Each node&apos;s creation will automatically
-                              contribute 5 points to the Points Treasury.
-                            </p>
-                          </div>
-                        </em>
-                      </div>
-                      <span>{scoreTreasury ?? "--"} U</span>
-                    </li>
                     <li>
                       <div>
-                        <p className={styles["tit"]}>Score</p>
-                        Token Prize{" "}
+                        <p className={styles["tit"]}>Token Prize</p>
                         <em>
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
@@ -449,42 +436,38 @@ const Node = (props) => {
                     </li>
                   </>
                 )}
-                {false && (
-                  <li>
-                    <div>Stake</div>
-                    <span>
-                      233LMC
-                      <div className={styles["stake-pop-box"]}>
-                        <div className={styles["stake-pop"]}>
-                          <div className={styles["pop-arrow"]}></div>
-                          <p>Holding node gets LMC airdrop</p>
-                          <div>
-                            <strong>Staking</strong>
-                            <span>0.12LMC/Block</span>
-                          </div>
-                          <div>
-                            <strong>Leadership Rewards</strong>
-                            <span>122 LMC</span>
-                          </div>
-                        </div>
-                        <Chat width={"1.375rem"} />
-                      </div>
-                    </span>
-                  </li>
-                )}
               </ul>
-              {false && (
-                <div className={`price-btn ${styles["price"]}`}>
-                  <span>Claim Prize</span>
-                  <p>
-                    <span>{tokenPrize || "--"}U</span>
-                    <ArrowRight width={"0.5rem"} />
-                  </p>
+
+              {phase != 1 && (
+                <div
+                  className={`price-btn ${styles["price"]}`}
+                  onClick={() => setScoreOpen(true)}
+                >
+                  <div>
+                    <p className={styles["tit"]}>Score Treasure</p>
+                    <em>
+                      <div className={styles["stake-pop"]}>
+                        <div className={styles["pop-arrow"]}></div>
+                        <p>
+                          Each node&apos;s creation will automatically
+                          contribute 5 points to the Points Treasury.
+                        </p>
+                      </div>
+                    </em>
+                  </div>
+                  <span>{scoreTreasury || "--"}</span>
                 </div>
               )}
             </div>
+
+            {phase != 1 && (
+              <button className={`price-btn small ${styles["block-btn"]}`}>
+                Chaim
+              </button>
+            )}
+
             <button
-              disabled={!user.inviteOpen}
+              disabled={!user?.inviteOpen}
               className={`price-btn small ${styles["block-btn"]}`}
               onClick={(e) => {
                 copy(window.location.href + user?.id);
@@ -505,7 +488,7 @@ const Node = (props) => {
               className={`price-btn small ${styles["block-btn"]}`}
             >
               <Time width={"1.125rem"} />
-              View Invite Node
+              Your Invitation
             </button>
           </div>
         </div>
@@ -517,6 +500,7 @@ const Node = (props) => {
           code={code}
           scoreTreasury={scoreTreasury}
           list={scoreTreasuryInfo?.last100}
+          leftBlock={scoreTreasuryInfo?.leftBlock}
         />
       </div>
       <InviteModal
@@ -524,7 +508,12 @@ const Node = (props) => {
         invites={invites}
         handleClose={() => setOpen(false)}
       />
-      <SuccessfulModal open={sucOpen} handleClose={() => setSsucOpen(false)} />
+      <SuccessfulModal
+        id={user?.id}
+        num={nowNumb}
+        open={sucOpen}
+        handleClose={() => setSsucOpen(false)}
+      />
       <CodeModal
         code={code}
         open={codeOpen}
@@ -534,6 +523,7 @@ const Node = (props) => {
         open={scoreOpen}
         scoreTreasury={scoreTreasury}
         list={scoreTreasuryInfo?.last100}
+        leftBlock={scoreTreasuryInfo?.leftBlock}
         handleClose={() => setScoreOpen(false)}
       />
 

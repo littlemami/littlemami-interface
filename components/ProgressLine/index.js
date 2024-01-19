@@ -10,6 +10,8 @@ const ProgressLine = ({
   phase,
   code,
   list,
+
+  leftBlock,
   scoreTreasury,
   ...props
 }) => {
@@ -62,9 +64,9 @@ const ProgressLine = ({
     <>
       <div className={styles["big-ball-ball"]}>
         <div className={styles["all-pro-box"]}>
-          <p className={styles["title-info"]}>phase {phase?.toString()}</p>
+          <p className={styles["title-info"]}>Phase {phase?.toString()}</p>
           <div className={styles["copy-box"]}>
-            {phase != 1 && (
+            {/* {phase != 1 && (
               <div
                 style={{
                   top: `${phase1.top}px`,
@@ -98,28 +100,26 @@ const ProgressLine = ({
                 </div>
               </>
             ) : (
-              <>
-                {ballInfo.map((item, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      top: `${[ball1, ball2, ball3][i].top}px`,
-                      left: `${[ball1, ball2, ball3][i].left}px`,
-                    }}
-                    className={`${styles.ball} ${styles[`ball${i + 1}`]} ${
-                      total >= item.no ? styles.passed : ""
-                    }`}
-                  >
-                    <span></span>
-                    <div className={styles.in}>
-                      No.{item.no} Node
-                      <p>SPLIT {item.split}U LMC</p>
-                    </div>
-                  </div>
-                ))}
-              </>
-            )}
-
+              <></>
+            )} */}
+            {ballInfo.map((item, i) => (
+              <div
+                key={i}
+                style={{
+                  top: `${[ball1, ball2, ball3][i].top}px`,
+                  left: `${[ball1, ball2, ball3][i].left}px`,
+                }}
+                className={`${styles.ball} ${styles[`ball${i + 1}`]} ${
+                  total >= item.no ? styles.passed : ""
+                }`}
+              >
+                <span></span>
+                <div className={styles.in}>
+                  No.{item.no} Node
+                  <p>SPLIT {item.split}U LMC</p>
+                </div>
+              </div>
+            ))}
             <div
               style={{
                 top: `${lastBall.top}px`,
@@ -167,6 +167,7 @@ const ProgressLine = ({
       <ScoreModal
         open={scoreOpen}
         scoreTreasury={scoreTreasury}
+        leftBlock={leftBlock}
         list={list}
         handleClose={() => setScoreOpen(false)}
       />

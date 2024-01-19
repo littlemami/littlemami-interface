@@ -15,7 +15,6 @@ export function getJiao(x, y) {
 }
 
 export function getPointCoor(point, el, bigEl, total = 30000) {
-  console.log(el, bigEl);
   if (el.current && bigEl.current) {
     const elS = el.current.getBoundingClientRect(); // 获取元素位置信息
     const bigElS = bigEl.current.getBoundingClientRect(); // 获取元素位置信息
