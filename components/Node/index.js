@@ -28,7 +28,7 @@ import CodeModal from "./components/CodeModal";
 import ScoreModal from "./components/ScoreModal";
 import copy from "copy-to-clipboard";
 
-const Node = ({ invites, ...props }) => {
+const Node = ({ ...props }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [render, setRender] = useState(0);
@@ -39,49 +39,12 @@ const Node = ({ invites, ...props }) => {
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
 
-  const [phase, setPhase] = useState(1);
-  const [tokenAddress, setTokenAddress] = useState();
-  const [preBuyers, setPreBuyers] = useState();
-  const [tokenPrice, setTokenPrice] = useState();
-  const [totalSell, setTotalSell] = useState();
-
-  const [allowance, setAllowance] = useState();
-  const [tokenBalance, setTokenBalance] = useState();
-  const [decimals, setDecimals] = useState();
-
-  const [data, setData] = useState({});
-  const [mount, setMount] = useState(false);
-  const [nowNumb, setNowNumb] = useState(0);
-
-  const [user, setUser] = useState();
-  const [scoreTreasuryInfo, setScoreTreasuryInfo] = useState();
-  const [code, setCode] = useState();
-  const [score, setScore] = useState();
-  const [marsPrize, setMarsPrize] = useState();
-  const [tokenPrize, setTokenPrize] = useState();
-  const [scoreTreasury, setScoreTreasury] = useState();
-  const [stakePrize, setStakePrize] = useState();
-  const [stakeRate, setStakeRate] = useState();
-  const [leaderPrize, setLeaderPrize] = useState();
-  const [totalPrize, setTotalPrize] = useState();
-  const [inviteOpen, setInviteOpen] = useState();
-  const [leaderPrizeOpen, setLeaderPrizeOpen] = useState();
-  const [phase1, setPhase1] = useState();
-  const [preBuy, setPreBuy] = useState();
-  const [buy, setBuy] = useState();
-  const [price, setPrice] = useState();
-  const [balance, setBalance] = useState();
-  const [showApprove, setShowApprove] = useState();
-  const [totalCost, setTotalCost] = useState();
-  const [tempSell, setTempSell] = useState();
-  const [tempPrice, setTempPrice] = useState();
-
   const { chain } = useNetwork();
 
   const { address } = useAccount();
 
   const nodeContract = contract[chain?.id]?.node;
-  /*---------------------------- */
+
   const { data: read0, refetch: read0refetch } = useContractReads({
     contracts: [
       { ...nodeContract, functionName: "tokenAddress" },
@@ -93,7 +56,15 @@ const Node = ({ invites, ...props }) => {
     scopeKey: render,
   });
 
-  /*---------------------------- */
+  const tokenAddress = read0?.[0]?.result;
+
+  console.log(tokenAddress);
+  const tokenPrice = read0?.[1]?.result;
+  const totalSell = read0?.[2]?.result;
+  const phase = read0?.[3]?.result;
+
+  const preBuyers = read0?.[4]?.result;
+
   const tokenContract = {
     address: tokenAddress,
     abi: erc20ABI,
@@ -116,7 +87,52 @@ const Node = ({ invites, ...props }) => {
     scopeKey: render,
   });
 
-  /*---------------------------- */
+  const allowance = read1?.[0]?.result;
+  const tokenBalance = read1?.[1]?.result;
+  const decimals = read1?.[2]?.result;
+
+  const [data, setData] = useState({});
+  const [mount, setMount] = useState(false);
+  const [nowNumb, setNowNumb] = useState(0);
+  const user = data.user;
+
+  const buy = {
+    buttonName: "Buy Node",
+    disabled: !data.amount || data.amount == 0,
+    data: {
+      ...nodeContract,
+      functionName: "buy",
+      args: [data?.amount],
+    },
+    callback: (confirmed) => {
+      if (confirmed) {
+        setSsucOpen(true);
+        setRender(render + 1);
+      }
+    },
+  };
+
+  const phase1 = user?.phase1;
+
+  const preBuy = {
+    buttonName: "Pre Buy Node",
+    disabled:
+      !data.amount ||
+      data.amount == 0 ||
+      data.amount > phase1?.max - Number(preBuyers),
+    data: {
+      ...nodeContract,
+      functionName: "preBuy",
+      args: [phase1?.signature, phase1?.max, data?.amount],
+    },
+    callback: (confirmed) => {
+      if (confirmed) {
+        setSsucOpen(true);
+        setRender(render + 1);
+      }
+    },
+  };
+
   async function fetchData() {
     const user = await rpc.getUser(address);
     setData({ ...data, user });
@@ -140,118 +156,63 @@ const Node = ({ invites, ...props }) => {
     },
     callback: (confirmed) => {
       if (confirmed) {
-        setRender((pre) => pre + 1);
+        setRender(render + 1);
       }
     },
   };
 
-  useEffect(() => {
-    const tokenPriceIn = read0?.[1]?.result;
-    const decimalsIn = read1?.[2]?.result;
-    const user1 = data.user;
-    const stakePrize1 = user1?.phase3?.stakePrize;
-    const leaderPrize1 = user1?.phase3?.leaderPrize;
-    const phaseIn = user1?.phase1;
-    const priceIn =
-      tokenPriceIn &&
-      (tokenPriceIn / 10n ** BigInt(decimalsIn || 0))?.toString();
-    const tokenBalanceIn = read1?.[1]?.result;
-    const totalSellIn = read0?.[2]?.result;
+  const price =
+    tokenPrice && (tokenPrice / 10n ** BigInt(decimals || 0))?.toString();
 
-    setTokenAddress(read0?.[0]?.result);
-    setTokenPrice(tokenPriceIn);
-    setTotalSell(totalSellIn);
-    setPhase(read0?.[3]?.result);
-    setPreBuyers(read0?.[4]?.result);
+  const balance =
+    tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString();
 
-    setAllowance(read1?.[0]?.result);
-    setTokenBalance(tokenBalanceIn);
-    setDecimals(decimalsIn);
+  let showApprove;
+  if (allowance < Number(data?.amount) * 10 ** Number(decimals)) {
+    showApprove = true;
+  } else {
+    showApprove = false;
+  }
 
-    setUser(user1);
-    setScoreTreasuryInfo(user1?.phase2?.scoreTreasuryInfo);
-    setCode(user1?.phase1?.code);
-    setScore(user1?.phase1?.score);
-    setMarsPrize(user1?.phase1?.marsPrize);
-    setTokenPrize(user1?.phase2?.tokenPrize);
-    setScoreTreasury(user1?.phase2?.scoreTreasury);
-    setStakeRate(user1?.phase3?.stakeRate);
+  let totalCost = 0;
+  let tempSell = Number(totalSell);
+  let tempPrice = Number(price);
 
-    const leaderPrizeLogs = user1?.phase3?.leaderPrizeLogs;
-    const referralPrize = user1?.phase2?.referralPrize;
-    const referralPrizeLogs = user1?.phase2?.referralPrizeLogs;
-
-    setStakePrize(stakePrize1);
-    setLeaderPrize(leaderPrize1);
-    setTotalPrize((Number(stakePrize1) + Number(leaderPrize1)).toFixed(2));
-    setInviteOpen(user1?.inviteOpen);
-    //0 no 1 direct 2 indirect + direct
-    setLeaderPrizeOpen(user1?.leaderPrizeOpen);
-
-    setBuy({
-      buttonName: "Buy Node",
-      disabled: !data.amount || data.amount == 0,
-      data: {
-        ...nodeContract,
-        functionName: "buy",
-        args: [data?.amount],
-      },
-      callback: (confirmed) => {
-        if (confirmed) {
-          reloadPage();
-          setSsucOpen(true);
-          setRender((pre) => pre + 1);
-        }
-      },
-    });
-
-    setPhase1(phaseIn);
-
-    setPreBuy({
-      buttonName: "Pre Buy Node",
-      disabled:
-        !data.amount ||
-        data.amount == 0 ||
-        data.amount > phaseIn?.max - Number(preBuyers),
-      data: {
-        ...nodeContract,
-        functionName: "preBuy",
-        args: [phaseIn?.signature, phaseIn?.max, data?.amount],
-      },
-      callback: (confirmed) => {
-        if (confirmed) {
-          reloadPage();
-          setSsucOpen(true);
-          setRender((pre) => pre + 1);
-        }
-      },
-    });
-
-    setPrice(priceIn);
-
-    setBalance(
-      tokenBalanceIn &&
-        (tokenBalanceIn / 10n ** BigInt(decimalsIn || 0))?.toString()
-    );
-    setShowApprove(allowance < Number(data?.amount) * 10 ** Number(decimalsIn));
-
-    let totalCostIn = 0;
-    let tempSellIn = Number(totalSellIn);
-    let tempPriceIn = Number(priceIn);
-
-    for (let i = 0; i < Number(data?.amount); i++) {
-      totalCostIn += tempPriceIn;
-      tempSellIn += 1;
-      if (tempSellIn % 50 == 0) {
-        tempPriceIn = Math.ceil(tempPriceIn * 1.005);
-      }
+  for (let i = 0; i < Number(data?.amount); i++) {
+    totalCost += tempPrice;
+    tempSell += 1;
+    if (tempSell % 50 == 0) {
+      tempPrice = Math.ceil(tempPrice * 1.005);
     }
+  }
 
-    setTotalCost(totalCostIn);
-    setTempSell(tempSellIn);
-    setTempPrice(tempPriceIn);
-  }, [read0, read1, data]);
+  console.log(user);
+  const invites = props?.invites;
 
+  const scoreTreasuryInfo = user?.phase2?.scoreTreasuryInfo;
+
+  const code = user?.phase1?.code;
+
+  const score = user?.phase1?.score;
+
+  const marsPrize = user?.phase1?.marsPrize;
+
+  const tokenPrize = user?.phase2?.tokenPrize;
+
+  const scoreTreasury = user?.phase2?.scoreTreasury;
+
+  const stakePrize = user?.phase3?.stakePrize;
+
+  const stakeRate = user?.phase3?.stakeRate;
+
+  const leaderPrize = user?.phase3?.leaderPrize;
+
+  const totalPrize = +stakePrize + +leaderPrize;
+
+  const inviteOpen = user?.inviteOpen;
+
+  //0 no 1 direct 2 indirect + direct
+  const leaderPrizeOpen = user?.leaderPrizeOpen;
   return mount ? (
     <>
       {contextHolder}
@@ -270,7 +231,7 @@ const Node = ({ invites, ...props }) => {
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
                 <div
-                  onClick={() => setShowSelect((pre) => !pre)}
+                  // onClick={() => setShowSelect((pre) => !pre)}
                   className={styles["node-goods"]}
                 >
                   <img src="/images/goods.png" alt="" />
@@ -325,7 +286,7 @@ const Node = ({ invites, ...props }) => {
                 </p>
               )}
 
-              {showSelect && (
+              {/* {showSelect && (
                 <Select
                   value={phase}
                   style={{ width: 120, marginTop: 10 }}
@@ -336,7 +297,7 @@ const Node = ({ invites, ...props }) => {
                     { value: 3, label: "phase3" },
                   ]}
                 />
-              )}
+              )} */}
             </div>
           </div>
           <div className={styles["node-main-info"]}>
