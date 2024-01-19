@@ -201,7 +201,7 @@ const Node = ({ ...props }) => {
 
   const tokenPrize = user?.phase2?.tokenPrize;
 
-  const scoreTreasury = user?.phase2?.scoreTreasury;
+  const scoreTreasury = scoreTreasuryInfo?.scoreTreasury;
 
   const referralPrize = user?.phase2?.referralPrize;
 
@@ -377,7 +377,7 @@ const Node = ({ ...props }) => {
                   <>
                     <li>
                       <div>
-                        <p className={styles["tit"]}>Token Prize</p>
+                        <p className={styles["tit"]}>Milestone Rewards</p>
                         <em>
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
@@ -389,6 +389,12 @@ const Node = ({ ...props }) => {
                         </em>
                       </div>
                       <span>{tokenPrize ?? "--"} U</span>
+                    </li>
+                    <li>
+                      <div>
+                        <p className={styles["tit"]}>Referral Rewards</p>
+                      </div>
+                      <span>{referralPrize ?? "--"} U</span>
                     </li>
                   </>
                 )}
@@ -501,14 +507,17 @@ const Node = ({ ...props }) => {
           total={totalSell?.toString() || 0}
           phase={phase}
           code={code}
+          marsPrize={marsPrize}
           scoreTreasury={scoreTreasury}
           list={scoreTreasuryInfo?.last100}
           leftBlock={scoreTreasuryInfo?.leftBlock}
         />
       </div>
       <InviteModal
+        phase={phase}
         open={open}
         invites={invites}
+        referralPrizeLogs={referralPrizeLogs}
         handleClose={() => setOpen(false)}
       />
       <SuccessfulModal
@@ -520,6 +529,7 @@ const Node = ({ ...props }) => {
       <CodeModal
         code={code}
         open={codeOpen}
+        marsPrize={marsPrize}
         handleClose={() => setCodeOpen(false)}
       />
       <ScoreModal

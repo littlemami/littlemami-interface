@@ -1,5 +1,32 @@
 import { Modal, message, Popconfirm } from "antd";
-const InviteModal = ({ open, handleClose, invites }) => {
+import { hiddenAddress } from "@/utils";
+import { useEffect, useState } from "react";
+const InviteModal = ({
+  open,
+  handleClose,
+  phase,
+  referralPrizeLogs,
+  invites,
+}) => {
+  const [tabActive, setTabActive] = useState(1);
+  const [list, setList] = useState(invites);
+
+  // invites = new Array(3).fill({
+  //   address: "0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124",
+  //   boughtNode: "2",
+  //   referralPrize: "2",
+  // });
+  const tabs = [
+    { key: 1, title: "Direct Friends" },
+    { key: 2, title: "Indirect Assistance", disabled: invites.length < 3 },
+  ];
+  useEffect(() => {
+    setList(tabActive === 1 ? invites : referralPrizeLogs);
+  }, [tabActive]);
+
+  useEffect(() => {
+    setTabActive(1);
+  }, [open]);
   return (
     <Modal
       centered
@@ -9,7 +36,7 @@ const InviteModal = ({ open, handleClose, invites }) => {
       footer={null}
       width={900}
       wrapClassName="cur-modal-box"
-      classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
+      classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
       <h4>Invite Record</h4>
 
@@ -38,25 +65,63 @@ const InviteModal = ({ open, handleClose, invites }) => {
         </li>
       </ul>
       <div className="new-list-box">
+        {phase != 1 && (
+          <div className="invite-tab">
+            {tabs.map((item) => (
+              <span
+                onClick={() => {
+                  if (item?.disabled) return;
+
+                  setTabActive(item.key);
+                }}
+                key={item.key}
+                className={`${item.key === tabActive ? "active" : ""} ${
+                  item?.disabled ? "disabled" : ""
+                }`}
+              >
+                {item.title}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className="item first">
           <strong>Address</strong>
           <p>Node Amount</p>
+          <p>Referral Rewards</p>
         </div>
         <div className="con">
-          {invites?.map((invite, index) => {
+          {list?.map((invite, index) => {
             return (
               <div className="item" key={index}>
-                <strong>{invite?.address || "--"}</strong>
+                <strong>{hiddenAddress(invite?.address) || "--"}</strong>
                 <p> {invite?.boughtNode || "--"}</p>
+                <p> {invite?.referralPrize || "--"} LMC</p>
               </div>
             );
           })}
+          {list.length == 0 && (
+            <p style={{ width: "100%" }} className="no-data">
+              No Record
+            </p>
+          )}{" "}
+          {invites.length < 3 && phase != 1 ? (
+            <div className="invite-box">
+              <div className="invite-less">
+                <p>
+                  <strong>{3 - invites.length}</strong> more directly referred
+                  node friends
+                  <br /> to get indirect assistance
+                </p>
+                <div className={`s-item last-${3 - invites.length}`}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </div>
-        {invites.length == 0 && (
-          <p style={{ width: "100%" }} className="no-data">
-            No data
-          </p>
-        )}
       </div>
     </Modal>
   );

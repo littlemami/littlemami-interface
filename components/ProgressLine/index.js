@@ -10,7 +10,7 @@ const ProgressLine = ({
   phase,
   code,
   list,
-
+  marsPrize,
   leftBlock,
   scoreTreasury,
   ...props
@@ -162,6 +162,7 @@ const ProgressLine = ({
       <CodeModal
         open={codeOpen}
         code={code}
+        marsPrize={marsPrize}
         handleClose={() => setCodeOpen(false)}
       />
       <ScoreModal
