@@ -42,7 +42,7 @@ const HammerModal = ({
         </div>
       </div>
       <button className={`price-btn small`} onClick={(e) => {}}>
-        Chaim Prize
+        Claim Prize
       </button>
     </Modal>
   );
