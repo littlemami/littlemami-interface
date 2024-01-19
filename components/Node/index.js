@@ -177,9 +177,13 @@ const Node = ({ invites, ...props }) => {
     setScoreTreasury(user1?.phase2?.scoreTreasury);
     setStakeRate(user1?.phase3?.stakeRate);
 
+    const leaderPrizeLogs = user1?.phase3?.leaderPrizeLogs;
+    const referralPrize = user1?.phase2?.referralPrize;
+    const referralPrizeLogs = user1?.phase2?.referralPrizeLogs;
+
     setStakePrize(stakePrize1);
     setLeaderPrize(leaderPrize1);
-    setTotalPrize(+stakePrize1 + +leaderPrize1);
+    setTotalPrize((Number(stakePrize1) + Number(leaderPrize1)).toFixed(2));
     setInviteOpen(user1?.inviteOpen);
     //0 no 1 direct 2 indirect + direct
     setLeaderPrizeOpen(user1?.leaderPrizeOpen);
