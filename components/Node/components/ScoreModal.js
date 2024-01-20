@@ -25,7 +25,8 @@ const CodeModal = ({ open, handleClose, leftBlock, list, scoreTreasury }) => {
         </li>
       </ul>
       <h4 className="mid">
-        <span>Score Treasure: {scoreTreasury || "--"} U</span>
+
+        <span>Score Treasure: {scoreTreasury || "--"} Points</span>
         <span>Left Block: {leftBlock || "--"}</span>
       </h4>
       <div className="new-list-box">
@@ -34,7 +35,7 @@ const CodeModal = ({ open, handleClose, leftBlock, list, scoreTreasury }) => {
             return (
               <div className="item" key={index}>
                 <strong>{invite?.address || "--"}</strong>
-                <p> {invite?.shareScore || "--"} U</p>
+                <p> {invite?.shareScore || "--"} Points</p>
               </div>
             );
           })}

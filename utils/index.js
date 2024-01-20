@@ -32,3 +32,7 @@ export function getPointCoor(point, el, bigEl, total = 30000) {
     return { left: 0, top: 0 };
   }
 }
+
+export function hiddenAddress(addr) {
+  return addr ? `${addr.slice(0, 6)}....${addr.slice(-4)}` : "";
+}

@@ -1,5 +1,5 @@
 import { Modal, message, Popconfirm } from "antd";
-const CodeModal = ({ open, code, handleClose }) => {
+const CodeModal = ({ open, code, marsPrize, handleClose }) => {
   return (
     <Modal
       centered
@@ -31,7 +31,7 @@ const CodeModal = ({ open, code, handleClose }) => {
           <img src="/images/node_banner.png" alt="" />
           <div>
             <p>My Code: {code}</p>
-            <p>Earn Mars: 2</p>
+            <p>Earn Mars: {marsPrize}</p>
           </div>
         </div>
       </div>
