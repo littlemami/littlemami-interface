@@ -25,6 +25,7 @@ const CodeModal = ({ open, handleClose, leftBlock, list, scoreTreasury }) => {
         </li>
       </ul>
       <h4 className="mid">
+
         <span>Score Treasure: {scoreTreasury || "--"} Points</span>
         <span>Left Block: {leftBlock || "--"}</span>
       </h4>

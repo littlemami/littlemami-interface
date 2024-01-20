@@ -467,6 +467,7 @@ const Node = ({ ...props }) => {
             </div>
 
             {phase != 1 && (
+
               <button
                 className={`price-btn small ${styles["block-btn"]}`}
                 disabled
