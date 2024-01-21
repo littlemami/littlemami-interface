@@ -519,7 +519,7 @@ const Node = ({ ...props }) => {
         phase={phase}
         open={open}
         invites={invites}
-        referralPrizeLogs={referralPrizeLogs}
+        referralPrizeLogs={phase2ReferralLogs}
         handleClose={() => setOpen(false)}
       />
       <SuccessfulModal
