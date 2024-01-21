@@ -213,6 +213,8 @@ const Node = ({ ...props }) => {
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
+  const boughtNodeLog = user?.boughtNodeLog;
+
   const leaderPrizeLogs = user?.phase3?.leaderPrizeLogs;
 
   const totalPrize = (Number(stakePrize) + Number(leaderPrize)).toFixed(2);
@@ -467,7 +469,6 @@ const Node = ({ ...props }) => {
             </div>
 
             {phase != 1 && (
-
               <button
                 className={`price-btn small ${styles["block-btn"]}`}
                 disabled
