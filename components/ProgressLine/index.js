@@ -95,7 +95,7 @@ const ProgressLine = ({
                   <span></span>
                   <div className={styles.in}>
                     Phase 2 Finish
-                    <p>Score Treasure: {scoreTreasury ?? "--"}</p>
+                    <p>Points Treasury: {scoreTreasury ?? "--"}</p>
                   </div>
                 </div>
               </>

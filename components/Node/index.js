@@ -14,6 +14,7 @@ import styles from "./index.module.scss";
 import { Modal, message, Popconfirm, Select } from "antd";
 import Goods from "@/public/images/svg/goods.svg";
 import Time from "@/public/images/svg/time.svg";
+import Subtract from "@/public/images/svg/subtract.svg";
 import Link from "@/public/images/svg/link.svg";
 import ArrowRight from "@/public/images/svg/arrow_right.svg";
 import Chat from "@/public/images/svg/chat.svg";
@@ -38,6 +39,7 @@ const Node = ({ ...props }) => {
   const [codeOpen, setCodeOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
+  const [isAirdrop, setIsAirdrop] = useState(false);
 
   const { chain } = useNetwork();
 
@@ -61,7 +63,7 @@ const Node = ({ ...props }) => {
   console.log(tokenAddress);
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
-  const phase = read0?.[3]?.result;
+  const phase = 3 || read0?.[3]?.result;
 
   const preBuyers = read0?.[4]?.result;
 
@@ -335,27 +337,7 @@ const Node = ({ ...props }) => {
                     )}
                   </span>
                 </li>
-                <li
-                  className="cursor-pointer"
-                  onClick={() => setCodeOpen(true)}
-                >
-                  <div>
-                    <p className={styles["tit"]}>Code Amount</p>
-                    <em>
-                      <div className={styles["stake-pop"]}>
-                        <div className={styles["pop-arrow"]}></div>
-                        <p>
-                          Both self-purchases and direct referrals purchase will
-                          receive 1 lottery code. Referring friends for
-                          purchases can earn up to 3 lottery codes. These
-                          lottery codes will be used for drawing MARS NFT from
-                          the prizes pool.
-                        </p>
-                      </div>
-                    </em>
-                  </div>
-                  <span>{code ?? "--"}</span>
-                </li>
+
                 {phase != 3 && (
                   <li>
                     <div>
@@ -408,7 +390,7 @@ const Node = ({ ...props }) => {
                         <em>
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
-                            <p>Farming rewards and Airdrop Boost earnings</p>
+                            <p>The total of Stake Reward and Leader Rewards</p>
                           </div>
                         </em>
                       </div>
@@ -421,9 +403,8 @@ const Node = ({ ...props }) => {
                           <div className={styles["stake-pop"]}>
                             <div className={styles["pop-arrow"]}></div>
                             <p>
-                              Airdrop Boost earnings.For every node that the
-                              referral friends have , enjoy a 5% share of their
-                              airdrop earnings
+                              The total of directly invite rewards and
+                              indirectly boost rewards
                             </p>
                           </div>
                         </em>
@@ -445,37 +426,77 @@ const Node = ({ ...props }) => {
                   </>
                 )}
               </ul>
-
-              {phase != 1 && (
-                <div
-                  className={`price-btn ${styles["price"]}`}
-                  onClick={() => setScoreOpen(true)}
-                >
-                  <div>
-                    <p className={styles["tit"]}>Score Treasure</p>
-                    <em>
-                      <div className={styles["stake-pop"]}>
-                        <div className={styles["pop-arrow"]}></div>
-                        <p>
-                          Each node&apos;s creation will automatically
-                          contribute 5 points to the Points Treasury.
-                        </p>
-                      </div>
-                    </em>
-                  </div>
-                  <span>{scoreTreasury || "--"}</span>
-                </div>
-              )}
             </div>
 
+            <div
+              className={`price-btn ${styles["price"]}`}
+              onClick={() => setScoreOpen(true)}
+            >
+              <div>
+                <p className={styles["tit"]}>Code Amount</p>
+                <em>
+                  <div className={styles["stake-pop"]}>
+                    <div className={styles["pop-arrow"]}></div>
+                    <p>
+                      Both self-purchases and direct referrals purchase will
+                      receive 1 lottery code. Referring friends for purchases
+                      can earn up to 3 lottery codes. These lottery codes will
+                      be used for drawing MARS NFT from the prizes pool.
+                    </p>
+                  </div>
+                </em>
+              </div>
+              <span>{code || "--"}</span>
+            </div>
             {phase != 1 && (
-              <button
-                className={`price-btn small ${styles["block-btn"]}`}
-                disabled
+              <div
+                className={`price-btn ${styles["price"]}`}
+                onClick={() => setScoreOpen(true)}
               >
-                Claim
-              </button>
+                <div>
+                  <p className={styles["tit"]}>Points Treasury</p>
+                  <em>
+                    <div className={styles["stake-pop"]}>
+                      <div className={styles["pop-arrow"]}></div>
+                      <p>
+                        With the birth of each node, 5 points will automatically
+                        accumulate in the Points Treasury.
+                      </p>
+                    </div>
+                  </em>
+                </div>
+                <span>{scoreTreasury || "--"}</span>
+              </div>
             )}
+            <button
+              onClick={() => {
+                setOpen(true);
+                setIsAirdrop(true);
+              }}
+              className={`price-btn small ${styles["block-btn"]} ${styles["airdrop-btn"]}`}
+            >
+              <div
+                style={{
+                  width: `${
+                    invites.length >= 3 ? 100 : invites.length * 33.333
+                  }%`,
+                  borderRadius:
+                    invites.length >= 3 ? ".9375rem" : ".9375rem 0 0 .9375rem",
+                }}
+                className={styles.bg}
+              ></div>
+              <em>
+                <Subtract />
+                <div className={styles["stake-pop"]}>
+                  <div className={styles["pop-arrow"]}></div>
+                  <p>
+                    {3 - invites.length} more directly friends,activate indirect
+                    Airdrop Boost earnings.
+                  </p>
+                </div>
+              </em>
+              Airdrop Boost
+            </button>
 
             <button
               disabled={!user?.inviteOpen}
@@ -493,14 +514,25 @@ const Node = ({ ...props }) => {
               <Link width={"1.25rem"} />
               Copy Invite Link
             </button>
-
-            <button
-              onClick={setOpen}
-              className={`price-btn small ${styles["block-btn"]}`}
-            >
-              <Time width={"1.125rem"} />
-              Your Invitation
-            </button>
+            <div className={styles["btns-two"]}>
+              <button
+                onClick={() => {
+                  setOpen(true);
+                  setIsAirdrop(false);
+                }}
+                className={`price-btn small ${styles["block-btn"]}`}
+              >
+                Record
+              </button>
+              {phase != 1 && (
+                <button
+                  className={`price-btn small ${styles["block-btn"]}`}
+                  disabled
+                >
+                  Claim
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -519,12 +551,15 @@ const Node = ({ ...props }) => {
         phase={phase}
         open={open}
         invites={invites}
+        boughtNodeLogs={boughtNodeLogs}
+        leaderPrizeLogs={leaderPrizeLogs}
         referralPrizeLogs={phase2ReferralLogs}
         handleClose={() => setOpen(false)}
+        isAirdrop={isAirdrop}
       />
       <SuccessfulModal
         id={user?.id}
-        num={nowNumb}
+        num={user?.boughtNode}
         open={sucOpen}
         handleClose={() => setSsucOpen(false)}
       />

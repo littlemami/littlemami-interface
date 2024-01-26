@@ -29,7 +29,7 @@ const SuccessfulModal = ({ num, id, open, handleClose }) => {
         className={`price-btn small`}
         onClick={(e) => {
           const text = encodeURIComponent(
-            `I have officially be a #MarsNode, an innovative approach for users to engage with the blockchain by leveraging social relationships.  I will receive mining rewards and actively contribute to earn more LMC and Mars airdrops.  Let’s faming ${
+            `I have officially become the @MarsProtocolFi #MarsNode, and I will receive staking rewards.Let's farming to earn more #LMC and #MARS NFT airdrops.${
               window.location.href + id
             }`
           );
