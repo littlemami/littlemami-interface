@@ -205,15 +205,17 @@ const Node = ({ ...props }) => {
 
   const referralPrize = user?.phase2?.referralPrize;
 
-  const referralPrizeLogs = user?.phase2?.referralPrizeLogs;
-
   const stakePrize = user?.phase3?.stakePrize;
 
   const stakeRate = user?.phase3?.stakeRate;
 
   const leaderPrize = user?.phase3?.leaderPrize;
 
-  const leaderPrizeLogs = user?.phase3?.leaderPrizeLogs;
+  const log = user?.log;
+
+  const boughtNodeLogs = log?.boughtNodeLogs;
+  const leaderPrizeLogs = log?.leaderPrizeLogs;
+  const phase2ReferralLogs = log?.phase2ReferralLogs;
 
   const totalPrize = (Number(stakePrize) + Number(leaderPrize)).toFixed(2);
 
@@ -467,7 +469,6 @@ const Node = ({ ...props }) => {
             </div>
 
             {phase != 1 && (
-
               <button
                 className={`price-btn small ${styles["block-btn"]}`}
                 disabled
@@ -518,7 +519,7 @@ const Node = ({ ...props }) => {
         phase={phase}
         open={open}
         invites={invites}
-        referralPrizeLogs={referralPrizeLogs}
+        referralPrizeLogs={phase2ReferralLogs}
         handleClose={() => setOpen(false)}
       />
       <SuccessfulModal
