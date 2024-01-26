@@ -66,9 +66,9 @@ const InviteModal = ({
               {boughtNodeLogs?.map((invite, index) => {
                 return (
                   <div className="item" key={index}>
-                    <strong>{invite?.block || "--"}</strong>
-                    <p> {invite?.boughtNode || "--"}</p>
-                    <p> {invite?.referralPrize || "--"} U</p>
+                    <strong>{invite?.blockNumber || "--"}</strong>
+                    <p> {invite?.num || "--"}</p>
+                    <p> {invite?.totalTokenNeed || "--"} U</p>
                   </div>
                 );
               })}
@@ -85,15 +85,15 @@ const InviteModal = ({
             <div className="item first">
               <strong>Address</strong>
               <p>Node Amount</p>
-              <p>Referral Rewards</p>
+              {/* <p>Referral Rewards</p> */}
             </div>
             <div className="con">
               {referralPrizeLogs?.map((invite, index) => {
                 return (
                   <div className="item" key={index}>
-                    <strong>{hiddenAddress(invite?.address) || "--"}</strong>
-                    <p> {invite?.boughtNode || "--"}</p>
-                    <p> {invite?.referralPrize || "--"} U</p>
+                    <strong>{hiddenAddress(invite?.referral) || "--"}</strong>
+                    <p> {invite?.amount || "--"}</p>
+                    {/* <p> {invite?.blockNumber || "--"} U</p> */}
                   </div>
                 );
               })}

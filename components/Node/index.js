@@ -44,7 +44,6 @@ const Node = ({ ...props }) => {
   const { chain } = useNetwork();
 
   const { address } = useAccount();
-
   const nodeContract = contract[chain?.id]?.node;
 
   const { data: read0, refetch: read0refetch } = useContractReads({
