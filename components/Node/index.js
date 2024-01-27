@@ -62,7 +62,7 @@ const Node = ({ ...props }) => {
   console.log(tokenAddress);
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
-  const phase = 3 || read0?.[3]?.result;
+  const phase = read0?.[3]?.result;
 
   const preBuyers = read0?.[4]?.result;
 
