@@ -118,7 +118,7 @@ const InviteModal = ({
                   <div className="item" key={index}>
                     <strong>{hiddenAddress(invite?.address) || "--"}</strong>
                     {invites.length >= 3 && <p> {invite?.type || "--"}</p>}
-                    <p> {invite?.amount || "--"} LMC</p>
+                    <p> {(invite?.amount/1e18).toFixed(2) || "--"} LMC</p>
                   </div>
                 );
               })}
