@@ -420,8 +420,7 @@ body {
 
     &.inivte .new-list-box {
       .item {
-        justify-content: space-between;
-
+        justify-content: space-around;
       }
 
 
@@ -714,14 +713,14 @@ body {
   .ant-collapse-header {
     padding: 1.25rem 2.5rem;
     background: linear-gradient(90deg, rgba(205, 198, 221, 0.03) 0.02%, rgba(151, 125, 251, 0.00) 101.41%);
-    backdrop-filter: blur(25.549999237060547px);
+    // backdrop-filter: blur(25.549999237060547px);
   }
 
   .ant-collapse-content-box {
     padding: 2.5rem 2.5rem;
     position: relative;
     background: linear-gradient(91deg, rgba(152, 102, 215, 0.07) 19.69%, rgba(16, 36, 34, 0.04) 101.98%);
-    backdrop-filter: blur(25.549999237060547px);
+    // backdrop-filter: blur(25.549999237060547px);
     color: #9F8FC1;
 
     overflow: hidden;
