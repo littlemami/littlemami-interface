@@ -429,7 +429,7 @@ const Node = ({ ...props }) => {
 
             <div
               className={`price-btn ${styles["price"]}`}
-              onClick={() => setScoreOpen(true)}
+              onClick={() => setCodeOpen(true)}
             >
               <div>
                 <p className={styles["tit"]}>Code Amount</p>
