@@ -72,6 +72,8 @@
   .block-btn {
     width: 100%;
     margin-top: 1.5625rem;
+
+
   }
 
   .btns-two {
@@ -418,5 +420,14 @@
       margin-top: 3.75rem;
       flex: auto;
     }
+  }
+}
+
+.hover-div:hover {
+  position: relative;
+  z-index: 3;
+
+  .stake-pop {
+    display: block;
   }
 }

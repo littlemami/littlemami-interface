@@ -496,23 +496,30 @@ const Node = ({ ...props }) => {
               </em>
               Airdrop Boost
             </button>
+            <div className={styles["hover-div"]}>
+              <button
+                disabled={!user?.inviteOpen}
+                className={`price-btn small ${styles["block-btn"]}`}
+                onClick={(e) => {
+                  copy(window.location.href + user?.id);
 
-            <button
-              disabled={!user?.inviteOpen}
-              className={`price-btn small ${styles["block-btn"]}`}
-              onClick={(e) => {
-                copy(window.location.href + user?.id);
-
-                messageApi.open({
-                  type: "success",
-                  content: "Copied",
-                });
-                setData({ ...data, copy: true });
-              }}
-            >
-              <Link width={"1.25rem"} />
-              Copy Invite Link
-            </button>
+                  messageApi.open({
+                    type: "success",
+                    content: "Copied",
+                  });
+                  setData({ ...data, copy: true });
+                }}
+              >
+                <Link width={"1.25rem"} />
+                Copy Invite Link
+              </button>
+              {!user?.inviteOpen && (
+                <div className={styles["stake-pop"]}>
+                  <div className={styles["pop-arrow"]}></div>
+                  <p>Invite a friend to buy a node,activate the invite link</p>
+                </div>
+              )}
+            </div>
             <div className={styles["btns-two"]}>
               <button
                 onClick={() => {
