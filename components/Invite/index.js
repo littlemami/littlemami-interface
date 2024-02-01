@@ -25,6 +25,7 @@ const Invite = (props) => {
           pathname: "/",
           query: {},
         });
+        window.location.reload();
       }
     },
   };
