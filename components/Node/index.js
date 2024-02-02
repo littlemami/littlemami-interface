@@ -584,7 +584,7 @@ const Node = ({ ...props }) => {
       />
       <SuccessfulModal
         id={user?.id}
-        num={user?.boughtNode}
+        num={data?.amount}
         open={sucOpen}
         handleClose={() => setSsucOpen(false)}
       />
