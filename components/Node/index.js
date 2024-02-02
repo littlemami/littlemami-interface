@@ -466,7 +466,7 @@ const Node = ({ ...props }) => {
               </div>
               <span>{code || "--"}</span>
             </div>
-            {phase != 1 && (
+            {
               <div
                 className={`price-btn ${styles["price"]}`}
                 onClick={() => setScoreOpen(true)}
@@ -485,7 +485,7 @@ const Node = ({ ...props }) => {
                 </div>
                 <span>{scoreTreasury || "--"}</span>
               </div>
-            )}
+            }
             <button
               onClick={() => {
                 setOpen(true);
