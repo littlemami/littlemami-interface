@@ -12,16 +12,9 @@ import ProgressLine from "@/components/ProgressLine";
 import rpc from "@/components/Rpc";
 import styles from "./index.module.scss";
 import { Modal, message, Popconfirm, Select } from "antd";
-import Goods from "@/public/images/svg/goods.svg";
-import Time from "@/public/images/svg/time.svg";
 import Subtract from "@/public/images/svg/subtract.svg";
 import Link from "@/public/images/svg/link.svg";
-import ArrowRight from "@/public/images/svg/arrow_right.svg";
-import Chat from "@/public/images/svg/chat.svg";
-import Twitter from "@/public/images/svg/twitter.svg";
-import Vector from "@/public/images/svg/vector.svg";
 import Hammer from "@/public/images/svg/hammer.svg";
-import Tips from "@/public/images/svg/tips.svg";
 import InviteModal from "./components/InviteModal";
 import SuccessfulModal from "./components/SuccessfulModal";
 import HammerModal from "./components/HammerModal";
@@ -40,6 +33,7 @@ const Node = ({ ...props }) => {
   const [scoreOpen, setScoreOpen] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
   const [isAirdrop, setIsAirdrop] = useState(false);
+  const [leftTime, setLeftTime] = useState({});
 
   const { chain } = useNetwork();
 
@@ -59,12 +53,13 @@ const Node = ({ ...props }) => {
 
   const tokenAddress = read0?.[0]?.result;
 
-  console.log(tokenAddress);
   const tokenPrice = read0?.[1]?.result;
   const totalSell = read0?.[2]?.result;
   const phase = read0?.[3]?.result;
 
   const preBuyers = read0?.[4]?.result;
+
+  console.log(leftTime);
 
   const tokenContract = {
     address: tokenAddress,
@@ -96,6 +91,11 @@ const Node = ({ ...props }) => {
   const [mount, setMount] = useState(false);
   const [nowNumb, setNowNumb] = useState(0);
   const user = data.user;
+
+  const comming = {
+    buttonName: "Coming Soon",
+    disabled: true,
+  };
 
   const buy = {
     buttonName: "Buy Node",
@@ -147,6 +147,15 @@ const Node = ({ ...props }) => {
     read1refetch();
   };
   useEffect(() => {
+    setInterval(() => {
+      const diff =
+        new Date("2024-02-04 00:00:00 GMT").getTime() - new Date().getTime();
+      const hour = Math.floor(diff / 1000 / 60 / 60);
+      const minute = Math.floor((diff / 1000 / 60) % 60);
+      const second = Math.floor((diff / 1000) % 60);
+      setLeftTime({ hour, minute, second });
+    }, 1000);
+
     fetchData();
   }, []);
 
@@ -189,7 +198,6 @@ const Node = ({ ...props }) => {
     }
   }
 
-  console.log(user);
   const invites = props?.invites;
 
   const scoreTreasuryInfo = user?.phase2?.scoreTreasuryInfo;
@@ -221,6 +229,8 @@ const Node = ({ ...props }) => {
   const totalPrize = (Number(stakePrize) + Number(leaderPrize)).toFixed(2);
 
   const inviteOpen = user?.inviteOpen;
+
+  const openPreBuy = phase == 1;
 
   //0 no 1 direct 2 indirect + direct
   const leaderPrizeOpen = user?.leaderPrizeOpen;
@@ -259,7 +269,7 @@ const Node = ({ ...props }) => {
               <InputNumber
                 min={0}
                 max={
-                  phase == 1
+                  openPreBuy
                     ? BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
                     : null
                 }
@@ -283,12 +293,21 @@ const Node = ({ ...props }) => {
                   <WriteButton {...approve} />
                 ) : (
                   <>
-                    {phase == 1 && <WriteButton {...preBuy} />}
-                    {phase != 1 && <WriteButton {...buy} />}
+                    {phase == 0 && <WriteButton {...comming} />}
+                    {openPreBuy && <WriteButton {...preBuy} />}
+                    {(phase == 2 || phase == 3) && <WriteButton {...buy} />}
                   </>
                 )}
               </div>
-              {phase == 1 && (
+              {phase == 0 && (
+                <span className="countdown font-mono text-2xl mt-2 text-error">
+                  <span style={{ "--value": leftTime?.hour }}></span>h
+                  <span style={{ "--value": leftTime?.minute }}></span>m
+                  <span style={{ "--value": leftTime?.second }}></span>s
+                </span>
+              )}
+
+              {openPreBuy && (
                 <p className={styles["max-info"]}>
                   Maximum Purchase:{" "}
                   {(
@@ -371,13 +390,13 @@ const Node = ({ ...props }) => {
                           </div>
                         </em>
                       </div>
-                      <span>{tokenPrize ?? "--"} U</span>
+                      <span>{tokenPrize ?? "--"} USDT</span>
                     </li>
                     <li>
                       <div>
                         <p className={styles["tit"]}>Referral Rewards</p>
                       </div>
-                      <span>{referralPrize ?? "--"} U</span>
+                      <span>{referralPrize ?? "--"} USDT</span>
                     </li>
                   </>
                 )}
@@ -447,7 +466,7 @@ const Node = ({ ...props }) => {
               </div>
               <span>{code || "--"}</span>
             </div>
-            {phase != 1 && (
+            {
               <div
                 className={`price-btn ${styles["price"]}`}
                 onClick={() => setScoreOpen(true)}
@@ -466,7 +485,7 @@ const Node = ({ ...props }) => {
                 </div>
                 <span>{scoreTreasury || "--"}</span>
               </div>
-            )}
+            }
             <button
               onClick={() => {
                 setOpen(true);
@@ -565,7 +584,7 @@ const Node = ({ ...props }) => {
       />
       <SuccessfulModal
         id={user?.id}
-        num={user?.boughtNode}
+        num={data?.amount}
         open={sucOpen}
         handleClose={() => setSsucOpen(false)}
       />
