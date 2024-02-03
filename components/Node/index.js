@@ -59,8 +59,6 @@ const Node = ({ ...props }) => {
 
   const preBuyers = read0?.[4]?.result;
 
-  console.log(leftTime);
-
   const tokenContract = {
     address: tokenAddress,
     abi: erc20ABI,
@@ -91,7 +89,6 @@ const Node = ({ ...props }) => {
   const [mount, setMount] = useState(false);
   const [nowNumb, setNowNumb] = useState(0);
   const user = data.user;
-
   const comming = {
     buttonName: "Coming Soon",
     disabled: true,
@@ -116,12 +113,11 @@ const Node = ({ ...props }) => {
 
   const phase1 = user?.phase1;
 
+  const maxBuyNub =
+    phase1?.max - Number(preBuyers) < 0 ? 0 : phase1?.max - Number(preBuyers);
   const preBuy = {
     buttonName: "Pre Buy Node",
-    disabled:
-      !data.amount ||
-      data.amount == 0 ||
-      data.amount > phase1?.max - Number(preBuyers),
+    disabled: !data.amount || data.amount == 0 || data.amount > maxBuyNub,
     data: {
       ...nodeContract,
       functionName: "preBuy",
@@ -268,11 +264,7 @@ const Node = ({ ...props }) => {
             <div className={styles["node-numb"]}>
               <InputNumber
                 min={0}
-                max={
-                  openPreBuy
-                    ? BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
-                    : null
-                }
+                max={openPreBuy ? maxBuyNub : null}
                 value={nowNumb}
                 onChange={(value) => {
                   if (value > 30000) {
@@ -309,10 +301,7 @@ const Node = ({ ...props }) => {
 
               {openPreBuy && (
                 <p className={styles["max-info"]}>
-                  Maximum Purchase:{" "}
-                  {(
-                    BigInt(phase1?.max || 0) - BigInt(preBuyers || 0)
-                  ).toString()}
+                  Maximum Purchase: {maxBuyNub.toString()}
                 </p>
               )}
 
@@ -584,7 +573,7 @@ const Node = ({ ...props }) => {
       />
       <SuccessfulModal
         id={user?.id}
-        num={data?.amount}
+        num={nowNumb}
         open={sucOpen}
         handleClose={() => setSsucOpen(false)}
       />

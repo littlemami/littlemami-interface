@@ -11,9 +11,10 @@ const InviteModal = ({
   invites,
   isAirdrop,
 }) => {
-  const [tabActive, setTabActive] = useState(1);
+  const [tabActive, setTabActive] = useState(4);
 
   const tabs = [
+    { key: 4, title: "Invitation History" },
     { key: 1, title: "Purchase History" },
     { key: 2, title: "Referral Commissions" },
   ];
@@ -22,7 +23,7 @@ const InviteModal = ({
   }
 
   useEffect(() => {
-    setTabActive(isAirdrop ? 3 : 1);
+    setTabActive(isAirdrop ? 3 : 4);
   }, [open]);
   return (
     <Modal
@@ -118,7 +119,7 @@ const InviteModal = ({
                   <div className="item" key={index}>
                     <strong>{hiddenAddress(invite?.address) || "--"}</strong>
                     {invites.length >= 3 && <p> {invite?.type || "--"}</p>}
-                    <p> {(invite?.amount/1e18).toFixed(2) || "--"} LMC</p>
+                    <p> {(invite?.amount / 1e18).toFixed(2) || "--"} LMC</p>
                   </div>
                 );
               })}
@@ -143,6 +144,29 @@ const InviteModal = ({
                   </div>
                 </div>
               ) : null}
+            </div>
+          </>
+        )}
+        {tabActive === 4 && (
+          <>
+            <div className="item first">
+              <strong>Address</strong>
+              <p>Node Amount</p>
+            </div>
+            <div className="con">
+              {invites?.map((invite, index) => {
+                return (
+                  <div className="item" key={index}>
+                    <strong>{hiddenAddress(invite?.address) || "--"}</strong>
+                    <p> {invite?.boughtNode || "--"}</p>
+                  </div>
+                );
+              })}
+              {invites.length == 0 && (
+                <p style={{ width: "100%" }} className="no-data">
+                  No Record
+                </p>
+              )}
             </div>
           </>
         )}

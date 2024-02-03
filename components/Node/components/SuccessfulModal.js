@@ -22,7 +22,11 @@ const SuccessfulModal = ({ num, id, open, handleClose }) => {
         <Vector width={"3.75rem"} />
         <div>
           <strong> Purchase successful!</strong>
-          <p>You bought {num} nodes now.</p>
+
+          <p>
+            You have purchased {num} nodes,Data indexing in progress. Please be
+            patient for one minute.
+          </p>
         </div>
       </div>
       <button
