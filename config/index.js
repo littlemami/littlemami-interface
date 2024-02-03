@@ -1,4 +1,4 @@
-import nodeABI from "@/abi/nodeABI.json";
+import nodeABI from "@/abi/NodeABI.json";
 export const rpcUrl = "https://api.littlemami.io/";
 // export const rpcUrl = "http://127.0.0.1:5555/";
 
