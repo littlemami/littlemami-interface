@@ -25,7 +25,7 @@ import copy from "copy-to-clipboard";
 const Node = ({ ...props }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
-  const [render, setRender] = useState(0);
+
   const [open, setOpen] = useState(false);
   const [sucOpen, setSsucOpen] = useState(false);
   const [hammerOpen, setHammerOpen] = useState(false);
@@ -48,7 +48,6 @@ const Node = ({ ...props }) => {
       { ...nodeContract, functionName: "phase" },
       { ...nodeContract, functionName: "preBuyers", args: [address] },
     ],
-    scopeKey: render,
   });
 
   const tokenAddress = read0?.[0]?.result;
@@ -78,7 +77,6 @@ const Node = ({ ...props }) => {
       },
       { ...tokenContract, functionName: "decimals" },
     ],
-    scopeKey: render,
   });
 
   const allowance = read1?.[0]?.result;
@@ -105,7 +103,7 @@ const Node = ({ ...props }) => {
     callback: (confirmed) => {
       if (confirmed) {
         setSsucOpen(true);
-        setRender(render + 1);
+
         reloadPage();
       }
     },
@@ -126,7 +124,6 @@ const Node = ({ ...props }) => {
     callback: (confirmed) => {
       if (confirmed) {
         setSsucOpen(true);
-        setRender(render + 1);
         reloadPage();
       }
     },
@@ -138,9 +135,9 @@ const Node = ({ ...props }) => {
     setMount(true);
   }
   const reloadPage = () => {
-    fetchData();
     read0refetch();
     read1refetch();
+    fetchData();
   };
   useEffect(() => {
     setInterval(() => {
@@ -164,7 +161,7 @@ const Node = ({ ...props }) => {
     },
     callback: (confirmed) => {
       if (confirmed) {
-        setRender(render + 1);
+        reloadPage();
       }
     },
   };
