@@ -84,7 +84,7 @@ const InviteModal = ({
           <>
             <div className="item first">
               <strong>Address</strong>
-              <p>Node Amount</p>
+              <p>Referral Rewards</p>
               {/* <p>Referral Rewards</p> */}
             </div>
             <div className="con">
