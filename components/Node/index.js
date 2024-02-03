@@ -390,13 +390,13 @@ const Node = ({ ...props }) => {
                           </div>
                         </em>
                       </div>
-                      <span>{tokenPrize ?? "--"} U</span>
+                      <span>{tokenPrize ?? "--"} USDT</span>
                     </li>
                     <li>
                       <div>
                         <p className={styles["tit"]}>Referral Rewards</p>
                       </div>
-                      <span>{referralPrize ?? "--"} U</span>
+                      <span>{referralPrize ?? "--"} USDT</span>
                     </li>
                   </>
                 )}

@@ -93,7 +93,7 @@ const InviteModal = ({
                   <div className="item" key={index}>
                     <strong>{hiddenAddress(invite?.referral) || "--"}</strong>
                     <p> {invite?.amount || "--"} USDT</p>
-                    {/* <p> {invite?.blockNumber || "--"} U</p> */}
+                    {/* <p> {invite?.blockNumber || "--"} USDT</p> */}
                   </div>
                 );
               })}
