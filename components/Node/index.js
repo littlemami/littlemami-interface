@@ -4,7 +4,7 @@ import WriteButton from "@/components/WriteButton";
 import { useEffect, useState } from "react";
 import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
-import { erc20ABI } from "@wagmi/core";
+import usdtABI from "@/abi/USDTABI.json";
 import { useRouter } from "next/router";
 import InputNumber from "@/components/InputNumber";
 import ProgressLine from "@/components/ProgressLine";
@@ -60,7 +60,7 @@ const Node = ({ ...props }) => {
 
   const tokenContract = {
     address: tokenAddress,
-    abi: erc20ABI,
+    abi: usdtABI,
   };
 
   const { data: read1, refetch: read1refetch } = useContractReads({
@@ -142,7 +142,7 @@ const Node = ({ ...props }) => {
   useEffect(() => {
     setInterval(() => {
       const diff =
-        new Date("2024-02-04 00:00:00 GMT").getTime() - new Date().getTime();
+        new Date("2024-02-04 08:00:00 GMT").getTime() - new Date().getTime();
       const hour = Math.floor(diff / 1000 / 60 / 60);
       const minute = Math.floor((diff / 1000 / 60) % 60);
       const second = Math.floor((diff / 1000) % 60);
@@ -157,7 +157,7 @@ const Node = ({ ...props }) => {
     data: {
       ...tokenContract,
       functionName: "approve",
-      args: [nodeContract?.address, 2 ** 255],
+      args: [nodeContract?.address, BigInt(2 ** 255)],
     },
     callback: (confirmed) => {
       if (confirmed) {
@@ -173,7 +173,7 @@ const Node = ({ ...props }) => {
     tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString();
 
   let showApprove;
-  if (allowance < Number(data?.amount) * 10 ** Number(decimals)) {
+  if (allowance < Number(data?.amount) * 10 ** Number(decimals) && phase != 0) {
     showApprove = true;
   } else {
     showApprove = false;
