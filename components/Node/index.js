@@ -142,7 +142,7 @@ const Node = ({ ...props }) => {
   useEffect(() => {
     setInterval(() => {
       const diff =
-        new Date("2024-02-04 11:00:00 GMT").getTime() - new Date().getTime();
+        new Date("2024-02-04 12:00:00 GMT").getTime() - new Date().getTime();
       const hour = Math.floor(diff / 1000 / 60 / 60);
       const minute = Math.floor((diff / 1000 / 60) % 60);
       const second = Math.floor((diff / 1000) % 60);
