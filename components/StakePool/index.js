@@ -18,9 +18,9 @@ const StakePool = (props) => {
 
   const stakeTokenIds = [0];
 
-  const unStakeTokenIds = [];
+  const unStakeTokenIds = [0];
 
-  const passTokenId = 0;
+  const passTokenId = 1;
 
   const stakeContract = contract[chain?.id]?.stake;
 
@@ -49,14 +49,10 @@ const StakePool = (props) => {
   const stakeAmount = poolInfo?.[6];
   const passRequired = poolInfo?.[7];
 
-  console.log(userInfo);
-
   const userLast = userInfo?.[0];
   const userAmount = userInfo?.[1];
   const userRemain = userInfo?.[2];
   const userPassTokenId = userInfo?.[3];
-
-  console.log(nftAddress, passAddress);
 
   const { data: reads1 } = useContractReads({
     contracts: [
@@ -72,13 +68,66 @@ const StakePool = (props) => {
         functionName: "tokensOfOwner",
         args: [address],
       },
+      {
+        address: nftAddress,
+        abi: NFTABI,
+        functionName: "totalSupply",
+      },
+      {
+        address: passAddress,
+        abi: NFTABI,
+        functionName: "totalSupply",
+      },
     ],
   });
 
   const holdTokenIds = reads1?.[0]?.result;
   const holdPassTokenIds = reads1?.[1]?.result;
+  const nftTotalSupply = reads1?.[2]?.result;
+  const passTotalSupply = reads1?.[3]?.result;
 
-  console.log(holdTokenIds, holdPassTokenIds);
+  const searchNFT = [];
+
+  for (let i = 0; i <= nftTotalSupply; i++) {
+    searchNFT.push({
+      ...stakeContract,
+      functionName: "tokenUsed",
+      args: [poolId, i],
+    });
+  }
+
+  const { data: reads2 } = useContractReads({
+    contracts: searchNFT,
+  });
+
+  const usedTokenIds = [];
+
+  let usedPassTokenId;
+
+  reads2?.forEach((item, index) => {
+    if (item?.result == address) {
+      usedTokenIds.push(index);
+    }
+  });
+
+  const searchPass = [];
+  for (let i = 0; i <= passTotalSupply; i++) {
+    searchPass.push({
+      ...stakeContract,
+      functionName: "passUsed",
+      args: [poolId, i],
+    });
+  }
+  const { data: reads3 } = useContractReads({
+    contracts: searchPass,
+  });
+
+  reads3?.forEach((item, index) => {
+    if (item?.result == address) {
+      usedPassTokenId = index;
+      return;
+    }
+  });
 
   const stake = {
     buttonName: "Stake",
@@ -132,6 +181,13 @@ const StakePool = (props) => {
         <div>userAmount {userAmount?.toString()}</div>
         <div>userRemain {userRemain?.toString()}</div>
         <div>userPassTokenId {userPassTokenId?.toString()}</div>
+        <div>
+          staked nft tokenIds{" "}
+          {usedTokenIds?.map((item, index) => {
+            return <div key={index}>{item.toString()}</div>;
+          })}
+        </div>
+        <div>staked pass tokenId {usedPassTokenId?.toString()}</div>
         <div className="flex gap-2">
           hold nft tokenIds{" "}
           {holdTokenIds?.map((item, index) => {
