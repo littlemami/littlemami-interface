@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
 import USDTABI from "@/abi/USDTABI.json";
 import NFTABI from "@/abi/NFTABI.json";
-import { getDefaultProvider } from "ethers";
-import { data } from "autoprefixer";
 
 const StakePool = (props) => {
   const [mount, setMount] = useState(false);
@@ -33,12 +31,18 @@ const StakePool = (props) => {
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
       { ...stakeContract, functionName: "passAddress" },
       { ...stakeContract, functionName: "poolUsers", args: [poolId, address] },
+      {
+        ...stakeContract,
+        functionName: "getPendingRemain",
+        args: [poolId, address],
+      },
     ],
   });
 
   const poolInfo = reads0?.[0]?.result;
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
+  const pendingRemain = reads0?.[3]?.result;
 
   const nftAddress = poolInfo?.[0];
   const tokenAddress = poolInfo?.[1];
@@ -179,7 +183,7 @@ const StakePool = (props) => {
         <div className="mt-4">UserInfo</div>
         <div>userLast {userLast?.toString()}</div>
         <div>userAmount {userAmount?.toString()}</div>
-        <div>userRemain {userRemain?.toString()}</div>
+        <div>userRemain {(userRemain + pendingRemain)?.toString()}</div>
         <div>userPassTokenId {userPassTokenId?.toString()}</div>
         <div>
           staked nft tokenIds{" "}
