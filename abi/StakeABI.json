@@ -302,6 +302,11 @@
         "internalType": "bool",
         "name": "passRequired",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "sharePoolIds",
+        "type": "uint256[]"
       }
     ],
     "name": "setPool",

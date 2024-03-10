@@ -52,6 +52,7 @@ const StakePool = (props) => {
   const rewardsTokenAddress = poolInfo?.[5];
   const stakeAmount = poolInfo?.[6];
   const passRequired = poolInfo?.[7];
+  const sharePoolIds = poolInfo?.[8];
 
   const userLast = userInfo?.[0];
   const userAmount = userInfo?.[1];
