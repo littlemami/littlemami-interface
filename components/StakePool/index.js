@@ -120,13 +120,13 @@ const StakePool = (props) => {
 
         <div className="flex gap-2">
           hold nft tokenIds{" "}
-          {holdTokenIds.map((item, index) => {
+          {holdTokenIds?.map((item, index) => {
             return <div key={index}>{item.toString()}</div>;
           })}
         </div>
         <div className="flex gap-2">
           hold pass tokenIds{" "}
-          {holdPassTokenIds.map((item, index) => {
+          {holdPassTokenIds?.map((item, index) => {
             return <div key={index}>{item.toString()}</div>;
           })}
         </div>
