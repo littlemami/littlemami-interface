@@ -151,6 +151,9 @@ const StakePool = (props) => {
       functionName: "stake",
       args: [poolId, stakeTokenIds, passTokenId],
     },
+    callback: () => {
+      refetch();
+    },
   };
 
   const unStake = {
@@ -159,6 +162,9 @@ const StakePool = (props) => {
       ...stakeContract,
       functionName: "unStake",
       args: [poolId, unStakeTokenIds, passTokenId],
+    },
+    callback: () => {
+      refetch();
     },
   };
 
@@ -181,6 +187,9 @@ const StakePool = (props) => {
       ...stakeContract,
       functionName: "claim",
       args: [poolId],
+    },
+    callback: () => {
+      refetch();
     },
   };
 
