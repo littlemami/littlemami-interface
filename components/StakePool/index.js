@@ -16,7 +16,7 @@ const StakePool = (props) => {
 
   const poolId = props?.poolId;
 
-  const stakeTokenIds = [];
+  const stakeTokenIds = [0];
 
   const unStakeTokenIds = [];
 
@@ -32,11 +32,13 @@ const StakePool = (props) => {
     contracts: [
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
       { ...stakeContract, functionName: "passAddress" },
+      { ...stakeContract, functionName: "poolUsers", args: [poolId, address] },
     ],
   });
 
   const poolInfo = reads0?.[0]?.result;
   const passAddress = reads0?.[1]?.result;
+  const userInfo = reads0?.[2]?.result;
 
   const nftAddress = poolInfo?.[0];
   const tokenAddress = poolInfo?.[1];
@@ -46,6 +48,13 @@ const StakePool = (props) => {
   const rewardsTokenAddress = poolInfo?.[5];
   const stakeAmount = poolInfo?.[6];
   const passRequired = poolInfo?.[7];
+
+  console.log(userInfo);
+
+  const userLast = userInfo?.[0];
+  const userAmount = userInfo?.[1];
+  const userRemain = userInfo?.[2];
+  const userPassTokenId = userInfo?.[3];
 
   console.log(nftAddress, passAddress);
 
@@ -118,6 +127,11 @@ const StakePool = (props) => {
         <div>start block number {start?.toString()}</div>
         <div>rate {rate?.toString()}</div>
 
+        <div className="mt-4">UserInfo</div>
+        <div>userLast {userLast?.toString()}</div>
+        <div>userAmount {userAmount?.toString()}</div>
+        <div>userRemain {userRemain?.toString()}</div>
+        <div>userPassTokenId {userPassTokenId?.toString()}</div>
         <div className="flex gap-2">
           hold nft tokenIds{" "}
           {holdTokenIds?.map((item, index) => {
