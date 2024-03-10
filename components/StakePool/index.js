@@ -174,11 +174,11 @@ const StakePool = (props) => {
     mount && (
       <div className="my-4">
         <div>poolId {props.poolId}</div>
-        <div>sakeAmount {stakeAmount?.toString()}</div>
+        <div>sakeAmount {stakeAmount?.toString()} NFT</div>
         <div>tokenRequired {tokenAmount?.toString() / 1e18} LMC</div>
         <div>passRequired {passRequired?.toString()}</div>
         <div>start block number {start?.toString()}</div>
-        <div>rate {rate?.toString() / 1e18}</div>
+        <div>rate {rate?.toString() / 1e18} LMC</div>
 
         <div className="mt-4">UserInfo</div>
         <div>userLast {userLast?.toString()}</div>
