@@ -19,7 +19,7 @@ export const contract = {
   },
   11155111:{
     stake: {
-      address: "0xf5C5f36541B5736722A2a58B3C8C73d1C64c0c6A",
+      address: "0xeDAAAC4C676181449bC5CAE8EA61Be9D91d207c8",
       abi: stakeABI,
     },
   }

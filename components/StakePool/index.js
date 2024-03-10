@@ -24,8 +24,6 @@ const StakePool = (props) => {
 
   const { address } = useAccount();
 
-  console.log(address);
-
   const { data: reads0 } = useContractReads({
     contracts: [
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
@@ -36,6 +34,7 @@ const StakePool = (props) => {
         functionName: "getPendingRemain",
         args: [poolId, address],
       },
+      { ...stakeContract, functionName: "getSharedTokenIds", args: [poolId] },
     ],
   });
 
@@ -43,6 +42,7 @@ const StakePool = (props) => {
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
   const pendingRemain = reads0?.[3]?.result;
+  const sharedTokenIds = reads0?.[4]?.result;
 
   const nftAddress = poolInfo?.[0];
   const tokenAddress = poolInfo?.[1];
@@ -52,7 +52,10 @@ const StakePool = (props) => {
   const rewardsTokenAddress = poolInfo?.[5];
   const stakeAmount = poolInfo?.[6];
   const passRequired = poolInfo?.[7];
-  const sharePoolIds = poolInfo?.[8];
+
+  console.log(poolInfo);
+
+  console.log(sharedTokenIds);
 
   const userLast = userInfo?.[0];
   const userAmount = userInfo?.[1];
@@ -196,6 +199,12 @@ const StakePool = (props) => {
         <div>passRequired {passRequired?.toString()}</div>
         <div>start block number {start?.toString()}</div>
         <div>rate {rate?.toString() / 1e18} LMC</div>
+        <div>
+          sharedTokenIds{" "}
+          {sharedTokenIds?.map((item, index) => {
+            return <div key={index}>{item.toString()}</div>;
+          })}
+        </div>
 
         <div className="mt-4">UserInfo</div>
         <div>userLast {userLast?.toString()}</div>
