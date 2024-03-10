@@ -5,6 +5,7 @@ import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
 import USDTABI from "@/abi/USDTABI.json";
 import NFTABI from "@/abi/NFTABI.json";
 import { getDefaultProvider } from "ethers";
+import { data } from "autoprefixer";
 
 const StakePool = (props) => {
   const [mount, setMount] = useState(false);
@@ -94,13 +95,22 @@ const StakePool = (props) => {
       address: tokenAddress,
       abi: USDTABI,
       functionName: "approve",
-      args: [stakeContract?.address, 2 * 255],
+      args: [stakeContract?.address, 2 ** 255],
+    },
+  };
+
+  const claim = {
+    buttonName: "Claim",
+    data: {
+      ...stakeContract,
+      functionName: "claim",
+      args: [poolId],
     },
   };
 
   return (
     mount && (
-      <>
+      <div className="my-4">
         <div>poolId {props.poolId}</div>
         <div>sakeAmount {stakeAmount?.toString()}</div>
         <div>tokenRequired {tokenAmount?.toString()}</div>
@@ -120,12 +130,13 @@ const StakePool = (props) => {
             return <div key={index}>{item.toString()}</div>;
           })}
         </div>
-        <div>
+        <div className="flex gap-2">
           <WriteButton {...approve} />
-          <WriteButton {...stake} className="my-1" />
+          <WriteButton {...stake} />
           <WriteButton {...unStake} />
+          <WriteButton {...claim} />
         </div>
-      </>
+      </div>
     )
   );
 };
