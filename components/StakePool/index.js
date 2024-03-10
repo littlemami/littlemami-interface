@@ -58,7 +58,7 @@ const StakePool = (props) => {
   const userRemain = userInfo?.[2];
   const userPassTokenId = userInfo?.[3];
 
-  const { data: reads1 } = useContractReads({
+  const { data: reads1, refetch } = useContractReads({
     contracts: [
       {
         address: nftAddress,
@@ -82,6 +82,12 @@ const StakePool = (props) => {
         abi: NFTABI,
         functionName: "totalSupply",
       },
+      {
+        address: tokenAddress,
+        abi: USDTABI,
+        functionName: "allowance",
+        args: [address, stakeContract?.address],
+      },
     ],
   });
 
@@ -89,6 +95,7 @@ const StakePool = (props) => {
   const holdPassTokenIds = reads1?.[1]?.result;
   const nftTotalSupply = reads1?.[2]?.result;
   const passTotalSupply = reads1?.[3]?.result;
+  const allowance = reads1?.[4]?.result;
 
   const searchNFT = [];
 
@@ -159,6 +166,9 @@ const StakePool = (props) => {
       functionName: "approve",
       args: [stakeContract?.address, 2 ** 255],
     },
+    callback: () => {
+      refetch();
+    },
   };
 
   const claim = {
@@ -169,6 +179,12 @@ const StakePool = (props) => {
       args: [poolId],
     },
   };
+
+  let showApprove = false;
+
+  if (allowance < 2 ** 254) {
+    showApprove = true;
+  }
 
   return (
     mount && (
@@ -207,8 +223,10 @@ const StakePool = (props) => {
           })}
         </div>
         <div className="flex gap-2">
-          <WriteButton {...approve} />
-          <WriteButton {...stake} />
+          {showApprove && <WriteButton {...approve} />}
+
+          {!showApprove && <WriteButton {...stake} />}
+
           <WriteButton {...unStake} />
           <WriteButton {...claim} />
         </div>
