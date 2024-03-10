@@ -1,9 +1,10 @@
 import WriteButton from "@/components/WriteButton";
 import { contract } from "@/config";
 import { useEffect, useState } from "react";
-import { useNetwork, useContractReads, useAccount } from "wagmi";
+import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
 import USDTABI from "@/abi/USDTABI.json";
 import NFTABI from "@/abi/NFTABI.json";
+import { getDefaultProvider } from "ethers";
 
 const StakePool = (props) => {
   const [mount, setMount] = useState(false);
@@ -22,7 +23,9 @@ const StakePool = (props) => {
 
   const stakeContract = contract[chain?.id]?.stake;
 
-  const address = useAccount();
+  const { address } = useAccount();
+
+  console.log(address);
 
   const { data: reads0 } = useContractReads({
     contracts: [
@@ -43,7 +46,7 @@ const StakePool = (props) => {
   const stakeAmount = poolInfo?.[6];
   const passRequired = poolInfo?.[7];
 
-  console.log(nftAddress,passAddress)
+  console.log(nftAddress, passAddress);
 
   const { data: reads1 } = useContractReads({
     contracts: [
@@ -105,7 +108,18 @@ const StakePool = (props) => {
         <div>start block number {start?.toString()}</div>
         <div>rate {rate?.toString()}</div>
 
-        <div></div>
+        <div className="flex gap-2">
+          hold nft tokenIds{" "}
+          {holdTokenIds.map((item, index) => {
+            return <div key={index}>{item.toString()}</div>;
+          })}
+        </div>
+        <div className="flex gap-2">
+          hold pass tokenIds{" "}
+          {holdPassTokenIds.map((item, index) => {
+            return <div key={index}>{item.toString()}</div>;
+          })}
+        </div>
         <div>
           <WriteButton {...approve} />
           <WriteButton {...stake} className="my-1" />
