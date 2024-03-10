@@ -175,15 +175,17 @@ const StakePool = (props) => {
       <div className="my-4">
         <div>poolId {props.poolId}</div>
         <div>sakeAmount {stakeAmount?.toString()}</div>
-        <div>tokenRequired {tokenAmount?.toString()}</div>
+        <div>tokenRequired {tokenAmount?.toString() / 1e18} LMC</div>
         <div>passRequired {passRequired?.toString()}</div>
         <div>start block number {start?.toString()}</div>
-        <div>rate {rate?.toString()}</div>
+        <div>rate {rate?.toString() / 1e18}</div>
 
         <div className="mt-4">UserInfo</div>
         <div>userLast {userLast?.toString()}</div>
-        <div>userAmount {userAmount?.toString()}</div>
-        <div>userRemain {(userRemain + pendingRemain)?.toString()}</div>
+        <div>userAmount {userAmount?.toString()} NFT</div>
+        <div>
+          userRemain {(userRemain + pendingRemain)?.toString() / 1e18} LMC
+        </div>
         <div>userPassTokenId {userPassTokenId?.toString()}</div>
         <div>
           staked nft tokenIds{" "}
