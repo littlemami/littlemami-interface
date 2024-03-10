@@ -13,13 +13,13 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import useRem from "@/hooks/rem";
 
 const { chains, publicClient } = configureChains(
-  [mainnet],
+  [mainnet, sepolia],
   [alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" })]
 );
 const { connectors } = getDefaultWallets({
