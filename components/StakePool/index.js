@@ -12,7 +12,7 @@ const StakePool = (props) => {
   }, []);
   const { chain } = useNetwork();
 
-  const poolId = props?.poolId;
+  const poolId = props?.poolId; //池子编号
 
   const stakeTokenIds = [0];
 
@@ -42,25 +42,26 @@ const StakePool = (props) => {
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
   const pendingRemain = reads0?.[3]?.result;
-  const sharedTokenIds = reads0?.[4]?.result;
+  const sharedTokenIds = reads0?.[4]?.result; //池子与不同池子共享nft质押， 比如设置为1,当前池子质押了tokenId 0 ，poolId为1 的池子就质押不了tokenId 0
 
   const nftAddress = poolInfo?.[0];
   const tokenAddress = poolInfo?.[1];
-  const tokenAmount = poolInfo?.[2];
-  const start = poolInfo?.[3];
-  const rate = poolInfo?.[4];
+  const tokenAmount = poolInfo?.[2]; //池子质押一个nft需要多少币
+
+  const start = poolInfo?.[3]; //池子开始挖矿时间
+
+  const rate = poolInfo?.[4]; //池子每区块挖矿多少币
   const rewardsTokenAddress = poolInfo?.[5];
-  const stakeAmount = poolInfo?.[6];
-  const passRequired = poolInfo?.[7];
+  const stakeAmount = poolInfo?.[6]; //池子总质押nft数量
 
-  console.log(poolInfo);
+  const passRequired = poolInfo?.[7]; //池子是否需要pass
 
-  console.log(sharedTokenIds);
+  const userLast = userInfo?.[0]; //用户最后一次交互合约的区块号
 
-  const userLast = userInfo?.[0];
-  const userAmount = userInfo?.[1];
-  const userRemain = userInfo?.[2];
-  const userPassTokenId = userInfo?.[3];
+  const userAmount = userInfo?.[1]; //用户在当前池子质押的nft数量
+  const userRemain = userInfo?.[2]; //用户待领取奖励
+
+  const userPassTokenId = userInfo?.[3]; // 用户已经在当前池子使用的pass,为0 则没有使用
 
   const { data: reads1, refetch } = useContractReads({
     contracts: [
@@ -124,8 +125,6 @@ const StakePool = (props) => {
       usedTokenIds.push(index);
     }
   });
-
-
 
   const stake = {
     buttonName: "Stake",
