@@ -125,24 +125,7 @@ const StakePool = (props) => {
     }
   });
 
-  const searchPass = [];
-  for (let i = 0; i <= passTotalSupply; i++) {
-    searchPass.push({
-      ...stakeContract,
-      functionName: "passUsed",
-      args: [poolId, i],
-    });
-  }
-  const { data: reads3 } = useContractReads({
-    contracts: searchPass,
-  });
 
-  reads3?.forEach((item, index) => {
-    if (item?.result == address) {
-      usedPassTokenId = index;
-      return;
-    }
-  });
 
   const stake = {
     buttonName: "Stake",
@@ -221,14 +204,13 @@ const StakePool = (props) => {
         <div>
           userRemain {(userRemain + pendingRemain)?.toString() / 1e18} LMC
         </div>
-        <div>userPassTokenId {userPassTokenId?.toString()}</div>
         <div>
           staked nft tokenIds{" "}
           {usedTokenIds?.map((item, index) => {
             return <div key={index}>{item.toString()}</div>;
           })}
         </div>
-        <div>staked pass tokenId {usedPassTokenId?.toString()}</div>
+        <div>staked pass tokenId {userPassTokenId?.toString()}</div>
         <div className="flex gap-2">
           hold nft tokenIds{" "}
           {holdTokenIds?.map((item, index) => {
