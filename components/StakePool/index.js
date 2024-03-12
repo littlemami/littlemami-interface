@@ -14,11 +14,11 @@ const StakePool = (props) => {
 
   const poolId = props?.poolId; //池子编号
 
-  const stakeTokenIds = [0];
+  const stakeTokenIds = [0]; //stake时使用
 
-  const unStakeTokenIds = [0];
+  const unStakeTokenIds = [0]; //unstake时使用
 
-  const passTokenId = 1;
+  const passTokenId = 1; //stake时 使用
 
   const stakeContract = contract[chain?.id]?.stake;
 

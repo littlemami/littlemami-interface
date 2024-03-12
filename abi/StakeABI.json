@@ -404,11 +404,6 @@
         "internalType": "uint256[]",
         "name": "unStakeTokenIds",
         "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "passTokenId",
-        "type": "uint256"
       }
     ],
     "name": "unStake",
