@@ -1,17 +1,13 @@
-import WriteButton from "@/components/WriteButton";
+import Link from "next/link";
 
 const Launchpad = () => {
-  const stake = { buttonName: "Stake", data: {} };
-  const unStake = { buttonName: "UnStake", data: {} };
   return (
     <>
-      <div>User Info</div>
-      <div>Point </div>
-      <div>LMC staked </div>
-      <div className="flex gap-2">
-        <WriteButton {...stake} />
-        <WriteButton {...unStake} />
-      </div>
+      <Link href="/launchpad/mars">
+        <div className="card w-96 shadow-2xl hover:bg-slate-500 m-auto  text-center">
+          <div className="card-body">Mars</div>
+        </div>
+      </Link>
     </>
   );
 };
