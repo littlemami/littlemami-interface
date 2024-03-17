@@ -3,17 +3,28 @@ import { useNetwork, useAccount, useContractReads } from "wagmi";
 import { contract } from "@/config";
 import USDTABI from "@/abi/USDTABI.json";
 import { useEffect, useState } from "react";
-
+import rpc from "@/components/Rpc";
 const Mars = () => {
   const { chain } = useNetwork();
 
   const [mount, setMount] = useState(false);
-  useEffect(() => {
-    setMount(true);
-  }, []);
-  const marsContract = contract[chain?.id]?.mars;
-
+  const [data, setData] = useState({});
   const { address } = useAccount();
+  useEffect(() => {
+    async function fetchData() {
+      const user = await rpc.getUser(address);
+
+      if (user) {
+        setData({ ...data, user });
+      } else {
+        delete data.user;
+        setData({ ...data });
+      }
+      setMount(true);
+    }
+    fetchData();
+  }, [address]);
+  const marsContract = contract[chain?.id]?.mars;
 
   const { data: reads0, refetch } = useContractReads({
     contracts: [
@@ -34,11 +45,19 @@ const Mars = () => {
     ],
   });
 
+  const invites = data?.user?.invites;
+
+  const searchInvites = invites?.map((item) => {
+    return {
+      ...marsContract,
+      functionName: "getPendingPoint",
+      args: [item?.address],
+    };
+  });
+
   const user = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
   const pendingPoint = reads0?.[2]?.result;
-
-  console.log(pendingPoint);
 
   const { data: reads1 } = useContractReads({
     contracts: [
@@ -51,13 +70,13 @@ const Mars = () => {
     ],
   });
 
+  const { data: reads2 } = useContractReads({ contracts: searchInvites });
+
   const allowance = reads1?.[0]?.result;
 
   const userLast = user?.[1];
 
   const userStaked = user?.[0];
-
-  console.log(user);
 
   const stakeAmount = 1;
   const unStakeAmount = 1;
@@ -122,6 +141,16 @@ const Mars = () => {
 
           <WriteButton {...unStake} />
         </div>
+
+        <div className="mt-2">Referrals</div>
+        {invites?.map((item, index) => {
+          return (
+            <div key={index}>
+              <div>Address {item?.address}</div>
+              <div>Point {reads2?.[index]?.result?.toString()}</div>
+            </div>
+          );
+        })}
       </>
     )
   );
