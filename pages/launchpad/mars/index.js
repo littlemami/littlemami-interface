@@ -143,6 +143,7 @@ const Mars = () => {
         </div>
 
         <div className="mt-2">Referrals</div>
+        <div>Invite Code {data?.user?.id}</div>
         {invites?.map((item, index) => {
           return (
             <div key={index}>
