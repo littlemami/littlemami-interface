@@ -11,6 +11,9 @@ const Ranklist = () => {
   const pageSize = 20;
 
   async function fetchData(page) {
+    const marsRank = await rpc.getMarsRank(page, pageSize);
+
+    console.log(marsRank);
     const scoreRank = await rpc.getScoreRank(page, pageSize);
 
     setData((prev) => ({
