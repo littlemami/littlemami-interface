@@ -116,13 +116,13 @@ const StakePool = (props) => {
     contracts: searchNFT,
   });
 
-  const usedTokenIds = [];
+  const stakedTokenIds = []; //用户在当前池子质押的tokenIds
 
   let usedPassTokenId;
 
   reads2?.forEach((item, index) => {
     if (item?.result == address) {
-      usedTokenIds.push(index);
+      stakedTokenIds.push(index);
     }
   });
 
@@ -205,7 +205,7 @@ const StakePool = (props) => {
         </div>
         <div>
           staked nft tokenIds{" "}
-          {usedTokenIds?.map((item, index) => {
+          {stakedTokenIds?.map((item, index) => {
             return <div key={index}>{item.toString()}</div>;
           })}
         </div>
