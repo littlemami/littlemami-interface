@@ -112,6 +112,17 @@ const StakePool = (props) => {
     });
   }
 
+  const sharedPoolId = sharedTokenIds?.[0];
+  if (sharedPoolId) {
+    for (let i = 0; i <= nftTotalSupply; i++) {
+      searchNFT.push({
+        ...stakeContract,
+        functionName: "tokenUsed",
+        args: [sharedPoolId, i],
+      });
+    }
+  }
+
   const { data: reads2 } = useContractReads({
     contracts: searchNFT,
   });
