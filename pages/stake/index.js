@@ -3,7 +3,7 @@ import StakeTitle from "@/components/Stake/StakeTitle";
 import StakeNum from "@/components/Stake/StakeNum";
 import PoolList from "@/components/Stake/PoolList";
 import MyButton from "@/components/MyButton";
-import { poolCardArr, poolListArr } from "./constant";
+import { poolCardArr, poolListArr } from "../../config/constant";
 import Supply from "./components/Supply";
 import UnStaked from "./components/UnStaked";
 import { useState, useEffect } from "react";
@@ -44,6 +44,18 @@ const Pools = ({ onClick }) => {
 
 const MyPosition = () => {
   const [open, setOpen] = useState(false);
+  const { chain } = useNetwork();
+  const stakeContract = contract[chain?.id]?.stake;
+
+  const claimAll = {
+    buttonName: "Claim All",
+    data: {
+      ...stakeContract,
+      functionName: "claimAll",
+      args: [[0, 1]],
+    },
+  };
+
   return (
     <>
       {" "}
@@ -53,7 +65,7 @@ const MyPosition = () => {
           title="My Position"
           tagNode={
             <div className="ml-6">
-              <MyButton color="#6944ff" text="Chaim All" />
+              <WriteButton {...claimAll} />
             </div>
           }
         />

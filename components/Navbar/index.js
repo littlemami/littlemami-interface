@@ -21,7 +21,7 @@ const navigation = [
   { name: "Stake", href: "/stake" },
   { name: "Leaderboard", href: "/ranklist" },
   { name: "Faq", href: "/faq" },
-  { name: "Stake", href: "/stake" },
+  // { name: "Stake", href: "/stake" },
   { name: "Launchpad", href: "/launchpad" },
 ];
 
