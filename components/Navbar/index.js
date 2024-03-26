@@ -18,6 +18,7 @@ const UserInfo = dynamic(() => import("@/components/UserInfo"), {
 
 const navigation = [
   { name: "MarsNode", href: "/" },
+  { name: "Stake", href: "/stake" },
   { name: "Leaderboard", href: "/ranklist" },
   { name: "FAQ", href: "/faq" },
 ];
