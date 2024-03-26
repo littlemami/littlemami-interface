@@ -3,6 +3,7 @@ import rpc from "@/components/Rpc";
 import Loading from "@/components/Loading/Index";
 import styles from "./index.module.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
+
 const Ranklist = () => {
   const [data, setData] = useState({});
   const [mount, setMount] = useState(true);
@@ -11,6 +12,8 @@ const Ranklist = () => {
   const pageSize = 20;
 
   async function fetchData(page) {
+    const marsRank = await rpc.getMarsRank(page, pageSize);
+
     const scoreRank = await rpc.getScoreRank(page, pageSize);
 
     setData((prev) => ({

@@ -22,6 +22,7 @@
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "framer-motion": "^11.0.20",
+    "ethers": "5",
     "merkletreejs": "^0.3.11",
     "nanoid": "^4.0.2",
     "next": "13",
