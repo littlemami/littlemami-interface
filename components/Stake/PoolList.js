@@ -44,7 +44,7 @@ const PoolList = (props) => {
                   "Actions"
                 ) : (
                   <>
-                    <MyButton text="chaim" color="#6944ff" className="mr-2" />
+                    <MyButton text="claim" color="#6944ff" className="mr-2" />
                     <MyButton
                       onClick={() => unStake?.(list)}
                       text="Unstake"
