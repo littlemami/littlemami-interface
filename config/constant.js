@@ -8,13 +8,13 @@ const commonRes = {
 
 export const poolCardArr = [
   {
-    pool: 1,
+    pool: 0,
     imgSrc: "/images/pool_1.png",
     joinScrArr: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
     ...commonRes,
   },
   {
-    pool: 2,
+    pool: 1,
     imgSrc: "/images/pool_2.png",
     joinScrArr: [
       "/images/svg/tool_1.svg",
@@ -28,7 +28,7 @@ export const poolCardArr = [
 export const poolListArr = [
   {},
   {
-    pool: 1,
+    pool: 0,
     avatarList: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
     lmc: 900.2,
     tagList: [
@@ -48,7 +48,7 @@ export const poolListArr = [
     ],
   },
   {
-    pool: 2,
+    pool: 1,
     avatarList: [
       "/images/svg/tool_1.svg",
       "/images/svg/lmc.svg",

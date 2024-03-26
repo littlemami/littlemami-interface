@@ -1,22 +1,32 @@
+"use client";
 import Image from "next/image";
 import AvatarGroup from "../AvatarGroup";
+import { useTotalStakeInfo } from "@/hooks/stake";
+import { useMemo } from "react";
+import dayjs from "dayjs";
 
 const PoolCard = (props) => {
-  const { imgSrc, joinScrArr, startTime, lmc, apr, onClick } = props;
-  const arr = [
-    {
-      text: "Start Time",
-      value: startTime,
-    },
-    {
-      text: "LMC per Block",
-      value: lmc,
-    },
-    {
-      text: "APR",
-      value: apr,
-    },
-  ];
+  const { imgSrc, joinScrArr, startTime, lmc, apr, onClick, pool } = props;
+  const { rate, start, userAmount, stakeAmount, userRemain } =
+    useTotalStakeInfo(pool);
+  console.log(pool, rate);
+  const arr = useMemo(
+    () => [
+      {
+        text: "Start Time",
+        value: <>{dayjs(start * 1000).format("YYYY-MM-DD HH:mm:ss")}</>,
+      },
+      {
+        text: "LMC per Block",
+        value: `${rate} LMC`,
+      },
+      {
+        text: "APR",
+        value: apr,
+      },
+    ],
+    [start, rate]
+  );
   return (
     <div
       onClick={() => onClick?.(props?.pool)}

@@ -58,7 +58,6 @@ const MyPosition = () => {
 
   return (
     <>
-      {" "}
       <div className="flex flex-col my-16">
         <StakeTitle
           className="mb-4"
