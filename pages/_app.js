@@ -16,6 +16,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import {NextUIProvider} from "@nextui-org/react";
 import useRem from "@/hooks/rem";
 
 const { chains, publicClient } = configureChains(
@@ -51,7 +52,7 @@ export default function App({ Component, pageProps }) {
     }
   }, [router]);
   return (
-    <>
+    <NextUIProvider>
       <Head>
         <title>Littlemami</title>
       </Head>
@@ -62,6 +63,6 @@ export default function App({ Component, pageProps }) {
           </Layout>
         </RainbowKitProvider>
       </WagmiConfig>
-    </>
+    </NextUIProvider>
   );
 }

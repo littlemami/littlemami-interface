@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
+    "@nextui-org/react": "^2.2.10",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "@svgr/webpack": "^8.1.0",
     "animate.css": "^4.1.1",
@@ -20,6 +21,7 @@
     "daisyui": "^4.4.17",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "framer-motion": "^11.0.20",
     "ethers": "5",
     "merkletreejs": "^0.3.11",
     "nanoid": "^4.0.2",

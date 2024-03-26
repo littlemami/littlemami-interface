@@ -36,7 +36,7 @@ const Ranklist = () => {
     <div className={`${styles["rank-list-box"]} mx-auto`}>
       <div className={styles["rank-list-con"]}>
         <div className={styles["circle-bg"]}></div>
-        <div className={styles["con"]}>
+        <div className={styles["icon"]}>
           <div className="new-list-box">
             <div className="item first">
               <p>Rank</p>

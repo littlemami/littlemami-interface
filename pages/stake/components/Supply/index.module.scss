@@ -1,0 +1,133 @@
+.suppyBox {
+  min-height: calc(100vh - 9rem);
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  margin-bottom: 3.4375rem;
+}
+
+.itemBox {
+  position: relative;
+  padding: 2.25rem 3.4375rem;
+  border-radius: 1.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  background: #2C2B4F;
+
+  .bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    border-radius: 1.875rem;
+
+    &::before,
+    &::after {
+      content: ' ';
+      position: absolute;
+    }
+
+    &::after {
+      top: 50%;
+      left: 0%;
+      transform: translate(-60%, 0);
+      width: 35.875rem;
+      height: 27rem;
+      border-radius: 100%;
+      background: linear-gradient(142.42deg, rgba(89, 26, 168, 0.4) 30.43%, rgba(139, 22, 255, 0.14) 76.49%);
+
+      filter: blur(6.25rem);
+    }
+
+  }
+
+  &+.itemBox {
+    margin-top: 4rem;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+    }
+
+    &::after {
+      top: 0;
+      transform: translate(-50%, -4rem);
+      width: 5.375rem;
+      border: 2px solid #FF2FC4;
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0px 4px 25px 0px #9C21FDF5;
+
+    }
+
+    &::before {
+      top: 0;
+      transform: translate(-50%, -2.7rem);
+      width: 2.5rem;
+      height: 1.75rem;
+      background: url("/images/svg/plus_1.svg");
+      background-size: contain;
+    }
+
+    .bg {
+
+
+      &::before {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 6.5rem;
+        height: 4rem;
+        border-radius: 100%;
+        background: linear-gradient(360deg, rgba(255, 148, 238, 0.18) 17.97%, rgba(198, 41, 223, 0.1206) 95.31%);
+        filter: blur(1.875rem);
+      }
+    }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+
+    .l {
+      position: relative;
+      width: 3.875rem;
+      height: 3.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .smallLeftImg {
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+
+    &>span {
+      flex: 1;
+      margin: 0 1.5625rem;
+    }
+
+    &+.item {
+      margin-top: .9375rem;
+    }
+  }
+}
+
+.plus {
+  margin: 1.25rem auto;
+}
+
+.btnBox {
+  margin-top: 3.75rem;
+}
