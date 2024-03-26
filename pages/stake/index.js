@@ -3,7 +3,7 @@ import StakeTitle from "@/components/Stake/StakeTitle";
 import StakeNum from "@/components/Stake/StakeNum";
 import PoolList from "@/components/Stake/PoolList";
 import MyButton from "@/components/MyButton";
-import { poolCardArr, poolListArr } from "./constant";
+import { poolCardArr, poolListArr } from "../../config/constant";
 import Supply from "./components/Supply";
 import UnStaked from "./components/UnStaked";
 import { useState, useEffect } from "react";
