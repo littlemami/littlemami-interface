@@ -48,7 +48,16 @@ const Tools = ({
       </div>
       <div className="tools-btn">
         {noData ? (
-          <MyButton fullWidth text="Buy Tools" color="#6944ff" />
+          <MyButton
+            onClick={() => {
+              window?.open?.(
+                "https://opensea.io/zh-CN/collection/littlemami-pass"
+              );
+            }}
+            fullWidth
+            text="Buy Tools"
+            color="#6944ff"
+          />
         ) : (
           <MyButton
             onClick={() => {

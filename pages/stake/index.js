@@ -43,7 +43,6 @@ const Pools = ({ onClick }) => {
 };
 
 const MyPosition = () => {
-  const [open, setOpen] = useState(false);
   const { chain } = useNetwork();
   const stakeContract = contract[chain?.id]?.stake;
 
@@ -68,9 +67,8 @@ const MyPosition = () => {
             </div>
           }
         />
-        <PoolList unStake={(val) => setOpen(true)} list={poolListArr} />
+        <PoolList list={poolListArr} />
       </div>
-      <UnStaked open={open} handleClose={() => setOpen(false)} />
     </>
   );
 };

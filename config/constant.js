@@ -3,12 +3,12 @@ import Image from "next/image";
 export const poolCardArr = [
   {
     pool: 0,
-    imgSrc: "/images/pool_1.png",
+    imgSrc: "/images/pool_2.png",
     joinScrArr: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
   },
   {
     pool: 1,
-    imgSrc: "/images/pool_2.png",
+    imgSrc: "/images/pool_1.png",
     joinScrArr: [
       "/images/svg/tool_1.svg",
       "/images/svg/lmc.svg",

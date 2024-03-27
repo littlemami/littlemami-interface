@@ -41,7 +41,7 @@ const WriteButton = ({
   );
 
   useEffect(() => {
-    callback?.(confirmed);
+    if (confirmed) callback?.(confirmed);
   }, [confirmed]);
 
   return (

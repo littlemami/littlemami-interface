@@ -1,8 +1,23 @@
 import { Modal, message, Popconfirm } from "antd";
 import MyButton from "@/components/MyButton";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import CheckNft from "../Tools/CheckNft";
-const Tools = ({ open, handleClose }) => {
+import WriteButton from "@/components/WriteButton";
+
+import { useTotalStakeInfo } from "@/hooks/stake";
+const Tools = ({ open, handleClose, pool }) => {
+  const { unStake, userPassTokenId, stakedTokenIds } = useTotalStakeInfo(pool);
+  const [choolsNfts, setChoolsNfts] = useState([]);
+
+  const options = useMemo(
+    () =>
+      stakedTokenIds?.map((item) => ({
+        value: item,
+        key: item,
+      })),
+    [stakedTokenIds]
+  );
+
   return (
     <Modal
       destroyOnClose
@@ -16,20 +31,23 @@ const Tools = ({ open, handleClose }) => {
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
       <h4>My Staked NFT</h4>
-      <p className="tools-money">Transfer 40000 LMC to your wallet.</p>
       <div className="tools-bd">
-        <CheckNft
-          unStaked
-          options={[
-            { value: "No.112", key: 1 },
-            { value: "No.113", key: 2 },
-            { value: "No.114", key: 3 },
-          ]}
-          onChange={(val) => console.log(val)}
-        />
+        {options?.length === 0 ? (
+          <div className="no-data">No data</div>
+        ) : (
+          <CheckNft unStaked options={options} onChange={setChoolsNfts} />
+        )}
       </div>
       <div className="tools-btn">
-        <MyButton fullWidth text="Unstake Confirm" color="#6944ff" />
+        <WriteButton
+          fullWidth
+          color="#6944ff"
+          {...unStake({
+            unStakeTokenIds: choolsNfts,
+            passTokenId: userPassTokenId,
+            callback: handleClose,
+          })}
+        />
       </div>
     </Modal>
   );

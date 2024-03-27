@@ -30,9 +30,12 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     stake,
     tokenAmount,
     holdPassTokenIds,
+    stakedTokenIds,
+    userPassTokenId,
   } = useTotalStakeInfo(pool);
 
-  const { stakedTokenIds, userPassTokenId } = useTotalStakeInfo(0);
+  const { stakedTokenIds: stakedTokenIds1, userPassTokenId: userPassTokenId1 } =
+    useTotalStakeInfo(0);
   const { stakedTokenIds: stakedTokenIds2, userPassTokenId: userPassTokenId2 } =
     useTotalStakeInfo(1);
 
@@ -41,9 +44,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdTokenIds?.map((item) => ({
         value: item,
         key: item,
-        disabled: [...stakedTokenIds, ...stakedTokenIds2]?.includes(item),
+        disabled: [...stakedTokenIds1, ...stakedTokenIds2]?.includes(item),
       })),
-    [holdTokenIds, stakedTokenIds, stakedTokenIds2]
+    [holdTokenIds, stakedTokenIds1, stakedTokenIds2]
   );
 
   const passOptions = useMemo(
@@ -51,14 +54,15 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdPassTokenIds?.map((item) => ({
         value: item,
         key: item,
-        disabled: [userPassTokenId, userPassTokenId2]?.includes(item),
+        disabled: [userPassTokenId1, userPassTokenId2]?.includes(item),
       })),
-    [holdPassTokenIds, userPassTokenId, userPassTokenId2]
+    [holdPassTokenIds, userPassTokenId1, userPassTokenId2]
   );
 
   useEffect(() => {
     // 重置
   }, [handleBack]);
+
   return (
     <>
       <div className={`${styles.suppyBox} w-[50%] min-w-[600px] mx-auto`}>
@@ -141,10 +145,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
 
               <span>Tool</span>
               <div className={styles.r}>
-                {choosePass ? (
+                {userPassTokenId !== "0" || choosePass ? (
                   <div
                     className={styles.imgList}
                     onClick={() => {
+                      if (userPassTokenId !== "0") return;
                       setOpen(true);
                       setType("pass");
                     }}
@@ -179,7 +184,8 @@ const Supply = ({ handleBack, pool, showSupply }) => {
               fullWidth
               {...stake({
                 stakeTokenIds: chooseNfts,
-                passTokenId: choosePass,
+                passTokenId:
+                  userPassTokenId !== "0" ? userPassTokenId : choosePass,
                 callback: handleBack,
               })}
             />

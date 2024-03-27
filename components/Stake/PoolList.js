@@ -3,29 +3,17 @@ import MyButton from "../MyButton";
 import MyTag from "../MyTag";
 import WriteButton from "@/components/WriteButton";
 import { useTotalStakeInfo } from "@/hooks/stake";
+import { useState } from "react";
+
+import UnStaked from "@/pages/stake/components/UnStaked";
 import { Space } from "antd";
 const List = ({ item, index }) => {
+  const [open, setOpen] = useState(false);
   const cardCss =
     "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full bg-[#191832]";
-  const {
-    rate,
-    start,
-    userAmount,
-    stakeAmount,
-    userRemain,
-    stakedTokenIds,
-    holdTokenIds,
-    passRequired,
-    allowance,
-    showApprove,
-    approve,
-    stake,
-    unStake,
-    claim,
-    tokenAmount,
-    holdPassTokenIds,
-    userPassTokenId,
-  } = useTotalStakeInfo(item?.pool);
+  const { stakeAmount, userRemain, claim, tokenAmount } = useTotalStakeInfo(
+    item?.pool
+  );
   return (
     <>
       {true || stakeAmount != 0 ? (
@@ -65,23 +53,30 @@ const List = ({ item, index }) => {
             ) : (
               <Space>
                 <WriteButton color="#6944ff" {...claim} />
-                <WriteButton
-                  {...unStake({
-                    unStakeTokenIds: stakedTokenIds,
-                    passTokenId: userPassTokenId,
-                  })}
+
+                <MyButton
+                  onClick={() => setOpen(true)}
+                  fullWidth
+                  text="Unstake"
+                  color="#b844ff"
                 />
               </Space>
             )}
           </div>
         </div>
       ) : null}
+
+      <UnStaked
+        pool={item.pool}
+        open={open}
+        handleClose={() => setOpen(false)}
+      />
     </>
   );
 };
 
 const PoolList = (props) => {
-  const { className, list, unStake } = props;
+  const { className, list } = props;
   return (
     <div className={`flex flex-col ${className}`}>
       <div className="flex flex-col">
