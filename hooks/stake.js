@@ -198,7 +198,7 @@ export const useTotalStakeInfo = (poolId) => {
     stake,
     claim,
     showApprove,
-    userPassTokenId: userPassTokenId?.toString(),
+    userPassTokenId: "1" || userPassTokenId?.toString(),
     userAmount: userAmount?.toString(),
     sharedTokenIds,
     userLast: userLast?.toString(),

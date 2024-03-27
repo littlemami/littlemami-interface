@@ -27,7 +27,7 @@ const Tools = ({
       wrapClassName="cur-modal-box tools-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
-      <h4>My Tools</h4>
+      <h4>{only ? "My Pass" : "My Tools"}</h4>
       {!noData && !only && (
         <p className="tools-money">
           Transfer {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
@@ -51,11 +51,13 @@ const Tools = ({
           <MyButton
             onClick={() => {
               window?.open?.(
-                "https://opensea.io/zh-CN/collection/littlemami-pass"
+                only
+                  ? "https://opensea.io/zh-CN/collection/littlemami-pass"
+                  : "https://opensea.io/zh-CN/collection/lmc-tool-ssr"
               );
             }}
             fullWidth
-            text="Buy Tools"
+            text={only ? "Buy Pass" : "Buy Tools"}
             color="#6944ff"
           />
         ) : (

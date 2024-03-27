@@ -89,6 +89,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                   {chooseNfts.slice(0, 5)?.map((item, i) => (
                     <div key={i} className={styles.img}>
                       <Image
+                        style={{ borderRadius: "100%" }}
                         src={"/images/svg/nft.svg"}
                         layout="fill"
                         alt={"1"}
@@ -143,7 +144,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                 <Image src={"/images/svg/tool_2.svg"} layout="fill" alt={"1"} />
               </div>
 
-              <span>Tool</span>
+              <span>Pass</span>
               <div className={styles.r}>
                 {userPassTokenId !== "0" || choosePass ? (
                   <div
@@ -156,7 +157,8 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                   >
                     <div className={styles.img}>
                       <Image
-                        src={"/images/svg/nft.svg"}
+                        style={{ borderRadius: "100%" }}
+                        src={"/images/svg/pass.svg"}
                         layout="fill"
                         alt={"1"}
                       />
