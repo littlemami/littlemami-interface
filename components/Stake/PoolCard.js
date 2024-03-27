@@ -1,23 +1,36 @@
 import Image from "next/image";
 import AvatarGroup from "../AvatarGroup";
 import { useTotalStakeInfo } from "@/hooks/stake";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { displayNonZeroDigits } from "@/utils";
 
 import Web3 from "web3";
 
 const PoolCard = (props) => {
-  // const web3 = new Web3("https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID");
+  const web3 = new Web3("https://ethereum-rpc.publicnode.com");
   const { imgSrc, joinScrArr, onClick, pool } = props;
   const { rate, start, userAmount, stakeAmount, userRemain, tokenAmount } =
     useTotalStakeInfo(pool);
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    if (start) {
+      web3.eth.getBlock(start).then((res) => {
+        const time1 = res.timestamp.toString();
+        const format = dayjs(time1 * 1000).format("DD/MM/YYYY HH");
+        const hour = dayjs(time1 * 1000).hour();
+        setTime(`${format} ${hour > 11 ? "PM" : "AM"} UTC`);
+      });
+    }
+  }, [start]);
+
   const arr = useMemo(
     () => [
       {
         text: "Start Time",
-        value: start,
-        // value: web3.eth.getBlock(start).timestamp,
+        // value: start,
+        value: time,
       },
       {
         text: "LMC per Block",
@@ -33,7 +46,7 @@ const PoolCard = (props) => {
         } %`,
       },
     ],
-    [start, rate, userAmount, stakeAmount, tokenAmount]
+    [start, rate, userAmount, stakeAmount, tokenAmount, time]
   );
   return (
     <div
