@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
 import WriteButton from "@/components/WriteButton";
@@ -17,7 +18,6 @@ export const useTotalStakeInfo = (poolId) => {
   const stakeContract = contract[chain?.id]?.stake;
 
   const { address } = useAccount();
-  console.log("address", address);
   const { data: reads0 } = useContractReads({
     contracts: [
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
@@ -32,7 +32,6 @@ export const useTotalStakeInfo = (poolId) => {
     ],
   });
 
-  console.log("reads0", reads0);
   const poolInfo = reads0?.[0]?.result;
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
@@ -90,7 +89,6 @@ export const useTotalStakeInfo = (poolId) => {
       },
     ],
   });
-  console.log("reads1", reads1);
   const holdTokenIds = reads1?.[0]?.result;
   const holdPassTokenIds = reads1?.[1]?.result;
   const nftTotalSupply = reads1?.[2]?.result;
@@ -132,7 +130,7 @@ export const useTotalStakeInfo = (poolId) => {
     }
   });
 
-  const stake = {
+  const stake = ({ stakeTokenIds, passTokenId, callback }) => ({
     buttonName: "Stake",
     data: {
       ...stakeContract,
@@ -141,10 +139,11 @@ export const useTotalStakeInfo = (poolId) => {
     },
     callback: () => {
       refetch();
+      callback?.();
     },
-  };
+  });
 
-  const unStake = {
+  const unStake = ({ unStakeTokenIds, passTokenId, callback }) => ({
     buttonName: "UnStake",
     data: {
       ...stakeContract,
@@ -153,8 +152,9 @@ export const useTotalStakeInfo = (poolId) => {
     },
     callback: () => {
       refetch();
+      callback?.();
     },
-  };
+  });
 
   const approve = {
     buttonName: "Approve Token",
@@ -186,21 +186,26 @@ export const useTotalStakeInfo = (poolId) => {
   if (allowance < 2 ** 254) {
     showApprove = true;
   }
-  console.log("abccccc", rate);
   return {
     holdTokenIds,
     holdPassTokenIds,
     allowance,
     stakedTokenIds,
-    passRequired,
+    passRequired: passRequired?.toString(),
     start: start?.toString(),
     unStake,
     approve,
+    stake,
     claim,
     showApprove,
-    userAmount,
-    stakeAmount,
+    userPassTokenId: userPassTokenId?.toString(),
+    userAmount: userAmount?.toString(),
+    sharedTokenIds,
+    userLast: userLast?.toString(),
+    stakeAmount: stakeAmount?.toString(),
+    tokenAmount: tokenAmount?.toString() / 1e18,
     rate: rate?.toString() / 1e18,
     userRemain: (userRemain + pendingRemain)?.toString() / 1e18,
+    usedPassTokenId,
   };
 };

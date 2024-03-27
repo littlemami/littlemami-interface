@@ -23,7 +23,6 @@ const StakePool = (props) => {
   const stakeContract = contract[chain?.id]?.stake;
 
   const { address } = useAccount();
-  console.log("address", address);
   const { data: reads0 } = useContractReads({
     contracts: [
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
@@ -38,7 +37,6 @@ const StakePool = (props) => {
     ],
   });
 
-  console.log("reads0", reads0);
   const poolInfo = reads0?.[0]?.result;
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
@@ -96,7 +94,6 @@ const StakePool = (props) => {
       },
     ],
   });
-  console.log("reads1", reads1);
   const holdTokenIds = reads1?.[0]?.result;
   const holdPassTokenIds = reads1?.[1]?.result;
   const nftTotalSupply = reads1?.[2]?.result;

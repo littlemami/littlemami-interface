@@ -131,3 +131,39 @@
 .btnBox {
   margin-top: 3.75rem;
 }
+
+.imgList {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+
+  .img {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    margin-left: -1.5rem;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+  }
+
+  .lastImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    background: rgba(0, 0, 0, .6);
+  }
+}

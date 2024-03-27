@@ -1,20 +1,23 @@
-"use client";
 import Image from "next/image";
 import AvatarGroup from "../AvatarGroup";
 import { useTotalStakeInfo } from "@/hooks/stake";
 import { useMemo } from "react";
 import dayjs from "dayjs";
+import { displayNonZeroDigits } from "@/utils";
+
+import Web3 from "web3";
 
 const PoolCard = (props) => {
-  const { imgSrc, joinScrArr, startTime, lmc, apr, onClick, pool } = props;
-  const { rate, start, userAmount, stakeAmount, userRemain } =
+  // const web3 = new Web3("https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID");
+  const { imgSrc, joinScrArr, onClick, pool } = props;
+  const { rate, start, userAmount, stakeAmount, userRemain, tokenAmount } =
     useTotalStakeInfo(pool);
-  console.log(pool, rate);
   const arr = useMemo(
     () => [
       {
         text: "Start Time",
-        value: <>{dayjs(start * 1000).format("YYYY-MM-DD HH:mm:ss")}</>,
+        value: start,
+        // value: web3.eth.getBlock(start).timestamp,
       },
       {
         text: "LMC per Block",
@@ -22,10 +25,15 @@ const PoolCard = (props) => {
       },
       {
         text: "APR",
-        value: apr,
+        value: `${
+          displayNonZeroDigits(
+            ((+userAmount / +stakeAmount) * +rate * 7200 * 365) /
+              (+userAmount * +tokenAmount)
+          ) || 0
+        } %`,
       },
     ],
-    [start, rate]
+    [start, rate, userAmount, stakeAmount, tokenAmount]
   );
   return (
     <div

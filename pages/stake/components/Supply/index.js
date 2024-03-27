@@ -1,14 +1,61 @@
 import Image from "next/image";
 import MyButton from "@/components/MyButton";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./index.module.scss";
 import Tools from "../Tools";
+import WriteButton from "@/components/WriteButton";
+
+import { useTotalStakeInfo } from "@/hooks/stake";
 
 import Back from "@/public/images/svg/back.svg";
 import Plus from "@/public/images/svg/plus_1.svg";
+import { displayNonZeroDigits } from "@/utils";
 
 const Supply = ({ handleBack, pool, showSupply }) => {
   const [open, setOpen] = useState(false);
+  const [chooseNfts, setChooseNfts] = useState([]);
+  const [choosePass, setChoosePass] = useState();
+  const [type, setType] = useState("nft");
+  const {
+    rate,
+    start,
+    userAmount,
+    stakeAmount,
+    userRemain,
+    holdTokenIds,
+    passRequired,
+    allowance,
+    showApprove,
+    approve,
+    stake,
+    tokenAmount,
+    holdPassTokenIds,
+  } = useTotalStakeInfo(pool);
+
+  const { stakedTokenIds, userPassTokenId } = useTotalStakeInfo(0);
+  const { stakedTokenIds: stakedTokenIds2, userPassTokenId: userPassTokenId2 } =
+    useTotalStakeInfo(1);
+
+  const nftOptions = useMemo(
+    () =>
+      holdTokenIds?.map((item) => ({
+        value: item,
+        key: item,
+        disabled: [...stakedTokenIds, ...stakedTokenIds2]?.includes(item),
+      })),
+    [holdTokenIds, stakedTokenIds, stakedTokenIds2]
+  );
+
+  const passOptions = useMemo(
+    () =>
+      holdPassTokenIds?.map((item) => ({
+        value: item,
+        key: item,
+        disabled: [userPassTokenId, userPassTokenId2]?.includes(item),
+      })),
+    [holdPassTokenIds, userPassTokenId, userPassTokenId2]
+  );
+
   useEffect(() => {
     // 重置
   }, [handleBack]);
@@ -27,11 +74,37 @@ const Supply = ({ handleBack, pool, showSupply }) => {
             </div>
             <span>Tool</span>
             <div className={styles.r}>
-              <MyButton
-                onClick={() => setOpen(true)}
-                text="Choose"
-                color="#6944ff"
-              />
+              {chooseNfts?.length !== 0 ? (
+                <div
+                  className={styles.imgList}
+                  onClick={() => {
+                    setOpen(true);
+                    setType("nft");
+                  }}
+                >
+                  {chooseNfts.slice(0, 5)?.map((item, i) => (
+                    <div key={i} className={styles.img}>
+                      <Image
+                        src={"/images/svg/nft.svg"}
+                        layout="fill"
+                        alt={"1"}
+                      />
+                    </div>
+                  ))}
+                  {chooseNfts?.length > 5 && (
+                    <div className={styles.lastImg}>x{chooseNfts?.length}</div>
+                  )}
+                </div>
+              ) : (
+                <MyButton
+                  onClick={() => {
+                    setOpen(true);
+                    setType("nft");
+                  }}
+                  text="Choose"
+                  color="#6944ff"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -44,7 +117,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
             </div>
 
             <span>LMC</span>
-            <div className={styles.r}>0</div>
+            <div className={styles.r}>
+              {displayNonZeroDigits((chooseNfts?.length || 0) * tokenAmount)}
+            </div>
           </div>
           <div className={styles.item}>
             <div className={styles.l}>
@@ -52,11 +127,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                 <Image src={"/images/svg/wallet.svg"} layout="fill" alt={"1"} />
               </div>
             </div>
-            <span>20000</span>
+            <span>{allowance || 0}</span>
           </div>
         </div>
         {/*  */}
-        {pool === 2 && (
+        {passRequired && (
           <div className={styles.itemBox}>
             <div className={styles.bg}></div>
             <div className={styles.item}>
@@ -66,17 +141,61 @@ const Supply = ({ handleBack, pool, showSupply }) => {
 
               <span>Tool</span>
               <div className={styles.r}>
-                <MyButton text="Choose" color="#6944ff" />
+                {choosePass ? (
+                  <div
+                    className={styles.imgList}
+                    onClick={() => {
+                      setOpen(true);
+                      setType("pass");
+                    }}
+                  >
+                    <div className={styles.img}>
+                      <Image
+                        src={"/images/svg/nft.svg"}
+                        layout="fill"
+                        alt={"1"}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <MyButton
+                    onClick={() => {
+                      setOpen(true);
+                      setType("pass");
+                    }}
+                    text="Choose"
+                    color="#6944ff"
+                  />
+                )}
               </div>
             </div>
           </div>
         )}
 
         <div className={styles.btnBox}>
-          <MyButton fullWidth text="SUPPLY" color="#b844ff" />
+          {showApprove && <WriteButton fullWidth {...approve} />}
+          {!showApprove && (
+            <WriteButton
+              fullWidth
+              {...stake({
+                stakeTokenIds: chooseNfts,
+                passTokenId: choosePass,
+                callback: handleBack,
+              })}
+            />
+          )}
+          {/* <MyButton fullWidth text="SUPPLY" color="#b844ff" /> */}
         </div>
       </div>
-      <Tools open={open} handleClose={() => setOpen(false)} />
+      <Tools
+        options={type === "nft" ? nftOptions : passOptions}
+        open={open}
+        tokenAmount={tokenAmount}
+        only={type === "nft" ? false : true}
+        defaultList={type === "nft" ? chooseNfts : choosePass}
+        onChange={type === "nft" ? setChooseNfts : setChoosePass}
+        handleClose={() => setOpen(false)}
+      />
     </>
   );
 };

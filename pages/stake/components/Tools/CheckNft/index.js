@@ -2,14 +2,27 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 
-const CheckNft = ({ options, onChange, unStaked = false }) => {
-  const [checkList, setCheckList] = useState([]);
+const CheckNft = ({
+  options,
+  onChange,
+  defaultList,
+  unStaked = false,
+  only,
+}) => {
+  const [checkList, setCheckList] = useState(
+    defaultList || (only ? undefined : [])
+  );
   const changeFn = (val) => {
-    setCheckList((pre) =>
-      pre.includes(val) ? pre.filter((item) => item !== val) : [...pre, val]
-    );
+    setCheckList((pre) => {
+      if (only) {
+        return pre === val ? undefined : val;
+      } else {
+        return pre.includes(val)
+          ? pre.filter((item) => item !== val)
+          : [...pre, val];
+      }
+    });
   };
-
   useEffect(() => {
     onChange?.(checkList);
   }, [checkList]);
@@ -25,7 +38,13 @@ const CheckNft = ({ options, onChange, unStaked = false }) => {
           className={`${styles.checkItems} ${
             unStaked ? styles.unStaked : ""
           }   ${item?.disabled ? styles.disabled : ""} ${
-            checkList.includes(item?.key) ? styles.checked : ""
+            only
+              ? checkList === item?.key
+                ? styles.checked
+                : ""
+              : checkList?.includes(item?.key)
+              ? styles.checked
+              : ""
           }`}
         >
           <div className={styles.img}>

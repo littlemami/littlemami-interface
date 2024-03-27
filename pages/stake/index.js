@@ -64,7 +64,7 @@ const MyPosition = () => {
           title="My Position"
           tagNode={
             <div className="ml-6">
-              <WriteButton {...claimAll} />
+              <WriteButton color="#6944ff" {...claimAll} />
             </div>
           }
         />
@@ -75,6 +75,8 @@ const MyPosition = () => {
   );
 };
 const Stake = () => {
+  const [isClient, setIsClient] = useState(false);
+
   const [showSupply, setShowSupply] = useState(false);
   const [pool, setPool] = useState(1);
   const pools = [
@@ -85,30 +87,38 @@ const Stake = () => {
       poolId: 1,
     },
   ];
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
-    <div>
-      {showSupply ? (
-        <Supply
-          showSupply={showSupply}
-          handleBack={() => setShowSupply(false)}
-          pool={pool}
-        />
-      ) : (
-        <>
-          <StakeTop />
-          <Pools
-            onClick={(val) => {
-              setShowSupply(true);
-              setPool(val);
-            }}
-          />
-          <MyPosition />
-          {pools.map((pool, index) => {
-            return <StakePool key={pool.poolId} {...pool} />;
-          })}
-        </>
-      )}
-    </div>
+    <>
+      {isClient ? (
+        <div>
+          {showSupply ? (
+            <Supply
+              showSupply={showSupply}
+              handleBack={() => setShowSupply(false)}
+              pool={pool}
+            />
+          ) : (
+            <>
+              <StakeTop />
+              <Pools
+                onClick={(val) => {
+                  setShowSupply(true);
+                  setPool(val);
+                }}
+              />
+              <MyPosition />
+              {/* {pools.map((pool, index) => {
+                return <StakePool key={pool.poolId} {...pool} />;
+              })} */}
+            </>
+          )}
+        </div>
+      ) : null}
+    </>
   );
 };
 

@@ -1,17 +1,10 @@
 import Image from "next/image";
 
-const commonRes = {
-  startTime: "01/01/2024 12pm UTC",
-  lmc: "8.8 LMC",
-  apr: "312.3%",
-};
-
 export const poolCardArr = [
   {
     pool: 0,
     imgSrc: "/images/pool_1.png",
     joinScrArr: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
-    ...commonRes,
   },
   {
     pool: 1,
@@ -21,7 +14,6 @@ export const poolCardArr = [
       "/images/svg/lmc.svg",
       "/images/svg/tool_2.svg",
     ],
-    ...commonRes,
   },
 ];
 
@@ -31,17 +23,17 @@ export const poolListArr = [
     pool: 0,
     avatarList: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
     lmc: 900.2,
-    tagList: [
+    tagList: (tools = 0, lmc = 0) => [
       {
         color: "#2d2569",
-        textNode: "5 Tools",
+        textNode: `${tools} Tools`,
       },
       {
         color: "#532b69",
         textNode: (
           <div className="flex flex-row items-center">
             <Image src="/images/svg/eth.svg" width={8} height={8} alt="eth" />
-            <div className="ml-1">40000 LMC</div>
+            <div className="ml-1">{lmc} LMC</div>
           </div>
         ),
       },
@@ -55,17 +47,17 @@ export const poolListArr = [
       "/images/svg/tool_2.svg",
     ],
     lmc: 900.2,
-    tagList: [
+    tagList: (tools = 0, lmc = 0) => [
       {
         color: "#2d2569",
-        textNode: "5 Tools",
+        textNode: `${tools} Tools`,
       },
       {
         color: "#532b69",
         textNode: (
           <div className="flex flex-row items-center">
             <Image src="/images/svg/eth.svg" width={8} height={8} alt="eth" />
-            <div className="ml-1">40000 LMC</div>
+            <div className="ml-1">{lmc} LMC</div>
           </div>
         ),
       },

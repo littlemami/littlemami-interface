@@ -4,8 +4,8 @@ const AvatarGroup = (props) => {
   const { list, className } = props;
   return (
     <div className={`flex mt-4 mb-3 ${className}`}>
-      {list.map((src, index) => {
-        const className = index === 0 ? "" : "-ml-3";
+      {list?.map((src, index) => {
+        const className = index === 0 ? "" : "-ml-5";
         return (
           <Image
             src={src}
