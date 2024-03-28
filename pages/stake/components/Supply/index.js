@@ -127,6 +127,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
               )}
             </div>
           </div>
+          {/* test */}
           {false && (
             <div className={styles.item}>
               <div className={styles.l}>
