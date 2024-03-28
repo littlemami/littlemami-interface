@@ -1,11 +1,21 @@
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
+import MyButton from "@/components/MyButton";
+
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import lang from "../../lang/index";
-const WriteButton = (props) => {
+const WriteButton = ({
+  data,
+  callback,
+  className,
+  disabled,
+  buttonName,
+  color = "#b844ff",
+  ...props
+}) => {
   const { locale, locales, defaultLocale, asPath } = useRouter();
   const addRecentTransaction = useAddRecentTransaction();
   const [mounted, setMounted] = useState(false);
@@ -16,7 +26,7 @@ const WriteButton = (props) => {
   const { isConnected } = useAccount();
 
   const { data: tx, write } = useContractWrite({
-    ...props?.data,
+    ...data,
     onError(error) {
       Notify.failure(error.message);
     },
@@ -31,44 +41,76 @@ const WriteButton = (props) => {
   );
 
   useEffect(() => {
-    props?.callback?.(confirmed);
+    if (confirmed) callback?.(confirmed);
   }, [confirmed]);
 
   return (
     mounted && (
-      <div className={props.className}>
+      <div className={className}>
         {
-          <button
-            className={
-              (props?.disabled || !write || confirming ? "btn-disabled " : "") +
-              "lit-btn small"
-            }
-            disabled={props?.disabled || !write || confirming}
-            style={{ minWidth: 112 }}
+          <MyButton
+            disabled={disabled || !write || confirming}
             onClick={() => {
               if (!isConnected) {
                 alert("please connect wallet");
                 return;
               }
+
               write?.();
               if (tx) {
                 try {
                   addRecentTransaction({
                     hash: tx,
-                    description: props?.buttonName,
+                    description: buttonName,
                   });
                 } catch (e) {}
               }
             }}
-          >
-            {confirming && (
+            text={
               <>
-                <span className="loading loading-spinner"></span>loading
+                {" "}
+                {confirming && (
+                  <>
+                    <span className="loading loading-spinner"></span>loading
+                  </>
+                )}
+                {confirming ? lang[locale]?.confirming : buttonName}
               </>
-            )}
+            }
+            color={color}
+            {...props}
+          />
+          // <button
+          //   className={
+          //     (props?.disabled || !write || confirming ? "btn-disabled " : "") +
+          //     "lit-btn small"
+          //   }
+          //   disabled={props?.disabled || !write || confirming}
+          //   style={{ minWidth: 112 }}
+          //   onClick={() => {
+          //     if (!isConnected) {
+          //       alert("please connect wallet");
+          //       return;
+          //     }
+          //     write?.();
+          //     if (tx) {
+          //       try {
+          //         addRecentTransaction({
+          //           hash: tx,
+          //           description: props?.buttonName,
+          //         });
+          //       } catch (e) {}
+          //     }
+          //   }}
+          // >
+          //   {confirming && (
+          //     <>
+          //       <span className="loading loading-spinner"></span>loading
+          //     </>
+          //   )}
 
-            {confirming ? lang[locale]?.confirming : props?.buttonName}
-          </button>
+          //   {confirming ? lang[locale]?.confirming : props?.buttonName}
+          // </button>
         }
       </div>
     )

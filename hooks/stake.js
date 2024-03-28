@@ -1,18 +1,13 @@
-import WriteButton from "@/components/WriteButton";
-import { contract } from "@/config";
+"use client";
 import { useEffect, useState } from "react";
 import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
+import WriteButton from "@/components/WriteButton";
+import { contract } from "@/config";
 import USDTABI from "@/abi/USDTABI.json";
 import NFTABI from "@/abi/NFTABI.json";
 
-const StakePool = (props) => {
-  const [mount, setMount] = useState(false);
-  useEffect(() => {
-    setMount(true);
-  }, []);
+export const useTotalStakeInfo = (poolId) => {
   const { chain } = useNetwork();
-
-  const poolId = props?.poolId; //池子编号
 
   const stakeTokenIds = [0]; //stake时使用
 
@@ -135,7 +130,7 @@ const StakePool = (props) => {
     }
   });
 
-  const stake = {
+  const stake = ({ stakeTokenIds, passTokenId, callback }) => ({
     buttonName: "Stake",
     data: {
       ...stakeContract,
@@ -144,10 +139,11 @@ const StakePool = (props) => {
     },
     callback: () => {
       refetch();
+      callback?.();
     },
-  };
+  });
 
-  const unStake = {
+  const unStake = ({ unStakeTokenIds, passTokenId, callback }) => ({
     buttonName: "UnStake",
     data: {
       ...stakeContract,
@@ -156,8 +152,9 @@ const StakePool = (props) => {
     },
     callback: () => {
       refetch();
+      callback?.();
     },
-  };
+  });
 
   const approve = {
     buttonName: "Approve Token",
@@ -189,59 +186,26 @@ const StakePool = (props) => {
   if (allowance < 2 ** 254) {
     showApprove = true;
   }
-
-  return (
-    mount && (
-      <div className="my-4">
-        <div>poolId {props.poolId}</div>
-        <div>sakeAmount {stakeAmount?.toString()} NFT</div>
-        <div>tokenRequired {tokenAmount?.toString() / 1e18} LMC</div>
-        <div>passRequired {passRequired?.toString()}</div>
-        <div>start block number {start?.toString()}</div>
-        <div>rate {rate?.toString() / 1e18} LMC</div>
-        <div>
-          sharedTokenIds{" "}
-          {sharedTokenIds?.map((item, index) => {
-            return <div key={index}>{item.toString()}</div>;
-          })}
-        </div>
-
-        <div className="mt-4">UserInfo</div>
-        <div>userLast {userLast?.toString()}</div>
-        <div>userAmount {userAmount?.toString()} NFT</div>
-        <div>
-          userRemain {(userRemain + pendingRemain)?.toString() / 1e18} LMC
-        </div>
-        <div>
-          staked nft tokenIds{" "}
-          {stakedTokenIds?.map((item, index) => {
-            return <div key={index}>{item.toString()}</div>;
-          })}
-        </div>
-        <div>staked pass tokenId {userPassTokenId?.toString()}</div>
-        <div className="flex gap-2">
-          hold nft tokenIds{" "}
-          {holdTokenIds?.map((item, index) => {
-            return <div key={index}>{item.toString()}</div>;
-          })}
-        </div>
-        <div className="flex gap-2">
-          hold pass tokenIds{" "}
-          {holdPassTokenIds?.map((item, index) => {
-            return <div key={index}>{item.toString()}</div>;
-          })}
-        </div>
-        <div className="flex gap-2">
-          {showApprove && <WriteButton {...approve} />}
-
-          {!showApprove && <WriteButton {...stake} />}
-
-          <WriteButton {...unStake} />
-          <WriteButton {...claim} />
-        </div>
-      </div>
-    )
-  );
+  return {
+    holdTokenIds,
+    holdPassTokenIds,
+    allowance,
+    stakedTokenIds,
+    passRequired: passRequired?.toString(),
+    start: start?.toString(),
+    unStake,
+    approve,
+    stake,
+    claim,
+    showApprove,
+    userPassTokenId: "1" || userPassTokenId?.toString(),
+    userAmount: userAmount?.toString(),
+    sharedTokenIds,
+    userLast: userLast?.toString(),
+    stakeAmount: stakeAmount?.toString(),
+    tokenAmount: tokenAmount?.toString() / 1e18,
+    rate: rate?.toString() / 1e18,
+    userRemain: (userRemain + pendingRemain)?.toString() / 1e18,
+    usedPassTokenId,
+  };
 };
-
-export default StakePool;

@@ -1,16 +1,46 @@
 import Image from "next/image";
+import { useTotalStakeInfo } from "@/hooks/stake";
+import { displayNonZeroDigits } from "@/utils";
+import { useMemo } from "react";
 
 const StakeNum = (props) => {
   const { className } = props;
-  const arr = [
-    {
-      imgSrc: "/images/svg/totalStake.svg",
-      value: "123123",
-      title: "Total Staked",
-    },
-    { imgSrc: "/images/svg/myStake.svg", value: "4000", title: "My Staked" },
-    { imgSrc: "/images/svg/reward.svg", value: "500.2", title: "My Rewards" },
-  ];
+  const { stakeAmount, tokenAmount, userAmount, userRemain } =
+    useTotalStakeInfo(0);
+  const {
+    stakeAmount: stakeAmount2,
+    tokenAmount: tokenAmount2,
+    userAmount: userAmount2,
+    userRemain: userRemain2,
+  } = useTotalStakeInfo(0);
+  const arr = useMemo(
+    () => [
+      {
+        imgSrc: "/images/svg/totalStake.svg",
+        value: `${
+          displayNonZeroDigits(
+            stakeAmount * tokenAmount + stakeAmount2 * tokenAmount2
+          ) || 0
+        }`,
+        title: "Total Staked",
+      },
+      {
+        imgSrc: "/images/svg/myStake.svg",
+        value: `${
+          displayNonZeroDigits(
+            userAmount * tokenAmount + userAmount2 * tokenAmount2
+          ) || 0
+        }`,
+        title: "My Staked",
+      },
+      {
+        imgSrc: "/images/svg/reward.svg",
+        value: `${displayNonZeroDigits(userRemain + userRemain2) || 0}`,
+        title: "My Rewards",
+      },
+    ],
+    []
+  );
   return (
     <div className={`flex flex-row ${className} gap-12`}>
       {arr.map((item) => {

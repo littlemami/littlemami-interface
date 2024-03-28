@@ -2,8 +2,19 @@ import { Modal, message, Popconfirm } from "antd";
 import MyButton from "@/components/MyButton";
 import { useState } from "react";
 import CheckNft from "./CheckNft";
-const Tools = ({ open, handleClose }) => {
-  const [noData, setNodata] = useState(false);
+import { displayNonZeroDigits } from "@/utils";
+
+const Tools = ({
+  open,
+  options,
+  handleClose,
+  onChange,
+  defaultList,
+  only,
+  tokenAmount,
+}) => {
+  const noData = options?.length === 0;
+  const [list, setList] = useState(defaultList || (only ? undefined : []));
   return (
     <Modal
       destroyOnClose
@@ -16,29 +27,49 @@ const Tools = ({ open, handleClose }) => {
       wrapClassName="cur-modal-box tools-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
-      <h4>My Tools</h4>
-      {!noData && (
-        <p className="tools-money">Transfer 40000 LMC to your wallet.</p>
+      <h4>{only ? "My Pass" : "My Tools"}</h4>
+      {!noData && !only && (
+        <p className="tools-money">
+          Transfer {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
+          to your wallet.
+        </p>
       )}
       <div className="tools-bd">
         {noData ? (
           <div className="no-data">No data</div>
         ) : (
           <CheckNft
-            options={[
-              { value: "No.112", key: 1 },
-              { value: "No.113", key: 2, disabled: true },
-              { value: "No.114", key: 3 },
-            ]}
-            onChange={(val) => console.log(val)}
+            defaultList={defaultList}
+            options={options}
+            only={only}
+            onChange={setList}
           />
         )}
       </div>
       <div className="tools-btn">
         {noData ? (
-          <MyButton fullWidth text="Buy Tools" color="#6944ff" />
+          <MyButton
+            onClick={() => {
+              window?.open?.(
+                only
+                  ? "https://opensea.io/zh-CN/collection/littlemami-pass"
+                  : "https://opensea.io/zh-CN/collection/lmc-tool-ssr"
+              );
+            }}
+            fullWidth
+            text={only ? "Buy Pass" : "Buy Tools"}
+            color="#6944ff"
+          />
         ) : (
-          <MyButton fullWidth text="COMFIRM" color="#6944ff" />
+          <MyButton
+            onClick={() => {
+              handleClose?.();
+              onChange?.(list);
+            }}
+            fullWidth
+            text="COMFIRM"
+            color="#6944ff"
+          />
         )}
       </div>
     </Modal>
