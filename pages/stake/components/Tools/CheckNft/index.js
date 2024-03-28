@@ -48,9 +48,13 @@ const CheckNft = ({
           }`}
         >
           <div className={styles.img}>
-            <Image src={"/images/svg/nft.svg"} layout="fill" alt={"1"} />
+            {only ? (
+              <Image src={"/images/svg/pass.svg"} layout="fill" alt={"1"} />
+            ) : (
+              <Image src={"/images/svg/nft.svg"} layout="fill" alt={"1"} />
+            )}
           </div>
-          <div className={styles.con}> {item?.value}</div>
+          <div className={styles.con}> {item?.value.toString()}</div>
           <div className={styles.r}>
             {item?.disabled ? "Staked" : <span className={styles.radio}></span>}
           </div>

@@ -91,6 +91,7 @@ export const useTotalStakeInfo = (poolId) => {
   });
   const holdTokenIds = reads1?.[0]?.result;
   const holdPassTokenIds = reads1?.[1]?.result;
+  console.log("holdTokenIds", { holdTokenIds, holdPassTokenIds, passRequired });
   const nftTotalSupply = reads1?.[2]?.result;
   const passTotalSupply = reads1?.[3]?.result;
   const allowance = reads1?.[4]?.result;
@@ -198,7 +199,7 @@ export const useTotalStakeInfo = (poolId) => {
     stake,
     claim,
     showApprove,
-    userPassTokenId: "1" || userPassTokenId?.toString(),
+    userPassTokenId: userPassTokenId?.toString(),
     userAmount: userAmount?.toString(),
     sharedTokenIds,
     userLast: userLast?.toString(),
