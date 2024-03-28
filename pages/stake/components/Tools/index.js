@@ -13,7 +13,7 @@ const Tools = ({
   only,
   tokenAmount,
 }) => {
-  const noData = options?.length === 0;
+  const noData = !options || options?.length === 0;
   const [list, setList] = useState(defaultList || (only ? undefined : []));
   return (
     <Modal

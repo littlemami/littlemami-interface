@@ -33,7 +33,6 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     stakedTokenIds,
     userPassTokenId,
   } = useTotalStakeInfo(pool);
-
   const { stakedTokenIds: stakedTokenIds1, userPassTokenId: userPassTokenId1 } =
     useTotalStakeInfo(0);
   const { stakedTokenIds: stakedTokenIds2, userPassTokenId: userPassTokenId2 } =
@@ -136,7 +135,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
           </div>
         </div>
         {/*  */}
-        {passRequired && (
+        {pool !== 0 && (
           <div className={styles.itemBox}>
             <div className={styles.bg}></div>
             <div className={styles.item}>
@@ -146,11 +145,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
 
               <span>Pass</span>
               <div className={styles.r}>
-                {userPassTokenId !== "0" || choosePass ? (
+                {(userPassTokenId && userPassTokenId !== "0") || choosePass ? (
                   <div
                     className={styles.imgList}
                     onClick={() => {
-                      if (userPassTokenId !== "0") return;
+                      if (userPassTokenId && userPassTokenId !== "0") return;
                       setOpen(true);
                       setType("pass");
                     }}
@@ -187,7 +186,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
               {...stake({
                 stakeTokenIds: chooseNfts,
                 passTokenId:
-                  userPassTokenId !== "0" ? userPassTokenId : choosePass,
+                  userPassTokenId && userPassTokenId !== "0"
+                    ? userPassTokenId
+                    : choosePass,
                 callback: handleBack,
               })}
             />
