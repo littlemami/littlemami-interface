@@ -22,6 +22,8 @@ const PoolCard = (props) => {
         const hour = dayjs(time1 * 1000).hour();
         setTime(`${format} ${hour > 11 ? "PM" : "AM"} UTC`);
       });
+    } else {
+      setTime("--");
     }
   }, [start]);
 
@@ -34,7 +36,7 @@ const PoolCard = (props) => {
       },
       {
         text: "LMC per Block",
-        value: `${rate} LMC`,
+        value: `${rate || 0} LMC`,
       },
       {
         text: "APR",

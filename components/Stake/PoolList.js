@@ -29,7 +29,10 @@ const List = ({ item, index }) => {
                 <AvatarGroup list={item?.avatarList} className="w-1/5" />
                 <div className="ml-16 flex">
                   {(
-                    item?.tagList(stakeAmount, stakeAmount * tokenAmount) ?? []
+                    item?.tagList(
+                      stakeAmount,
+                      stakeAmount * tokenAmount || 0
+                    ) ?? []
                   ).map((item) => {
                     return (
                       <MyTag
@@ -45,7 +48,7 @@ const List = ({ item, index }) => {
             )}
           </div>
           <div className="w-1/5">
-            {index === 0 ? "Pending Rewards" : userRemain + " LMC"}
+            {index === 0 ? "Pending Rewards" : userRemain || 0 + " LMC"}
           </div>
           <div className="flex flex-row w-1/5">
             {index === 0 ? (

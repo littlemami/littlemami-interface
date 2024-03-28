@@ -122,17 +122,25 @@ const Supply = ({ handleBack, pool, showSupply }) => {
 
             <span>LMC</span>
             <div className={styles.r}>
-              {displayNonZeroDigits((chooseNfts?.length || 0) * tokenAmount)}
+              {displayNonZeroDigits(
+                (chooseNfts?.length || 0) * tokenAmount || 0
+              )}
             </div>
           </div>
-          <div className={styles.item}>
-            <div className={styles.l}>
-              <div className={styles.smallLeftImg}>
-                <Image src={"/images/svg/wallet.svg"} layout="fill" alt={"1"} />
+          {false && (
+            <div className={styles.item}>
+              <div className={styles.l}>
+                <div className={styles.smallLeftImg}>
+                  <Image
+                    src={"/images/svg/wallet.svg"}
+                    layout="fill"
+                    alt={"1"}
+                  />
+                </div>
               </div>
+              <span>{allowance || 0}</span>
             </div>
-            <span>{allowance || 0}</span>
-          </div>
+          )}
         </div>
         {/*  */}
         {pool !== 0 && (
