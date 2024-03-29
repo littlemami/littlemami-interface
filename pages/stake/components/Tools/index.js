@@ -30,8 +30,7 @@ const Tools = ({
       <h4>{only ? "My Pass" : "My Tools"}</h4>
       {!noData && !only && (
         <p className="tools-money">
-          Transfer {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
-          to your wallet.
+          With {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
         </p>
       )}
       <div className="tools-bd">
