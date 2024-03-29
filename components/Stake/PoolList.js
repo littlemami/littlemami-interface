@@ -48,7 +48,7 @@ const List = ({ item, index, getStake }) => {
             )}
           </div>
           <div className="w-1/5">
-            {index === 0 ? "Pending Rewards" : userRemain || 0 + " LMC"}
+            {index === 0 ? "Pending Rewards" : (userRemain || 0) + " LMC"}
           </div>
           <div className="flex flex-row w-1/5">
             {index === 0 ? (

@@ -34,6 +34,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     holdPassTokenIds,
     stakedTokenIds,
     userPassTokenId,
+    showSuc,
   } = getStake[pool];
   const { stakedTokenIds: stakedTokenIds1, userPassTokenId: userPassTokenId1 } =
     getStake[0];
@@ -45,7 +46,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdTokenIds?.map((item) => ({
         value: item,
         key: item,
-        disabled: [...stakedTokenIds1, ...stakedTokenIds2]?.includes(item),
+        disabled: [...stakedTokenIds1, ...stakedTokenIds2]?.find(
+          (initem) => initem.toString() === item.toString()
+        ),
       })),
     [holdTokenIds, stakedTokenIds1, stakedTokenIds2]
   );
@@ -129,7 +132,6 @@ const Supply = ({ handleBack, pool, showSupply }) => {
               )}
             </div>
           </div>
-          {/* test */}
           {false && (
             <div className={styles.item}>
               <div className={styles.l}>
@@ -200,7 +202,10 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                   userPassTokenId && userPassTokenId !== "0"
                     ? userPassTokenId
                     : choosePass,
-                callback: handleBack,
+                callback: () => {
+                  showSuc();
+                  handleBack();
+                },
               })}
             />
           )}

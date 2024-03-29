@@ -18,7 +18,7 @@ export const useTotalStakeInfo = (poolId) => {
   const stakeContract = contract[chain?.id]?.stake;
 
   const { address } = useAccount();
-  const { data: reads0 } = useContractReads({
+  const { data: reads0, refetch: refetch1 } = useContractReads({
     contracts: [
       { ...stakeContract, functionName: "poolInfos", args: [poolId] },
       { ...stakeContract, functionName: "passAddress" },
@@ -57,7 +57,7 @@ export const useTotalStakeInfo = (poolId) => {
 
   const userPassTokenId = userInfo?.[3]; // 用户已经在当前池子使用的pass,为0 则没有使用
 
-  const { data: reads1, refetch } = useContractReads({
+  const { data: reads1, refetch: refetch2 } = useContractReads({
     contracts: [
       {
         address: nftAddress,
@@ -117,7 +117,7 @@ export const useTotalStakeInfo = (poolId) => {
     }
   }
 
-  const { data: reads2 } = useContractReads({
+  const { data: reads2, refetch: refetch3 } = useContractReads({
     contracts: searchNFT,
   });
 
@@ -130,16 +130,20 @@ export const useTotalStakeInfo = (poolId) => {
       stakedTokenIds.push(index);
     }
   });
-
+  const refetchAll = () => {
+    refetch1();
+    refetch2();
+    refetch3();
+  };
   const stake = ({ stakeTokenIds, passTokenId, callback }) => ({
     buttonName: "Stake",
     data: {
       ...stakeContract,
       functionName: "stake",
-      args: [poolId, stakeTokenIds, passTokenId],
+      args: [poolId, stakeTokenIds, passTokenId || "0"],
     },
     callback: () => {
-      refetch();
+      refetchAll();
       callback?.();
     },
   });
@@ -149,10 +153,10 @@ export const useTotalStakeInfo = (poolId) => {
     data: {
       ...stakeContract,
       functionName: "unStake",
-      args: [poolId, unStakeTokenIds, passTokenId],
+      args: [poolId, unStakeTokenIds, passTokenId || "0"],
     },
     callback: () => {
-      refetch();
+      refetchAll();
       callback?.();
     },
   });
@@ -166,7 +170,7 @@ export const useTotalStakeInfo = (poolId) => {
       args: [stakeContract?.address, 2 ** 255],
     },
     callback: () => {
-      refetch();
+      refetchAll();
     },
   };
 
@@ -178,25 +182,28 @@ export const useTotalStakeInfo = (poolId) => {
       args: [poolId],
     },
     callback: () => {
-      refetch();
+      refetchAll();
     },
   };
 
   let showApprove = false;
 
-  if (allowance < 2 ** 254) {
+  if (allowance < 2 ** 22) {
+    // if (allowance < 2 ** 254) {
     showApprove = true;
   }
+  console.log({ allowance, stakedTokenIds, holdTokenIds, userPassTokenId });
   return {
     holdTokenIds,
     holdPassTokenIds,
-    allowance,
+    allowance: allowance?.toString(),
     stakedTokenIds,
     passRequired: passRequired?.toString(),
     start: start?.toString(),
     unStake,
     approve,
     stake,
+    refetchAll,
     claim,
     showApprove,
     userPassTokenId: userPassTokenId?.toString(),
