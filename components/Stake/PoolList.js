@@ -8,17 +8,15 @@ import { StakeContext } from "@/pages/stake";
 
 import UnStaked from "@/pages/stake/components/UnStaked";
 import { Space } from "antd";
-const List = ({ item, index }) => {
+const List = ({ item, index, getStake }) => {
   const [open, setOpen] = useState(false);
   const cardCss =
     "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full bg-[#191832]";
 
-  const getStake = useContext(StakeContext);
-  const { stakeAmount, userRemain, claim, tokenAmount } =
-    getStake[item?.pool || 0];
+  const { stakeAmount, userRemain, claim, tokenAmount } = getStake;
   return (
     <>
-      {true || stakeAmount != 0 ? (
+      {stakeAmount != 0 || index === 0 ? (
         <div
           className={`flex flex-row items-center ${cardCss} mt-2`}
           key={item}
@@ -82,12 +80,24 @@ const List = ({ item, index }) => {
 
 const PoolList = (props) => {
   const { className, list } = props;
+  const getStake = useContext(StakeContext);
+
   return (
     <div className={`flex flex-col ${className}`}>
       <div className="flex flex-col">
         {list?.map((item, index) => {
-          return <List item={item} index={index} key={index} />;
+          return (
+            <List
+              getStake={getStake[item?.pool || 0]}
+              item={item}
+              index={index}
+              key={index}
+            />
+          );
         })}
+        {getStake[0]?.stakeAmount == 0 && getStake[1]?.stakeAmount == 0 && (
+          <div className="text-center mt-10"> No Data</div>
+        )}
       </div>
     </div>
   );

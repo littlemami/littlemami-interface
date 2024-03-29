@@ -7,6 +7,7 @@ import { poolCardArr, poolListArr } from "../../config/constant";
 import Supply from "./components/Supply";
 import UnStaked from "./components/UnStaked";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import WriteButton from "@/components/WriteButton";
 import { contract } from "@/config";
@@ -77,6 +78,8 @@ const MyPosition = () => {
   );
 };
 const Stake = () => {
+  const router = useRouter();
+
   const {
     holdTokenIds,
     holdPassTokenIds,
@@ -139,6 +142,12 @@ const Stake = () => {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (router.pathname === "/stake") {
+      setShowSupply(false);
+    }
+  }, [router]);
   return (
     <StakeContext.Provider
       value={[

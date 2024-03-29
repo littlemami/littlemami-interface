@@ -19,10 +19,10 @@ const UserInfo = dynamic(() => import("@/components/UserInfo"), {
 const navigation = [
   { name: "MarsNode", href: "/" },
   { name: "Stake", href: "/stake" },
+  { name: "Launchpad", href: "/launchpad", disabled: true },
+  { name: "Loan", href: "/Loan", disabled: true },
   { name: "Leaderboard", href: "/ranklist" },
-  { name: "Faq", href: "/faq" },
-  // { name: "Stake", href: "/stake" },
-  { name: "Launchpad", href: "/launchpad" },
+  // { name: "Faq", href: "/faq" },
 ];
 
 function classNames(...classes) {
@@ -99,7 +99,11 @@ export default function Example() {
                           "px-3 mr-14 cursor-pointer nav-title"
                         )}
                         onClick={() => {
-                          if (router.pathname !== item.href) {
+                          if (item?.disabled) return;
+                          if (
+                            router.pathname !== item.href ||
+                            item.name === "Stake"
+                          ) {
                             router.push(item.href);
                           }
                         }}
