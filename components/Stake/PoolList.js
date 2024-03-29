@@ -16,7 +16,7 @@ const List = ({ item, index, getStake }) => {
   const { stakeAmount, userRemain, claim, tokenAmount } = getStake;
   return (
     <>
-      {stakeAmount != 0 || index === 0 ? (
+      {(stakeAmount && stakeAmount != 0) || index === 0 ? (
         <div
           className={`flex flex-row items-center ${cardCss} mt-2`}
           key={item}
@@ -95,9 +95,10 @@ const PoolList = (props) => {
             />
           );
         })}
-        {getStake[0]?.stakeAmount == 0 && getStake[1]?.stakeAmount == 0 && (
-          <div className="text-center mt-10"> No Data</div>
-        )}
+        {(!getStake[0]?.stakeAmount || getStake[0]?.stakeAmount == 0) &&
+          (!getStake[1]?.stakeAmount || getStake[1]?.stakeAmount == 0) && (
+            <div className="text-center mt-10"> No Data</div>
+          )}
       </div>
     </div>
   );
