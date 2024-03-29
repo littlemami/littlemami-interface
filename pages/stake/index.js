@@ -6,12 +6,16 @@ import MyButton from "@/components/MyButton";
 import { poolCardArr, poolListArr } from "../../config/constant";
 import Supply from "./components/Supply";
 import UnStaked from "./components/UnStaked";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import WriteButton from "@/components/WriteButton";
 import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
 import StakePool from "@/components/StakePool";
+
+import { useTotalStakeInfo } from "@/hooks/stake";
+
+export const StakeContext = React.createContext(null);
 
 const StakeTop = () => {
   return (
@@ -73,6 +77,52 @@ const MyPosition = () => {
   );
 };
 const Stake = () => {
+  const {
+    holdTokenIds,
+    holdPassTokenIds,
+    allowance,
+    stakedTokenIds,
+    passRequired,
+    start,
+    unStake,
+    approve,
+    stake,
+    claim,
+    showApprove,
+    userPassTokenId,
+    userAmount,
+    sharedTokenIds,
+    userLast,
+    stakeAmount,
+    tokenAmount,
+    rate,
+    userRemain,
+    usedPassTokenId,
+  } = useTotalStakeInfo(0);
+
+  const {
+    holdTokenIds: holdTokenIds1,
+    holdPassTokenIds: holdPassTokenIds1,
+    allowance: allowance1,
+    stakedTokenIds: stakedTokenIds1,
+    passRequired: passRequired1,
+    start: start1,
+    unStake: unStake1,
+    approve: approve1,
+    stake: stake1,
+    claim: claim1,
+    showApprove: showApprove1,
+    userPassTokenId: userPassTokenId1,
+    userAmount: userAmount1,
+    sharedTokenIds: sharedTokenIds1,
+    userLast: userLast1,
+    stakeAmount: stakeAmount1,
+    tokenAmount: tokenAmount1,
+    rate: rate1,
+    userRemain: userRemain1,
+    usedPassTokenId: usedPassTokenId1,
+  } = useTotalStakeInfo(1);
+
   const [isClient, setIsClient] = useState(false);
 
   const [showSupply, setShowSupply] = useState(false);
@@ -90,7 +140,54 @@ const Stake = () => {
     setIsClient(true);
   }, []);
   return (
-    <>
+    <StakeContext.Provider
+      value={[
+        {
+          holdTokenIds,
+          holdPassTokenIds,
+          allowance,
+          stakedTokenIds,
+          passRequired,
+          start,
+          unStake,
+          approve,
+          stake,
+          claim,
+          showApprove,
+          userPassTokenId,
+          userAmount,
+          sharedTokenIds,
+          userLast,
+          stakeAmount,
+          tokenAmount,
+          rate,
+          userRemain,
+          usedPassTokenId,
+        },
+        {
+          holdTokenIds: holdTokenIds1,
+          holdPassTokenIds: holdPassTokenIds1,
+          allowance: allowance1,
+          stakedTokenIds: stakedTokenIds1,
+          passRequired: passRequired1,
+          start: start1,
+          unStake: unStake1,
+          approve: approve1,
+          stake: stake1,
+          claim: claim1,
+          showApprove: showApprove1,
+          userPassTokenId: userPassTokenId1,
+          userAmount: userAmount1,
+          sharedTokenIds: sharedTokenIds1,
+          userLast: userLast1,
+          stakeAmount: stakeAmount1,
+          tokenAmount: tokenAmount1,
+          rate: rate1,
+          userRemain: userRemain1,
+          usedPassTokenId: usedPassTokenId1,
+        },
+      ]}
+    >
       {isClient ? (
         <div>
           {showSupply ? (
@@ -116,7 +213,7 @@ const Stake = () => {
           )}
         </div>
       ) : null}
-    </>
+    </StakeContext.Provider>
   );
 };
 

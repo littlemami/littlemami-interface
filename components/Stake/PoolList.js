@@ -2,8 +2,9 @@ import AvatarGroup from "../AvatarGroup";
 import MyButton from "../MyButton";
 import MyTag from "../MyTag";
 import WriteButton from "@/components/WriteButton";
-import { useTotalStakeInfo } from "@/hooks/stake";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { StakeContext } from "@/pages/stake";
 
 import UnStaked from "@/pages/stake/components/UnStaked";
 import { Space } from "antd";
@@ -11,9 +12,10 @@ const List = ({ item, index }) => {
   const [open, setOpen] = useState(false);
   const cardCss =
     "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full bg-[#191832]";
-  const { stakeAmount, userRemain, claim, tokenAmount } = useTotalStakeInfo(
-    item?.pool
-  );
+
+  const getStake = useContext(StakeContext);
+  const { stakeAmount, userRemain, claim, tokenAmount } =
+    getStake[item?.pool || 0];
   return (
     <>
       {true || stakeAmount != 0 ? (

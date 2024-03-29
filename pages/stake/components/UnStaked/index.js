@@ -1,14 +1,15 @@
 import { Modal, message, Popconfirm } from "antd";
 import MyButton from "@/components/MyButton";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import CheckNft from "../Tools/CheckNft";
 import WriteButton from "@/components/WriteButton";
 import { displayNonZeroDigits } from "@/utils";
+import { StakeContext } from "@/pages/stake";
 
-import { useTotalStakeInfo } from "@/hooks/stake";
 const Tools = ({ open, handleClose, pool }) => {
+  const getStake = useContext(StakeContext);
   const { unStake, userPassTokenId, tokenAmount, stakedTokenIds } =
-    useTotalStakeInfo(pool);
+    getStake[pool || 0];
   const [choolsNfts, setChoolsNfts] = useState([]);
 
   const options = useMemo(

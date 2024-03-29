@@ -1,7 +1,7 @@
 import Image from "next/image";
 import AvatarGroup from "../AvatarGroup";
-import { useTotalStakeInfo } from "@/hooks/stake";
-import { useEffect, useMemo, useState } from "react";
+import { StakeContext } from "@/pages/stake";
+import { useEffect, useMemo, useState, useContext } from "react";
 import dayjs from "dayjs";
 import { displayNonZeroDigits } from "@/utils";
 
@@ -10,8 +10,11 @@ import Web3 from "web3";
 const PoolCard = (props) => {
   const web3 = new Web3("https://ethereum-rpc.publicnode.com");
   const { imgSrc, joinScrArr, onClick, pool } = props;
+
+  const getStake = useContext(StakeContext);
   const { rate, start, userAmount, stakeAmount, userRemain, tokenAmount } =
-    useTotalStakeInfo(pool);
+    getStake[pool];
+
   const [time, setTime] = useState("");
 
   useEffect(() => {

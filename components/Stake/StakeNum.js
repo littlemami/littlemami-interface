@@ -1,18 +1,20 @@
 import Image from "next/image";
-import { useTotalStakeInfo } from "@/hooks/stake";
 import { displayNonZeroDigits } from "@/utils";
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
+import { StakeContext } from "@/pages/stake";
 
 const StakeNum = (props) => {
   const { className } = props;
-  const { stakeAmount, tokenAmount, userAmount, userRemain } =
-    useTotalStakeInfo(0);
+
+  const getStake = useContext(StakeContext);
+  const { stakeAmount, tokenAmount, userAmount, userRemain } = getStake[0];
   const {
     stakeAmount: stakeAmount2,
     tokenAmount: tokenAmount2,
     userAmount: userAmount2,
     userRemain: userRemain2,
-  } = useTotalStakeInfo(0);
+  } = getStake[1];
+
   const arr = useMemo(
     () => [
       {

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import MyButton from "@/components/MyButton";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import styles from "./index.module.scss";
 import Tools from "../Tools";
 import WriteButton from "@/components/WriteButton";
 
-import { useTotalStakeInfo } from "@/hooks/stake";
+import { StakeContext } from "@/pages/stake";
 
 import Back from "@/public/images/svg/back.svg";
 import Plus from "@/public/images/svg/plus_1.svg";
@@ -16,6 +16,8 @@ const Supply = ({ handleBack, pool, showSupply }) => {
   const [chooseNfts, setChooseNfts] = useState([]);
   const [choosePass, setChoosePass] = useState();
   const [type, setType] = useState("nft");
+
+  const getStake = useContext(StakeContext);
   const {
     rate,
     start,
@@ -32,11 +34,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     holdPassTokenIds,
     stakedTokenIds,
     userPassTokenId,
-  } = useTotalStakeInfo(pool);
+  } = getStake[pool];
   const { stakedTokenIds: stakedTokenIds1, userPassTokenId: userPassTokenId1 } =
-    useTotalStakeInfo(0);
+    getStake[0];
   const { stakedTokenIds: stakedTokenIds2, userPassTokenId: userPassTokenId2 } =
-    useTotalStakeInfo(1);
+    getStake[1];
 
   const nftOptions = useMemo(
     () =>
