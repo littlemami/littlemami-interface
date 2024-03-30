@@ -9,7 +9,7 @@ import Web3 from "web3";
 
 const PoolCard = (props) => {
   const web3 = new Web3("https://ethereum-rpc.publicnode.com");
-  const { imgSrc, joinScrArr, onClick, pool, subInfo, afterColor } = props;
+  const { imgSrc, joinScrArr, onClick, pool, subInfo } = props;
 
   const getStake = useContext(StakeContext);
   const { rate, start, userAmount, stakeAmount, userRemain, tokenAmount } =

@@ -91,7 +91,6 @@ export const useTotalStakeInfo = (poolId) => {
   });
   const holdTokenIds = reads1?.[0]?.result;
   const holdPassTokenIds = reads1?.[1]?.result;
-
   const nftTotalSupply = reads1?.[2]?.result;
   const passTotalSupply = reads1?.[3]?.result;
   const allowance = reads1?.[4]?.result;

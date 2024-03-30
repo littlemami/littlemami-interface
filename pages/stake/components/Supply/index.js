@@ -157,7 +157,8 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                   src={"/images/svg/pass_border.svg"}
                   layout="fill"
                   alt={"1"}
-                />``
+                />
+                ``
               </div>
 
               <span>Pass</span>

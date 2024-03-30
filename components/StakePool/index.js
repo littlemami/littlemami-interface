@@ -18,7 +18,7 @@ const StakePool = (props) => {
 
   const unStakeTokenIds = [0]; //unstake时使用
 
-  const passTokenId = 1; //stake时 使用
+  const passTokenIds = [1]; //stake时 使用
 
   const stakeContract = contract[chain?.id]?.stake;
 
@@ -59,8 +59,6 @@ const StakePool = (props) => {
 
   const userAmount = userInfo?.[1]; //用户在当前池子质押的nft数量
   const userRemain = userInfo?.[2]; //用户待领取奖励
-
-  const userPassTokenId = userInfo?.[3]; // 用户已经在当前池子使用的pass,为0 则没有使用
 
   const { data: reads1, refetch } = useContractReads({
     contracts: [
@@ -127,7 +125,7 @@ const StakePool = (props) => {
 
   const stakedTokenIds = []; //用户在当前池子质押的tokenIds
 
-  let usedPassTokenId;
+  let usedPassTokenIds = []; //用户在当前池子使用的pass tokenIds
 
   reads2?.forEach((item, index) => {
     if (item?.result == address) {
@@ -135,12 +133,28 @@ const StakePool = (props) => {
     }
   });
 
+  const searchPass = stakedTokenIds.map((item) => {
+    return {
+      ...stakeContract,
+      functionName: "tokenPassRelation",
+      args: [poolId, item],
+    };
+  });
+
+  const { data: reads3 } = useContractReads({
+    contracts: searchPass,
+  });
+
+  reads3?.forEach((item) => {
+    usedPassTokenIds.push(item?.result);
+  });
+
   const stake = {
     buttonName: "Stake",
     data: {
       ...stakeContract,
       functionName: "stake",
-      args: [poolId, stakeTokenIds, passTokenId],
+      args: [poolId, stakeTokenIds, passTokenIds],
     },
     callback: () => {
       refetch();
