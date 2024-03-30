@@ -13,7 +13,7 @@ export const useTotalStakeInfo = (poolId) => {
 
   const unStakeTokenIds = [0]; //unstake时使用
 
-  const passTokenId = 1; //stake时 使用
+  const passTokenIds = [1]; //stake时 使用
 
   const stakeContract = contract[chain?.id]?.stake;
 
@@ -54,8 +54,6 @@ export const useTotalStakeInfo = (poolId) => {
 
   const userAmount = userInfo?.[1]; //用户在当前池子质押的nft数量
   const userRemain = userInfo?.[2]; //用户待领取奖励
-
-  const userPassTokenId = userInfo?.[3]; // 用户已经在当前池子使用的pass,为0 则没有使用
 
   const { data: reads1, refetch: refetch2 } = useContractReads({
     contracts: [
@@ -122,12 +120,27 @@ export const useTotalStakeInfo = (poolId) => {
 
   const stakedTokenIds = []; //用户在当前池子质押的tokenIds
 
-  let usedPassTokenId;
+  let usedPassTokenIds = []; //用户在当前池子使用的pass tokenIds
 
   reads2?.forEach((item, index) => {
     if (item?.result == address) {
       stakedTokenIds.push(index);
     }
+  });
+  const searchPass = stakedTokenIds.map((item) => {
+    return {
+      ...stakeContract,
+      functionName: "tokenPassRelation",
+      args: [poolId, item],
+    };
+  });
+
+  const { data: reads3 } = useContractReads({
+    contracts: searchPass,
+  });
+
+  reads3?.forEach((item) => {
+    usedPassTokenIds.push(item?.result);
   });
   const refetchAll = () => {
     refetch1();
@@ -152,7 +165,8 @@ export const useTotalStakeInfo = (poolId) => {
     data: {
       ...stakeContract,
       functionName: "unStake",
-      args: [poolId, unStakeTokenIds, passTokenId || "0"],
+      args: [poolId, unStakeTokenIds],
+      // args: [poolId, unStakeTokenIds, passTokenId || "0"],
     },
     callback: () => {
       refetchAll();
@@ -191,7 +205,7 @@ export const useTotalStakeInfo = (poolId) => {
     // if (allowance < 2 ** 254) {
     showApprove = true;
   }
-  console.log({ allowance, stakedTokenIds, holdTokenIds, userPassTokenId });
+  console.log({ allowance, stakedTokenIds, holdTokenIds });
   return {
     holdTokenIds,
     holdPassTokenIds,
@@ -205,7 +219,6 @@ export const useTotalStakeInfo = (poolId) => {
     refetchAll,
     claim,
     showApprove,
-    userPassTokenId: userPassTokenId?.toString(),
     userAmount: userAmount?.toString(),
     sharedTokenIds,
     userLast: userLast?.toString(),
@@ -213,6 +226,6 @@ export const useTotalStakeInfo = (poolId) => {
     tokenAmount: tokenAmount?.toString() / 1e18,
     rate: rate?.toString() / 1e18,
     userRemain: (userRemain + pendingRemain)?.toString() / 1e18,
-    usedPassTokenId,
+    usedPassTokenIds,
   };
 };

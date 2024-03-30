@@ -41,7 +41,16 @@ const StakeNum = (props) => {
         title: "My Rewards",
       },
     ],
-    []
+    [
+      stakeAmount,
+      tokenAmount,
+      stakeAmount2,
+      tokenAmount2,
+      userAmount,
+      userAmount2,
+      userRemain,
+      userRemain2,
+    ]
   );
   return (
     <div className={`flex flex-row ${className} gap-12`}>

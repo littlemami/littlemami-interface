@@ -8,8 +8,7 @@ import { StakeContext } from "@/pages/stake";
 
 const Tools = ({ open, handleClose, pool }) => {
   const getStake = useContext(StakeContext);
-  const { unStake, userPassTokenId, tokenAmount, stakedTokenIds } =
-    getStake[pool || 0];
+  const { unStake, tokenAmount, stakedTokenIds } = getStake[pool || 0];
   const [choolsNfts, setChoolsNfts] = useState([]);
 
   const options = useMemo(
@@ -36,7 +35,8 @@ const Tools = ({ open, handleClose, pool }) => {
       <h4>My Staked NFT</h4>
       <p className="tools-money">
         Transfer {displayNonZeroDigits((choolsNfts?.length || 0) * tokenAmount)}{" "}
-        LMC to your wallet.
+        LMC {pool === 1 ? `and ${choolsNfts?.length || 0} Pass` : ""} to your
+        wallet.
       </p>
       <div className="tools-bd">
         {options?.length === 0 ? (
@@ -51,7 +51,6 @@ const Tools = ({ open, handleClose, pool }) => {
           color="#6944ff"
           {...unStake({
             unStakeTokenIds: choolsNfts,
-            passTokenId: userPassTokenId,
             callback: handleClose,
           })}
         />

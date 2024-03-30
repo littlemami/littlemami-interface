@@ -14,7 +14,7 @@ import { displayNonZeroDigits } from "@/utils";
 const Supply = ({ handleBack, pool, showSupply }) => {
   const [open, setOpen] = useState(false);
   const [chooseNfts, setChooseNfts] = useState([]);
-  const [choosePass, setChoosePass] = useState();
+  const [choosePass, setChoosePass] = useState([]);
   const [type, setType] = useState("nft");
 
   const getStake = useContext(StakeContext);
@@ -33,13 +33,16 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     tokenAmount,
     holdPassTokenIds,
     stakedTokenIds,
-    userPassTokenId,
     showSuc,
   } = getStake[pool];
-  const { stakedTokenIds: stakedTokenIds1, userPassTokenId: userPassTokenId1 } =
-    getStake[0];
-  const { stakedTokenIds: stakedTokenIds2, userPassTokenId: userPassTokenId2 } =
-    getStake[1];
+  const {
+    stakedTokenIds: stakedTokenIds1,
+    usedPassTokenIds: usedPassTokenIds1,
+  } = getStake[0];
+  const {
+    stakedTokenIds: stakedTokenIds2,
+    usedPassTokenIds: usedPassTokenIds2,
+  } = getStake[1];
 
   const nftOptions = useMemo(
     () =>
@@ -56,11 +59,25 @@ const Supply = ({ handleBack, pool, showSupply }) => {
   const passOptions = useMemo(
     () =>
       holdPassTokenIds?.map((item) => ({
-        value: item,
+        value: `No.${item}`,
         key: item,
-        disabled: [userPassTokenId1, userPassTokenId2]?.includes(item),
+        disabled: [...usedPassTokenIds1, ...usedPassTokenIds2]?.find(
+          (initem) => initem.toString() === item.toString()
+        ),
       })),
-    [holdPassTokenIds, userPassTokenId1, userPassTokenId2]
+    [holdPassTokenIds, usedPassTokenIds1, usedPassTokenIds2]
+  );
+
+  const lengthDis = useMemo(
+    () => pool === 1 && choosePass?.length !== chooseNfts?.length,
+    [choosePass, chooseNfts, pool]
+  );
+
+  const lmcAllow = 0;
+
+  const lmcDis = useMemo(
+    () => false && (lmcAllow < (chooseNfts?.length || 0) * tokenAmount || 0),
+    [lmcAllow, chooseNfts, tokenAmount]
   );
 
   useEffect(() => {
@@ -163,24 +180,32 @@ const Supply = ({ handleBack, pool, showSupply }) => {
 
               <span>Pass</span>
               <div className={styles.r}>
-                {(userPassTokenId && userPassTokenId !== "0") || choosePass ? (
-                  <div
-                    className={styles.imgList}
-                    onClick={() => {
-                      if (userPassTokenId && userPassTokenId !== "0") return;
-                      setOpen(true);
-                      setType("pass");
-                    }}
-                  >
-                    <div className={styles.img}>
-                      <Image
-                        style={{ borderRadius: "100%" }}
-                        src={"/images/svg/pass.svg"}
-                        layout="fill"
-                        alt={"1"}
-                      />
+                {choosePass?.length !== 0 ? (
+                  <>
+                    <div
+                      className={styles.imgList}
+                      onClick={() => {
+                        setOpen(true);
+                        setType("pass");
+                      }}
+                    >
+                      {choosePass.slice(0, 5)?.map((item, i) => (
+                        <div key={i} className={styles.img}>
+                          <Image
+                            style={{ borderRadius: "100%" }}
+                            src={"/images/svg/pass.svg"}
+                            layout="fill"
+                            alt={"1"}
+                          />
+                        </div>
+                      ))}
+                      {choosePass?.length > 5 && (
+                        <div className={styles.lastImg}>
+                          x{choosePass?.length}
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  </>
                 ) : (
                   <MyButton
                     onClick={() => {
@@ -196,17 +221,23 @@ const Supply = ({ handleBack, pool, showSupply }) => {
           </div>
         )}
 
+        {lmcDis ? (
+          <p className="mt-[10px] text-[#BC2A4D]">Insufficient balance</p>
+        ) : lengthDis ? (
+          <p className="mt-[10px] text-[#BC2A4D]">
+            Inconsistent number of pass cards and ssr cards
+          </p>
+        ) : null}
+
         <div className={styles.btnBox}>
           {showApprove && <WriteButton fullWidth {...approve} />}
           {!showApprove && (
             <WriteButton
+              disabled={lengthDis || lmcDis}
               fullWidth
               {...stake({
                 stakeTokenIds: chooseNfts,
-                passTokenId:
-                  userPassTokenId && userPassTokenId !== "0"
-                    ? userPassTokenId
-                    : choosePass,
+                passTokenId: choosePass,
                 callback: () => {
                   showSuc();
                   handleBack();
@@ -221,7 +252,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
         options={type === "nft" ? nftOptions : passOptions}
         open={open}
         tokenAmount={tokenAmount}
-        only={type === "nft" ? false : true}
+        passCard={type === "nft" ? false : true}
         defaultList={type === "nft" ? chooseNfts : choosePass}
         onChange={type === "nft" ? setChooseNfts : setChoosePass}
         handleClose={() => setOpen(false)}
