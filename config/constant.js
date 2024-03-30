@@ -3,16 +3,18 @@ import Image from "next/image";
 export const poolCardArr = [
   {
     pool: 0,
+    subInfo: "SSR-LMC",
     imgSrc: "/images/pool_2.png",
-    joinScrArr: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
+    joinScrArr: ["/images/svg/tool_2.svg", "/images/svg/lmc.svg"],
   },
   {
     pool: 1,
+    subInfo: "SSR-LMC+PASS",
     imgSrc: "/images/pool_1.png",
     joinScrArr: [
-      "/images/svg/tool_1.svg",
-      "/images/svg/lmc.svg",
       "/images/svg/tool_2.svg",
+      "/images/svg/lmc.svg",
+      "/images/svg/pass_border.svg",
     ],
   },
 ];
@@ -21,7 +23,7 @@ export const poolListArr = [
   {},
   {
     pool: 0,
-    avatarList: ["/images/svg/tool_1.svg", "/images/svg/lmc.svg"],
+    avatarList: ["/images/svg/tool_2.svg", "/images/svg/lmc.svg"],
     lmc: 900.2,
     tagList: (tools = 0, lmc = 0) => [
       {
@@ -42,9 +44,9 @@ export const poolListArr = [
   {
     pool: 1,
     avatarList: [
-      "/images/svg/tool_1.svg",
-      "/images/svg/lmc.svg",
       "/images/svg/tool_2.svg",
+      "/images/svg/lmc.svg",
+      "/images/svg/pass_border.svg",
     ],
     lmc: 900.2,
     tagList: (tools = 0, lmc = 0) => [

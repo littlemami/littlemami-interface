@@ -44,7 +44,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
   const nftOptions = useMemo(
     () =>
       holdTokenIds?.map((item) => ({
-        value: item,
+        value: `No.${item}`,
         key: item,
         disabled: [...stakedTokenIds1, ...stakedTokenIds2]?.find(
           (initem) => initem.toString() === item.toString()
@@ -78,7 +78,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
           <div className={styles.bg}></div>
           <div className={styles.item}>
             <div className={styles.l}>
-              <Image src={"/images/svg/tool_1.svg"} layout="fill" alt={"1"} />
+              <Image src={"/images/svg/tool_2.svg"} layout="fill" alt={"1"} />
             </div>
             <span>Tool</span>
             <div className={styles.r}>
@@ -94,7 +94,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                     <div key={i} className={styles.img}>
                       <Image
                         style={{ borderRadius: "100%" }}
-                        src={"/images/svg/nft.svg"}
+                        src={"/images/svg/tool_2.svg"}
                         layout="fill"
                         alt={"1"}
                       />
@@ -153,7 +153,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
             <div className={styles.bg}></div>
             <div className={styles.item}>
               <div className={styles.l}>
-                <Image src={"/images/svg/tool_2.svg"} layout="fill" alt={"1"} />
+                <Image
+                  src={"/images/svg/pass_border.svg"}
+                  layout="fill"
+                  alt={"1"}
+                />``
               </div>
 
               <span>Pass</span>

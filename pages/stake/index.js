@@ -25,8 +25,11 @@ const StakeTop = () => {
       <StakeTitle
         title="Stake"
         extraNode={
-          <div className="text-[rgba(255,255,255,0.90)] font-Poppins text-[1rem] font-not-italic font-400 leading-normal tracking-0.48px">
-            LMC with Tool NFT stake to Get the Highest Yield LMC
+          <div
+            className={`${styles.titleInfo} relative text-[rgba(255,255,255,0.90)] font-Poppins text-[1rem] font-not-italic font-400 leading-normal tracking-0.48px before:block before:absolute before:w-full before:h-0.5 before:bg-[#BE35FF]`}
+          >
+            Boost your profits with LittleMami’s easy and innovative <br />{" "}
+            staking, offering rewards and secure governance.
           </div>
         }
       />
@@ -39,7 +42,7 @@ const Pools = ({ onClick }) => {
   return (
     <div className="mt-16">
       <StakeTitle title="Pools" className="mb-4" />
-      <div className="flex flex-row justify-between gap-[7rem]">
+      <div className="flex flex-row justify-between gap-[150px]">
         {poolCardArr.map((item) => {
           return <PoolCard onClick={onClick} {...item} key={item} />;
         })}

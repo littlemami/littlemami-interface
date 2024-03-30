@@ -8,11 +8,11 @@ const StakeTitle = (props) => {
         <Image
           src="/images/svg/eth.svg"
           width={8}
-          height={8}
+          height={13}
           alt="eth"
           className="mr-2"
         />
-        <div className="text-[#FFF] font-Poppins text-[2.625rem] font-not-italic font-600 leading-normal tracking-1.26px">
+        <div className="text-[#FFF] font-Poppins text-[2.625rem] font-not-italic font-bold leading-normal tracking-1.26px">
           {title}
         </div>
         {tagNode}

@@ -15,7 +15,7 @@ const Tools = ({ open, handleClose, pool }) => {
   const options = useMemo(
     () =>
       stakedTokenIds?.map((item) => ({
-        value: item,
+        value: `No.${item}`,
         key: item,
       })),
     [stakedTokenIds]

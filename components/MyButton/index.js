@@ -4,8 +4,8 @@ const MyButton = (props) => {
   const { color, text, className, ...reset } = props;
   return (
     <Button
-      radius="full"
-      className={`py-3 px-6 rounded-lg h-[36px] ${className}`}
+      radius="lg"
+      className={`py-3 px-6 rounded-[15px] h-[36px] ${className}`}
       style={{ backgroundColor: color }}
       {...reset}
     >

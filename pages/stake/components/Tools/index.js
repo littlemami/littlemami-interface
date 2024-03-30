@@ -27,7 +27,7 @@ const Tools = ({
       wrapClassName="cur-modal-box tools-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
-      <h4>{only ? "My Pass" : "My Tools"}</h4>
+      <h4>{only ? "My Pass" : "My SSR"}</h4>
       {!noData && !only && (
         <p className="tools-money">
           With {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC

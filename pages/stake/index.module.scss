@@ -42,3 +42,14 @@
     transform: translate(10px, -10px);
   }
 }
+
+
+.titleInfo {
+  &:before {
+    z-index: -1;
+    top: 0.8rem;
+    left: -.625rem;
+    filter: blur(3px);
+
+  }
+}

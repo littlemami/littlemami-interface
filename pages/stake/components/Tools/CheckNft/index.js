@@ -49,9 +49,9 @@ const CheckNft = ({
         >
           <div className={styles.img}>
             {only ? (
-              <Image src={"/images/svg/pass.svg"} layout="fill" alt={"1"} />
+              <Image src={"/images/svg/pass.svg"} layout="fill" alt={"PASS"} />
             ) : (
-              <Image src={"/images/svg/nft.svg"} layout="fill" alt={"1"} />
+              <Image src={"/images/svg/tool_2.svg"} layout="fill" alt={"SSR"} />
             )}
           </div>
           <div className={styles.con}> {item?.value.toString()}</div>

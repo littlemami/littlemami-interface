@@ -6,12 +6,13 @@ import { useState, useContext } from "react";
 
 import { StakeContext } from "@/pages/stake";
 
+import { displayNonZeroDigits } from "@/utils";
 import UnStaked from "@/pages/stake/components/UnStaked";
 import { Space } from "antd";
 const List = ({ item, index, getStake }) => {
   const [open, setOpen] = useState(false);
   const cardCss =
-    "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full bg-[#191832]";
+    "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full backdrop-blur-[1.5625rem]";
 
   const { stakeAmount, userRemain, claim, tokenAmount } = getStake;
   return (
@@ -19,6 +20,10 @@ const List = ({ item, index, getStake }) => {
       {(stakeAmount && stakeAmount != 0) || index === 0 ? (
         <div
           className={`flex flex-row items-center ${cardCss} mt-2`}
+          style={{
+            background:
+              "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%,rgba(81, 72, 107, 0.098) 93.27%)",
+          }}
           key={item}
         >
           <div className="w-3/5">
@@ -48,7 +53,9 @@ const List = ({ item, index, getStake }) => {
             )}
           </div>
           <div className="w-1/5">
-            {index === 0 ? "Pending Rewards" : (userRemain || 0) + " LMC"}
+            {index === 0
+              ? "Pending Rewards"
+              : displayNonZeroDigits(userRemain || 0) + " LMC"}
           </div>
           <div className="flex flex-row w-1/5">
             {index === 0 ? (
