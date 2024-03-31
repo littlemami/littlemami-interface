@@ -11,9 +11,10 @@ const Tools = ({
   onChange,
   defaultList,
   only,
+  passCard = false,
   tokenAmount,
 }) => {
-  const noData = options?.length === 0;
+  const noData = !options || options?.length === 0;
   const [list, setList] = useState(defaultList || (only ? undefined : []));
   return (
     <Modal
@@ -27,11 +28,10 @@ const Tools = ({
       wrapClassName="cur-modal-box tools-modal-box"
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
-      <h4>{only ? "My Pass" : "My Tools"}</h4>
-      {!noData && !only && (
+      <h4>{passCard ? "My Pass" : "My SSR"}</h4>
+      {!noData && !passCard && (
         <p className="tools-money">
-          Transfer {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
-          to your wallet.
+          With {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
         </p>
       )}
       <div className="tools-bd">
@@ -42,6 +42,7 @@ const Tools = ({
             defaultList={defaultList}
             options={options}
             only={only}
+            passCard={passCard}
             onChange={setList}
           />
         )}
@@ -51,13 +52,13 @@ const Tools = ({
           <MyButton
             onClick={() => {
               window?.open?.(
-                only
+                passCard
                   ? "https://opensea.io/zh-CN/collection/littlemami-pass"
                   : "https://opensea.io/zh-CN/collection/lmc-tool-ssr"
               );
             }}
             fullWidth
-            text={only ? "Buy Pass" : "Buy Tools"}
+            text={passCard ? "Buy Pass" : "Buy Tools"}
             color="#6944ff"
           />
         ) : (

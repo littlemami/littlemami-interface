@@ -16,7 +16,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 import useRem from "@/hooks/rem";
 
 const { chains, publicClient } = configureChains(
@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }) {
   };
 
   useEffect(() => {
-    if (router.pathname === "/") {
+    if (router.pathname === "/" || router.pathname === "/stake") {
       document.body.className = "";
     } else {
       document.body.className = "star";

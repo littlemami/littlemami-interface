@@ -1,7 +1,7 @@
 import Image from "next/image";
 import AvatarGroup from "../AvatarGroup";
-import { useTotalStakeInfo } from "@/hooks/stake";
-import { useEffect, useMemo, useState } from "react";
+import { StakeContext } from "@/pages/stake";
+import { useEffect, useMemo, useState, useContext } from "react";
 import dayjs from "dayjs";
 import { displayNonZeroDigits } from "@/utils";
 
@@ -9,9 +9,12 @@ import Web3 from "web3";
 
 const PoolCard = (props) => {
   const web3 = new Web3("https://ethereum-rpc.publicnode.com");
-  const { imgSrc, joinScrArr, onClick, pool } = props;
+  const { imgSrc, joinScrArr, onClick, pool, subInfo } = props;
+
+  const getStake = useContext(StakeContext);
   const { rate, start, userAmount, stakeAmount, userRemain, tokenAmount } =
-    useTotalStakeInfo(pool);
+    getStake[pool];
+
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -22,6 +25,8 @@ const PoolCard = (props) => {
         const hour = dayjs(time1 * 1000).hour();
         setTime(`${format} ${hour > 11 ? "PM" : "AM"} UTC`);
       });
+    } else {
+      setTime("--");
     }
   }, [start]);
 
@@ -34,7 +39,7 @@ const PoolCard = (props) => {
       },
       {
         text: "LMC per Block",
-        value: `${rate} LMC`,
+        value: `${rate || 0} LMC`,
       },
       {
         text: "APR",
@@ -51,9 +56,20 @@ const PoolCard = (props) => {
   return (
     <div
       onClick={() => onClick?.(props?.pool)}
-      className="flex-1 shrink-0 rounded-[1.875rem] border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)]  shadow-[0px_4px_13.8px_0px_rgba(0,0,0,0.25)] backdrop-blur-[1.5625rem] p-8 flex flex-col cursor-pointer"
+      className={`relative hover:-translate-y-[15px] after:block after:absolute after:-bottom-[4px] after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:bg-[${
+        pool === 0 ? "#F662F9" : "#8B54FF"
+      }] after:rounded-[0_0_4px_4px] after:shadow-[0px_2px_10px_0px_#9C21FDF5] transition-all flex-1 shrink-0 rounded-[1.875rem] border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)] backdrop-blur-[1.5625rem] p-[50px_45px_55px_45px] flex flex-col cursor-pointer`}
+      style={{
+        background:
+          "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%,rgba(81, 72, 107, 0.098) 93.27%)",
+      }}
     >
-      <Image src={imgSrc} width={800} height={40} alt={imgSrc} />
+      <div className="relative w-full pt-[50%]">
+        <Image src={imgSrc} layout="fill" alt={imgSrc} />
+        <p className="absolute bg-[#1E1741B2] p-[10px_30px] left-[50%] bottom-[20px] -translate-x-[50%] rounded-[40px]">
+          {subInfo}
+        </p>
+      </div>
       <AvatarGroup list={joinScrArr} />
       <div className="flex flex-col">
         {arr.map((item) => {

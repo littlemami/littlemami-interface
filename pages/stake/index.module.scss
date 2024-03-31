@@ -1,0 +1,55 @@
+.shakeBox {
+  position: relative;
+
+}
+
+.shakeSuccess {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: -3rem;
+
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 2.5rem;
+  border-radius: .9375rem;
+  background: rgba(59, 42, 128, 0.8);
+  color: rgba(47, 255, 218, 1);
+
+  font-size: 16px;
+
+  .img2 {
+    transform: translateY(-3px);
+    align-self: self-end;
+  }
+
+  &:hover .img2 {
+    animation: move .5s forwards;
+  }
+
+  &>div {
+    flex: 1;
+    margin: 0 .9375rem;
+
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+@keyframes move {
+  100% {
+    transform: translate(10px, -10px);
+  }
+}
+
+
+.titleInfo {
+  &:before {
+    z-index: -1;
+    top: 0.8rem;
+    left: -.625rem;
+    filter: blur(3px);
+
+  }
+}

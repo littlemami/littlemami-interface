@@ -12,7 +12,7 @@
 
 :root {
   --nav-size: 18px;
-  background-color: #1C1D21;
+  background-color: #0D0D1F;
   color: #fff;
 }
 
@@ -797,7 +797,8 @@ body {
   }
 
   &.active:after {
-    background: #482AFF;
+    background: #FF2FC4;
+
   }
 }
 

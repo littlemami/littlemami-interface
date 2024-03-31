@@ -3,7 +3,7 @@ import Image from "next/image";
 const AvatarGroup = (props) => {
   const { list, className } = props;
   return (
-    <div className={`flex mt-4 mb-3 ${className}`}>
+    <div className={`flex mt-6 mb-5 ${className}`}>
       {list?.map((src, index) => {
         const className = index === 0 ? "" : "-ml-5";
         return (

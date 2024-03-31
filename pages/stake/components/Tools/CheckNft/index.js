@@ -8,6 +8,7 @@ const CheckNft = ({
   defaultList,
   unStaked = false,
   only,
+  passCard = false,
 }) => {
   const [checkList, setCheckList] = useState(
     defaultList || (only ? undefined : [])
@@ -48,9 +49,13 @@ const CheckNft = ({
           }`}
         >
           <div className={styles.img}>
-            <Image src={"/images/svg/nft.svg"} layout="fill" alt={"1"} />
+            {passCard ? (
+              <Image src={"/images/svg/pass.svg"} layout="fill" alt={"PASS"} />
+            ) : (
+              <Image src={"/images/svg/tool_2.svg"} layout="fill" alt={"SSR"} />
+            )}
           </div>
-          <div className={styles.con}> {item?.value}</div>
+          <div className={styles.con}> {item?.value.toString()}</div>
           <div className={styles.r}>
             {item?.disabled ? "Staked" : <span className={styles.radio}></span>}
           </div>

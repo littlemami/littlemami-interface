@@ -1,18 +1,20 @@
 import { Modal, message, Popconfirm } from "antd";
 import MyButton from "@/components/MyButton";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import CheckNft from "../Tools/CheckNft";
 import WriteButton from "@/components/WriteButton";
+import { displayNonZeroDigits } from "@/utils";
+import { StakeContext } from "@/pages/stake";
 
-import { useTotalStakeInfo } from "@/hooks/stake";
 const Tools = ({ open, handleClose, pool }) => {
-  const { unStake, userPassTokenId, stakedTokenIds } = useTotalStakeInfo(pool);
+  const getStake = useContext(StakeContext);
+  const { unStake, tokenAmount, stakedTokenIds } = getStake[pool || 0];
   const [choolsNfts, setChoolsNfts] = useState([]);
 
   const options = useMemo(
     () =>
       stakedTokenIds?.map((item) => ({
-        value: item,
+        value: `No.${item}`,
         key: item,
       })),
     [stakedTokenIds]
@@ -31,6 +33,11 @@ const Tools = ({ open, handleClose, pool }) => {
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
       <h4>My Staked NFT</h4>
+      <p className="tools-money">
+        Transfer {displayNonZeroDigits((choolsNfts?.length || 0) * tokenAmount)}{" "}
+        LMC {pool === 1 ? `and ${choolsNfts?.length || 0} Pass` : ""} to your
+        wallet.
+      </p>
       <div className="tools-bd">
         {options?.length === 0 ? (
           <div className="no-data">No data</div>
@@ -44,7 +51,6 @@ const Tools = ({ open, handleClose, pool }) => {
           color="#6944ff"
           {...unStake({
             unStakeTokenIds: choolsNfts,
-            passTokenId: userPassTokenId,
             callback: handleClose,
           })}
         />
