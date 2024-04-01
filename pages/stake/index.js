@@ -108,6 +108,7 @@ const Stake = () => {
     userRemain,
     usedPassTokenIds,
     refetchAll,
+    balance,
   } = useTotalStakeInfo(0);
 
   const {
@@ -131,6 +132,7 @@ const Stake = () => {
     userRemain: userRemain1,
     usedPassTokenIds: usedPassTokenIds1,
     refetchAll: refetchAll1,
+    balance: balance1,
   } = useTotalStakeInfo(1);
 
   const [isClient, setIsClient] = useState(false);
@@ -186,6 +188,7 @@ const Stake = () => {
           usedPassTokenIds,
           showSuc,
           refetchAll,
+          balance,
         },
         {
           holdTokenIds: holdTokenIds1,
@@ -209,6 +212,7 @@ const Stake = () => {
           usedPassTokenIds: usedPassTokenIds1,
           showSuc,
           refetchAll: refetchAll1,
+          balance: balance1,
         },
       ]}
     >

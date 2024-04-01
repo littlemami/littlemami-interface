@@ -10,6 +10,7 @@ import { StakeContext } from "@/pages/stake";
 import Back from "@/public/images/svg/back.svg";
 import Plus from "@/public/images/svg/plus_1.svg";
 import { displayNonZeroDigits } from "@/utils";
+import { BigNumber } from "bignumber.js";
 
 const Supply = ({ handleBack, pool, showSupply }) => {
   const [open, setOpen] = useState(false);
@@ -18,7 +19,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
   const [type, setType] = useState("nft");
 
   const getStake = useContext(StakeContext);
-  const {
+  let {
     rate,
     start,
     userAmount,
@@ -34,6 +35,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     holdPassTokenIds,
     stakedTokenIds,
     showSuc,
+    balance,
   } = getStake[pool];
   const {
     stakedTokenIds: stakedTokenIds1,
@@ -43,6 +45,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     stakedTokenIds: stakedTokenIds2,
     usedPassTokenIds: usedPassTokenIds2,
   } = getStake[1];
+  const balanceString = new BigNumber(balance).div(10 ** 18).toString();
 
   const nftOptions = useMemo(
     () =>
@@ -73,11 +76,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     [choosePass, chooseNfts, pool]
   );
 
-  const lmcAllow = 0;
-
   const lmcDis = useMemo(
-    () => false && (lmcAllow < (chooseNfts?.length || 0) * tokenAmount || 0),
-    [lmcAllow, chooseNfts, tokenAmount]
+    () => balance < (chooseNfts?.length || 0) * tokenAmount || 0,
+    [balance, chooseNfts, tokenAmount]
   );
 
   useEffect(() => {
@@ -149,20 +150,20 @@ const Supply = ({ handleBack, pool, showSupply }) => {
               )}
             </div>
           </div>
-          {false && (
-            <div className={styles.item}>
-              <div className={styles.l}>
-                <div className={styles.smallLeftImg}>
-                  <Image
-                    src={"/images/svg/wallet.svg"}
-                    layout="fill"
-                    alt={"1"}
-                  />
-                </div>
+
+          <div className={styles.item}>
+            <div className={styles.l}>
+              <div className={styles.smallLeftImg}>
+                <Image src={"/images/svg/wallet.svg"} layout="fill" alt={"1"} />
               </div>
-              <span>{allowance || 0}</span>
             </div>
-          )}
+            <span>{balanceString || 0}</span>
+            <div className={styles.r}>
+              {lmcDis ? (
+                <p className="mt-[10px] text-[#BC2A4D]">Insufficient balance</p>
+              ) : null}
+            </div>
+          </div>
         </div>
         {/*  */}
         {pool !== 0 && (
@@ -221,9 +222,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
           </div>
         )}
 
-        {lmcDis ? (
-          <p className="mt-[10px] text-[#BC2A4D]">Insufficient balance</p>
-        ) : lengthDis ? (
+        {lengthDis ? (
           <p className="mt-[10px] text-[#BC2A4D]">
             Inconsistent number of pass cards and ssr cards
           </p>
