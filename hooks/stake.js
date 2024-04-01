@@ -85,6 +85,12 @@ export const useTotalStakeInfo = (poolId) => {
         functionName: "allowance",
         args: [address, stakeContract?.address],
       },
+      {
+        address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
+        abi: USDTABI,
+        functionName: "balanceOf",
+        args: [address],
+      },
     ],
   });
   const holdTokenIds = reads1?.[0]?.result;
@@ -92,6 +98,8 @@ export const useTotalStakeInfo = (poolId) => {
   const nftTotalSupply = reads1?.[2]?.result;
   const passTotalSupply = reads1?.[3]?.result;
   const allowance = reads1?.[4]?.result;
+  const balance = reads1?.[5]?.result;
+  console.log("balance", balance);
 
   const searchNFT = [];
 
@@ -227,5 +235,6 @@ export const useTotalStakeInfo = (poolId) => {
     rate: rate?.toString() / 1e18,
     userRemain: (userRemain + pendingRemain)?.toString() / 1e18,
     usedPassTokenIds,
+    balance,
   };
 };

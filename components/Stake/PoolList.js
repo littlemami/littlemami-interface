@@ -7,7 +7,7 @@ import { useState, useContext } from "react";
 import { StakeContext } from "@/pages/stake";
 
 import { displayNonZeroDigits } from "@/utils";
-import UnStaked from "@/pages/stake/components/UnStaked";
+import UnStaked from "@/components/Stake/UnStaked";
 import { Space } from "antd";
 const List = ({ item, index, getStake }) => {
   const [open, setOpen] = useState(false);
