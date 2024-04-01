@@ -2,7 +2,7 @@ import Image from "next/image";
 import MyButton from "@/components/MyButton";
 import { useEffect, useMemo, useState, useContext } from "react";
 import styles from "./index.module.scss";
-import Tools from "../Tools";
+import Tools from "@/components/Stake/Tools";
 import WriteButton from "@/components/WriteButton";
 
 import { StakeContext } from "@/pages/stake";

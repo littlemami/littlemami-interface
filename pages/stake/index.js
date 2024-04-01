@@ -4,8 +4,8 @@ import StakeNum from "@/components/Stake/StakeNum";
 import PoolList from "@/components/Stake/PoolList";
 import MyButton from "@/components/MyButton";
 import { poolCardArr, poolListArr } from "../../config/constant";
-import Supply from "./components/Supply";
-import UnStaked from "./components/UnStaked";
+import Supply from "@/components/Stake/Supply";
+import UnStaked from "@/components/Stake/UnStaked";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -42,7 +42,7 @@ const Pools = ({ onClick }) => {
   return (
     <div className="mt-16">
       <StakeTitle title="Pools" className="mb-4" />
-      <div className="flex flex-row justify-between gap-[150px]">
+      <div className="flex flex-row justify-between gap-[9.375rem]">
         {poolCardArr.map((item) => {
           return <PoolCard onClick={onClick} {...item} key={item} />;
         })}

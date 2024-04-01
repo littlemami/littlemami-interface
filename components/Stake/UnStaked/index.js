@@ -1,7 +1,8 @@
 import { Modal, message, Popconfirm } from "antd";
 import MyButton from "@/components/MyButton";
 import { useState, useMemo, useContext } from "react";
-import CheckNft from "../Tools/CheckNft";
+import CheckNft from "@/components/Stake/Tools/CheckNft";
+
 import WriteButton from "@/components/WriteButton";
 import { displayNonZeroDigits } from "@/utils";
 import { StakeContext } from "@/pages/stake";
