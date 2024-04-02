@@ -22,7 +22,7 @@ const List = ({ item, index, getStake }) => {
           className={`flex flex-row items-center ${cardCss} mt-2`}
           style={{
             background:
-              "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%,rgba(81, 72, 107, 0.098) 93.27%)",
+              "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%, rgba(81, 72, 107, 0.098) 93.27%)",
           }}
           key={item}
         >

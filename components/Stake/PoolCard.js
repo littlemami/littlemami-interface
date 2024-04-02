@@ -62,7 +62,7 @@ const PoolCard = (props) => {
       } relative hover:-translate-y-[15px] after:block after:absolute after:-bottom-[4px] after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] after:shadow-[0px_2px_10px_0px_#9C21FDF5] transition-all flex-1 shrink-0 rounded-[1.875rem] border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)] backdrop-blur-[1.5625rem] p-[3.125rem_2.8125rem_3.4375rem_2.8125rem] flex flex-col cursor-pointer`}
       style={{
         background:
-          "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%,rgba(81, 72, 107, 0.098) 93.27%)",
+          "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%, rgba(81, 72, 107, 0.098) 93.27%)",
       }}
     >
       <div className="relative w-full pt-[50%]">

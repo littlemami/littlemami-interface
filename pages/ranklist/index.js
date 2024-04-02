@@ -15,7 +15,7 @@ const Ranklist = () => {
     const marsRank = await rpc.getMarsRank(page, pageSize);
 
     const scoreRank = await rpc.getScoreRank(page, pageSize);
-
+    console.log("scoreRank", scoreRank);
     setData((prev) => ({
       ...prev,
       scoreRank:
@@ -36,7 +36,7 @@ const Ranklist = () => {
     <div className={`${styles["rank-list-box"]} mx-auto`}>
       <div className={styles["rank-list-con"]}>
         <div className={styles["circle-bg"]}></div>
-        <div className={styles["icon"]}>
+        <div className={styles["con"]}>
           <div className="new-list-box">
             <div className="item first">
               <p>Rank</p>
@@ -82,10 +82,12 @@ const Ranklist = () => {
                   );
                 })}
               </InfiniteScroll>
+
+              {data?.scoreRank?.length == 0 && (
+                <p className="no-data">No data</p>
+              )}
             </div>
           </div>
-
-          {data?.scoreRank?.length == 0 && <p className="no-data">No data</p>}
         </div>
       </div>
     </div>
