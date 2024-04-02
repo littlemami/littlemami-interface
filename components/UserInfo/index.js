@@ -66,8 +66,7 @@ const UserInfo = () => {
             <div>{balance || 0} USDT</div>
             <div onClick={() => setOpen((pre) => !pre)}>
               <Head width={"1.25rem"} />
-              {address?.slice(0, 8)}
-
+              {address?.slice(0, 4)}...{address?.slice(-4)}
               <Down
                 width={"0.875rem"}
                 className={`open ${open ? "yes" : ""}`}
