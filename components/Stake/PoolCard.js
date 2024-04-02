@@ -34,9 +34,9 @@ const PoolCard = (props) => {
   const arr = useMemo(
     () => [
       {
-        text: "Start Time",
+        text: "Start Block",
         // value: start,
-        value: time,
+        value: start || "--",
       },
       {
         text: "LMC per Block",
@@ -52,7 +52,7 @@ const PoolCard = (props) => {
         } %`,
       },
     ],
-    [start, rate, userAmount, stakeAmount, tokenAmount, time]
+    [start, rate, userAmount, stakeAmount, tokenAmount, time, start]
   );
   return (
     <div
