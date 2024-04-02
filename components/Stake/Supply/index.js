@@ -45,7 +45,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     stakedTokenIds: stakedTokenIds2,
     usedPassTokenIds: usedPassTokenIds2,
   } = getStake[1];
-  const balanceString = new BigNumber(balance).div(10 ** 18).toString();
+  const balanceString = displayNonZeroDigits(
+    new BigNumber(balance).div(10 ** 18).toString()
+  );
 
   const nftOptions = useMemo(
     () =>
