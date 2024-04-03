@@ -14,8 +14,10 @@ const Ranklist = () => {
   async function fetchData(page) {
     const marsRank = await rpc.getMarsRank(page, pageSize);
 
-    const scoreRank = await rpc.getScoreRank(page, pageSize);
-    console.log("scoreRank", scoreRank);
+    let scoreRank = await rpc.getScoreRank(page, pageSize);
+    if (!Array.isArray(scoreRank)) {
+      scoreRank = [];
+    }
     setData((prev) => ({
       ...prev,
       scoreRank:
