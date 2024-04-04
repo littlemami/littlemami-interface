@@ -68,7 +68,7 @@ const Tools = ({
               onChange?.(list);
             }}
             fullWidth
-            text="COMFIRM"
+            text="CONFIRM"
             color="#6944ff"
           />
         )}

@@ -33,7 +33,6 @@ export const useTotalStakeInfo = (poolId) => {
   });
 
   const poolInfo = reads0?.[0]?.result;
-  console.log("poolInfo", { poolInfo, address });
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
   const pendingRemain = reads0?.[3]?.result;
@@ -149,6 +148,13 @@ export const useTotalStakeInfo = (poolId) => {
 
   reads3?.forEach((item) => {
     usedPassTokenIds.push(item?.result);
+  });
+
+  console.log("poolInfo", {
+    holdPassTokenIds,
+    passTotalSupply,
+    usedPassTokenIds,
+    sharedTokenIds,
   });
   const refetchAll = () => {
     refetch1();
