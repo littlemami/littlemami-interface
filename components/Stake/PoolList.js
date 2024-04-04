@@ -14,15 +14,15 @@ const List = ({ item, index, getStake }) => {
   const cardCss =
     "rounded-2xl border-[0.0625rem] border-solid border-[rgba(255,255,255,0.17)] py-4 px-8 w-full backdrop-blur-[1.5625rem]";
 
-  const { stakeAmount, userRemain, claim, tokenAmount } = getStake;
+  const { userAmount, userRemain, claim, tokenAmount } = getStake;
   return (
     <>
-      {(stakeAmount && stakeAmount != 0) || index === 0 ? (
+      {(userAmount && userAmount != 0) || index === 0 ? (
         <div
           className={`flex flex-row items-center ${cardCss} mt-2`}
           style={{
             background:
-              "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%,rgba(81, 72, 107, 0.098) 93.27%)",
+              "linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%, rgba(81, 72, 107, 0.098) 93.27%)",
           }}
           key={item}
         >
@@ -34,10 +34,8 @@ const List = ({ item, index, getStake }) => {
                 <AvatarGroup list={item?.avatarList} className="w-1/5" />
                 <div className="ml-16 flex">
                   {(
-                    item?.tagList(
-                      stakeAmount,
-                      stakeAmount * tokenAmount || 0
-                    ) ?? []
+                    item?.tagList(userAmount, userAmount * tokenAmount || 0) ??
+                    []
                   ).map((item) => {
                     return (
                       <MyTag
@@ -102,8 +100,8 @@ const PoolList = (props) => {
             />
           );
         })}
-        {(!getStake[0]?.stakeAmount || getStake[0]?.stakeAmount == 0) &&
-          (!getStake[1]?.stakeAmount || getStake[1]?.stakeAmount == 0) && (
+        {(!getStake[0]?.userAmount || getStake[0]?.userAmount == 0) &&
+          (!getStake[1]?.userAmount || getStake[1]?.userAmount == 0) && (
             <div className="text-center mt-10"> No Data</div>
           )}
       </div>

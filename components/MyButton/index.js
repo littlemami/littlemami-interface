@@ -7,7 +7,7 @@ const MyButton = (props) => {
       isDisabled={disabled}
       radius="lg"
       className={`disabled:opacity-75 disabled:cursor-not-allowed py-3 px-6 rounded-[15px] h-[36px] ${className}`}
-      style={{ backgroundColor: color }}
+      style={{ backgroundColor: color, color: "#fff" }}
       {...reset}
     >
       {text}
