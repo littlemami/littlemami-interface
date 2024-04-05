@@ -135,7 +135,7 @@ export const useTotalStakeInfo = (poolId) => {
       stakedTokenIds.push(index);
     }
   });
-  const searchPass = holdPassTokenIds.map((item) => {
+  const searchPass = holdPassTokenIds?.map((item) => {
     return {
       ...stakeContract,
       functionName: "passUsed",
