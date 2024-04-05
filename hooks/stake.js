@@ -33,6 +33,7 @@ export const useTotalStakeInfo = (poolId) => {
   });
 
   const poolInfo = reads0?.[0]?.result;
+  console.log("poolInfo", { poolInfo, address });
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
   const pendingRemain = reads0?.[3]?.result;
@@ -99,7 +100,6 @@ export const useTotalStakeInfo = (poolId) => {
   const passTotalSupply = reads1?.[3]?.result;
   const allowance = reads1?.[4]?.result;
   const balance = reads1?.[5]?.result;
-  console.log("balance", balance);
 
   const searchNFT = [];
 
@@ -215,7 +215,7 @@ export const useTotalStakeInfo = (poolId) => {
     // if (allowance < 2 ** 254) {
     showApprove = true;
   }
-  console.log({ allowance, stakedTokenIds, holdTokenIds });
+  console.log("stakeAmount", stakeAmount);
   return {
     holdTokenIds,
     holdPassTokenIds,
