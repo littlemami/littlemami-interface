@@ -57,8 +57,7 @@ const Mars = () => {
 
   const user = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
-  const pendingPoint = reads0?.[2]?.result;
-
+  const pendingPoint = reads0?.[2]?.result;//已经积累点数
   const { data: reads1 } = useContractReads({
     contracts: [
       {
@@ -72,14 +71,14 @@ const Mars = () => {
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
 
-  const allowance = reads1?.[0]?.result;
+  const allowance = reads1?.[0]?.result; //授权数量
 
-  const userLast = user?.[1];
+  const userLast = user?.[1]; //最后区块
 
-  const userStaked = user?.[0];
+  const userStaked = user?.[0]; //已经质押数量
 
-  const stakeAmount = 1;
-  const unStakeAmount = 1;
+  const stakeAmount = 1; //质押数量
+  const unStakeAmount = 1; //解除质押数量
   const stake = {
     buttonName: "Stake",
     data: {
