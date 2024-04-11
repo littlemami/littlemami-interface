@@ -152,12 +152,6 @@ export const useTotalStakeInfo = (poolId) => {
     }
   });
 
-  console.log("poolInfo", {
-    holdPassTokenIds,
-    passTotalSupply,
-    usedPassTokenIds,
-    sharedTokenIds,
-  });
   const refetchAll = () => {
     refetch1();
     refetch2();
@@ -221,7 +215,7 @@ export const useTotalStakeInfo = (poolId) => {
     // if (allowance < 2 ** 254) {
     showApprove = true;
   }
-  console.log("stakeAmount", stakeAmount);
+
   return {
     holdTokenIds,
     holdPassTokenIds,

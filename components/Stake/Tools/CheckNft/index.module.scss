@@ -30,6 +30,15 @@
 
   }
 
+  &.disabled {
+
+    .radio,
+    .radio:hover {
+      opacity: .1;
+      background-image: url("/images/svg/radio_normal.svg");
+    }
+  }
+
   &.checked {
 
     .radio,

@@ -38,7 +38,7 @@ const StakeNum = (props) => {
       {
         imgSrc: "/images/svg/reward.svg",
         value: `${displayNonZeroDigits(userRemain + userRemain2) || 0}`,
-        title: "My Rewards",
+        title: "Rewards Available",
       },
     ],
     [

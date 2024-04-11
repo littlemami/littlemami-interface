@@ -10,6 +10,7 @@ import { StakeContext } from "@/pages/stake";
 const Tools = ({ open, handleClose, pool }) => {
   const getStake = useContext(StakeContext);
   const { unStake, tokenAmount, stakedTokenIds } = getStake[pool || 0];
+
   const [choolsNfts, setChoolsNfts] = useState([]);
 
   const options = useMemo(

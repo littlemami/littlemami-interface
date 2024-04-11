@@ -9,10 +9,12 @@ const CheckNft = ({
   unStaked = false,
   only,
   passCard = false,
+  max = null,
 }) => {
   const [checkList, setCheckList] = useState(
     defaultList || (only ? undefined : [])
   );
+  const [inOptions, setInOptions] = useState(options || []);
   const changeFn = (val) => {
     setCheckList((pre) => {
       if (only) {
@@ -24,21 +26,42 @@ const CheckNft = ({
       }
     });
   };
+
   useEffect(() => {
     onChange?.(checkList);
   }, [checkList]);
 
+  const setOptionsDisable = (type) => {
+    setInOptions((prev) =>
+      prev.map((item) => {
+        if (!type) {
+          return { ...item, disabled: false };
+        } else {
+          return {
+            ...item,
+            disabled: !checkList.includes(item.key),
+          };
+        }
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (!max) return;
+    setOptionsDisable(checkList?.length >= max);
+  }, [max, checkList]);
+
   return (
     <>
-      {options?.map((item) => (
+      {inOptions?.map((item) => (
         <div
           onClick={() => {
-            if (!item?.disabled) changeFn(item?.key);
+            if (!(item?.staked || item?.disabled)) changeFn(item?.key);
           }}
           key={item?.key}
-          className={`${styles.checkItems} ${
+          className={`${styles.checkItems}  ${
             unStaked ? styles.unStaked : ""
-          }   ${item?.disabled ? styles.disabled : ""} ${
+          }   ${item?.staked || item?.disabled ? styles.disabled : ""} ${
             only
               ? checkList === item?.key
                 ? styles.checked
@@ -57,7 +80,7 @@ const CheckNft = ({
           </div>
           <div className={styles.con}> {item?.value.toString()}</div>
           <div className={styles.r}>
-            {item?.disabled ? "Staked" : <span className={styles.radio}></span>}
+            {item?.staked ? "Staked" : <span className={styles.radio}></span>}
           </div>
         </div>
       ))}
