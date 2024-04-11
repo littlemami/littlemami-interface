@@ -134,10 +134,10 @@ export const useTotalStakeInfo = (poolId) => {
       stakedTokenIds.push(index);
     }
   });
-  const searchPass = stakedTokenIds.map((item) => {
+  const searchPass = holdPassTokenIds?.map((item) => {
     return {
       ...stakeContract,
-      functionName: "tokenPassRelation",
+      functionName: "passUsed",
       args: [poolId, item],
     };
   });
@@ -147,7 +147,9 @@ export const useTotalStakeInfo = (poolId) => {
   });
 
   reads3?.forEach((item) => {
-    usedPassTokenIds.push(item?.result);
+    if (item?.result == address) {
+      usedPassTokenIds.push(item?.result);
+    }
   });
 
   console.log("poolInfo", {
