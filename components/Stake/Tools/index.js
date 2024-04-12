@@ -13,6 +13,7 @@ const Tools = ({
   only,
   passCard = false,
   tokenAmount,
+  max = null,
 }) => {
   const noData = !options || options?.length === 0;
   const [list, setList] = useState(defaultList || (only ? undefined : []));
@@ -29,6 +30,7 @@ const Tools = ({
       classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
     >
       <h4>{passCard ? "My Pass" : "My SSR"}</h4>
+
       {!noData && !passCard && (
         <p className="tools-money">
           With {displayNonZeroDigits((list?.length || 0) * tokenAmount)} LMC
@@ -42,6 +44,7 @@ const Tools = ({
             defaultList={defaultList}
             options={options}
             only={only}
+            max={max}
             passCard={passCard}
             onChange={setList}
           />
@@ -68,7 +71,7 @@ const Tools = ({
               onChange?.(list);
             }}
             fullWidth
-            text="COMFIRM"
+            text="CONFIRM"
             color="#6944ff"
           />
         )}

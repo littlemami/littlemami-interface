@@ -33,7 +33,6 @@ export const useTotalStakeInfo = (poolId) => {
   });
 
   const poolInfo = reads0?.[0]?.result;
-  console.log("poolInfo", { poolInfo, address });
   const passAddress = reads0?.[1]?.result;
   const userInfo = reads0?.[2]?.result;
   const pendingRemain = reads0?.[3]?.result;
@@ -152,7 +151,6 @@ export const useTotalStakeInfo = (poolId) => {
       usedPassTokenIds.push(holdPassTokenIds[index]);
     }
   });
-  console.log("usedPassTokenIds", usedPassTokenIds);
   const refetchAll = () => {
     refetch1();
     refetch2();
@@ -216,7 +214,7 @@ export const useTotalStakeInfo = (poolId) => {
     // if (allowance < 2 ** 254) {
     showApprove = true;
   }
-  console.log("stakeAmount", stakeAmount);
+
   return {
     holdTokenIds,
     holdPassTokenIds,

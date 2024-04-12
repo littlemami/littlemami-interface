@@ -54,7 +54,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdTokenIds?.map((item) => ({
         value: `No.${item}`,
         key: item,
-        disabled: [...stakedTokenIds1, ...stakedTokenIds2]?.find(
+        staked: [...stakedTokenIds1, ...stakedTokenIds2]?.find(
           (initem) => initem.toString() === item.toString()
         ),
       })),
@@ -66,7 +66,7 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdPassTokenIds?.map((item) => ({
         value: `No.${item}`,
         key: item,
-        disabled: [...usedPassTokenIds1, ...usedPassTokenIds2]?.find(
+        staked: [...usedPassTokenIds1, ...usedPassTokenIds2]?.find(
           (initem) => initem.toString() === item.toString()
         ),
       })),
@@ -256,6 +256,9 @@ const Supply = ({ handleBack, pool, showSupply }) => {
         passCard={type === "nft" ? false : true}
         defaultList={type === "nft" ? chooseNfts : choosePass}
         onChange={type === "nft" ? setChooseNfts : setChoosePass}
+        max={
+          type === "pass" && chooseNfts?.length > 0 ? chooseNfts?.length : null
+        }
         handleClose={() => setOpen(false)}
       />
     </>
