@@ -145,11 +145,13 @@ const StakePool = (props) => {
     contracts: searchPass,
   });
 
-  reads3?.forEach((item) => {
+  reads3?.forEach((item, index) => {
     if (item?.result == address) {
-      usedPassTokenIds.push(item?.result);
+      usedPassTokenIds.push(searchPass[index]);
     }
   });
+
+
 
   const stake = {
     buttonName: "Stake",

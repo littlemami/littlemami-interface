@@ -147,11 +147,12 @@ export const useTotalStakeInfo = (poolId) => {
     contracts: searchPass,
   });
 
-  reads3?.forEach((item) => {
+  reads3?.forEach((item, index) => {
     if (item?.result == address) {
-      usedPassTokenIds.push(item?.result);
+      usedPassTokenIds.push(holdPassTokenIds[index]);
     }
   });
+  console.log("usedPassTokenIds", usedPassTokenIds);
   const refetchAll = () => {
     refetch1();
     refetch2();
