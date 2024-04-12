@@ -43,6 +43,10 @@ const PoolCard = (props) => {
         value: `${rate || 0} LMC`,
       },
       {
+        text: "LP",
+        value: stakeAmount || 0,
+      },
+      {
         text: "APR",
         value: `${
           displayNonZeroDigits(
