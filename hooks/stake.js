@@ -158,7 +158,7 @@ export const useTotalStakeInfo = (poolId) => {
     };
   });
 
-  const { data: reads3 } = useContractReads({
+  const { data: reads3, refetch: refetch5 } = useContractReads({
     contracts: searchPass,
   });
 
@@ -171,6 +171,8 @@ export const useTotalStakeInfo = (poolId) => {
     refetch1();
     refetch2();
     refetch3();
+    refetch4();
+    refetch5();
   };
   const stake = ({ stakeTokenIds, passTokenId, callback }) => ({
     buttonName: "Stake",
