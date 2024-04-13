@@ -17,6 +17,7 @@ const PoolCard = (props) => {
     getStake[pool];
 
   const [time, setTime] = useState("");
+  const [ssrPrice, setSsrPrice] = useState(0);
 
   useEffect(() => {
     if (start) {
@@ -30,6 +31,16 @@ const PoolCard = (props) => {
       setTime("--");
     }
   }, [start]);
+
+  useEffect(() => {
+    async function ssrPrice() {
+      const res = await fetch("https://yibi.co/apis/nft/getMysteryBoxData/31");
+      const data = await res.json();
+      setSsrPrice(data?.data?.floorPrice || 0);
+    }
+
+    ssrPrice();
+  }, []);
 
   const arr = useMemo(
     () => [
@@ -50,7 +61,8 @@ const PoolCard = (props) => {
         text: "APR",
         value: `${
           displayNonZeroDigits(
-            (+rate * 7200 * 365) / (+stakeAmount * +tokenAmount)
+            (rate * 7200 * 365 * 100) /
+              (+stakeAmount * (ssrPrice + tokenAmount))
           ) || "--"
         } %`,
       },

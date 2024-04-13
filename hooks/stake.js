@@ -110,17 +110,6 @@ export const useTotalStakeInfo = (poolId) => {
     });
   }
 
-  const sharedPoolId = sharedTokenIds?.[0];
-  if (sharedPoolId) {
-    for (let i = 0; i <= nftTotalSupply; i++) {
-      searchNFT.push({
-        ...stakeContract,
-        functionName: "tokenUsed",
-        args: [sharedPoolId, i],
-      });
-    }
-  }
-
   const { data: reads2, refetch: refetch3 } = useContractReads({
     contracts: searchNFT,
   });
@@ -129,11 +118,38 @@ export const useTotalStakeInfo = (poolId) => {
 
   let usedPassTokenIds = []; //用户在当前池子使用的pass tokenIds
 
+  const stakedSharedTokenIds = []; //用户在共享池子质押的tokenIds
+
   reads2?.forEach((item, index) => {
     if (item?.result == address) {
       stakedTokenIds.push(index);
     }
   });
+
+  const searchSharedNFT = [];
+
+  const sharedPoolId = sharedTokenIds?.[0];
+
+  if (sharedPoolId) {
+    for (let i = 0; i <= nftTotalSupply; i++) {
+      searchSharedNFT.push({
+        ...stakeContract,
+        functionName: "tokenUsed",
+        args: [sharedPoolId, i],
+      });
+    }
+  }
+
+  const { data: reads4, refetch: refetch4 } = useContractReads({
+    contracts: searchSharedNFT,
+  });
+
+  reads4?.forEach((item, index) => {
+    if (item?.result == address) {
+      stakedSharedTokenIds.push(index);
+    }
+  });
+
   const searchPass = holdPassTokenIds?.map((item) => {
     return {
       ...stakeContract,
@@ -142,7 +158,7 @@ export const useTotalStakeInfo = (poolId) => {
     };
   });
 
-  const { data: reads3 } = useContractReads({
+  const { data: reads3, refetch: refetch5 } = useContractReads({
     contracts: searchPass,
   });
 
@@ -155,6 +171,8 @@ export const useTotalStakeInfo = (poolId) => {
     refetch1();
     refetch2();
     refetch3();
+    refetch4();
+    refetch5();
   };
   const stake = ({ stakeTokenIds, passTokenId, callback }) => ({
     buttonName: "Stake",
