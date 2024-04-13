@@ -50,7 +50,7 @@ const PoolCard = (props) => {
         text: "APR",
         value: `${
           displayNonZeroDigits(
-            (+rate * 7200 * 365) / (+stakeAmount * +tokenAmount)
+            (+rate * 7200 * 365 * 100) / (+stakeAmount * +tokenAmount)
           ) || "--"
         } %`,
       },
