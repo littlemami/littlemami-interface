@@ -238,6 +238,7 @@ export const useTotalStakeInfo = (poolId) => {
     holdPassTokenIds,
     allowance: allowance?.toString(),
     stakedTokenIds,
+    stakedSharedTokenIds,
     passRequired: passRequired?.toString(),
     start: start?.toString(),
     unStake,

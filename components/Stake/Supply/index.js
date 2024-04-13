@@ -34,15 +34,18 @@ const Supply = ({ handleBack, pool, showSupply }) => {
     tokenAmount,
     holdPassTokenIds,
     stakedTokenIds,
+    stakedSharedTokenIds,
     showSuc,
     balance,
   } = getStake[pool];
   const {
     stakedTokenIds: stakedTokenIds1,
+    stakedSharedTokenIds: stakedSharedTokenIds1,
     usedPassTokenIds: usedPassTokenIds1,
   } = getStake[0];
   const {
     stakedTokenIds: stakedTokenIds2,
+    stakedSharedTokenIds: stakedSharedTokenIds2,
     usedPassTokenIds: usedPassTokenIds2,
   } = getStake[1];
   const balanceString = balance
@@ -54,11 +57,20 @@ const Supply = ({ handleBack, pool, showSupply }) => {
       holdTokenIds?.map((item) => ({
         value: `No.${item}`,
         key: item,
-        staked: [...stakedTokenIds1, ...stakedTokenIds2]?.find(
-          (initem) => initem.toString() === item.toString()
-        ),
+        staked: [
+          ...stakedTokenIds1,
+          ...stakedSharedTokenIds1,
+          ...stakedSharedTokenIds2,
+          ...stakedTokenIds2,
+        ]?.find((initem) => initem.toString() === item.toString()),
       })),
-    [holdTokenIds, stakedTokenIds1, stakedTokenIds2]
+    [
+      holdTokenIds,
+      stakedTokenIds1,
+      stakedTokenIds2,
+      stakedSharedTokenIds1,
+      stakedSharedTokenIds2,
+    ]
   );
 
   const passOptions = useMemo(
@@ -144,12 +156,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
             <div className={styles.l}>
               <Image src={"/images/svg/lmc.svg"} layout="fill" alt={"1"} />
             </div>
-
-            <span>LMC</span>
             <div className={styles.r}>
               {displayNonZeroDigits(
                 (chooseNfts?.length || 0) * tokenAmount || 0
-              )}
+              )}{" "}
+              LMC
             </div>
           </div>
 
@@ -159,13 +170,11 @@ const Supply = ({ handleBack, pool, showSupply }) => {
                 <Image src={"/images/svg/wallet.svg"} layout="fill" alt={"1"} />
               </div>
             </div>
-            <span>{balanceString || 0}</span>
-            <div className={styles.r}>
-              {lmcDis ? (
-                <p className="mt-[10px] text-[#BC2A4D]">Insufficient balance</p>
-              ) : null}
-            </div>
+            <div className={styles.r}>{balanceString || 0} LMC</div>
           </div>
+          {lmcDis ? (
+            <p className="text-right text-[#BC2A4D]">Insufficient balance</p>
+          ) : null}
         </div>
         {/*  */}
         {pool !== 0 && (
