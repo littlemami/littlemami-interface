@@ -13,6 +13,12 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 
+import {
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+
 import { mainnet, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -33,13 +39,7 @@ const injectedWallet = ({ chains }) => ({
   name: "OKX Wallet",
   iconUrl: "https://www.okx.com/cdn/assets/imgs/226/EB771F0EE8994DD5.png",
   iconBackground: "#fff",
-  hidden: ({ wallets }) =>
-    wallets.some(
-      (wallet) =>
-        wallet.installed &&
-        wallet.name === wallet.connector.name &&
-        (wallet.connector || wallet.id === "coinbase")
-    ),
+
   createConnector: () => ({
     connector: new InjectedConnector({
       chains,
@@ -50,7 +50,13 @@ const injectedWallet = ({ chains }) => ({
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
-    wallets: [injectedWallet({ chains })],
+    wallets: [
+      injectedWallet({ chains }),
+      metaMaskWallet({
+        chains,
+        projectId: "2a612b9a18e81ce3fda2f82787eb6a4a",
+      }),
+    ],
   },
 ]);
 
