@@ -1,5 +1,6 @@
 .shakeBox {
   position: relative;
+  overflow-x: auto;
 
   &::before,
   &::after {
