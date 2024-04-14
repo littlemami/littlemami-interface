@@ -39,7 +39,6 @@ const injectedWallet = ({ chains }) => ({
   name: "OKX Wallet",
   iconUrl: "https://www.okx.com/cdn/assets/imgs/226/EB771F0EE8994DD5.png",
   iconBackground: "#fff",
-
   createConnector: () => ({
     connector: new InjectedConnector({
       chains,
