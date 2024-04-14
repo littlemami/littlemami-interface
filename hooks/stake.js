@@ -228,8 +228,7 @@ export const useTotalStakeInfo = (poolId) => {
 
   let showApprove = false;
 
-  if (allowance < 2 ** 22) {
-    // if (allowance < 2 ** 254) {
+  if (allowance < 2 ** 254) {
     showApprove = true;
   }
 
