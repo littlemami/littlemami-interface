@@ -12,7 +12,7 @@
 
 :root {
   --nav-size: 18px;
-  background-color: #1C1D21;
+  background-color: #0D0D1F;
   color: #fff;
 }
 
@@ -300,7 +300,8 @@ body {
   width: 120%;
   height: 8.375rem;
   border-radius: 100%;
-  background: linear-gradient(0deg, rgba(72, 42, 255, 0), rgba(42, 217, 255, 1), rgba(42, 217, 255, 0));
+  background: linear-gradient(0deg, rgba(13, 13, 31, 0), rgba(42, 217, 255, 1), rgba(13, 13, 31, 0));
+
   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
 
   &::before {
@@ -322,6 +323,37 @@ body {
 }
 
 .ant-modal-wrap.cur-modal-box {
+  &.tools-modal-box .ant-modal-content {
+
+    border: 1px solid #B679C5;
+
+    .tools-money {
+      margin-top: .625rem;
+      color: #8D71FF;
+      text-align: center;
+    }
+
+    .tools-bd {
+      width: 80%;
+      height: 17.875rem;
+      margin: 3.125rem auto;
+      overflow: auto;
+
+      .no-data {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .tools-btn {
+      width: 80%;
+      margin: 0 auto;
+      color: #fff;
+    }
+  }
 
   .ant-modal-content {
     padding: 3rem 4.0625rem 3.0625rem;
@@ -339,6 +371,7 @@ body {
       color: rgba(95, 100, 108, 1);
 
     }
+
   }
 
   .cur-modal-body {
@@ -765,7 +798,8 @@ body {
   }
 
   &.active:after {
-    background: #482AFF;
+    background: #FF2FC4;
+
   }
 }
 

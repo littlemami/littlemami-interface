@@ -36,3 +36,9 @@ export function getPointCoor(point, el, bigEl, total = 30000) {
 export function hiddenAddress(addr) {
   return addr ? `${addr.slice(0, 6)}....${addr.slice(-4)}` : "";
 }
+
+export const displayNonZeroDigits = (number, digits = 2) => {
+  let val = +number;
+  if (!(typeof val === "number" && !isNaN(val))) return number;
+  return Number(val.toFixed(digits));
+};

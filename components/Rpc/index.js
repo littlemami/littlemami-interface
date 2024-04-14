@@ -11,6 +11,10 @@ const getScoreRank = async (page = 1, size = 100) => {
   return send("getScoreRank", [page, size]);
 };
 
+const getMarsRank = async (page = 1, size = 100) => {
+  return send("getMarsRank", [page, size]);
+};
+
 const send = async (method, params) => {
   let res;
   try {
@@ -42,4 +46,5 @@ module.exports = {
   getUser,
   register,
   getScoreRank,
+  getMarsRank,
 };

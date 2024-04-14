@@ -1,0 +1,84 @@
+.checkItems {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &+.checkItems {
+    margin-top: 2.1875rem;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  .img {
+    position: relative;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+
+  .con {
+    flex: 1;
+    color: #fff;
+    margin: 0 1.5625rem;
+  }
+
+  .r {
+    color: #FFFFFF40;
+
+  }
+
+  &.disabled {
+
+    .radio,
+    .radio:hover {
+      opacity: .1;
+      background-image: url("/images/svg/radio_normal.svg");
+    }
+  }
+
+  &.checked {
+
+    .radio,
+    .radio:hover {
+      background-image: url("/images/svg/radio_checked.svg");
+    }
+  }
+
+  .radio {
+    display: block;
+    width: 2.25rem;
+    height: 2.25rem;
+    background-image: url("/images/svg/radio_normal.svg");
+    background-size: contain;
+
+    &:hover {
+      background-image: url("/images/svg/radio_hover.svg");
+    }
+  }
+
+  &.unStaked {
+    &.checked {
+      .img {
+        opacity: 0.5;
+      }
+
+      .radio,
+      .radio:hover {
+        background-image: url("/images/svg/unstake_radio_checked.svg");
+      }
+    }
+
+    .radio {
+
+      background-image: url("/images/svg/unstake_radio_normal.svg");
+
+
+      &:hover {
+        background-image: url("/images/svg/unstake_radio_hover.svg");
+      }
+    }
+  }
+}
