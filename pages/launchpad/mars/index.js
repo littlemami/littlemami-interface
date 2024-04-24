@@ -57,7 +57,7 @@ const Mars = () => {
 
   const user = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
-  const pendingPoint = reads0?.[2]?.result;//已经积累点数
+  const pendingPoint = reads0?.[2]?.result; //已经积累点数
   const { data: reads1 } = useContractReads({
     contracts: [
       {
@@ -68,6 +68,12 @@ const Mars = () => {
       },
     ],
   });
+
+  const backendUser = data?.user;
+
+  const marsX = backendUser?.marsX; //是否点了推特
+
+  const marsTelegram = backendUser?.marsTelegram; //是否点了telegram
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
 
