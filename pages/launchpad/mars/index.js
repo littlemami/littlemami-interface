@@ -85,6 +85,8 @@ const Mars = () => {
 
   const marsTelegram = backendUser?.marsTelegram; //是否点了telegram
 
+  const marsScore = backendUser?.marsScore; //  marsScore
+
   console.log(marsX, marsTelegram);
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
