@@ -13,6 +13,10 @@ async function telegram(address) {
   await rpc.getMarsScore("telegram", address);
 }
 
+async function dailyCheckIn(address) {
+  await rpc.getMarsScore("dailyCheckIn", address);
+}
+
 const Mars = () => {
   const { chain } = useNetwork();
 
@@ -67,7 +71,7 @@ const Mars = () => {
 
   const user = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
-  const pendingPoint = reads0?.[2]?.result; //已经积累点数
+  const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
   const { data: reads1 } = useContractReads({
     contracts: [
       {
@@ -84,6 +88,10 @@ const Mars = () => {
   const marsX = backendUser?.marsX; //是否点了推特
 
   const marsTelegram = backendUser?.marsTelegram; //是否点了telegram
+
+  const dailyCheckedIn = backendUser?.dailyCheckedIn; //是否每日已签到
+
+  const marsRank = backendUser?.marsRank; //  marsRank
 
   const marsScore = backendUser?.marsScore; //  marsScore
 
