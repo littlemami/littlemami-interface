@@ -4,12 +4,22 @@ import { contract } from "@/config";
 import USDTABI from "@/abi/USDTABI.json";
 import { useEffect, useState } from "react";
 import rpc from "@/components/Rpc";
+
+async function x(address) {
+  await rpc.getMarsScore("x", address);
+}
+
+async function telegram(address) {
+  await rpc.getMarsScore("telegram", address);
+}
+
 const Mars = () => {
   const { chain } = useNetwork();
 
   const [mount, setMount] = useState(false);
   const [data, setData] = useState({});
   const { address } = useAccount();
+
   useEffect(() => {
     async function fetchData() {
       const user = await rpc.getUser(address);
@@ -74,6 +84,8 @@ const Mars = () => {
   const marsX = backendUser?.marsX; //是否点了推特
 
   const marsTelegram = backendUser?.marsTelegram; //是否点了telegram
+
+  console.log(marsX, marsTelegram);
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
 
