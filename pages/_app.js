@@ -45,11 +45,25 @@ const injectedWallet = ({ chains }) => ({
     }),
   }),
 });
+//
 
+const gateWallet = ({ chains }) => ({
+  id: "injected",
+  name: "Gate Wallet",
+  iconUrl:
+    "https://lh3.googleusercontent.com/RjkrXU4ovz77JApt18xbtVzBF414DAtTznrZuSOa5ynqL8CstZlHCeUcPV0hAbj62rKCWwJejIfV8FYfHhCltgsL=s60",
+  iconBackground: "#fff",
+  createConnector: () => ({
+    connector: new InjectedConnector({
+      chains,
+    }),
+  }),
+});
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
+      gateWallet({ chains }),
       injectedWallet({ chains }),
       metaMaskWallet({
         chains,
