@@ -1,6 +1,9 @@
 import "@/styles/globals.css";
 import "@/styles/index.scss";
 import "animate.css";
+import '@/pages/launchpad/styles/common.css'
+import '@/pages/launchpad/styles/font.css'
+import '@/pages/launchpad/styles/layout.css'
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
