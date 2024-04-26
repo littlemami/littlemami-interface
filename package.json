@@ -41,5 +41,8 @@
     "viem": "^1.5.3",
     "wagmi": "^1.3.9",
     "web3": "^4.7.0"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^2.1.4"
   }
 }

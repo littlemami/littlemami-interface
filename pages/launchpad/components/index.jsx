@@ -3,7 +3,19 @@ import { Modal, InputNumber } from "antd";
 import Image from "next/image"
 import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
-import React, { useEffect, useState}  from 'react';
+import ETHIcon from '@/public/images/eth.png'
+import Airdrop from '@/public/images/airdrop.png'
+import Link1 from '@/public/images/link1.png'
+import React, { FC, useEffect, useState}  from 'react'
+
+
+export const Container = ({ children }) => {
+    return (
+        <div className='w100 center'>
+            <div style={{ maxWidth: '1144px' }}>{children}</div>
+        </div>
+    )
+}
 
 const ItemWrapper  = styled.div`
     width: ${(props) => props.w};
@@ -150,3 +162,117 @@ export const DepositMdoal = () => {
     )
 }
 
+
+
+export const ContractWrappr = styled.div`
+    width: 568px;
+    height: 64px;
+    padding: 20px 80px;
+    border-radius: 35px;
+    // border-image-source: linear-gradient(179.68deg, rgba(201, 204, 234, 0.16) -1.1%, rgba(167, 174, 242, 0.11) 126.4%);
+    // border-image-slice: 1;
+    box-sizing: border-box;
+    background: rgba(71, 57, 129, 0.08);
+    box-shadow: 0px 4px 13.8px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(50px);
+    margin-top: 156px;
+    margin-bottom: 142px;
+    
+`
+const IconWrapper = styled.div`
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 4px 52px #473981;
+        backdrop-filter: blur(100px);
+    }
+`
+
+export const ContractBar = () => {
+    return (
+        <Container>
+            <ContractWrappr className=''>
+                <div className='fx-row ai-ct jc-sb'>
+                    {
+                        [1,2,3,4].map(item => (
+                            <IconWrapper  key={item}  onClick={() => window.open('https://www.bilibili.com', '_black')}>
+                                <Image
+                                    src={Link1}
+                                    width={25}
+                                    height={25}
+                                    alt={`link1`}
+                                />
+                            </IconWrapper>
+                        ))
+                    }
+                </div>
+            </ContractWrappr>
+        </Container>
+    )
+}
+const AirdropWrapper = styled.div`
+    width: 496px;
+    height: 439px;
+    opacity: 0.8;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background: linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%, rgba(81, 72, 107, 0.1) 93.61%);
+    box-shadow: 0px 4px 13.8px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(50px);
+    margin-top: 40px;
+    padding: 49px 44px  42px 44px;
+`
+const InProcess = styled.div`   
+    width: 120px;
+    height: 36px;
+    border-radius: 20px;
+    border: 0.5px solid rgba(230, 223, 255, 0.3);
+    box-sizing: border-box;
+    background: rgba(30, 23, 65, 0.6);
+    backdrop-filter: blur(5px); 
+    position: absolute;
+    top: 10px;
+    right: 10px;
+`
+const BgWrapper = styled.div`
+    position: relative
+`
+
+
+export const L1 = () => {
+    return (
+        <Container>
+            <div style={{ marginTop: '108px'}} className='fx-col'>
+                <div  className='fx-row ai-ct'>
+                    <Image
+                        src={ETHIcon}
+                        width={8.28}
+                        height={13}
+                        alt={`eth`}
+                    />
+                    <span className='white fz42 fw600 ml10'>Launching Feature</span>
+                </div>
+                <p className='fz24 fw500 white9 ml18 mt38'>ACTIVE & UPCOMING</p>
+                <AirdropWrapper className='fx-col ai-ct click'>
+                    <BgWrapper>
+                        <Image
+                            src={Airdrop}
+                            width={409}
+                            height={229}
+                            alt={`eth`}
+                        />
+                        <InProcess className='center'>
+                            <span className='fz14 fw500 white'>IN PROCESS</span>
+                        </InProcess>
+                    </BgWrapper>
+                    <div className='w100 ai-start mt36'>
+                        <span className=' white fz24 fw500'>MARs Airdrop</span>
+                        <div className='fx-row ai-ct jc-sb mt36'>
+                            <span className=' white fz16 fw500'>Start Time</span>
+                            <span className=' white fz16 fw500'>01/01/2024 12pm UTC</span>
+                        </div>
+                    </div>
+                </AirdropWrapper>
+            </div>
+        </Container>
+    )
+}
