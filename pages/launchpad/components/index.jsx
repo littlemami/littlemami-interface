@@ -7,7 +7,8 @@ import ETHIcon from '@/public/images/eth.png'
 import Airdrop from '@/public/images/airdrop.png'
 import Link1 from '@/public/images/link1.png'
 import React, { FC, useEffect, useState}  from 'react'
-
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 export const Container = ({ children }) => {
     return (
@@ -104,22 +105,35 @@ const AmountItem = (props) => {
 
 const amountList = [1000,3000,5000,10000,50000,'Max']
 
-export const DepositMdoal = () => {
+export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw}) => {
     const [activeIdx, setActiveIdx] = useState(0)
+    const [value, setValue] = useState('')
 
-    const onChange = () => {}
+    useEffect(() => {
+        setValue('')
+    },[activeIdx])
+    const onHandle = () => {
+        if(value && Number(value) > 0) {
+            if(activeIdx === 0) {//deposit
+                onDeposit(Number(value) )
+            }else {
+                onWidhdraw(Number(value) )
+            }
+        }else {
+            Notify.failure('Please enter amount')
+        }
+    }
 
     return (
         <Modal
-            open={false}
-            // onOk={handleClose}
-            // onCancel={handleClose}
+            open={isOpen}
+            onCancel={handleClose}
             footer={null}
             width={666}
             wrapClassName="cur-modal-box-deposit"
             classNames={{ mask: "cur-modal-mask", body: "cur-modal-body" }}
         >
-            <div className=''>
+            <div className='' >
                 <div className='center w100'>
                     <span className='white fz28 fw600'>Deposit</span>
                 </div>
@@ -134,7 +148,7 @@ export const DepositMdoal = () => {
                     <AmountItem
                         img={Earn} 
                         title="Earn LMC Points"
-                        value={200} 
+                        value={400} 
                         w={20.2}
                         h={27}
                     />
@@ -147,17 +161,16 @@ export const DepositMdoal = () => {
                     <div className='fx-col  w100'>
                         <span className='fz18 fw500 white ml14'>Amount</span>
                         <div style={{ position: 'relative', marginTop: '26px'}}>
-                            <input className='deposit-input-number' type='number'/>
+                            <input className='deposit-input-number' type='number' value={value} onChange={e => setValue(e.target.value)}/>
                             <AmountButton>Max</AmountButton>
                         </div>
                       
                     </div>
                 </ItemWrapper>
-                <ConfirmButton>
+                <ConfirmButton onClick={onHandle}>
                     { activeIdx === 0 ? 'Deposit' : 'Withdraw'} Now
                 </ConfirmButton>
             </div>
-    
         </Modal>
     )
 }

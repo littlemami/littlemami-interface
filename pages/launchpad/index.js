@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState} from 'react'
 import { DepositMdoal, } from './components'
 import { Col, Row } from 'antd'
@@ -10,6 +12,10 @@ import NFT3 from '@/public/images/nft3.png'
 import Image from "next/image"
 import Mars from './mars'
 import { L1, ContractBar, Container} from './components'
+import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi"
+import { contract } from "@/config"
+import USDTABI from "@/abi/USDTABI.json"
+import rpc from "@/components/Rpc"
 
 
 const LinearBg = styled.div`
@@ -118,23 +124,266 @@ const PriceBg  = styled.div`
   background: rgba(210, 255, 203, 0.6);
   backdrop-filter: blur(5px);
 `
-const rightList = [
-  { title: 'Daily Bonus', value: '+ 200 LMC Points',done: true},
-  { title: 'Invite More Members', value: '+ 200 LMC Points',done: true},
-  { title: 'Follow X Acconut', value: '+ 200 LMC Points'},
-  { title: 'Join Telegram', value: '+ 200 LMC Points'},
-  { title: 'LMC Deposit', value: 'Earn Points'},
-  { title: 'NFT Stake', value: 'Earn Points'},
-]
 
 const NFTList = [
   { id: '1', url: NFT1, name: 'Auction Price', value: '4680,000 LMC', price: '＄20,640'},
   { id: '2', url: NFT2, name: 'Auction Price', value: '460,000 LMC', price: '＄19,780'},
   { id: '3', url: NFT3, name: 'Auction Price', value: '460,000 LMC', price: '＄19,780'},
 ]
+
+
+
+
+
+
 const Launchpad = () => {
   const [nextPage, setNextPage] = useState(false)
+  const [isLoading,setLoading] = useState(false)
+  const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
+  const { address } = useAccount()
+  const { chain } = useNetwork()
+  const [rightData, setRightData] = useState({})
+  const [rank, setRank] = useState(0)
+  const [points, setPoints] = useState(0)
+  
+  const [rightList, setRightList] = useState([
+    { id: 1,title: 'Daily Bonus', value: '+ 20 LMC Points',done: false},
+    { id: 2,title: 'Invite More Members', value: '+ 200 LMC Points',done: false},
+    { id: 3,title: 'Follow X Acconut', value: '+ 200 LMC Points', done: false},
+    { id: 4,title: 'Join Telegram', value: 'Earn Points', done: false},
+    { id: 5, title: 'LMC Deposit', value: 'Earn Points', done: false},
+    { id: 6,title: 'NFT Stake', value: 'Earn Points', done: false},
+  ])
+
+  const [dailyDone, setDailyDone] = useState(false)
+  const [xDone, setXDone] = useState(false)
+  const [tgDone, setTgDone] = useState(false)
+  const [isDeposit, setDeposit] = useState(true)
+
+
+
+  const marsContract = contract[chain?.id]?.mars
+
+  console.log('marsContract', marsContract)
+  const { data: reads0, refetch } = useContractReads({
+    contracts: [
+      {
+        ...marsContract,
+        functionName: "users",
+        args: [address],
+      },
+      {
+        ...marsContract,
+        functionName: "lmc",
+      },
+      {
+        ...marsContract,
+        functionName: "getPendingPoint",
+        args: [address],
+      },
+    ],
+  })  
+
+  const user = reads0?.[0]?.result;
+  const lmc = reads0?.[1]?.result;
+  const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
+
+  const { data: reads1 } = useContractReads({
+    contracts: [
+      {
+        address: lmc,
+        abi: USDTABI,
+        functionName: "allowance",
+        args: [address, marsContract?.address],
+      },
+    ],
+  })
+  console.log('reads0', reads0)
+  console.log('reads1', reads1)
+  
+  
+  const allowance = reads1?.[0]?.result; //授权数量
+  console.log('授权数量', Number(allowance))
+  
+  const userLast = user?.[1]; //最后区块
+  console.log('最后区块', userLast)
+  
+  const userStaked = user?.[0]; //已经质押数量
+  console.log('已经质押数量', userStaked)
+
+
+
+  useEffect(() => {
+    fetchRightData()
+  }, [address])
+
+  const fetchRightData = async() => {
+    setLoading(true)
+    const res = await rpc.getUser(address)
+    console.log('useruser', res)
+    if(res) {
+      const { dailyCheckedIn,//是否每日已签到
+              marsX,//是否点了推特
+              marsTelegram,//是否点了telegram
+              marsRank,//marsRank
+              marsScore} = res
+      setRank(marsRank)
+      setPoints(marsScore)
+      setDailyDone(dailyCheckedIn)
+      setXDone(marsX)
+      setTgDone(marsTelegram)
+    }
+    setLoading(false)
+  }
+  
+  const handleRightItem = async(item) => {
+    if(item.id === 1) {
+      const a = await rpc.getMarsScore("dailyCheckIn", address)
+      // setDailyDone(true)
+      fetchRightData()
+    }
+    if(item.id === 3) {
+      window.open('https://twitter.com/Littlemamilabs','_black')
+      await rpc.getMarsScore("x", address)
+      // setXDone(true)
+      fetchRightData()
+    }
+    if(item.id === 4) {
+      window.open('https://t.me/XNM0620','_black')
+      await rpc.getMarsScore("telegram", address)
+      fetchRightData()
+      // setTgDone(true)
+    }
+    if(item.id === 5) { // deposit
+      setDeposit(true)
+      setOpen(true)
+    }
+    if(item.id === 6) { // 
+      setDeposit(false)
+      setOpen(true)
+    }
+  }
+
+  // approve
+  const { data: approveTx, write:approveWhite } = useContractWrite({
+    address: lmc,
+    abi: USDTABI,
+    functionName: "approve",
+    onError(error) {
+      Notify.failure(error.message);
+    },
+  })
+  const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
+    {
+      ...approveTx,
+      onError(error) {
+        Notify.failure(error.message);
+      },
+    }
+  )
+  // deposit 
+  const { data:depositTx, write:depositWhite } = useContractWrite({
+    ...marsContract,
+    functionName: "stake",
+    onError(error) {
+      Notify.failure(error.message);
+    },
+  })
+  const { isSuccess: depositConfirmed, isLoading: depositConfirming } = useWaitForTransaction(
+    {
+      ...depositTx,
+      onError(error) {
+        Notify.failure(error.message);
+      },
+    }
+  )
+  // withdraw 
+  const { data:withdrawTx, write:withdrawWhite } = useContractWrite({
+    ...marsContract,
+    functionName: "unstake",
+    
+    onError(error) {
+      Notify.failure(error.message);
+    },
+  })
+  const { isSuccess: withdrawConfirmed, isLoading: withdrawConfirming } = useWaitForTransaction(
+    {
+      ...withdrawTx,
+      onError(error) {
+        Notify.failure(error.message);
+      },
+    }
+  )
+
+
+  useEffect(() => {
+    if (approveConfirmed) {
+      if(isDeposit) {
+        onDeposit()
+      } else {
+        onWidhdraw()
+      }
+    }
+  }, [approveConfirmed, isDeposit])
+
+  useEffect(() => {
+    if(depositConfirmed) {
+      setOpen(false)
+      refetch()
+    }
+  },[depositConfirmed])
+
+  useEffect(() => {
+    if(withdrawConfirmed) {
+      setOpen(false)
+      refetch()
+    }
+  },[withdrawConfirmed])
+ 
+  const onDeposit = async(amount) => {
+    const _amount = amount * 1e18
+    console.log('(Number(allowance) < _amount', (Number(allowance) < _amount))
+    setDeposit(true)
+    if(Number(allowance) < _amount) {
+      approveWhite({
+        args: [marsContract?.address, _amount ],    
+      })    
+    }else {
+      depositWhite({
+        args: [amount]
+      })
+    }
+  }
+  const onWidhdraw = (amount) => {
+    setDeposit(false)
+    const _amount = amount * 1e18
+    if(Number(allowance) < _amount) {
+      approveWhite({
+        args: [marsContract?.address, _amount ],    
+      })    
+    }else {
+      withdrawWhite({
+        args: [amount]
+      })
+    }
+  } 
+
+  const btnType = (isTrue, item) => (
+    <>
+      {
+       isTrue ? <DoneButton >
+          <Image
+            src={checkIcon}
+            width={15}
+            height={10}
+            alt="checkIcon"
+          />
+        </DoneButton> :
+        <GoButton onClick={() => handleRightItem(item)}>Go</GoButton>
+      }
+    </>
+  )
   return (
     <div>
       {/* <Mars/> */}
@@ -156,11 +405,11 @@ const Launchpad = () => {
         <Row className="w100 fx-row jc-sb ai-ct "  gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: 1, xxl: 1}} style={{marginTop: '60px'}}> 
           <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} className="">
             <LeftCard className="fx-col ai-ct " style={{}}>
-              <span className="color1 fw400 fz22" >YOUR POINTS</span>
-              <span className="white fw400 fz64 ">200</span>
+              <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
+              <span className="white fw400 fz64 ">{points}</span>
               <LinearBg />
               <span className="color1 fw400 fz22">Rank</span>
-              <span className="white fw400 fz42 mt10">#1000+</span>
+              <span className="white fw400 fz42 mt10">#{rank}</span>
               <LeaderBoardButton className=''>
                 LeaderBoard
               </LeaderBoardButton>
@@ -173,18 +422,13 @@ const Launchpad = () => {
                   <span className='white fz18 fw400'>{item.title}</span>
                   <div className='fx-row ai-ct'>
                     <span className='fz18 fw400 color1 '>{item.value}</span> 
-                    {
-                      item.done ?
-                      <DoneButton>
-                        <Image
-                          src={checkIcon}
-                          width={15}
-                          height={10}
-                          alt="checkIcon"
-                        />
-                      </DoneButton> :
-                      <GoButton>Go</GoButton>
-                    }
+                    { item.id === 1 && btnType(dailyDone,item) }
+                    { item.id === 3 && btnType(xDone,item) }
+                    { item.id === 4 && btnType(tgDone,item) }
+                    { item.id === 2 && btnType(item.done,item) }
+                    { item.id === 5 && btnType(item.done,item) }
+                    { item.id === 6 && btnType(item.done,item) }
+                   
                   </div>
                 </RightItem>
               ))
@@ -226,7 +470,13 @@ const Launchpad = () => {
             ))
           }
         </Row>
-        <DepositMdoal/>
+        <DepositMdoal 
+          isOpen={isOpen} 
+          handleClose={() => setOpen(false)}
+          onDeposit={onDeposit}
+          onWidhdraw={onWidhdraw}
+
+        />
       </Container>
       }
       <ContractBar/>

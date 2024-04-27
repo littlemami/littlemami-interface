@@ -58,7 +58,7 @@ const Mars = () => {
       },
     ],
   });
-
+  console.log('reads0', reads0)
   const invites = data?.user?.invites;
 
   const searchInvites = invites?.map((item) => {
@@ -107,6 +107,7 @@ const Mars = () => {
 
   const stakeAmount = 1; //质押数量
   const unStakeAmount = 1; //解除质押数量
+  
   const stake = {
     buttonName: "Stake",
     data: {
