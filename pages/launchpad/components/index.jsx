@@ -5,7 +5,15 @@ import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
 import ETHIcon from '@/public/images/eth.png'
 import Airdrop from '@/public/images/airdrop.png'
-import Link1 from '@/public/images/link1.png'
+import Mars from '@/public/images/mars.png'
+import MarsActive from '@/public/images/marsActive.png'
+import X from '@/public/images/x.png'
+import XActive from '@/public/images/xActive.png'
+import DC from '@/public/images/dc.png'
+import DCActive from '@/public/images/dcActive.png'
+import TG from '@/public/images/TG.png'
+import TGActive from '@/public/images/tgActive.png'
+
 import React, { FC, useEffect, useState}  from 'react'
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
@@ -224,16 +232,30 @@ const IconWrapper = styled.div`
     }
 `
 
+
+
+
+
+
 export const ContractBar = () => {
+    const [isHover, setHover] = useState(-1)
     return (
         <Container>
             <ContractWrappr className=''>
                 <div className='fx-row ai-ct jc-sb'>
                     {
-                        [1,2,3,4].map(item => (
-                            <IconWrapper  key={item}  onClick={() => window.open('https://www.bilibili.com', '_black')}>
+                       [
+                        { url: 'https://www.littlemami.io/', icon: Mars, active: MarsActive},
+                        { url: 'https://twitter.com/Littlemamilabs', icon: X, active: XActive},
+                        { url: 'https://discord.com/invite/xa4BpDJV4V', icon: DC, active: DCActive},
+                        { url: 'https://t.me/XNM0620', icon: TG, active: TGActive},
+                       ].map((item,idx) => (
+                            <IconWrapper 
+                                onMouseEnter={() => setHover(idx)}
+                                onMouseLeave={() => setHover(-1)}
+                                key={item}  onClick={() => window.open(item.url, '_black')}>
                                 <Image
-                                    src={Link1}
+                                    src={isHover === idx ? item.active : item.icon}
                                     width={25}
                                     height={25}
                                     alt={`link1`}
