@@ -11,7 +11,7 @@ import X from '@/public/images/x.png'
 import XActive from '@/public/images/xActive.png'
 import DC from '@/public/images/dc.png'
 import DCActive from '@/public/images/dcActive.png'
-import TG from '@/public/images/TG.png'
+import TG from '@/public/images/tg.png'
 import TGActive from '@/public/images/tgActive.png'
 
 import React, { FC, useEffect, useState}  from 'react'
