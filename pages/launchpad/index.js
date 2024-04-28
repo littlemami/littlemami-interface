@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, } from './components'
+import { DepositMdoal,L1, ContractBar, Container } from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -11,7 +11,6 @@ import NFT2 from '@/public/images/nft2.png'
 import NFT3 from '@/public/images/nft3.png'
 import Image from "next/image"
 import Mars from './mars'
-import { L1, ContractBar, Container} from './components'
 import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi"
 import { contract } from "@/config"
 import USDTABI from "@/abi/USDTABI.json"
