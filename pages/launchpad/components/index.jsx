@@ -105,13 +105,24 @@ const AmountItem = (props) => {
 
 const amountList = [1000,3000,5000,10000,50000,'Max']
 
-export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw}) => {
+export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue}) => {
     const [activeIdx, setActiveIdx] = useState(0)
     const [value, setValue] = useState('')
 
     useEffect(() => {
         setValue('')
     },[activeIdx])
+    useEffect(() => {
+        if(!isOpen) {
+            setValue('')
+        }
+    },[isOpen])
+
+    useEffect(() => {
+        if(defaultInputValue !== '') {
+            setValue(defaultInputValue)
+        }
+    },[defaultInputValue])
     const onHandle = () => {
         if(value && Number(value) > 0) {
             if(activeIdx === 0) {//deposit
@@ -127,7 +138,10 @@ export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw}) => {
     return (
         <Modal
             open={isOpen}
-            onCancel={handleClose}
+            onCancel={() => {
+                setValue('')
+                handleClose()
+            }}
             footer={null}
             width={666}
             wrapClassName="cur-modal-box-deposit"
@@ -162,13 +176,23 @@ export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw}) => {
                         <span className='fz18 fw500 white ml14'>Amount</span>
                         <div style={{ position: 'relative', marginTop: '26px'}}>
                             <input className='deposit-input-number' type='number' value={value} onChange={e => setValue(e.target.value)}/>
-                            <AmountButton>Max</AmountButton>
+                            <AmountButton onClick={() => onMax(activeIdx)}>Max</AmountButton>
                         </div>
                       
                     </div>
                 </ItemWrapper>
-                <ConfirmButton onClick={onHandle}>
-                    { activeIdx === 0 ? 'Deposit' : 'Withdraw'} Now
+                
+                <ConfirmButton onClick={!isLoading ? () => onHandle() : () => null}>
+                    {
+                        isLoading ? 
+                        <>
+                            <span className="loading loading-spinner"></span>loading
+                        </>
+                        :
+                        <>
+                        { activeIdx === 0 ? 'Deposit' : 'Withdraw'} Now
+                        </>
+                    }   
                 </ConfirmButton>
             </div>
         </Modal>

@@ -16,7 +16,8 @@ import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useCon
 import { contract } from "@/config"
 import USDTABI from "@/abi/USDTABI.json"
 import rpc from "@/components/Rpc"
-
+import { ethers, BigNumber } from 'ethers'
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const LinearBg = styled.div`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
@@ -139,6 +140,7 @@ const NFTList = [
 const Launchpad = () => {
   const [nextPage, setNextPage] = useState(false)
   const [isLoading,setLoading] = useState(false)
+  const [modalLoading,setModalLoading] = useState(false)
   const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
   const { address } = useAccount()
@@ -146,6 +148,7 @@ const Launchpad = () => {
   const [rightData, setRightData] = useState({})
   const [rank, setRank] = useState(0)
   const [points, setPoints] = useState(0)
+  const [defaultInputValue, setDefaultInputValue] = useState('')
   
   const [rightList, setRightList] = useState([
     { id: 1,title: 'Daily Bonus', value: '+ 20 LMC Points',done: false},
@@ -271,6 +274,7 @@ const Launchpad = () => {
     abi: USDTABI,
     functionName: "approve",
     onError(error) {
+      setModalLoading(false)
       Notify.failure(error.message);
     },
   })
@@ -278,6 +282,7 @@ const Launchpad = () => {
     {
       ...approveTx,
       onError(error) {
+        setModalLoading(false)
         Notify.failure(error.message);
       },
     }
@@ -287,6 +292,7 @@ const Launchpad = () => {
     ...marsContract,
     functionName: "stake",
     onError(error) {
+      setModalLoading(false)
       Notify.failure(error.message);
     },
   })
@@ -294,6 +300,7 @@ const Launchpad = () => {
     {
       ...depositTx,
       onError(error) {
+        setModalLoading(false)
         Notify.failure(error.message);
       },
     }
@@ -304,6 +311,7 @@ const Launchpad = () => {
     functionName: "unstake",
     
     onError(error) {
+      setModalLoading(false)
       Notify.failure(error.message);
     },
   })
@@ -311,14 +319,26 @@ const Launchpad = () => {
     {
       ...withdrawTx,
       onError(error) {
+        setModalLoading(false)
         Notify.failure(error.message);
       },
     }
   )
 
+  const { data: reads3, refetch: refetch3 } = useContractReads({
+    contracts: [
+      {
+        address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
+        abi: USDTABI,
+        functionName: "balanceOf",
+        args: [address],
+      },
+    ],
+  })
 
   useEffect(() => {
     if (approveConfirmed) {
+      Notify.success('Approved')
       if(isDeposit) {
         onDeposit()
       } else {
@@ -329,45 +349,69 @@ const Launchpad = () => {
 
   useEffect(() => {
     if(depositConfirmed) {
+      setModalLoading(false)
+      Notify.success('Deposit successful')
       setOpen(false)
       refetch()
+      refetch3()
     }
   },[depositConfirmed])
 
   useEffect(() => {
     if(withdrawConfirmed) {
+      setModalLoading(false)
+      Notify.success('Withdraw successful')
       setOpen(false)
       refetch()
+      refetch3()
     }
   },[withdrawConfirmed])
  
   const onDeposit = async(amount) => {
-    const _amount = amount * 1e18
-    console.log('(Number(allowance) < _amount', (Number(allowance) < _amount))
+    // const _amount = amount * 1e18
+    const _amount = ethers.utils.parseEther(`${amount}`)
     setDeposit(true)
+    setModalLoading(true)
     if(Number(allowance) < _amount) {
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
     }else {
       depositWhite({
-        args: [amount]
+        args: [_amount]
       })
     }
   }
   const onWidhdraw = (amount) => {
     setDeposit(false)
-    const _amount = amount * 1e18
+    // const _amount = amount * 1e18
+    const _amount = ethers.utils.parseEther(`${amount}`)
+    setModalLoading(true)
     if(Number(allowance) < _amount) {
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
     }else {
       withdrawWhite({
-        args: [amount]
+        args: [_amount]
       })
     }
   } 
+
+    
+  const LMCBalance = reads3?.[0]?.result
+  const _LMCBalance = ethers.utils.formatEther(LMCBalance || 0)
+  const stakedBalance = ethers.utils.formatEther(userStaked || 0)
+
+  console.log('stakedBalance', stakedBalance)
+  console.log('_LMCBalance', _LMCBalance)
+  const onMax = (idx) => {
+    if(idx === 0) {
+      setDefaultInputValue(_LMCBalance)
+    }else {
+      setDefaultInputValue(stakedBalance)
+    }
+  }
 
   const btnType = (isTrue, item) => (
     <>
@@ -471,10 +515,18 @@ const Launchpad = () => {
           }
         </Row>
         <DepositMdoal 
+          isLoading={
+            modalLoading ||
+            approveConfirming || 
+            depositConfirming ||
+            withdrawConfirming
+          }
           isOpen={isOpen} 
           handleClose={() => setOpen(false)}
           onDeposit={onDeposit}
           onWidhdraw={onWidhdraw}
+          onMax={onMax}
+          defaultInputValue={defaultInputValue}
 
         />
       </Container>
