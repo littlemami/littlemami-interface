@@ -3,8 +3,6 @@ import { Modal, InputNumber } from "antd";
 import Image from "next/image"
 import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
-import ETHIcon from '@/public/images/eth.png'
-import Airdrop from '@/public/images/airdrop.png'
 import Mars from '@/public/images/mars.png'
 import MarsActive from '@/public/images/marsActive.png'
 import X from '@/public/images/x.png'
@@ -113,7 +111,7 @@ const AmountItem = (props) => {
 
 const amountList = [1000,3000,5000,10000,50000,'Max']
 
-export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue}) => {
+export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue, stakedBalance}) => {
     const [activeIdx, setActiveIdx] = useState(0)
     const [value, setValue] = useState('')
 
@@ -163,7 +161,7 @@ export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoa
                     <AmountItem
                         img={Assets} 
                         title="Stake Amount"
-                        value={200} 
+                        value={stakedBalance} 
                         w={26}
                         h={27.4}
                     />
@@ -227,7 +225,7 @@ export const ContractWrappr = styled.div`
 const IconWrapper = styled.div`
     &:hover {
         cursor: pointer;
-        box-shadow: 0px 4px 52px #473981;
+        box-shadow: 0px 0px 50px #473981;
         backdrop-filter: blur(100px);
     }
 `
@@ -268,70 +266,6 @@ export const ContractBar = () => {
         </Container>
     )
 }
-const AirdropWrapper = styled.div`
-    width: 496px;
-    height: 439px;
-    opacity: 0.8;
-    border-radius: 30px;
-    box-sizing: border-box;
-    background: linear-gradient(198.28deg, rgba(126, 115, 169, 0.1) 17.6%, rgba(81, 72, 107, 0.1) 93.61%);
-    box-shadow: 0px 4px 13.8px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(50px);
-    margin-top: 40px;
-    padding: 49px 44px  42px 44px;
-`
-const InProcess = styled.div`   
-    width: 120px;
-    height: 36px;
-    border-radius: 20px;
-    border: 0.5px solid rgba(230, 223, 255, 0.3);
-    box-sizing: border-box;
-    background: rgba(30, 23, 65, 0.6);
-    backdrop-filter: blur(5px); 
-    position: absolute;
-    top: 10px;
-    right: 10px;
-`
-const BgWrapper = styled.div`
-    position: relative
-`
 
 
-export const L1 = () => {
-    return (
-        <Container>
-            <div style={{ marginTop: '108px'}} className='fx-col'>
-                <div  className='fx-row ai-ct'>
-                    <Image
-                        src={ETHIcon}
-                        width={8.28}
-                        height={13}
-                        alt={`eth`}
-                    />
-                    <span className='white fz42 fw600 ml10'>Launching Feature</span>
-                </div>
-                <p className='fz24 fw500 white9 ml18 mt38'>ACTIVE & UPCOMING</p>
-                <AirdropWrapper className='fx-col ai-ct click'>
-                    <BgWrapper>
-                        <Image
-                            src={Airdrop}
-                            width={409}
-                            height={229}
-                            alt={`eth`}
-                        />
-                        <InProcess className='center'>
-                            <span className='fz14 fw500 white'>IN PROCESS</span>
-                        </InProcess>
-                    </BgWrapper>
-                    <div className='w100 ai-start mt36'>
-                        <span className=' white fz24 fw500'>MARs Airdrop</span>
-                        <div className='fx-row ai-ct jc-sb mt36'>
-                            <span className=' white fz16 fw500'>Start Time</span>
-                            <span className=' white fz16 fw500'>01/01/2024 12pm UTC</span>
-                        </div>
-                    </div>
-                </AirdropWrapper>
-            </div>
-        </Container>
-    )
-}
+
