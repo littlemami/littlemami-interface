@@ -104,6 +104,11 @@ const DoneButton = styled.div`
   line-height: 24px;
   letter-spacing: 0%;
   text-align: center;
+  &:hover {
+    cursor: pointer;
+    background: #fff;
+    color: #000;
+  }
 `
 const NFTMask = styled.div`
   width: 300px;
@@ -151,7 +156,7 @@ const LaunchpadDetail = () => {
     { id: 3,title: 'Follow X Acconut', value: '+ 200 LMC Points', done: false},
     { id: 4,title: 'Join Telegram', value: 'Earn Points', done: false},
     { id: 5, title: 'LMC Deposit', value: 'Earn Points', done: false},
-    { id: 6,title: 'NFT Stake', value: 'Earn Points', done: false},
+    { id: 6,title: 'NFT Stake', value: 'Upcoming', done: false},
   ])
 
   const [dailyDone, setDailyDone] = useState(false)
@@ -185,7 +190,7 @@ const LaunchpadDetail = () => {
 
   const user = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
-  const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
+ 
 
   const { data: reads1 } = useContractReads({
     contracts: [
@@ -197,6 +202,7 @@ const LaunchpadDetail = () => {
       },
     ],
   })
+
   console.log('reads0', reads0)
   console.log('reads1', reads1)
   
@@ -398,6 +404,9 @@ const LaunchpadDetail = () => {
   const _LMCBalance = ethers.utils.formatEther(LMCBalance || 0)
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
+  const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
+  const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
+  console.log('_pendingPoint', _pendingPoint)
   console.log('stakedBalance', stakedBalance)
   console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
@@ -419,7 +428,12 @@ const LaunchpadDetail = () => {
             alt="checkIcon"
           />
         </DoneButton> :
-        <GoButton onClick={() => handleRightItem(item)}>Go</GoButton>
+          <>
+          {
+            item.value === 'Upcoming' ? null :
+            <GoButton onClick={() => handleRightItem(item)}>Go</GoButton>
+          }
+          </>
       }
     </>
   )
@@ -437,8 +451,13 @@ const LaunchpadDetail = () => {
           <span className='white fw400 fz18 ml12'>Back</span>
         </div>
         <Row className="w100 fx-row jc-sb ai-ct "  gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: 1, xxl: 1}} style={{marginTop: '60px'}}> 
-          <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} className="">
-            <LeftCard className="fx-col ai-ct " style={{}}>
+          <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} >
+            <LeftCard className={
+            `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
+            after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
+            after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
+            `
+            } >
               <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
               <span className="white fw400 fz64 ">{points}</span>
               <LinearBg />
@@ -452,7 +471,15 @@ const LaunchpadDetail = () => {
           <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
             {
               rightList.map((item,idx) => (
-                <RightItem bg={item.done ? '#0E0E20' : '#2C2B4F' } key={item.title} style={{ marginTop: idx > 0 ? '26px' : 0 }} className='fx-row ai-ct jc-sb'> 
+                <RightItem bg={
+                  item.id === 1 ? (dailyDone ? '#0E0E20' : '#2C2B4F') :
+                  item.id === 3 ? (xDone ? '#0E0E20' : '#2C2B4F') :
+                  item.id === 4 ? (tgDone ? '#0E0E20' : '#2C2B4F') :
+                  item.id === 2 ? (item.done ? '#0E0E20' : '#2C2B4F') :
+                  item.id === 5 ? (item.done ? '#0E0E20' : '#2C2B4F') :
+                  item.id === 6 ? (item.done ? '#0E0E20' : '#2C2B4F') : 
+                  '#2C2B4F'
+                   } key={item.id} style={{ marginTop: idx > 0 ? '26px' : 0 }} className='fx-row ai-ct jc-sb'> 
                   <span className='white fz18 fw400'>{item.title}</span>
                   <div className='fx-row ai-ct'>
                     <span className='fz18 fw400 color1 '>{item.value}</span> 
@@ -505,6 +532,7 @@ const LaunchpadDetail = () => {
           }
         </Row>
         <DepositMdoal 
+          pendingPoint={_pendingPoint}
           stakedBalance={stakedBalance}
           isLoading={
             modalLoading ||

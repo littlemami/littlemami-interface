@@ -111,7 +111,7 @@ const AmountItem = (props) => {
 
 const amountList = [1000,3000,5000,10000,50000,'Max']
 
-export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue, stakedBalance}) => {
+export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue, stakedBalance, pendingPoint}) => {
     const [activeIdx, setActiveIdx] = useState(0)
     const [value, setValue] = useState('')
 
@@ -161,14 +161,14 @@ export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoa
                     <AmountItem
                         img={Assets} 
                         title="Stake Amount"
-                        value={stakedBalance} 
+                        value={ Math.floor(stakedBalance * 100) / 100 } 
                         w={26}
                         h={27.4}
                     />
                     <AmountItem
                         img={Earn} 
                         title="Earn LMC Points"
-                        value={400} 
+                        value={ Math.floor(pendingPoint * 100) / 100 } 
                         w={20.2}
                         h={27}
                     />
