@@ -1,6 +1,7 @@
 import nodeABI from "@/abi/NodeABI.json";
 import stakeABI from "@/abi/StakeABI.json";
 import marsABI from "@/abi/MarsABI.json";
+
 // export const rpcUrl = "https://api.littlemami.io/";
 //test
 export const rpcUrl = "https://test-api.littlemami.io/";
@@ -17,6 +18,10 @@ export const contract = {
     },
   },
   11155111: {
+    node: {
+      address: "0xEDdB92510981407E5A1f5Ed352979b07E47fF666",
+      abi: nodeABI,
+    },
     stake: {
       address: "0xD8bb5A3bDFD39aa063D6f712fc5B768760cDcCfF",
       abi: stakeABI,
