@@ -11,10 +11,11 @@ import DC from '@/public/images/dc.png'
 import DCActive from '@/public/images/dcActive.png'
 import TG from '@/public/images/tg.png'
 import TGActive from '@/public/images/tgActive.png'
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import React, { FC, useEffect, useState}  from 'react'
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import styles from "@/pages/ranklist/index.module.scss";
 
 export const Container = ({ children }) => {
     return (
@@ -268,4 +269,152 @@ export const ContractBar = () => {
 }
 
 
+export const LeaderBoardModal = ({ list, open, handleClose}) => {
+    const [more, seMore] = useState(true);
+    return (
+        <Modal
+            centered
+            open={open}
+            onOk={handleClose}
+            onCancel={handleClose}
+            footer={null}
+            width={900}
+            wrapClassName="cur-modal-box"
+            classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
+        >
+        
+            <div >
+        
+                <div className={styles["con"]}>
+                    <div className="new-list-box">
+                        <div className="item first">
+                        <p>Rank</p>
+                        <strong>Address</strong>
+                        <p>Score</p>
+                        </div>
+                        <div
+                        id="scrollableDiv"
+                        style={{
+                            height: `calc(100vh - 25rem)`,
+                            overflow: "auto",
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                        >
+                        <InfiniteScroll
+                            dataLength={10} //This is important field to render the next data
+                            next={() => setPage((pre) => pre + 1)}
+                            hasMore={more}
+                            loader={
+                            <div className="loading-box">
+                                <span></span>
+                                <span></span>
+                            </div>
+                            }
+                            endMessage={
+                            <></>
+                            // <p style={{ textAlign: "center" }}>
+                            //   <b>Yay! You have seen it all</b>
+                            // </p>
+                            }
+                            style={{ display: "flex", flexDirection: "column" }}
+                            inverse={false}
+                            scrollableTarget="scrollableDiv"
+                        >
+                            {list?.map((item, index) => {
+                            return (
+                                <div className="item" key={index}>
+                                    <p> {index + 1}</p>
+                                    <strong>{item.address}</strong>
+                                    <p> {item.score}</p>
+                                </div>
+                            );
+                            })}
+                        </InfiniteScroll>
+
+                        {list?.length == 0 && (
+                            <p className="no-data">No data</p>
+                        )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </Modal>
+    )
+}
+export const InviteModal = ({ list, open, handleClose}) => {
+    const [more, seMore] = useState(true);
+    return (
+        <Modal
+            centered
+            open={open}
+            onOk={handleClose}
+            onCancel={handleClose}
+            footer={null}
+            width={900}
+            wrapClassName="cur-modal-box"
+            classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
+        >
+        
+            <div >
+        
+                <div className={styles["con"]}>
+                    <div className="new-list-box">
+                        <div className="item first">
+                        <p>Rank</p>
+                        <strong>Address</strong>
+                        <p>Score</p>
+                        </div>
+                        <div
+                        id="scrollableDiv"
+                        style={{
+                            height: `calc(100vh - 25rem)`,
+                            overflow: "auto",
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                        >
+                        <InfiniteScroll
+                            dataLength={10} //This is important field to render the next data
+                            next={() => setPage((pre) => pre + 1)}
+                            hasMore={more}
+                            loader={
+                            <div className="loading-box">
+                                <span></span>
+                                <span></span>
+                            </div>
+                            }
+                            endMessage={
+                            <></>
+                            // <p style={{ textAlign: "center" }}>
+                            //   <b>Yay! You have seen it all</b>
+                            // </p>
+                            }
+                            style={{ display: "flex", flexDirection: "column" }}
+                            inverse={false}
+                            scrollableTarget="scrollableDiv"
+                        >
+                            {list?.map((item, index) => {
+                            return (
+                                <div className="item" key={index}>
+                                    <p> {index + 1}</p>
+                                    <strong>{item.address}</strong>
+                                    <p> {item.score}</p>
+                                </div>
+                            );
+                            })}
+                        </InfiniteScroll>
+
+                        {list?.length == 0 && (
+                            <p className="no-data">No data</p>
+                        )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </Modal>
+    )
+}
 

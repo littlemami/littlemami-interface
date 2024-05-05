@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, ContractBar, Container } from '@/components/LaunchpadLayout'
+import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -45,22 +45,27 @@ const LeaderBoardButton = styled.div`
 `
 
 const LeftCard = styled.div`
-  background: #2C2B4F;
+  
+  background: rgba(38, 32, 70, 0.1);
   width: 100%;
   height: 734px;
   border-radius: 30px;
   box-sizing: border-box;
   border-radius: 30px;
   padding: 126px;
-`
+  border: 1px solid rgb(54,34,92)
 
+`
 const RightItem = styled.div`
   border-radius: 20px;
-  background: ${(props) => props.bg};
+  // background: linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%); 
+  // background: ${(props) => props.isDone ? 'linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%)' : 'linear-gradient(192.31deg, rgba(178, 151, 255, 0.23) 1.44%, rgba(89, 63, 161, 0.36) 91.64%)'};
+  background: ${(props) => props.isDone ? 'linear-gradient(to right,#16182E,#100E27)' : 'linear-gradient(to right,#1C153A,#1C1745)'};
   width: 100%;
   height: 102px;
   padding: 40px 38px;
-  border: 1px solid #343150;
+  border: 1px solid rgb(66,50,108);
+  
 `
 const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
@@ -140,6 +145,9 @@ const NFTList = [
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
+  const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
+  const [inviteOpen,setInviteOpen] = useState(false)
+
   const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
   const { address } = useAccount()
@@ -244,8 +252,10 @@ const LaunchpadDetail = () => {
   const handleRightItem = async(item) => {
     if(item.id === 1) {
       const a = await rpc.getMarsScore("dailyCheckIn", address)
-      // setDailyDone(true)
       fetchRightData()
+    }
+    if(item.id === 2) {
+      setInviteOpen(true)
     }
     if(item.id === 3) {
       window.open('https://twitter.com/Littlemamilabs','_black')
@@ -463,7 +473,7 @@ const LaunchpadDetail = () => {
               <LinearBg />
               <span className="color1 fw400 fz22">Rank</span>
               <span className="white fw400 fz42 mt10">#{rank}</span>
-              <LeaderBoardButton className=''>
+              <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
                 LeaderBoard
               </LeaderBoardButton>
             </LeftCard>
@@ -471,14 +481,14 @@ const LaunchpadDetail = () => {
           <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
             {
               rightList.map((item,idx) => (
-                <RightItem bg={
-                  item.id === 1 ? (dailyDone ? '#0E0E20' : '#2C2B4F') :
-                  item.id === 3 ? (xDone ? '#0E0E20' : '#2C2B4F') :
-                  item.id === 4 ? (tgDone ? '#0E0E20' : '#2C2B4F') :
-                  item.id === 2 ? (item.done ? '#0E0E20' : '#2C2B4F') :
-                  item.id === 5 ? (item.done ? '#0E0E20' : '#2C2B4F') :
-                  item.id === 6 ? (item.done ? '#0E0E20' : '#2C2B4F') : 
-                  '#2C2B4F'
+                <RightItem isDone={
+                  item.id === 1 ? (dailyDone ? true : false) :
+                  item.id === 3 ? (xDone ? true : false) :
+                  item.id === 4 ? (tgDone ? true : false) :
+                  item.id === 2 ? (item.done ? true : false) :
+                  item.id === 5 ? (item.done ? true : false) :
+                  item.id === 6 ? (item.done ? true : false) : 
+                  false
                    } key={item.id} style={{ marginTop: idx > 0 ? '26px' : 0 }} className='fx-row ai-ct jc-sb'> 
                   <span className='white fz18 fw400'>{item.title}</span>
                   <div className='fx-row ai-ct'>
@@ -548,6 +558,8 @@ const LaunchpadDetail = () => {
           defaultInputValue={defaultInputValue}
 
         />
+        <LeaderBoardModal list={[]} open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
+        <InviteModal list={[]} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
       </Container>
       <ContractBar/>
     </div>
