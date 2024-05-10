@@ -6,7 +6,10 @@ import Airdrop from '@/public/images/airdrop.png'
 import { useRouter } from "next/router";
 import StakeTitle from "@/components/Stake/StakeTitle";
 import styles from "@/pages/stake/index.module.scss";
-
+import Invite from "@/components/Invite";
+import { useAccount } from "wagmi";
+import { useEffect, useState } from 'react'
+import rpc from "@/components/Rpc";
 const AirdropWrapper = styled.div`
     width: 496px;
     height: 439px;
@@ -35,45 +38,75 @@ const BgWrapper = styled.div`
     position: relative
 `
 export const Launchpad = () => {
+    const [showCode, setShowCode] = useState(false)
+    const [invites, setInvites] = useState([])
     const router = useRouter();
+
+    const { address } = useAccount();
+
+    useEffect(() => {
+        fetchData()
+    },[address])
+
+
+    const fetchData =  async() => {
+        const user = await rpc.getUser(address);
+        console.log('user111', )
+        // user?.leader
+        setInvites(user?.leader || [])
+    }
+   
+
+    const onDetail = () => {
+        if(address && !!invites.length) {
+            router.push('/launchpaddetail')
+            setShowCode(false)
+        }else {
+            setShowCode(true)
+        }
+    }
     return (
-        <div style={{ marginTop: '108px'}} >
-                <StakeTitle
-                    title="Launching Feature"
-                    extraNode={
-                    <div
-                        className={`${styles.titleInfo} relative text-[rgba(255,255,255,0.90)] font-Poppins text-[1rem] font-not-italic font-400 leading-normal tracking-0.48px before:block before:absolute before:w-full before:h-0.5 `}
-                    >
-                        ACTIVE & UPCOMING
-                    </div>
-                    }
-                />
-                <div className='fx-col'>
-
-
-                    <AirdropWrapper className='fx-col ai-ct click' onClick={() => router.push('/launchpaddetail')}>
-                        <BgWrapper>
-                            <Image
-                                src={Airdrop}
-                                width={409}
-                                height={229}
-                                alt={`eth`}
-                            />
-                            <InProcess className='center'>
-                                <span className='fz14 fw500 white'>IN PROCESS</span>
-                            </InProcess>
-                        </BgWrapper>
-                        <div className='w100 ai-start mt36'>
-                            <span className=' white fz24 fw500'>MARs Airdrop</span>
-                            <div className='fx-row ai-ct jc-sb mt36'>
-                                <span className=' white fz16 fw500'>Start Time</span>
-                                <span className=' white fz16 fw500'>01/01/2024 12pm UTC</span>
+        <div >
+            {
+                showCode ?  <Invite /> : (
+                    <div style={{ marginTop: '108px'}} >
+                        <StakeTitle
+                            title="Launching Feature"
+                            extraNode={
+                            <div
+                                className={`${styles.titleInfo} relative text-[rgba(255,255,255,0.90)] font-Poppins text-[1rem] font-not-italic font-400 leading-normal tracking-0.48px before:block before:absolute before:w-full before:h-0.5 `}
+                            >
+                                ACTIVE & UPCOMING
                             </div>
-                        </div>
-                    </AirdropWrapper>
-                </div>
+                            }
+                        />
+                        <div className='fx-col'>
 
-            
+
+                            <AirdropWrapper className='fx-col ai-ct click' onClick={onDetail}>
+                                <BgWrapper>
+                                    <Image
+                                        src={Airdrop}
+                                        width={409}
+                                        height={229}
+                                        alt={`eth`}
+                                    />
+                                    <InProcess className='center'>
+                                        <span className='fz14 fw500 white'>IN PROCESS</span>
+                                    </InProcess>
+                                </BgWrapper>
+                                <div className='w100 ai-start mt36'>
+                                    <span className=' white fz24 fw500'>MARs Airdrop</span>
+                                    <div className='fx-row ai-ct jc-sb mt36'>
+                                        <span className=' white fz16 fw500'>Start Time</span>
+                                        <span className=' white fz16 fw500'>01/01/2024 12pm UTC</span>
+                                    </div>
+                                </div>
+                            </AirdropWrapper>
+                        </div>
+                    </div>
+                )
+            }            
             <ContractBar/>
         </div>
     )

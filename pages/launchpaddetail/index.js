@@ -558,8 +558,20 @@ const LaunchpadDetail = () => {
           defaultInputValue={defaultInputValue}
 
         />
-        <LeaderBoardModal list={[]} open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-        <InviteModal list={[]} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+        <LeaderBoardModal list={
+          [
+            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 11},
+            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 22},
+            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 33},
+            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 44},
+          ]
+        } open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
+        <InviteModal list={[
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 11},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 22},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 33},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 44},
+        ]} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
       </Container>
       <ContractBar/>
     </div>

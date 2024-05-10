@@ -278,73 +278,67 @@ export const LeaderBoardModal = ({ list, open, handleClose}) => {
             onOk={handleClose}
             onCancel={handleClose}
             footer={null}
-            width={900}
-            wrapClassName="cur-modal-box"
-            classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
-        >
+            width={800}
+            wrapClassName="cur-modal-box-deposit"
+            classNames={{ mask: "cur-modal-mask" }}
+        >         
         
-            <div >
-        
-                <div className={styles["con"]}>
-                    <div className="new-list-box">
-                        <div className="item first">
-                        <p>Rank</p>
-                        <strong>Address</strong>
-                        <p>Score</p>
-                        </div>
-                        <div
-                        id="scrollableDiv"
-                        style={{
-                            height: `calc(100vh - 25rem)`,
-                            overflow: "auto",
-                            display: "flex",
-                            flexDirection: "column",
-                        }}
-                        >
-                        <InfiniteScroll
-                            dataLength={10} //This is important field to render the next data
-                            next={() => setPage((pre) => pre + 1)}
-                            hasMore={more}
-                            loader={
-                            <div className="loading-box">
-                                <span></span>
-                                <span></span>
-                            </div>
-                            }
-                            endMessage={
-                            <></>
-                            // <p style={{ textAlign: "center" }}>
-                            //   <b>Yay! You have seen it all</b>
-                            // </p>
-                            }
-                            style={{ display: "flex", flexDirection: "column" }}
-                            inverse={false}
-                            scrollableTarget="scrollableDiv"
-                        >
-                            {list?.map((item, index) => {
-                            return (
-                                <div className="item" key={index}>
-                                    <p> {index + 1}</p>
-                                    <strong>{item.address}</strong>
-                                    <p> {item.score}</p>
-                                </div>
-                            );
-                            })}
-                        </InfiniteScroll>
-
-                        {list?.length == 0 && (
-                            <p className="no-data">No data</p>
-                        )}
-                        </div>
-                    </div>
-                </div>
+        <div className="new-list-box w100 mt48">
+            <div className="fx-row ai-ct jc-sb w100">
+                <p className='fz20 white fw500'>Rank</p>
+                <p className='fz20 pink fw500'>Address</p>
+                <p className='fz20 white fw500'>Points</p>
             </div>
-        
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: `calc(100vh - 25rem)`,
+                    overflow: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
+            <InfiniteScroll
+                dataLength={10} //This is important field to render the next data
+                next={() => setPage((pre) => pre + 1)}
+                hasMore={more}
+                loader={
+                <div className="loading-box">
+                    <span></span>
+                    <span></span>
+                </div>
+                }
+                endMessage={<></>}
+                style={{ display: "flex", flexDirection: "column" }}
+                inverse={false}
+                scrollableTarget="scrollableDiv"
+            >
+                {list && !!list.length && list.map((item, index) => (
+                    <div className="w100 fx-row ai-ct jc-sb mt36" key={item.address}>
+                        <p className='fz18 white8 fw500  center' style={{ width: '50px' }}>{index + 1}</p>
+                        <p className='fz18 pink fw500 center' style={{ width: '433px' }}>{item.address}</p>
+                        <p className='fz18 white8 fw500 center'  style={{ width: '70px' }}>{item.points}</p>
+                    </div>
+                ))}
+            </InfiniteScroll>
+
+            {list?.length == 0 && (
+                <p className="no-data">No data</p>
+            )}
+            </div>
+        </div>
+            
     </Modal>
     )
 }
 export const InviteModal = ({ list, open, handleClose}) => {
     const [more, seMore] = useState(true);
+
+    const splitAddress = (addr) => {
+        const start = addr.substring(0,6)
+        const end = addr.substring(addr.length - 5,addr.length)
+        return `${start}....${end}`
+    }
     return (
         <Modal
             centered
@@ -352,68 +346,61 @@ export const InviteModal = ({ list, open, handleClose}) => {
             onOk={handleClose}
             onCancel={handleClose}
             footer={null}
-            width={900}
-            wrapClassName="cur-modal-box"
-            classNames={{ mask: "cur-modal-mask", body: "cur-modal-body inivte" }}
-        >
+            width={666}
+            height={652}
+            wrapClassName="cur-modal-box-deposit"
+            classNames={{ mask: "cur-modal-mask" }}
+        >         
         
-            <div >
-        
-                <div className={styles["con"]}>
-                    <div className="new-list-box">
-                        <div className="item first">
-                        <p>Rank</p>
-                        <strong>Address</strong>
-                        <p>Score</p>
-                        </div>
-                        <div
-                        id="scrollableDiv"
-                        style={{
-                            height: `calc(100vh - 25rem)`,
-                            overflow: "auto",
-                            display: "flex",
-                            flexDirection: "column",
-                        }}
-                        >
-                        <InfiniteScroll
-                            dataLength={10} //This is important field to render the next data
-                            next={() => setPage((pre) => pre + 1)}
-                            hasMore={more}
-                            loader={
-                            <div className="loading-box">
-                                <span></span>
-                                <span></span>
-                            </div>
-                            }
-                            endMessage={
-                            <></>
-                            // <p style={{ textAlign: "center" }}>
-                            //   <b>Yay! You have seen it all</b>
-                            // </p>
-                            }
-                            style={{ display: "flex", flexDirection: "column" }}
-                            inverse={false}
-                            scrollableTarget="scrollableDiv"
-                        >
-                            {list?.map((item, index) => {
-                            return (
-                                <div className="item" key={index}>
-                                    <p> {index + 1}</p>
-                                    <strong>{item.address}</strong>
-                                    <p> {item.score}</p>
-                                </div>
-                            );
-                            })}
-                        </InfiniteScroll>
-
-                        {list?.length == 0 && (
-                            <p className="no-data">No data</p>
-                        )}
-                        </div>
-                    </div>
-                </div>
+        <div className="new-list-box w100 ">
+            <div className='fz28 fw500 white w100 center'>
+                Your Invitation
             </div>
-        
+           
+            <div
+                id="scrollableDiv"
+                style={{           
+                    marginTop: '36px',        
+                    width: '532px',
+                    height: '461px',
+                    borderRadius: '20px',
+                    background: 'rgba(39, 39, 73, 0.4)',
+                    padding: '60px 58px'
+                }}
+            >
+                 <div className="fx-row ai-ct jc-sb w100">
+                    <p className='fz18 pink fw500 center' style={{ width: '130px' }}>Address</p>
+                    <p className='fz18 white fw500 center' style={{ width: '70px' }}>Points</p>
+                </div>
+                <InfiniteScroll
+                    dataLength={10} //This is important field to render the next data
+                    next={() => setPage((pre) => pre + 1)}
+                    hasMore={more}
+                    loader={
+                    <div className="loading-box">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    }
+                    endMessage={<></>}
+                    style={{ display: "flex", flexDirection: "column" }}
+                    inverse={false}
+                    scrollableTarget="scrollableDiv"
+                >
+                    {list && !!list.length && list.map((item, index) => (
+                        <div className="w100 fx-row ai-ct jc-sb mt36" key={item.address}>
+                            <p className='fz16 pink fw500 center ' style={{ width: '130px' }}>{splitAddress(item.address)}</p>
+                            <p className='fz16 white8 fw500 center'  style={{ width: '70px' }}>{item.points}</p>
+                        </div>
+                    ))}
+                </InfiniteScroll>
+
+                {list?.length == 0 && (
+                    <p className="no-data">No data</p>
+                )}
+            </div>
+        </div>
+            
     </Modal>
     )
 }

@@ -34,8 +34,8 @@ const Home = (props) => {
     }
   }, [address, user?.leader]);
 
-  return mount ? (
-    !address ? (
+  return true ? (
+    true ? (
       <Welcome />
     ) : !user?.leader ? (
       <Invite />

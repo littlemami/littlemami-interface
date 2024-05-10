@@ -123,6 +123,12 @@
 .white9 {
   color: rgba(255, 255, 255, 0.9);
 }
+.white8 {
+  color: rgba(255, 255, 255, 0.8);
+}
 .color1 {
   color: #C55FDB !important;
+}
+.pink {
+  color: rgb(153, 143, 209) !important
 }
