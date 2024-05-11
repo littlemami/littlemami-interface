@@ -35,18 +35,18 @@ const Home = (props) => {
     }
   }, [address, user?.leader]);
 
-  // return mount ? (
-  //   !address ? (
-  //     <Welcome />
-  //   ) : !user?.leader ? (
-  //     <Invite />
-  //   ) : (
-  //     <Node {...user} />
-  //   )
-  // ) : (
-  //   <Loading />
-  // );
-  return <Dashboard/>
+  return mount ? (
+    !address ? (
+      <Welcome />
+    ) : !user?.leader ? (
+      <Invite />
+    ) : (
+      <Node {...user} />
+    )
+  ) : (
+    <Loading />
+  );
+  // return <Dashboard/>
 };
 
 export default Home;
