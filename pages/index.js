@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading/Index";
 import Welcome from "@/components/Welcome";
+import Dashboard from '@/components/Dashboard'
 
 const Home = (props) => {
   const [mount, setMount] = useState(false);
@@ -34,17 +35,18 @@ const Home = (props) => {
     }
   }, [address, user?.leader]);
 
-  return mount ? (
-    !address ? (
-      <Welcome />
-    ) : !user?.leader ? (
-      <Invite />
-    ) : (
-      <Node {...user} />
-    )
-  ) : (
-    <Loading />
-  );
+  // return mount ? (
+  //   !address ? (
+  //     <Welcome />
+  //   ) : !user?.leader ? (
+  //     <Invite />
+  //   ) : (
+  //     <Node {...user} />
+  //   )
+  // ) : (
+  //   <Loading />
+  // );
+  return <Dashboard/>
 };
 
 export default Home;

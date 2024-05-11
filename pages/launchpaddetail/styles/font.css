@@ -88,6 +88,9 @@
 .fz80 {
   font-size: 80px !important;
 }
+.fz88 {
+  font-size: 88px !important;
+}
 
 .br4 {
   border-radius: 4px !important ;
@@ -120,11 +123,14 @@
 .white {
   color: white !important;
 }
+.white3 {
+  color: rgba(193, 193, 193, 1) !important;
+}
 .white9 {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 .white8 {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 .color1 {
   color: #C55FDB !important;
