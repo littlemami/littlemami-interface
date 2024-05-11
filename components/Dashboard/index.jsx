@@ -1,11 +1,13 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { styled } from 'styled-components'
-
-
-
-
+import Image from "next/image";
+import {  ContractBar,  } from '@/components/LaunchpadLayout'
+import * as echarts from 'echarts'
+import MarsActive from '@/public/images/marsActive.png'
+import LMC from '@/public/images/LMC.png'
+import arrowPink from '@/public/images/arrow_pink.png'
 
 const Wrapper = styled.div`
     max-width: 1056px;
@@ -14,32 +16,275 @@ const Wrapper = styled.div`
 const Page1Wrapper = styled.div`
 
 `
+const Page2Wrapper = styled.div`
+  height: 288px;
+  padding-left: 44px;
+  padding-top: 40px;
+  border-top: 1.5px solid;
+  border-image-source: linear-gradient(90deg, rgba(184, 68, 255, 0) 0%, rgba(182, 128, 250, 0.15) 52%, rgba(184, 68, 255, 0) 100%);
+  border-image-slice: 1;
+  border-image-outset: 0.8px;
+
+  // &:hover {
+  //   border-top: 4px solid;
+  //   border-image-source: linear-gradient(90deg, rgba(246, 98, 249, 1) 9.5%, rgba(65, 19, 112, 0) 100%);
+  //   border-image-outset: 2px;
+  //   & span {
+  //     background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(222, 20, 255, 0) 100%), linear-gradient(166.65deg, rgba(246, 98, 250, 1) 18.52%, rgba(193, 164, 255, 1) 86.15%);
+  //     -webkit-background-clip: text;
+  //     -webkit-text-fill-color: transparent;
+  //   }
+  //   img {
+  //     display: inline-block;
+  //   }
+
+  //   .text {
+  //     display: inline-block;
+  //   }
+  // }
+`
+const Circle = styled.div`
+  width: 20px;
+  height: 20px;
+  background:  ${(props) => props.bg};
+  margin-right: 20px;
+  border-radius: 50%;
+`
+const Sector = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transform: rotate(60deg);
+  // background: ${(props) => props.bg};
+  // background: transparent;
+  box-sizing: border-box;
+  border: 30px solid ${(props) => props.bg};
+  clip-path: ${(props) => props.value};
+  // box-shadow: 2px 4px 18px rgba(101, 154, 255, 0.5);
+`
+const Page3Box = styled.div`
+  // width: 432px;
+  border-radius: 15px;
+  border: 2px solid rgba(147, 109, 255, 1);
+  box-sizing: border-box;
+  box-shadow: 0px 4px 13.8px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(50px);
+  padding: 12px 24px;
+  margin-left: 64px;
+
+`
+
+
+const PieOption = {
+  // backgroundColor: ChartBgColor, // 
+  color: ['rgb(110, 58, 255)', 'rgb(101, 154, 255)', 'rgb(246, 98, 249)'],
+  grid: {
+    left: 50,
+    right: 50,
+    top: 30,
+    bottom: 50,
+    containLabel: true
+  },
+  series: [
+    {
+      type: 'pie',
+      // labelLine: pieLabelLine, // 统一设置指示线长度
+      radius: ['100%', '50%'],
+      avoidLabelOverlap: false,
+      // label: pieLabel,
+      // emphasis: {//onmouseover时  指示文字样式
+      //   label: {
+      //     show: true,
+      //     fontSize: '40',
+      //     fontWeight: 'bold'
+      //   }
+      // },
+      data: [
+        { value: 75, name: '75%' },
+        { value: 20, name: '20%' },
+        { value: 5, name: '5%' }
+      ]
+    }
+  ]
+}
+const page2List = [
+    {
+        img: '/images/svg/myStake.svg',
+        num: '01',
+        name: 'MarsNode',
+        text: 'With a total supply of 30,000, MarsNode leverages the LMC economic model and user sociagraphs to foster Web3 interactions, enhancing point-to-multipoint engagement and drivingprofitability.'
+    },
+    {
+        img: '/images/svg/myStake.svg',
+        num: '02',
+        name: 'Stake',
+        text: "Boost your profits with LittleMami’s easy and innovative staking, offering rewards and secure governance."
+    },
+    {
+        img: '/images/svg/myStake.svg',
+        num: '03',
+        name: 'LaunchPad',
+        text: "Open doors to diverse earnings for users by supporting emerging projects with our extensive LaunchPad network."
+    },
+    {
+        img: '/images/svg/myStake.svg',
+        num: '04',
+        name: 'Loan',
+        text: "By holding LittleMami assets and compatible tokens, users can engage in hassle-free loan services using NFTs as collateral without the need to sell, optimizing asset utilization."
+    },
+]
+const Page2 = (props) => {
+    return (
+        <Wrapper className="" style={{marginTop: '310px', }}>
+            {page2List.map((item, index) => {
+                return (
+                    <Page2Wrapper key={item.name} className="">
+                      <div className="fx jc-start" style={{ marginLeft: '14%'}}>
+                        <span className='fz20 fw500'>/{item.num}</span>
+                        <div className="fx-row ai-ct">
+                            <div>
+                                <div className='fz116' style={{marginTop: '-20px'}}>{item.name}</div>
+                                <div className='fz16 hidden text' style={{width: "820px"}}>
+                                    {item.text}
+                                </div>
+                            </div>
+                            <Image
+                                alt={item.name}
+                                className='hidden'
+                                src={item.img}
+                                width="100"
+                                height="100"
+                            />
+                        </div>
+                      </div>
+                    </Page2Wrapper>
+                );
+            })}
+        </Wrapper>
+    );
+}
+const Page1 = () => {
+  return (
+    <Page1Wrapper className="">
+        <p className="fz88 white fw900">Unlocking Your</p>
+        <p className="fz88 color1 fw900 ml52">Profit Potential</p>
+        <p className="fz88 white fw900" style={{marginLeft: '300px'}}>with LMC</p>
+        <div className="fx-row ai-ct jc-sb " style={{marginTop: '82px'}}>
+            <div/>
+            <div className="fx-col" style={{maxWidth: '506px'}}>
+                <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
+                <div className="fx-row ai-ct jc-sb mt24">
+                    <span className="fz20 white">Connect Us</span>
+                    <Image src={arrowPink} alt="arrowPink" height={18} width={18}/>
+                </div>
+            </div>
+        </div>
+    </Page1Wrapper>
+  )
+}
+
+const Page3 = () => {
+
+  const chartRef = useRef(null)  
+  useEffect(() => {
+    if (chartRef.current) {
+      const echartsInstance = echarts.init(chartRef.current)
+      if(echartsInstance) {
+        echartsInstance.setOption(PieOption)
+      }
+    }
+  }, [])
+
+  return (
+    <div style={{ marginTop: '200px', maWidth: '1173px'}} className="w100 fx-col center ">
+      <p className="fz68 fw500 white">Economic Model</p>
+      <p className="fz24 fw500 white3">LittleMami Coin(LMC)</p>
+      <div className="fx-row ai-ct jc-sb w100" style={{ marginTop: '84px'}}>
+        {
+          [
+            { title: 'Total supply :', value: '1,000,000,000 LMC'},
+            { title: 'Block reward :', value: '69.5 LMC'},
+            { title: 'Daily production :', value: '500,400 LMC'}
+          ].map(item => (
+            <div className="fx-row ai-ct" key={item.title}>
+              <span className="blue fz20">{item.title}</span>
+              <span className="white fz20 ml20">{item.value}</span>
+            </div>
+          ))
+        }
+      </div>
+      <div style={{ marginTop: '85px'}} className="fx-row">
+        <div className="fx-col " style={{  height: '414px',  width: '314px' }}>
+          <div style={{ position: 'relative'}}>
+            <div ref={chartRef}  style={{ height: '314px',  width: '314px', position: 'absolute', left: 0, top: 0}} className=" center"/>
+            <div className="center fx-col " style={{ position: 'absolute',left: '136px', top: '105px'}}>
+              <Image src={LMC} height={47} width={43} alt="logo"/>
+              <p className="green fz20 fw500 mt2">LMC</p>
+              <p className="green fz20 fw500 mt2">100%</p>
+            </div>
+          </div>
+
+          <div className="center w100 " style={{ position: 'relative', marginTop: '354px'}}>
+            <p className=" green fz18">100% = 1,000,000,000 LMC</p>
+          </div>
+        </div>
+        <div className="fx-col ml34 ">
+          <div className="fx-row">
+            
+            <Sector bg="rgba(246, 98, 249, 1)" value="polygon(0% 0%, 15% 0%,50% 50%, 0% 15%)" />
+           
+            <Circle bg="rgba(246, 98, 249, 1)"/>
+            <div className="fx-col">
+              <p className="fz20 purple">Foundation</p>
+              <p className="fz20 purple mt10">5%=50,000,000 LMC</p>
+              <div className="mt8">
+                {
+                  ['- 20% for rewarding ecosystem developers.','- 30% for business cooperation expansion.','- 50% for community ecosystem governance.'].map(item => <p className="mt4 white fz16" key={item}>{item}</p> )
+                }
+              </div>
+            </div>
+          </div>
+          <div className="fx-row mt50">
+              <div className="fx-col">
+                <div className="fx-row">
+                  <Sector bg="rgb(101, 154, 255)" value="polygon(0% 0%, 40% 0%,50% 50%, 0% 40%)" />
+                  <Circle bg="rgb(101, 154, 255)"/>
+                  <div className="fx-col ">
+                    {['Financing reservation','20%=200,000,000 LMC.'].map(item => <p className="mt4 blue fz16" key={item}>{item}</p> )}
+                  </div>
+                </div>
+                <div className="fx-row " style={{ marginTop: '60px'}}>
+                  <Sector bg="rgb(110, 58, 255)" value="polygon(0% 0%, 150% 0%,50% 50%, 0% 150%)" />
+                  <Circle bg="rgb(110, 58, 255)"/>
+                  <div className="fx-col">
+                    {['Mining','75%=750,000,000 LMC.'].map(item => <p className="mt4 blueviolet fz16" key={item}>{item}</p> )}
+                  </div>
+                </div>
+              </div>
+              <Page3Box>
+                {['MARS＆MARS LP stake 250,000,000 LMC','Node stake 100,000,000 LMC','SSR LP stake 100,000,000 LMC','LSP LP ＆ Outer Space LP stake 150,000,000 LMC','Game＆Metaverse 150,000,000 LMC'].map(item => <p className="mt12 white fz16" key={item}>{item}</p> )}
+              </Page3Box>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const Dashboard = (props) => {
-
 
     return (
         <div className="w100">
             <div className="center w100">
-                <Wrapper className="bd2 w100">
-                    <Page1Wrapper className="bd1">
-                        <p className="fz88 white fw900">Unlocking Your</p>
-                        <p className="fz88 color1 fw900 ml52">Profit Potential</p>
-                        <p className="fz88 white fw900" style={{marginLeft: '300px'}}>with LMC</p>
-                        <div className="fx-row ai-ct jc-sb " style={{marginTop: '82px'}}>
-                            <div/>
-                            <div className="fx-col" style={{maxWidth: '506px'}}>
-                                <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
-                                <div className="fx-row ai-ct jc-sb mt24">
-                                    <span className="fz20 white">Connect Us</span>
-                                    <span className="fz20 white">{'->'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </Page1Wrapper>
+                <Wrapper className=" w100">
+                    <Page1/>
                 </Wrapper>
             </div>
-            <DashboardList></DashboardList>
+            <Page2/>
+            <Page3/>
+            <div style={{ marginTop: '140px' }}>
+              <ContractBar/>
+            </div>
         </div>
 
     );

@@ -82,6 +82,9 @@
 .fz64 {
   font-size: 64px !important;
 }
+.fz68 {
+  font-size: 68px !important;
+}
 .fz72 {
   font-size: 80px !important;
 }
@@ -90,6 +93,9 @@
 }
 .fz88 {
   font-size: 88px !important;
+}
+.fz116 {
+  font-size: 116px !important;
 }
 
 .br4 {
@@ -137,4 +143,16 @@
 }
 .pink {
   color: rgb(153, 143, 209) !important
+}
+.blue {
+  color: rgb(101, 154, 255) !important
+}
+.green {
+  color: rgb(38, 255, 165) !important;
+}
+.purple {
+  color: rgb(246, 98, 249) !important;
+}
+.blueviolet {
+  color: rgb(110, 58, 255) !important;
 }

@@ -23,6 +23,7 @@
     "copy-to-clipboard": "^3.3.3",
     "daisyui": "^4.4.17",
     "dayjs": "^1.11.10",
+    "echarts": "^5.5.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "ethers": "^5.7.2",
