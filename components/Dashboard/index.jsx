@@ -30,13 +30,11 @@ const LinkWrapper = styled.div`
     opacity: 0;
   }
 
-  &:hover > span {
+  &:hover > span,&:hover > img {
     animation: colorChange 1s linear, moveAnimation 1.5s linear !important; 
  }
-
   &:hover::before {
-    animation-duration: 1.5s !important;
-    animation-name: linkVfx !important;
+    animation: linkVfx 1.5s linear !important;
   }
 `
 
@@ -199,7 +197,7 @@ const Page1 = () => {
                     <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
                     <LinkWrapper className="fx-row ai-ct jc-sb mt24">
                         <span className="fz20">Connect Us</span>
-                        <span className="fz20">{'->'}</span>
+                        <Image src={arrowPink} alt="arrowPink" height={18} width={18}/>
                     </LinkWrapper>
                 </div>
             </div>
