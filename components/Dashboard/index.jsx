@@ -1,5 +1,4 @@
 import {useEffect, useState, useRef} from "react";
-
 import {styled} from 'styled-components'
 import Image from "next/image";
 import {ContractBar,} from '@/components/LaunchpadLayout'
@@ -7,6 +6,7 @@ import * as echarts from 'echarts'
 import MarsActive from '@/public/images/marsActive.png'
 import LMC from '@/public/images/LMC.png'
 import arrowPink from '@/public/images/arrow_pink.png'
+import { DashboardMobile } from './DashboardMobile'
 
 const Wrapper = styled.div`
   max-width: 1056px;
@@ -113,7 +113,6 @@ const Page3Box = styled.div`
 
 
 const PieOption = {
-    // backgroundColor: ChartBgColor, //
     color: ['rgb(110, 58, 255)', 'rgb(101, 154, 255)', 'rgb(246, 98, 249)'],
     grid: {
         left: 50,
@@ -125,17 +124,8 @@ const PieOption = {
     series: [
         {
             type: 'pie',
-            // labelLine: pieLabelLine, // 统一设置指示线长度
             radius: ['100%', '50%'],
             avoidLabelOverlap: false,
-            // label: pieLabel,
-            // emphasis: {//onmouseover时  指示文字样式
-            //   label: {
-            //     show: true,
-            //     fontSize: '40',
-            //     fontWeight: 'bold'
-            //   }
-            // },
             data: [
                 {value: 75, name: '75%'},
                 {value: 20, name: '20%'},
@@ -218,7 +208,6 @@ const Page1 = () => {
 }
 
 const Page3 = () => {
-
     const chartRef = useRef(null)
     useEffect(() => {
         if (chartRef.current) {
@@ -314,17 +303,20 @@ const Page3 = () => {
 const Dashboard = (props) => {
 
     return (
-        <div className="w100">
-            <div className="center w100">
-                <Wrapper className=" w100">
-                    <Page1/>
-                </Wrapper>
+        <div>
+            <div className="w100">
+                <div className="center w100">
+                    <Wrapper className=" w100">
+                        <Page1/>
+                    </Wrapper>
+                </div>
+                <Page2/>
+                <Page3/>
+                <div style={{marginTop: '140px'}}>
+                    <ContractBar/>
+                </div>
             </div>
-            <Page2/>
-            <Page3/>
-            <div style={{marginTop: '140px'}}>
-                <ContractBar/>
-            </div>
+            {/* <DashboardMobile/> */}
         </div>
 
     );
