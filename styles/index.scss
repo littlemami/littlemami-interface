@@ -1110,3 +1110,15 @@ body {
     color: rgba(255, 255, 255, 0.3);
   }
 }
+@keyframes imgChange {
+  0%{
+    opacity: 0;
+    top:168px
+  }
+  100% {
+    opacity: 1;
+    top:88px;
+    transform: rotate3d(1, 1, 1, 25deg);
+  }
+}
+
