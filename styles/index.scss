@@ -353,7 +353,7 @@ body {
 
 .ant-modal-wrap.cur-modal-box-deposit {
   .ant-modal-content {
-    padding: 55px 68px; 
+    padding: 55px 68px;
     box-sizing: border-box;
     border: 1px solid rgb(182, 121, 197);
     border-radius: 40px;
@@ -1077,5 +1077,36 @@ body {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+  }
+}
+
+@keyframes linkVfx {
+  0%, 100%  {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes moveAnimation {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  33.33% {
+    transform: translateX(20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  70.66% {
+    transform: translateX(50px);
+  }
+}
+@keyframes colorChange {
+  0%, 100% {
+    color: rgba(255, 255, 255, 1);
+  }
+  50% {
+    color: rgba(255, 255, 255, 0.3);
   }
 }
