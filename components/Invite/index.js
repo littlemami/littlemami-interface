@@ -21,11 +21,18 @@ const Invite = (props) => {
       if (res?.error) {
         setData({ ...data, error: res.error });
       } else {
-        router.push({
-          pathname: "/",
-          query: {},
-        });
-        window.location.reload();
+        if(props.toPath) {
+          router.push({
+            pathname: props.toPath,
+            query: {},
+          });
+        }else {
+          router.push({
+            pathname: "/",
+            query: {},
+          });
+          window.location.reload();
+        }
       }
     },
   };

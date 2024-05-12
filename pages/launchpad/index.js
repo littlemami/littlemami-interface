@@ -10,6 +10,8 @@ import Invite from "@/components/Invite";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from 'react'
 import rpc from "@/components/Rpc";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+
 const AirdropWrapper = styled.div`
     width: 496px;
     height: 439px;
@@ -39,11 +41,11 @@ const BgWrapper = styled.div`
 `
 export const Launchpad = () => {
     const [showCode, setShowCode] = useState(false)
-    const [invites, setInvites] = useState([])
+    const [invites, setInvites] = useState(false)
     const router = useRouter();
 
     const { address } = useAccount();
-
+    const { openConnectModal } = useConnectModal();
     useEffect(() => {
         fetchData()
     },[address])
@@ -53,22 +55,27 @@ export const Launchpad = () => {
         const user = await rpc.getUser(address);
         console.log('user111', )
         // user?.leader
-        setInvites(user?.leader || [])
+        setInvites(user?.leader || false)
     }
    
 
     const onDetail = () => {
-        if(address && !!invites.length) {
-            router.push('/launchpaddetail')
-            setShowCode(false)
+        console.log('address', address)
+        if(address)  {
+            if(!!invites) {
+                router.push('/launchpaddetail')
+                setShowCode(false)
+            }else {
+                setShowCode(true)
+            }
         }else {
-            setShowCode(true)
+            openConnectModal()
         }
     }
     return (
         <div >
             {
-                showCode ?  <Invite /> : (
+                showCode ?  <Invite toPath="/launchpaddetail"/> : (
                     <div style={{ marginTop: '108px'}} >
                         <StakeTitle
                             title="Launching Feature"

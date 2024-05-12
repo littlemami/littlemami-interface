@@ -171,7 +171,10 @@ const LaunchpadDetail = () => {
   const [xDone, setXDone] = useState(false)
   const [tgDone, setTgDone] = useState(false)
   const [isDeposit, setDeposit] = useState(true)
+  const [depositAmount, setDepositAmount] = useState(0)
+  const [withdrawAmount, setWithdrawAmount] = useState(0)
 
+  
 
 
   const marsContract = contract[chain?.id]?.mars
@@ -351,12 +354,12 @@ const LaunchpadDetail = () => {
     if (approveConfirmed) {
       Notify.success('Approved')
       if(isDeposit) {
-        onDeposit()
+        onDeposit(depositAmount)
       } else {
-        onWidhdraw()
+        onWidhdraw(withdrawAmount)
       }
     }
-  }, [approveConfirmed, isDeposit])
+  }, [approveConfirmed, isDeposit,depositAmount, withdrawAmount])
 
   useEffect(() => {
     if(depositConfirmed) {
@@ -379,7 +382,9 @@ const LaunchpadDetail = () => {
   },[withdrawConfirmed])
  
   const onDeposit = async(amount) => {
+    setDepositAmount(amount)
     // const _amount = amount * 1e18
+    console.log('onDeposit amount', amount)
     const _amount = ethers.utils.parseEther(`${amount}`)
     setDeposit(true)
     setModalLoading(true)
@@ -394,6 +399,7 @@ const LaunchpadDetail = () => {
     }
   }
   const onWidhdraw = (amount) => {
+    setWithdrawAmount(amount)
     setDeposit(false)
     // const _amount = amount * 1e18
     const _amount = ethers.utils.parseEther(`${amount}`)
@@ -551,26 +557,24 @@ const LaunchpadDetail = () => {
             withdrawConfirming
           }
           isOpen={isOpen} 
-          handleClose={() => setOpen(false)}
+          handleClose={() => {
+            setDepositAmount(0)
+            setWithdrawAmount(0)
+            setOpen(false)
+            
+          }}
           onDeposit={onDeposit}
           onWidhdraw={onWidhdraw}
           onMax={onMax}
           defaultInputValue={defaultInputValue}
 
         />
-        <LeaderBoardModal list={
-          [
-            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 11},
-            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 22},
-            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 33},
-            { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 44},
-          ]
-        } open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
+        <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
         <InviteModal list={[
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 11},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 22},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 33},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 44},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 200},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 200},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 200},
+          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 200},
         ]} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
       </Container>
       <ContractBar/>

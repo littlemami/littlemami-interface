@@ -16,7 +16,7 @@ import React, { FC, useEffect, useState}  from 'react'
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import styles from "@/pages/ranklist/index.module.scss";
-
+import rpc from "@/components/Rpc";
 export const Container = ({ children }) => {
     return (
         <div className='w100 center'>
@@ -269,8 +269,39 @@ export const ContractBar = () => {
 }
 
 
-export const LeaderBoardModal = ({ list, open, handleClose}) => {
+export const LeaderBoardModal = ({ open, handleClose}) => {
+    
+    const pageSize = 20;
+    const [data, setData] = useState({});
+    const [mount, setMount] = useState(true);
     const [more, seMore] = useState(true);
+    const [page, setPage] = useState(1);
+    
+    const fetchData = async() => {
+        
+        const marsRank = await rpc.getMarsRank(page, pageSize);
+
+        // let scoreRank = await rpc.getScoreRank(page, pageSize);
+        if (!Array.isArray(marsRank)) {
+            marsRank = [];
+        }
+        setData((prev) => ({
+            ...prev,
+            marsRank:
+                page === 1 ? [...marsRank] : [...prev.marsRank, ...marsRank],
+        }));
+        if (marsRank?.length < pageSize) {
+            seMore(false);
+            return;
+        }
+        page === 1 && setMount(true);
+    }
+
+    useEffect(() => {
+        fetchData(page)
+    },[page])
+
+   
     return (
         <Modal
             centered
@@ -313,16 +344,16 @@ export const LeaderBoardModal = ({ list, open, handleClose}) => {
                 inverse={false}
                 scrollableTarget="scrollableDiv"
             >
-                {list && !!list.length && list.map((item, index) => (
+                {data?.marsRank?.map((item, index) => (
                     <div className="w100 fx-row ai-ct jc-sb mt36" key={item.address}>
                         <p className='fz18 white8 fw500  center' style={{ width: '50px' }}>{index + 1}</p>
                         <p className='fz18 pink fw500 center' style={{ width: '433px' }}>{item.address}</p>
-                        <p className='fz18 white8 fw500 center'  style={{ width: '70px' }}>{item.points}</p>
+                        <p className='fz18 white8 fw500 center'  style={{ width: '70px' }}>{item.score}</p>
                     </div>
                 ))}
             </InfiniteScroll>
 
-            {list?.length == 0 && (
+            {data?.marsRank?.length == 0 && (
                 <p className="no-data">No data</p>
             )}
             </div>
