@@ -12,14 +12,38 @@ import sortBg from '@/public/images/sort_bg.png'
 import item2 from '@/public/images/item2.png'
 import item3 from '@/public/images/item3.png'
 import item4 from '@/public/images/item4.png'
-const contentStyle = {
-    margin: 0,
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-};
+import * as echarts from 'echarts'
+import LMC from '@/public/images/LMC.png'
+
+
+const PieOption = {
+    color: ['rgb(110, 58, 255)', 'rgb(101, 154, 255)', 'rgb(246, 98, 249)'],
+
+    series: [
+        {
+            type: 'pie',
+            selectedMode: 'single',
+            label: {
+                position: 'inner',
+                textStyle: {
+                    color: "#fff",
+                    align: "right",
+                    fontSize: 8,
+                },
+            },
+
+            radius: ['100%', '50%'],
+            avoidLabelOverlap: false,
+            data: [
+                {value: 75, name: '75%'},
+                {value: 20, name: '20%'},
+                {value: 5, name: '5%'}
+            ]
+        }
+    ]
+}
+
+
 
 
 const Page1Wrapper = styled.div`
@@ -108,20 +132,38 @@ const Page3Card = styled.div`
     place-items: center;
     gap: 10px;
     flex-shrink: 0;
-    padding: 25px 78px;
+    padding: 25px 0px;
     border-radius: 20px;
-    border-width: 0.5px;
-    border-style: solid;
-    border-image-source: linear-gradient(180deg, rgba(211, 109, 247, 0.4) 0%, rgba(156, 69, 225, 0.4) 100%);
-    border-image-slice: 1;
+    border: 0.5px solid rgb(71,34,93);
     box-sizing: border-box;
+    margin-top: 28px;
+
   
 `
 const page3List = [
-    { t1: '', t2: ''},
-    { t1: '', t2: ''},
-    { t1: '', t2: ''},
+    { t1: 'Total supply :', t2: '1,000,000,000 LMC'},
+    { t1: 'Block reward :', t2: '69.5 LMC'},
+    { t1: 'Daily production :', t2: '500,400 LMC'},
 ]
+
+const Circle = styled.div`
+  width: 6px;
+  height: 6px;
+  background: ${(props) => props.bg};
+  margin-right: 8px;
+  border-radius: 50%;
+`
+const Sector = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transform: rotate(60deg);
+  box-sizing: border-box;
+  border: 15px solid ${(props) => props.bg};
+  clip-path: ${(props) => props.value};
+
+`
+
 export const DashboardMobile = () => {
     const [h, setH ] = useState(0)
     const [w, setW ] = useState(0)
@@ -206,14 +248,101 @@ export const DashboardMobile = () => {
     }
 
     const Page3 = () => {
+        const chartRef = useRef(null)
+        useEffect(() => {
+            if (chartRef.current) {
+                const echartsInstance = echarts.init(chartRef.current)
+                if (echartsInstance) {
+                    echartsInstance.setOption(PieOption)
+                }
+            }
+        }, [])
         return (
-            <div className="fx-col ai-ct">
+            <div className="fx-col ai-ct pl20 pr20">
                 <p className="white fz28 fw500 mt42">Economic Model</p>
                 <Page3SubTitle className="center">
                     <p className="white fz14 mt2">LittleMami Coin(LMC)</p>
                 </Page3SubTitle>
                 <Page3Card>
-                    <div></div>
+                    {
+                        page3List.map(item => (
+                            <div style={{ textAlign:'center'}} key={item.t1}>
+                                <span className="fz12 blue">{item.t1}</span>
+                                <span className="fz12 white ml10">{item.t2}</span>
+                            </div>
+                        ))
+                    }
+                    
+                </Page3Card>
+                <Page3Card>
+                    <div  className="fx-row">
+                        <div className="fx-col pt24" >
+                            <div style={{}}>
+                                <div ref={chartRef}
+                                    style={{height: '106px', width: '106px', }}
+                                    className=" center"/>
+                                <div className="center fx-col " style={{ marginTop: '-74px'}}>
+                                    <Image src={LMC} height={17} width={17} alt="logo"/>
+                                    <p className="green fz8 fw500 mt2">LMC</p>
+                                    <p className="green fz8 fw500 mt2">100%</p>
+                                </div>
+                            </div>
+
+                            <div className="center w100 " style={{ marginTop: '40px'}}>
+                                <p className="green fz8">100% = 1,000,000,000 LMC</p>
+                            </div>
+                        </div>
+
+                        <div className="fx-col ml12" >
+                            <div className="fx-row">
+                                <Sector bg="rgba(246, 98, 249, 1)" value="polygon(0% 0%, 15% 0%,50% 50%, 0% 15%)"/>
+                                <Circle bg="rgba(246, 98, 249, 1)"/>
+                                <div className="fx-col">
+                                    <p className="fz10 purple">Foundation</p>
+                                    <p className="fz10 purple mt2">5%=50,000,000 LMC</p>
+                                    <div className="mt6">
+                                        {
+                                            ['- 20% for rewarding ecosystem developers.', '- 30% for business cooperation expansion.', '- 50% for community ecosystem governance.'].map(item =>
+                                                <p className="mt4 white fz8" key={item}>{item}</p>)
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="fx-row mt18">
+                                <Sector bg="rgb(101, 154, 255)" value="polygon(0% 0%, 40% 0%,50% 50%, 0% 40%)"/>
+                                <Circle bg="rgb(101, 154, 255)"/>
+                                <div className="fx-col ">
+                                    {['Financing reservation', '20%=200,000,000 LMC.'].map(item => <p
+                                        className="blue fz10" key={item}>{item}</p>)}
+                                </div>
+                            </div>
+
+                            <div className="fx-row mt18" >
+                                <Sector bg="rgb(110, 58, 255)" value="polygon(0% 0%, 150% 0%,50% 50%, 0% 150%)"/>
+                                <Circle bg="rgb(110, 58, 255)"/>
+                                <div className="fx-col">
+                                    {['Mining', '75%=750,000,000 LMC.'].map(item => <p className=" blueviolet fz10"
+                                                                                    key={item}>{item}</p>)}
+                                </div>
+                            </div>
+
+                                                        
+                        </div>
+                    </div>
+                </Page3Card>
+                <Page3Card  style={{ alignItems:'flex-start', paddingLeft: '31px' }}>
+                    {
+                        [
+                            'MARS＆MARS LP stake 250,000,000 LMC',
+                            'Node stake 100,000,000 LMC',
+                            'SSR LP stake 100,000,000 LMC',
+                            'LSP LP ＆ Outer Space LP stake 150,000,000 LMC',
+                            'Game＆Metaverse 150,000,000 LMC',
+                        ].map(item => (
+                            <p className="fz12 white" key={item}>{item}</p>
+                        ))
+                    }
                 </Page3Card>
             </div>
         )

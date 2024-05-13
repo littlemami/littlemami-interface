@@ -112,7 +112,7 @@ const Page3Box = styled.div`
 `
 
 
-const PieOption = {
+export const PieOption = {
     color: ['rgb(110, 58, 255)', 'rgb(101, 154, 255)', 'rgb(246, 98, 249)'],
     grid: {
         left: 50,
@@ -304,7 +304,7 @@ const Dashboard = (props) => {
 
     return (
         <div>
-            <div className="w100">
+            {/* <div className="w100">
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
@@ -315,8 +315,8 @@ const Dashboard = (props) => {
                 <div style={{marginTop: '140px'}}>
                     <ContractBar/>
                 </div>
-            </div>
-            {/* <DashboardMobile/> */}
+            </div> */}
+            <DashboardMobile/>
         </div>
 
     );
