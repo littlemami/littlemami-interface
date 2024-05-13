@@ -173,6 +173,7 @@ const LaunchpadDetail = () => {
   const [isDeposit, setDeposit] = useState(true)
   const [depositAmount, setDepositAmount] = useState(0)
   const [withdrawAmount, setWithdrawAmount] = useState(0)
+  const [refecrral, setRefecrral] = useState([])
 
   
 
@@ -242,12 +243,14 @@ const LaunchpadDetail = () => {
               marsX,//是否点了推特
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
-              marsScore} = res
+              marsScore, 
+              marsRefecrral} = res
       setRank(marsRank)
       setPoints(marsScore)
       setDailyDone(dailyCheckedIn)
       setXDone(marsX)
       setTgDone(marsTelegram)
+      setRefecrral(marsRefecrral || [])
     }
     setLoading(false)
   }
@@ -475,10 +478,10 @@ const LaunchpadDetail = () => {
             `
             } >
               <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
-              <span className="white fw400 fz64 ">{points}</span>
+              <span className="white fw400 fz64 ">{points || 0}</span>
               <LinearBg />
               <span className="color1 fw400 fz22">Rank</span>
-              <span className="white fw400 fz42 mt10">#{rank}</span>
+              <span className="white fw400 fz42 mt10">#{rank || 0}</span>
               <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
                 LeaderBoard
               </LeaderBoardButton>
@@ -570,12 +573,7 @@ const LaunchpadDetail = () => {
 
         />
         <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-        <InviteModal list={[
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4121', points: 200},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4122', points: 200},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4123', points: 200},
-          { address: '0xfEeE4A7F538E8ea47Ab3b8B319931F2d501D4124', points: 200},
-        ]} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+        <InviteModal list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
       </Container>
       <ContractBar/>
     </div>

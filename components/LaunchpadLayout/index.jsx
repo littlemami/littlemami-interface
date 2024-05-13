@@ -407,12 +407,6 @@ export const InviteModal = ({ list, open, handleClose}) => {
                     dataLength={10} //This is important field to render the next data
                     next={() => setPage((pre) => pre + 1)}
                     hasMore={more}
-                    loader={
-                    <div className="loading-box">
-                        <span></span>
-                        <span></span>
-                    </div>
-                    }
                     endMessage={<></>}
                     style={{ display: "flex", flexDirection: "column" }}
                     inverse={false}
@@ -421,7 +415,7 @@ export const InviteModal = ({ list, open, handleClose}) => {
                     {list && !!list.length && list.map((item, index) => (
                         <div className="w100 fx-row ai-ct jc-sb mt36" key={item.address}>
                             <p className='fz16 pink fw500 center ' style={{ width: '130px' }}>{splitAddress(item.address)}</p>
-                            <p className='fz16 white8 fw500 center'  style={{ width: '70px' }}>{item.points}</p>
+                            <p className='fz16 white8 fw500 center'  style={{ width: '70px' }}>200</p>
                         </div>
                     ))}
                 </InfiniteScroll>

@@ -304,7 +304,7 @@ const Dashboard = (props) => {
 
     return (
         <div>
-            {/* <div className="w100">
+            <div className="w100">
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
@@ -315,8 +315,8 @@ const Dashboard = (props) => {
                 <div style={{marginTop: '140px'}}>
                     <ContractBar/>
                 </div>
-            </div> */}
-            <DashboardMobile/>
+            </div>
+            {/* <DashboardMobile/> */}
         </div>
 
     );
