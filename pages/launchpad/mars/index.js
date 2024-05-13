@@ -61,6 +61,8 @@ const Mars = () => {
 
   const invites = data?.user?.invites;
 
+  const marsReferrals = data?.user?.marsReferrals; //mars活动新邀请进来的人
+
   const searchInvites = invites?.map((item) => {
     return {
       ...marsContract,
