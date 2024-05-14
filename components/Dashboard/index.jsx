@@ -42,41 +42,54 @@ const Page2Wrapper = styled.div`
   height: 288px;
   padding-left: 24px;
   padding-top: 43px;
-  border-top: 1.5px solid;
+ 
+  position: relative;
+  overflow: hidden;
+  border-width: 1.5px;
+  border-style: solid;
   border-image-source: linear-gradient(90deg, rgba(184, 68, 255, 0) 0%, rgba(182, 128, 250, 0.15) 52%, rgba(184, 68, 255, 0) 100%);
   border-image-slice: 1;
   border-image-outset: 0.8px;
-  position: relative;
   .box1{
     margin-left: 14%;
     transition:  margin-left 1s ;
   }
+
+  .text {
+    opacity: 0; 
+  }
+ 
+
+
   img{
     position: absolute;
     right: 10px;
     opacity: 0;
-    top:88px
+    top: 144px; 
+    transform: rotateX(40deg) rotateZ(-10deg);
+    transition: transform 0.5s ease, translateY ease ease;
   }
    &:hover {
-     border-top: 4px solid;
-     padding-top: 30px;
-     border-image-source: linear-gradient(90deg, rgba(246, 98, 249, 1) 9.5%, rgba(65, 19, 112, 0) 100%);
-     border-image-outset: 2px;
-     & span {
-       background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(222, 20, 255, 0) 100%), linear-gradient(166.65deg, rgba(246, 98, 250, 1) 18.52%, rgba(193, 164, 255, 1) 86.15%);
-       -webkit-background-clip: text;
-       -webkit-text-fill-color: transparent;
-     }
-     img {
-       animation: imgChange 0.8s linear !important;
-       opacity: 1;
-     }
-     .text {
-       display: inline-block;
-     }
-     & .box1{
-       margin-left: 0px
-     }
+        padding-top: 30px;
+       
+        & span {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(222, 20, 255, 0) 100%), linear-gradient(166.65deg, rgba(246, 98, 250, 1) 18.52%, rgba(193, 164, 255, 1) 86.15%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        img {
+            animation: Page2Wrapper_moveUp 0.5s ease forwards, Page2Wrapper_rotate 0.5s ease 0.3s forwards;
+
+            // transform: translateY(-100px) rotateX(0deg) rotateZ(-5deg);
+            opacity: 1;
+        }
+        .text {
+            opacity: 1;
+            // display: inline-block;
+        }
+        & .box1{
+            margin-left: 0px
+        }
   
    }
 `
@@ -165,16 +178,17 @@ const Page2 = (props) => {
         <Wrapper className="" style={{marginTop: '310px',}}>
             {page2List.map((item, index) => {
                 return (
-                    <Page2Wrapper key={item.name} className="">
+                    <Page2Wrapper key={item.name} className="page1wrapper">
                         <div className="fx jc-start box1">
                             <span className='fz20 fw500'>/{item.num}</span>
                             <div className=""  style={{marginRight: '46px'}}>
                                     <div className='fz116' style={{marginTop: '-20px'}}>{item.name}</div>
-                                    <div className='fz16 hidden text' style={{width: "820px"}}>
+                                    <div className='fz16 text' style={{width: "820px"}}>
                                         {item.text}
                                     </div>
                             </div>
                         </div>
+                        
                         <Image
                             alt={item.name}
                             src={item.img}
@@ -304,7 +318,7 @@ const Dashboard = (props) => {
 
     return (
         <div>
-            <div className="w100">
+            <div className="w100 ">
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
