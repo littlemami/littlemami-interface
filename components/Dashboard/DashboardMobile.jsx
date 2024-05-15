@@ -73,10 +73,6 @@ const Hemisphere = styled.div`
     height: 174px;  
     opacity: 0.65;
     background: linear-gradient(180deg, rgba(96, 32, 178, 0.45) 0.31%, rgba(13, 13, 31, 0) 30.79%);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     border-radius: 50%;
 `
 const Line2 = styled.div`
@@ -167,20 +163,24 @@ const Sector = styled.div`
 export const DashboardMobile = () => {
     const [h, setH ] = useState(0)
     const [w, setW ] = useState(0)
+    const [dotIdx, setDotIdx] = useState(1)
     useEffect(() => {
-        const height = window.innerHeight - 63
+        const height = window.innerHeight - 66
         const width = window.innerWidth
         setH(height)
         setW(width)
 
     },[])
+
+
+
     const onChange = (currentSlide) => {
-        console.log(currentSlide);
+        setDotIdx(currentSlide+1)
     };
 
     const Page1 = () => {
         return (
-            <div className="w100 center"  style={{ height:h }}>
+            <div className="w100 center hide_scrollbar"  style={{ height:h-174, overflowY: 'scroll' }}>
                 {/* <Page1Center/> */}
                 <div className="fx-col ai-end" >  
                     <p className="white fz38 fw500">Unlocking Your</p>
@@ -193,15 +193,16 @@ export const DashboardMobile = () => {
                         <p className="fz14 white mr24">Connect Us</p>
                         <Image src={arrowPink} alt="arrowPink" height={12} width={12} className="mr20"/>
                     </div>
-                    <Hemisphere />
+                   
+                   
+                   
                 </div>
             </div>
         )
     }
     const Page2 = () => {
         return (
-            <div className="mt46 pl14 pr14" style={{ marginBottom: '98px'}}>
-                
+            <div className="pl14 pr14 pb40 hide_scrollbar" style={{height:h , overflowY: 'scroll' }}>
                 {
                     page2List.map((item,idx) => (
                         <div className="fx-col pt10 pb20"  key={item.title} style={{ }}>
@@ -258,7 +259,7 @@ export const DashboardMobile = () => {
             }
         }, [])
         return (
-            <div className="fx-col ai-ct pl20 pr20">
+            <div className="fx-col ai-ct pl20 pr20 hide_scrollbar" style={{height:h , overflowY: 'scroll' }}>
                 <p className="white fz28 fw500 mt42">Economic Model</p>
                 <Page3SubTitle className="center">
                     <p className="white fz14 mt2">LittleMami Coin(LMC)</p>
@@ -282,7 +283,7 @@ export const DashboardMobile = () => {
                                     style={{height: '106px', width: '106px', }}
                                     className=" center"/>
                                 <div className="center fx-col " style={{ marginTop: '-74px'}}>
-                                    <Image src={LMC} height={17} width={17} alt="logo"/>
+                                    <Image src={LMC} height={17} width={17} alt="LMC"/>
                                     <p className="green fz8 fw500 mt2">LMC</p>
                                     <p className="green fz8 fw500 mt2">100%</p>
                                 </div>
@@ -348,13 +349,26 @@ export const DashboardMobile = () => {
         )
     }
     return (
-        <Carousel afterChange={onChange} className=" w100" style={{ height: '100%' }}>
-            {/* <Page1/> */}
-            <Page2/>
-            <Page3/>
+        <div>
+            <Carousel dots={false} afterChange={onChange} className=" w100" style={{ height: '100%' }}>
+                <div>
+                    <Page1/>
+                    <Hemisphere style={{ width: w,}}/>
+                </div>
+                <Page2/>
+                <Page3/>      
                 
-          
-        
-        </Carousel>
+            </Carousel>
+            <div className="center w100" style={{ position: 'absolute',left: 0, bottom: '48px' }}>
+                <div className="fx-row ai-ct jc-sb" style={{ width: '50px' }}>
+                    {
+                        [1,2,3].map(item => (
+                            <div key={item} style={{ height: '8px', width: '8px', borderRadius: '50%', background: item === dotIdx ? 'rgb(244,95,234)' : 'rgb(72,57,85)'}}/>
+
+                        ))
+                    }
+                </div>       
+            </div>  
+        </div>
     )
 }

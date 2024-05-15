@@ -7,7 +7,7 @@ import MarsActive from '@/public/images/marsActive.png'
 import LMC from '@/public/images/LMC.png'
 import arrowPink from '@/public/images/arrow_pink.png'
 import { DashboardMobile } from './DashboardMobile'
-
+import { Col, Row } from 'antd'
 const Wrapper = styled.div`
   max-width: 1056px;
   margin-top: 182px;
@@ -317,8 +317,8 @@ const Page3 = () => {
 const Dashboard = (props) => {
 
     return (
-        <div>
-            <div className="w100 ">
+        <Col>
+            <Col className="w100" xs={0} sm={0} md={24} lg={24} xl={24}>
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
@@ -329,9 +329,13 @@ const Dashboard = (props) => {
                 <div style={{marginTop: '140px'}}>
                     <ContractBar/>
                 </div>
-            </div>
-            {/* <DashboardMobile/> */}
-        </div>
+            </Col>
+           
+            <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+                <DashboardMobile/>
+            </Col>
+
+        </Col>
 
     );
 };

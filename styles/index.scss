@@ -1161,4 +1161,21 @@ body {
 }
 
 
-// dashboard page
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	/* box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+	background: rgba(255,255,255,0.2); */
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+	border-radius: 0;
+	/* background: rgba(33,33,33,1); */
+  background: transparent;
+}
+
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
+}
