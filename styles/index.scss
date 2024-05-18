@@ -1159,6 +1159,11 @@ body {
       transform: translateY(-100px) rotateX(0deg) rotateY(0deg) rotateZ(-5deg);
   }
 }
+@keyframes Page2Wrapper_text {
+  to {
+      opacity: 1;
+  }
+}
 
 
 ::-webkit-scrollbar {

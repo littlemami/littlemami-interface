@@ -84,8 +84,7 @@ const Page2Wrapper = styled.div`
             opacity: 1;
         }
         .text {
-            opacity: 1;
-            // display: inline-block;
+            animation: Page2Wrapper_text 1s ease forwards
         }
         & .box1{
             margin-left: 0px
@@ -181,7 +180,7 @@ const Page2 = (props) => {
                     <Page2Wrapper key={item.name} className="page1wrapper">
                         <div className="fx jc-start box1">
                             <span className='fz20 fw500'>/{item.num}</span>
-                            <div className=""  style={{marginRight: '46px'}}>
+                            <div style={{marginRight: '46px'}}>
                                     <div className='fz116' style={{marginTop: '-20px'}}>{item.name}</div>
                                     <div className='fz16 text' style={{width: "820px"}}>
                                         {item.text}
@@ -211,7 +210,7 @@ const Page1 = () => {
                 <div/>
                 <div className="fx-col" style={{maxWidth: '506px'}}>
                     <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
-                    <LinkWrapper className="fx-row ai-ct jc-sb mt24">
+                    <LinkWrapper className="fx-row ai-ct jc-sb mt24" onClick={() => window.open('https://x.com/Littlemamilabs', "_blank")}>
                         <span className="fz20">Connect Us</span>
                         <Image src={arrowPink} alt="arrowPink" height={18} width={18}/>
                     </LinkWrapper>

@@ -65,20 +65,25 @@ const RightItem = styled.div`
   height: 102px;
   padding: 40px 38px;
   border: 1px solid rgb(66,50,108);
+  display: flex;
+  flex-direction: row;
+  aligin-items: center;
+  justify-content: space-between
   
 `
 const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
   border-radius: 15px;
   backdrop-filter: blur(32.17px);
-  background: rgb(105, 68, 255);
+  background: ${(props) => props.stamp > 0 ? 'rgb(60, 47, 111)' : 'rgb(105, 68, 255)'};
+  color: ${(props) => props.stamp > 0 ? 'rgb(148, 140, 175)' : '#fff'};
   width: 59px;
   height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 24px;
-  color: #fff;
+  
   font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
@@ -86,9 +91,9 @@ const GoButton = styled.div`
   letter-spacing: 0%;
   text-align: center;
   &:hover {
-    cursor: pointer;
-    background: #fff;
-    color: #000;
+    cursor: ${(props) => props.stamp > 0 ? 'auto' : 'pointer'};
+    background: ${(props) => props.stamp > 0 ? 'rgb(60, 47, 111)' : '#fff'};
+    color:${(props) => props.stamp > 0 ? 'rgb(148, 140, 175)' : '#000'};
   }
 `
 const DoneButton = styled.div`
@@ -142,6 +147,46 @@ const NFTList = [
   { id: '3', url: NFT3, name: 'Auction Price', value: '460,000 LMC', price: '＄19,780'},
 ]
 
+const ONE_DAY = 86400000
+
+
+const LeftTimeWrapper = (props) => {
+  const stamp = props.stamp
+  const [leftTime, setLeftTime] = useState(stamp)
+
+  const A = 86400000
+  const B = 3600000
+  const C = 60000
+  const calculateTimeRemaining = () => {
+    const now = new Date().getTime()
+    if(stamp > now) {
+      setLeftTime(stamp - now)
+    }else {
+      setLeftTime(0)
+      props.reset()
+    }
+  } 
+
+  useEffect(() => {
+
+    const interval = setInterval(calculateTimeRemaining, 1000);
+
+    return () => clearInterval(interval);
+    
+  },[])
+  const formatTime = (time) => {
+    const hours = Math.floor((time % (A)) / (B));
+    const minutes = Math.floor((time % (B)) / (C));
+    const seconds = Math.floor((time % (C)) / 1000);
+    return `${hours}: ${minutes}: ${seconds}`;
+  };
+
+  return (
+   <div style={{ width: '150px'}} className='fx jc-end'>
+     <span className='fz18 fw400 gray'>{formatTime(leftTime)}</span>
+   </div>
+  )
+}
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
@@ -158,18 +203,16 @@ const LaunchpadDetail = () => {
   const [defaultInputValue, setDefaultInputValue] = useState('')
   const router = useRouter();
   
-  const [rightList, setRightList] = useState([
-    { id: 1,title: 'Daily Bonus', value: '+ 20 LMC Points',done: false},
-    { id: 2,title: 'Invite More Members', value: '+ 200 LMC Points',done: false},
-    { id: 3,title: 'Follow X Acconut', value: '+ 200 LMC Points', done: false},
-    { id: 4,title: 'Join Telegram', value: 'Earn Points', done: false},
-    { id: 5, title: 'LMC Deposit', value: 'Earn Points', done: false},
-    { id: 6,title: 'NFT Stake', value: 'Upcoming', done: false},
-  ])
 
-  const [dailyDone, setDailyDone] = useState(false)
-  const [xDone, setXDone] = useState(false)
-  const [tgDone, setTgDone] = useState(false)
+  const [row1Data, setRow1Data] = useState({id: 1, title: 'Daily Bonus', points: '+ 10 LMC Points', done: false, countdown: 0 })
+  const [row2Data, setRow2Data] = useState({ id: 2, title: 'Invite More Members', points: '+ 300 LMC Points', done: false, countdown: 0 })
+  const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X Acconut', points: '+ 300 LMC Points', done: false, countdown: 0 })
+  const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
+  const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn Points', done: false, countdown: 0 })
+  const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
+
+
+
   const [isDeposit, setDeposit] = useState(true)
   const [depositAmount, setDepositAmount] = useState(0)
   const [withdrawAmount, setWithdrawAmount] = useState(0)
@@ -181,6 +224,11 @@ const LaunchpadDetail = () => {
   const marsContract = contract[chain?.id]?.mars
 
   console.log('marsContract', marsContract)
+
+ 
+  const today = () => {
+    return new Date().getTime()
+  }
   const { data: reads0, refetch } = useContractReads({
     contracts: [
       {
@@ -215,6 +263,7 @@ const LaunchpadDetail = () => {
     ],
   })
 
+  console.log('setRow1Data', row1Data)
   console.log('reads0', reads0)
   console.log('reads1', reads1)
   
@@ -247,33 +296,39 @@ const LaunchpadDetail = () => {
               marsRefecrral} = res
       setRank(marsRank)
       setPoints(marsScore)
-      setDailyDone(dailyCheckedIn)
-      setXDone(marsX)
-      setTgDone(marsTelegram)
+      setRow1Data((q) => ({ ...q, done: dailyCheckedIn }))
+      setRow3Data((q) => ({ ...q, done: marsX }))
+      setRow4Data((q) => ({ ...q, done: marsTelegram }))
       setRefecrral(marsRefecrral || [])
     }
     setLoading(false)
   }
   
   const handleRightItem = async(item) => {
+    
+
     if(item.id === 1) {
       const a = await rpc.getMarsScore("dailyCheckIn", address)
+      setRow1Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
       fetchRightData()
     }
     if(item.id === 2) {
+      // setRow2Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
       setInviteOpen(true)
     }
     if(item.id === 3) {
       window.open('https://twitter.com/Littlemamilabs','_black')
       await rpc.getMarsScore("x", address)
-      // setXDone(true)
+      setRow3Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
+      
       fetchRightData()
     }
     if(item.id === 4) {
       window.open('https://t.me/XNM0620','_black')
       await rpc.getMarsScore("telegram", address)
+      setRow4Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
       fetchRightData()
-      // setTgDone(true)
+     
     }
     if(item.id === 5) { // deposit
       setDeposit(true)
@@ -436,25 +491,61 @@ const LaunchpadDetail = () => {
     }
   }
 
-  const btnType = (isTrue, item) => (
-    <>
-      {
-       isTrue ? <DoneButton >
-          <Image
-            src={checkIcon}
-            width={15}
-            height={10}
-            alt="checkIcon"
-          />
-        </DoneButton> :
-          <>
-          {
-            item.value === 'Upcoming' ? null :
-            <GoButton onClick={() => handleRightItem(item)}>Go</GoButton>
-          }
-          </>
-      }
-    </>
+  const onResetStamp = (id) => {
+    if(id === 1) {
+      setRow1Data((q) => ({ ...q, countdown: 0 }))
+    }
+    if(id === 2) {
+      setRow2Data((q) => ({ ...q, countdown: 0 }))
+    }
+    if(id === 3) {
+      setRow3Data((q) => ({ ...q, countdown: 0 }))
+    }
+    if(id === 4) {
+      setRow4Data((q) => ({ ...q, countdown: 0 }))
+    }
+    if(id === 5) {
+      setRow5Data((q) => ({ ...q, countdown: 0 }))
+    }
+    if(id === 6) {
+      setRow6Data((q) => ({ ...q, countdown: 0 }))
+    }
+  }
+
+  const LeftItem = (data) => (
+    <RightItem isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
+          <span className='white fz18 fw400'>{data.title}</span>
+          <div className='fx-row ai-ct'>
+            {
+              data.countdown > 0 ?
+              <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+              <span className='fz18 fw400 color1 '>{data.points}</span> 
+            }
+            <>
+              {
+              data.done ? 
+                <DoneButton >
+                  <Image
+                    src={checkIcon}
+                    width={15}
+                    height={10}
+                    alt="checkIcon"
+                  />
+                </DoneButton> :
+                  <>
+                    {
+                      data.points === 'Upcoming' ? null :
+                      <GoButton stamp={data.countdown} onClick={
+                        data.countdown > 0 ? () => null :
+                        () => handleRightItem(data)}>Go</GoButton>
+                    }
+                  </>
+              }
+            </>
+
+
+          </div>
+    </RightItem>
   )
   return (
     <div>
@@ -488,31 +579,12 @@ const LaunchpadDetail = () => {
             </LeftCard>
           </Col>
           <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
-            {
-              rightList.map((item,idx) => (
-                <RightItem isDone={
-                  item.id === 1 ? (dailyDone ? true : false) :
-                  item.id === 3 ? (xDone ? true : false) :
-                  item.id === 4 ? (tgDone ? true : false) :
-                  item.id === 2 ? (item.done ? true : false) :
-                  item.id === 5 ? (item.done ? true : false) :
-                  item.id === 6 ? (item.done ? true : false) : 
-                  false
-                   } key={item.id} style={{ marginTop: idx > 0 ? '26px' : 0 }} className='fx-row ai-ct jc-sb'> 
-                  <span className='white fz18 fw400'>{item.title}</span>
-                  <div className='fx-row ai-ct'>
-                    <span className='fz18 fw400 color1 '>{item.value}</span> 
-                    { item.id === 1 && btnType(dailyDone,item) }
-                    { item.id === 3 && btnType(xDone,item) }
-                    { item.id === 4 && btnType(tgDone,item) }
-                    { item.id === 2 && btnType(item.done,item) }
-                    { item.id === 5 && btnType(item.done,item) }
-                    { item.id === 6 && btnType(item.done,item) }
-                   
-                  </div>
-                </RightItem>
-              ))
-            }
+            {LeftItem(row1Data)}
+            {LeftItem(row2Data)}
+            {LeftItem(row3Data)}
+            {LeftItem(row4Data)}
+            {LeftItem(row5Data)}
+            {LeftItem(row6Data)}
           </Col>
         </Row>
         <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
