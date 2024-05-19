@@ -278,10 +278,7 @@ export const LeaderBoardModal = ({ open, handleClose}) => {
     const [page, setPage] = useState(1);
     
     const fetchData = async() => {
-        
         const marsRank = await rpc.getMarsRank(page, pageSize);
-
-        // let scoreRank = await rpc.getScoreRank(page, pageSize);
         if (!Array.isArray(marsRank)) {
             marsRank = [];
         }
