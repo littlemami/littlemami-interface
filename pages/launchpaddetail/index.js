@@ -313,20 +313,19 @@ const LaunchpadDetail = () => {
       fetchRightData()
     }
     if(item.id === 2) {
-      // setRow2Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
       setInviteOpen(true)
     }
     if(item.id === 3) {
       window.open('https://twitter.com/Littlemamilabs','_black')
       await rpc.getMarsScore("x", address)
-      setRow3Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
+      
       
       fetchRightData()
     }
     if(item.id === 4) {
       window.open('https://t.me/XNM0620','_black')
       await rpc.getMarsScore("telegram", address)
-      setRow4Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
+      
       fetchRightData()
      
     }
@@ -479,7 +478,9 @@ const LaunchpadDetail = () => {
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
   const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
-  const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
+  // const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
+  console.log('pendingPoint', pendingPoint)
+  const _pendingPoint =  Number(pendingPoint) || 0
   console.log('_pendingPoint', _pendingPoint)
   console.log('stakedBalance', stakedBalance)
   console.log('_LMCBalance', _LMCBalance)
@@ -490,6 +491,10 @@ const LaunchpadDetail = () => {
       setDefaultInputValue(stakedBalance)
     }
   }
+
+  useEffect(() => {
+    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${_pendingPoint} Points` : 'Earn Points' }))
+  },[_pendingPoint])
 
   const onResetStamp = (id) => {
     if(id === 1) {
