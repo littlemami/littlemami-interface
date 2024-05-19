@@ -69,7 +69,7 @@ const InviteModal = ({
                   <div className="item" key={index}>
                     <strong>{invite?.blockNumber || "--"}</strong>
                     <p> {invite?.num || "--"}</p>
-                    <p> {invite?.totalTokenNeed || "--"} USDT</p>
+                    <p> {invite?.totalTokenNeed || "--"} LMC</p>
                   </div>
                 );
               })}
@@ -93,8 +93,8 @@ const InviteModal = ({
                 return (
                   <div className="item" key={index}>
                     <strong>{hiddenAddress(invite?.referral) || "--"}</strong>
-                    <p> {invite?.amount || "--"} USDT</p>
-                    {/* <p> {invite?.blockNumber || "--"} USDT</p> */}
+                    <p> {invite?.amount || "--"} LMC</p>
+                    {/* <p> {invite?.blockNumber || "--"} LMC</p> */}
                   </div>
                 );
               })}

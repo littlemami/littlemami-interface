@@ -63,7 +63,7 @@ const UserInfo = () => {
       <div style={{ position: "relative", zIndex: 999 }}>
         {address ? (
           <div className={styles["connected"]}>
-            <div>{balance || 0} USDT</div>
+            <div>{balance || 0} LMC</div>
             <div onClick={() => setOpen((pre) => !pre)}>
               <Head width={"1.25rem"} />
               {address?.slice(0, 4)}...{address?.slice(-4)}

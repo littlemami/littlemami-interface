@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
 import WriteButton from "@/components/WriteButton";
 import { contract } from "@/config";
-import USDTABI from "@/abi/USDTABI.json";
+import LMCABI from "@/abi/LMCABI.json";
 import NFTABI from "@/abi/NFTABI.json";
 
 export const useTotalStakeInfo = (poolId) => {
@@ -81,13 +81,13 @@ export const useTotalStakeInfo = (poolId) => {
       },
       {
         address: tokenAddress,
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "allowance",
         args: [address, stakeContract?.address],
       },
       {
         address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "balanceOf",
         args: [address],
       },
@@ -205,7 +205,7 @@ export const useTotalStakeInfo = (poolId) => {
     buttonName: "Approve Token",
     data: {
       address: tokenAddress,
-      abi: USDTABI,
+      abi: LMCABI,
       functionName: "approve",
       args: [stakeContract?.address, 2 ** 255],
     },
