@@ -20,6 +20,10 @@ const Invite = (props) => {
 
       if (res?.error) {
         setData({ ...data, error: res.error });
+        console.log("res.error", res.error)
+        if(res.error === 'User already register') {
+          window.location.reload();
+        }
       } else {
         if(props.toPath) {
           router.push({

@@ -478,9 +478,8 @@ const LaunchpadDetail = () => {
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
   const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
-  // const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
+  const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
   console.log('pendingPoint', pendingPoint)
-  const _pendingPoint =  Number(pendingPoint) || 0
   console.log('_pendingPoint', _pendingPoint)
   console.log('stakedBalance', stakedBalance)
   console.log('_LMCBalance', _LMCBalance)
@@ -629,7 +628,7 @@ const LaunchpadDetail = () => {
         </Row>
         <DepositMdoal 
           pendingPoint={_pendingPoint}
-          stakedBalance={stakedBalance}
+          stakedBalance={ stakedBalance }
           isLoading={
             modalLoading ||
             approveConfirming || 

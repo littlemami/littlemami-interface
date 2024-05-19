@@ -110,7 +110,7 @@ const AmountItem = (props) => {
     )
 }
 
-const amountList = [1000,3000,5000,10000,50000,'Max']
+
 
 export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoading, onMax, defaultInputValue, stakedBalance, pendingPoint}) => {
     const [activeIdx, setActiveIdx] = useState(0)
@@ -125,9 +125,14 @@ export const DepositMdoal = ({ isOpen, handleClose, onDeposit, onWidhdraw, isLoa
         }
     },[isOpen])
 
+    console.log('defaultInputValue', defaultInputValue)
     useEffect(() => {
         if(defaultInputValue !== '') {
-            setValue(defaultInputValue)
+            if(Number.isInteger(Number(defaultInputValue))) {
+                setValue(parseInt(defaultInputValue))
+            }else {
+                setValue(defaultInputValue)
+            }
         }
     },[defaultInputValue])
     const onHandle = () => {

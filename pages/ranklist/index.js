@@ -81,15 +81,15 @@ const Ranklist = () => {
     fetchData(page);
   }, [page]);
 
-  return mount ? (
-    <div className="fx-col w100 ai-ct mt36">
+  return (
+    <div className="fx-col w100 ai-ct mt36 bd1">
       <div className="fx-row ai-ct" style={{ marginBottom: '120px'}}>
         <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MarsNode</Tabs>
         <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>LaunchPad</Tabs>
       </div>
       {
         activeIdx === 0 && (
-          <div className={`${styles["rank-list-box"]} mx-auto`}>
+          <div className={`${styles["rank-list-box"]} mx-auto`} style={{ width: '712px'}}>
             <div className={styles["rank-list-con"]}>
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
@@ -151,7 +151,7 @@ const Ranklist = () => {
       }
       {
         activeIdx === 1 && (
-          <div className={`${styles["rank-list-box"]} mx-auto`}>
+          <div className={`${styles["rank-list-box"]} mx-auto`}  style={{ width: '712px'}}>
             <div className={styles["rank-list-con"]}>
               <div className={styles["circle-bg"]}></div>
               <div className={styles["con"]}>
@@ -211,9 +211,7 @@ const Ranklist = () => {
         )
       }
     </div>
-  ) : (
-    <Loading />
-  );
+  ) 
 };
 
 export default Ranklist;
