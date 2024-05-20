@@ -13,7 +13,7 @@ import Image from "next/image"
 import Mars from './mars'
 import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi"
 import { contract } from "@/config"
-import USDTABI from "@/abi/USDTABI.json"
+import LMCABI from "@/abi/LMCABI.json"
 import rpc from "@/components/Rpc"
 import { ethers, BigNumber } from 'ethers'
 import { Notify } from "notiflix/build/notiflix-notify-aio";
@@ -256,7 +256,7 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: lmc,
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "allowance",
         args: [address, marsContract?.address],
       },
@@ -342,7 +342,7 @@ const LaunchpadDetail = () => {
   // approve
   const { data: approveTx, write:approveWhite } = useContractWrite({
     address: lmc,
-    abi: USDTABI,
+    abi: LMCABI,
     functionName: "approve",
     onError(error) {
       setModalLoading(false)
@@ -400,7 +400,7 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "balanceOf",
         args: [address],
       },
