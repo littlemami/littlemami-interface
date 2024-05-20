@@ -58,7 +58,7 @@ const Mars = () => {
       },
     ],
   });
-
+  console.log('reads0', reads0)
   const invites = data?.user?.invites;
 
   const marsReferrals = data?.user?.marsReferrals; //mars活动新邀请进来的人
@@ -109,6 +109,7 @@ const Mars = () => {
 
   const stakeAmount = 1; //质押数量
   const unStakeAmount = 1; //解除质押数量
+  
   const stake = {
     buttonName: "Stake",
     data: {

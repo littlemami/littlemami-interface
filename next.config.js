@@ -6,6 +6,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  compiler: {
+    styledComponents: true,
+  },
   webpack(config) {
     config.module.rules.push({
       loader: "@svgr/webpack",

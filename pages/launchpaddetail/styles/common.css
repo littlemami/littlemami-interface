@@ -1,0 +1,199 @@
+.fx-row {
+  display: flex;
+  flex-direction: row;
+}
+.fx-col {
+  display: flex;
+  flex-direction: column;
+}
+.jc-sb {
+  justify-content: space-between;
+}
+.jc-sa {
+  justify-content: space-around;
+}
+.jc-end {
+  justify-content: end;
+}
+.jc-ct {
+  justify-content: center;
+}
+.ai-ct {
+  align-items: center;
+}
+.ai-end {
+  align-items: flex-end;
+}
+.as-end {
+  align-self: flex-end;
+}
+.ai-start {
+  align-items: flex-start;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inline {
+  display: inline !important;
+}
+.fx {
+  display: flex;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.ta-center {
+  text-align: center;
+}
+.ta-left {
+  text-align: left;
+}
+.ta-right {
+  text-align: right;
+}
+
+.bd1 {
+  border: 1px solid #fff;
+}
+.bd2 {
+  border: 1px solid blue;
+}
+.bd3 {
+  border: 1px solid green;
+}
+.bd4 {
+  border: 1px solid pink;
+}
+.bd5 {
+  border-bottom: 2px dashed #c6c6c6;
+}
+.bd6 {
+  border-bottom: 1px solid #c6c6c6;
+}
+.bd7 {
+  border: 1px solid #333;
+}
+.bd8 {
+  border: 1px solid transparent;
+}
+
+.bb1 {
+  border-bottom: 1px solid #474A54;
+}
+.bb2 {
+  border-bottom: 2px solid #474A54;
+}
+.br1 {
+  border-right: 1px solid #474A54;
+}
+
+.br2 {
+  border-right: 2px solid #474A54;
+  box-sizing: border-box;
+}
+.bl1 {
+  border-left: 1px solid #474A54;
+}
+.bl2 {
+  border-left: 2px solid #474A54;
+}
+.bt1 {
+  border-top: 1px solid #474A54;
+}
+.bt2 {
+  border-top: 2px solid #474A54;
+}
+.scroll-x {
+  overflow-x: scroll;
+}
+.scroll-y {
+  overflow-y: scroll;
+}
+.scroll-y-auto {
+  overflow-y: auto;
+}
+.hide-x {
+  overflow-x: hidden;
+}
+.hide-y {
+  overflow-y: hidden;
+}
+.text-warp {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hide {
+  overflow: hidden;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+::-webkit-scrollbar {
+  width: 0;
+}
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent
+}
+.ellipsis::after {
+  content: '...';
+}
+.line1 {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.line2 {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+
+.textarea:focus {
+  outline: none;
+}
+
+.click {
+  cursor: pointer;
+}
+
+
+.underline {
+  text-decoration: underline;
+}
+
+.hide-border {
+  border: none !important;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
