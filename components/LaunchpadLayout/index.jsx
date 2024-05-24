@@ -4,6 +4,7 @@ import Image from "next/image"
 import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
 import Mars from '@/public/images/mars.png'
+import MarsMintBg from '@/public/images/mars_mint.png'
 import MarsActive from '@/public/images/marsActive.png'
 import X from '@/public/images/x.png'
 import XActive from '@/public/images/xActive.png'
@@ -17,6 +18,8 @@ import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import styles from "@/pages/ranklist/index.module.scss";
 import rpc from "@/components/Rpc";
+import { Col, Row } from 'antd'
+
 export const Container = ({ children }) => {
     return (
         <div className='w100 center'>
@@ -432,3 +435,106 @@ export const InviteModal = ({ list, open, handleClose}) => {
     )
 }
 
+
+
+
+const MarsMintWrapper = styled.div`
+  height: 711px;
+  box-sizing: border-box;
+  backdrop-filter: blur(50px);
+  padding: 85px 102px;
+  margin-top: 46px;
+  border-radius: 40px;  
+  background: rgba(38, 32, 70, 0.1);
+  border: 1px solid rgb(57,43,106);
+
+`
+const ReduceButton = styled.div`
+    width: 35px;
+    height: 35px;
+    border: 1.5px solid rgba(105, 68, 255, 1);
+    box-sizing: border-box;
+    background: rgba(111, 77, 209, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+`
+const AddButton = styled.div`
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    background: rgba(105, 68, 255, 1);
+    border-radius: 50%;
+    cursor: pointer;
+`
+const MintButton = styled.div`
+    width: 101px;
+    height: 44px;
+    display: inline-flex;
+    place-content: center;
+    place-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    border: 1px solid rgba(76, 48, 135, 1);
+    background: rgba(105, 68, 255, 1);
+    backdrop-filter: blur(32.171371px);
+    cursor: pointer;   
+    margin-top: 55px
+`
+
+export const MarsMintCard = () => {
+    const step = 1
+    const max = 100
+    const [mintValue,setMintValue] = useState(0)
+    const onChange = (event) => {
+        const value = event.target.value
+        if(!isNaN(value)) {
+            setMintValue(value)
+        }
+    }
+    const onReduce = () => {
+        const target = Number(mintValue) - step
+        if(target > 0) {
+            setMintValue(Number(mintValue) - step)
+        }else {
+            setMintValue(0)
+        }
+    }
+    const onAdd = () => {
+        const target = Number(mintValue) + step
+        if(target < max) {
+            setMintValue(Number(mintValue) + step)
+        }else {
+            setMintValue(max)
+        }
+    }
+    return (
+        <MarsMintWrapper>
+            <div className='fx-row'>
+                <Image
+                    src={MarsMintBg}
+                    width={417}
+                    height={535}
+                    alt="MarsMintBg"
+                />
+                <div className='fx-col ml66'>
+                    <span className='fz58 white fw700 mt46'>MARS MINT</span>
+                    <span className='fz24 lilac  mt26'>0/100</span>
+                    <span className='fz24 lilac mt26'>0.12 Ξ</span>
+                    <div className='fx-row ai-ct mt50'>
+                        <ReduceButton className='center' onClick={onReduce}>
+                            <span className='fz28 mt4'>-</span>
+                        </ReduceButton>
+                        <input className='mars_mint_input' value={mintValue || ''} onChange={onChange}/>
+                        <AddButton className='center' onClick={onAdd}>
+                            <span className='fz28 mt4'>+</span>
+                        </AddButton>
+                    </div>
+                    <MintButton className='center'>
+                        <span className='fz16 white'>MINT</span>
+                    </MintButton>
+                </div>
+            </div>
+        </MarsMintWrapper>
+    )
+}

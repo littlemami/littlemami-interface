@@ -1184,3 +1184,26 @@ body {
 .hide_scrollbar::-webkit-scrollbar {
   display: none;
 }
+.mars_mint_input {
+
+
+    width: 112px;
+    height: 50px;
+    display: inline-flex;
+    place-content: center;
+    place-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    border: 1px solid rgba(211, 184, 255, 0.55);
+    margin: 0 35px;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+}
+.mars_mint_input:focus {
+  border: 1px solid rgba(211, 184, 255, 0.55);;
+}
+
+// dashboard page end

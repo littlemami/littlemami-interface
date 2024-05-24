@@ -79,6 +79,9 @@
 .fz48 {
   font-size: 48px !important;
 }
+.fz58 {
+  font-size: 58px !important;
+}
 .fz64 {
   font-size: 64px !important;
 }
@@ -158,4 +161,7 @@
 }
 .gray {
   color: rgb(60, 47, 111) !important;
+}
+.lilac {
+  color: rgb(185, 174, 255) !important;
 }

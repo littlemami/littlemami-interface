@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { styled } from 'styled-components'
 import { LeaderBoardModal } from '@/components/LaunchpadLayout'
-const Tabs = styled.div`
+export const Tabs = styled.div`
   width: 142px;
   height: 40px;
   display: inline-flex;
@@ -82,7 +82,7 @@ const Ranklist = () => {
   }, [page]);
 
   return (
-    <div className="fx-col w100 ai-ct mt36 bd1">
+    <div className="fx-col w100 ai-ct mt36">
       <div className="fx-row ai-ct" style={{ marginBottom: '120px'}}>
         <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MarsNode</Tabs>
         <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>LaunchPad</Tabs>

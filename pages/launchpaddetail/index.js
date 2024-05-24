@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal} from '@/components/LaunchpadLayout'
+import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -18,6 +18,7 @@ import rpc from "@/components/Rpc"
 import { ethers, BigNumber } from 'ethers'
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useRouter } from "next/router";
+import { Tabs } from "@/pages/ranklist/index"
 
 const LinearBg = styled.div`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
@@ -58,8 +59,6 @@ const LeftCard = styled.div`
 `
 const RightItem = styled.div`
   border-radius: 20px;
-  // background: linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%); 
-  // background: ${(props) => props.isDone ? 'linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%)' : 'linear-gradient(192.31deg, rgba(178, 151, 255, 0.23) 1.44%, rgba(89, 63, 161, 0.36) 91.64%)'};
   background: ${(props) => props.isDone ? 'linear-gradient(to right,#16182E,#100E27)' : 'linear-gradient(to right,#1C153A,#1C1745)'};
   width: 100%;
   height: 102px;
@@ -69,7 +68,6 @@ const RightItem = styled.div`
   flex-direction: row;
   aligin-items: center;
   justify-content: space-between
-  
 `
 const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
@@ -141,6 +139,7 @@ const PriceBg  = styled.div`
   backdrop-filter: blur(5px);
 `
 
+
 const NFTList = [
   { id: '1', url: NFT1, name: 'Auction Price', value: '4680,000 LMC', price: '＄20,640'},
   { id: '2', url: NFT2, name: 'Auction Price', value: '460,000 LMC', price: '＄19,780'},
@@ -153,6 +152,8 @@ const ONE_DAY = 86400000
 const LeftTimeWrapper = (props) => {
   const stamp = props.stamp
   const [leftTime, setLeftTime] = useState(stamp)
+
+ 
 
   const A = 86400000
   const B = 3600000
@@ -192,12 +193,11 @@ const LaunchpadDetail = () => {
   const [modalLoading,setModalLoading] = useState(false)
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
-
+  const [activeIdx, setActiveIdx] = useState(0)
   const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
   const { address } = useAccount()
   const { chain } = useNetwork()
-  const [rightData, setRightData] = useState({})
   const [rank, setRank] = useState(0)
   const [points, setPoints] = useState(0)
   const [defaultInputValue, setDefaultInputValue] = useState('')
@@ -518,139 +518,148 @@ const LaunchpadDetail = () => {
 
   const LeftItem = (data) => (
     <RightItem isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
-          <span className='white fz18 fw400'>{data.title}</span>
-          <div className='fx-row ai-ct'>
+        <span className='white fz18 fw400'>{data.title}</span>
+        <div className='fx-row ai-ct'>
+          {
+            data.countdown > 0 ?
+            <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+            <span className='fz18 fw400 color1 '>{data.points}</span> 
+          }
+          <>
             {
-              data.countdown > 0 ?
-              <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
-              <span className='fz18 fw400 color1 '>{data.points}</span> 
+            data.done ? 
+              <DoneButton >
+                <Image
+                  src={checkIcon}
+                  width={15}
+                  height={10}
+                  alt="checkIcon"
+                />
+              </DoneButton> :
+                <>
+                  {
+                    data.points === 'Upcoming' ? null :
+                    <GoButton stamp={data.countdown} onClick={
+                      data.countdown > 0 ? () => null :
+                      () => handleRightItem(data)}>Go</GoButton>
+                  }
+                </>
             }
-            <>
-              {
-              data.done ? 
-                <DoneButton >
-                  <Image
-                    src={checkIcon}
-                    width={15}
-                    height={10}
-                    alt="checkIcon"
-                  />
-                </DoneButton> :
-                  <>
-                    {
-                      data.points === 'Upcoming' ? null :
-                      <GoButton stamp={data.countdown} onClick={
-                        data.countdown > 0 ? () => null :
-                        () => handleRightItem(data)}>Go</GoButton>
-                    }
-                  </>
-              }
-            </>
+          </>
 
 
-          </div>
+        </div>
     </RightItem>
   )
   return (
-    <div>
-      
-      <Container>
-        <div className='fx-row ai-ct click' style={{ marginTop: '78px'}} onClick={() => router.back()}>
-          <Image
-            src={Back}
-            height={12}
-            width={8}
-            alt='Back'
-          />
-          <span className='white fw400 fz18 ml12'>Back</span>
-        </div>
-        <Row className="w100 fx-row jc-sb ai-ct "  gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: 1, xxl: 1}} style={{marginTop: '60px'}}> 
-          <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} >
-            <LeftCard className={
-            `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
-            after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
-            after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
-            `
-            } >
-              <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
-              <span className="white fw400 fz64 ">{points || 0}</span>
-              <LinearBg />
-              <span className="color1 fw400 fz22">Rank</span>
-              <span className="white fw400 fz42 mt10">#{rank || 0}</span>
-              <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
-                LeaderBoard
-              </LeaderBoardButton>
-            </LeftCard>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
-            {LeftItem(row1Data)}
-            {LeftItem(row2Data)}
-            {LeftItem(row3Data)}
-            {LeftItem(row4Data)}
-            {LeftItem(row5Data)}
-            {LeftItem(row6Data)}
-          </Col>
-        </Row>
-        <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
-          {
-            NFTList.map((item,idx) => (
-              <Col 
-                // span={8}
-              // offset={0}
-              // pull={0.5}
-                className='center mb26 relative'
-                key={item.id} 
-                onMouseOver={() => setActiveNFTIdx(idx)}
-                onMouseLeave={() => setActiveNFTIdx(-1)}
-                // gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: '36px', xxl: '36px'}}
-                // xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}
-                >
-                <Image
-                  src={item.url}
-                  width={300}
-                  height={300}
-                  alt={item.id}
-                />
-                {
-                  activeNFTIdx === idx && 
-                  <NFTMask>
-                    <p className='fz18 fw400 white'>{item.name}</p>
-                    <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
-                    <PriceBg className='center'>
-                      <span className='fz14 fw500 black'>{item.price}</span>
-                    </PriceBg>
-                  </NFTMask>
-                }
+    <div className=''>
+      <div className="fx-row w100 center mt36">
+        <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MarsAirdrop</Tabs>
+        <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>MarsMint</Tabs>
+      </div>
+      {
+        activeIdx === 0 && (
+          <Container>
+            <div className='fx-row ai-ct click' style={{ marginTop: '46px'}} onClick={() => router.back()}>
+              <Image
+                src={Back}
+                height={12}
+                width={8}
+                alt='Back'
+              />
+              <span className='white fw400 fz18 ml12'>Back</span>
+            </div>
+            <Row className="w100 fx-row jc-sb ai-ct "  gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: 1, xxl: 1}} style={{marginTop: '60px'}}> 
+              <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} >
+                <LeftCard className={
+                `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
+                after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
+                after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
+                `
+                } >
+                  <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
+                  <span className="white fw400 fz64 ">{points || 0}</span>
+                  <LinearBg />
+                  <span className="color1 fw400 fz22">Rank</span>
+                  <span className="white fw400 fz42 mt10">#{rank || 0}</span>
+                  <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
+                    LeaderBoard
+                  </LeaderBoardButton>
+                </LeftCard>
               </Col>
-             
-            ))
-          }
-        </Row>
-        <DepositMdoal 
-          pendingPoint={_pendingPoint}
-          stakedBalance={ stakedBalance }
-          isLoading={
-            modalLoading ||
-            approveConfirming || 
-            depositConfirming ||
-            withdrawConfirming
-          }
-          isOpen={isOpen} 
-          handleClose={() => {
-            setDepositAmount(0)
-            setWithdrawAmount(0)
-            setOpen(false)
-            
-          }}
-          onDeposit={onDeposit}
-          onWidhdraw={onWidhdraw}
-          onMax={onMax}
-          defaultInputValue={defaultInputValue}
+              <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
+                {LeftItem(row1Data)}
+                {LeftItem(row2Data)}
+                {LeftItem(row3Data)}
+                {LeftItem(row4Data)}
+                {LeftItem(row5Data)}
+                {LeftItem(row6Data)}
+              </Col>
+            </Row>
+            <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
+              {
+                NFTList.map((item,idx) => (
+                  <Col 
+                    className='center mb26 relative'
+                    key={item.id} 
+                    onMouseOver={() => setActiveNFTIdx(idx)}
+                    onMouseLeave={() => setActiveNFTIdx(-1)}
+                    >
+                    <Image
+                      src={item.url}
+                      width={300}
+                      height={300}
+                      alt={item.id}
+                    />
+                    {
+                      activeNFTIdx === idx && 
+                      <NFTMask>
+                        <p className='fz18 fw400 white'>{item.name}</p>
+                        <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                        <PriceBg className='center'>
+                          <span className='fz14 fw500 black'>{item.price}</span>
+                        </PriceBg>
+                      </NFTMask>
+                    }
+                  </Col>
+                
+                ))
+              }
+            </Row>
+            <DepositMdoal 
+              pendingPoint={_pendingPoint}
+              stakedBalance={ stakedBalance }
+              isLoading={
+                modalLoading ||
+                approveConfirming || 
+                depositConfirming ||
+                withdrawConfirming
+              }
+              isOpen={isOpen} 
+              handleClose={() => {
+                setDepositAmount(0)
+                setWithdrawAmount(0)
+                setOpen(false)
+                
+              }}
+              onDeposit={onDeposit}
+              onWidhdraw={onWidhdraw}
+              onMax={onMax}
+              defaultInputValue={defaultInputValue}
 
-        />
-        <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-        <InviteModal list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
-      </Container>
+            />
+            <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
+            <InviteModal list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+          </Container>
+        )
+      }
+      {
+        activeIdx === 1 && (
+          <Container>
+            <MarsMintCard/>
+          </Container>
+        )
+      }
       <ContractBar/>
     </div>
   );
