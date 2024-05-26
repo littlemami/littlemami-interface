@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { styled } from 'styled-components'
 import { LeaderBoardModal } from '@/components/LaunchpadLayout'
+
 export const Tabs = styled.div`
   width: 142px;
   height: 40px;

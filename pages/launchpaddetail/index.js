@@ -1,7 +1,11 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
+<<<<<<< HEAD
 import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
+=======
+import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal} from '@/components/LaunchpadLayout'
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -13,11 +17,16 @@ import Image from "next/image"
 import Mars from './mars'
 import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi"
 import { contract } from "@/config"
+<<<<<<< HEAD
 import USDTABI from "@/abi/USDTABI.json"
+=======
+import LMCABI from "@/abi/LMCABI.json"
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 import rpc from "@/components/Rpc"
 import { ethers, BigNumber } from 'ethers'
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useRouter } from "next/router";
+<<<<<<< HEAD
 import { Tabs } from "@/pages/ranklist/index"
 import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
@@ -28,6 +37,14 @@ const LinearBg = styled(Box)`
   width: 284px;
   height: 2px;
   
+=======
+
+const LinearBg = styled.div`
+  background: linear-gradient(to right,transparent, #8668FF, transparent);
+  width: 284px;
+  height: 2px;
+  margin: 34px 0px;
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 `
 
 const LeaderBoardButton = styled.div`
@@ -48,6 +65,7 @@ const LeaderBoardButton = styled.div`
   margin-top: 40px;
 `
 
+<<<<<<< HEAD
 const LeftCard = styled(Box)`
   
   background: rgba(38, 32, 70, 0.1);
@@ -65,11 +83,37 @@ const RightItem = styled(Box)`
   width: 100%;
   height: 102px;
  
+=======
+const LeftCard = styled.div`
+  
+  background: rgba(38, 32, 70, 0.1);
+  width: 100%;
+  height: 734px;
+  border-radius: 30px;
+  box-sizing: border-box;
+  border-radius: 30px;
+  padding: 126px;
+  border: 1px solid rgb(54,34,92)
+
+`
+const RightItem = styled.div`
+  border-radius: 20px;
+  // background: linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%); 
+  // background: ${(props) => props.isDone ? 'linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%)' : 'linear-gradient(192.31deg, rgba(178, 151, 255, 0.23) 1.44%, rgba(89, 63, 161, 0.36) 91.64%)'};
+  background: ${(props) => props.isDone ? 'linear-gradient(to right,#16182E,#100E27)' : 'linear-gradient(to right,#1C153A,#1C1745)'};
+  width: 100%;
+  height: 102px;
+  padding: 40px 38px;
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   border: 1px solid rgb(66,50,108);
   display: flex;
   flex-direction: row;
   aligin-items: center;
   justify-content: space-between
+<<<<<<< HEAD
+=======
+  
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 `
 const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
@@ -141,7 +185,10 @@ const PriceBg  = styled.div`
   backdrop-filter: blur(5px);
 `
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 const NFTList = [
   { id: '1', url: NFT1, name: 'Auction Price', value: '4680,000 LMC', price: '＄20,640'},
   { id: '2', url: NFT2, name: 'Auction Price', value: '460,000 LMC', price: '＄19,780'},
@@ -153,7 +200,12 @@ const ONE_DAY = 86400000
 
 const LeftTimeWrapper = (props) => {
   const stamp = props.stamp
+<<<<<<< HEAD
   const [leftTime, setLeftTime] = useState(0)
+=======
+  const [leftTime, setLeftTime] = useState(stamp)
+
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   const A = 86400000
   const B = 3600000
   const C = 60000
@@ -168,6 +220,7 @@ const LeftTimeWrapper = (props) => {
   } 
 
   useEffect(() => {
+<<<<<<< HEAD
     const interval = setInterval(calculateTimeRemaining, 1000);
     return () => clearInterval(interval);
   },[])
@@ -194,6 +247,25 @@ const LeftTimeWrapper = (props) => {
       <Text className='fw400' style={{color: 'rgb(185, 174, 255)'}} fontSize={['12px','12px','12px','18px','18px']}>{formatTime(leftTime)}</Text>
     </Box>
    </Box>
+=======
+
+    const interval = setInterval(calculateTimeRemaining, 1000);
+
+    return () => clearInterval(interval);
+    
+  },[])
+  const formatTime = (time) => {
+    const hours = Math.floor((time % (A)) / (B));
+    const minutes = Math.floor((time % (B)) / (C));
+    const seconds = Math.floor((time % (C)) / 1000);
+    return `${hours}: ${minutes}: ${seconds}`;
+  };
+
+  return (
+   <div style={{ width: '150px'}} className='fx jc-end'>
+     <span className='fz18 fw400 gray'>{formatTime(leftTime)}</span>
+   </div>
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   )
 }
 const LaunchpadDetail = () => {
@@ -201,13 +273,22 @@ const LaunchpadDetail = () => {
   const [modalLoading,setModalLoading] = useState(false)
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
+<<<<<<< HEAD
   const [activeIdx, setActiveIdx] = useState(0)
+=======
+
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
   const { address } = useAccount()
   const { chain } = useNetwork()
+<<<<<<< HEAD
   const [rank, setRank] = useState(0)
   const [inviteUserId, setInviteUserId] = useState('')
+=======
+  const [rightData, setRightData] = useState({})
+  const [rank, setRank] = useState(0)
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   const [points, setPoints] = useState(0)
   const [defaultInputValue, setDefaultInputValue] = useState('')
   const router = useRouter();
@@ -219,7 +300,10 @@ const LaunchpadDetail = () => {
   const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn Points', done: false, countdown: 0 })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
+<<<<<<< HEAD
   const [row7Data, setRow7Data] = useState({ id: 7, title: 'Get LMC on Uniswap', points: '+ 600 LMC Points', done: false, countdown: 0 })
+=======
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
 
 
 
@@ -266,13 +350,21 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: lmc,
+<<<<<<< HEAD
         abi: USDTABI,
+=======
+        abi: LMCABI,
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
         functionName: "allowance",
         args: [address, marsContract?.address],
       },
     ],
   })
 
+<<<<<<< HEAD
+=======
+  console.log('setRow1Data', row1Data)
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   console.log('reads0', reads0)
   console.log('reads1', reads1)
   
@@ -302,10 +394,14 @@ const LaunchpadDetail = () => {
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
+<<<<<<< HEAD
               marsRefecrral,
               id
             } = res
       setInviteUserId(id)
+=======
+              marsRefecrral} = res
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
       setRank(marsRank)
       setPoints(marsScore)
       setRow1Data((q) => ({ ...q, done: dailyCheckedIn }))
@@ -316,7 +412,13 @@ const LaunchpadDetail = () => {
     setLoading(false)
   }
   
+<<<<<<< HEAD
   const handleRightItem = async(item) => {    
+=======
+  const handleRightItem = async(item) => {
+    
+
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
     if(item.id === 1) {
       const a = await rpc.getMarsScore("dailyCheckIn", address)
       setRow1Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
@@ -327,12 +429,22 @@ const LaunchpadDetail = () => {
     }
     if(item.id === 3) {
       window.open('https://twitter.com/Littlemamilabs','_black')
+<<<<<<< HEAD
       await rpc.getMarsScore("x", address)      
+=======
+      await rpc.getMarsScore("x", address)
+      
+      
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
       fetchRightData()
     }
     if(item.id === 4) {
       window.open('https://t.me/XNM0620','_black')
       await rpc.getMarsScore("telegram", address)
+<<<<<<< HEAD
+=======
+      
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
       fetchRightData()
      
     }
@@ -344,6 +456,7 @@ const LaunchpadDetail = () => {
       setDeposit(false)
       setOpen(true)
     }
+<<<<<<< HEAD
 
     if(item.id === 7) { 
       window.open('https://www.dextools.io/app/en/ether/pair-explorer/0x73d9bb012d3675e593dc4f5b72baf5dc5abbd71a?t=1708172567544','_black')
@@ -351,12 +464,18 @@ const LaunchpadDetail = () => {
       fetchRightData()
     }
 
+=======
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   }
 
   // approve
   const { data: approveTx, write:approveWhite } = useContractWrite({
     address: lmc,
+<<<<<<< HEAD
     abi: USDTABI,
+=======
+    abi: LMCABI,
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
     functionName: "approve",
     onError(error) {
       setModalLoading(false)
@@ -414,7 +533,11 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
+<<<<<<< HEAD
         abi: USDTABI,
+=======
+        abi: LMCABI,
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
         functionName: "balanceOf",
         args: [address],
       },
@@ -531,6 +654,7 @@ const LaunchpadDetail = () => {
   }
 
 
+
   const LeftItem = (data) => {
   
     return (
@@ -635,7 +759,7 @@ const LaunchpadDetail = () => {
             
 
 
-            {/* <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
+            <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
               {
                 NFTList.map((item,idx) => (
                   <Col 
@@ -664,7 +788,7 @@ const LaunchpadDetail = () => {
                 
                 ))
               }
-            </Row> */}
+            </Row>
 
 
             <DepositMdoal 

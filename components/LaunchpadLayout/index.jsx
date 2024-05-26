@@ -21,7 +21,6 @@ import styles from "@/pages/ranklist/index.module.scss";
 import rpc from "@/components/Rpc";
 import { Col, Row, message } from 'antd'
 import copy from "copy-to-clipboard";
-
 export const Container = ({ children }) => {
     return (
         <div className='w100 center'>
@@ -371,6 +370,7 @@ export const LeaderBoardModal = ({ open, handleClose}) => {
 }
 
 
+
 const CopyInviteLink = styled.div`
 
 
@@ -570,3 +570,4 @@ export const MarsMintCard = () => {
         </MarsMintWrapper>
     )
 }
+

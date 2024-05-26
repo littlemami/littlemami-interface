@@ -17,6 +17,10 @@ async function dailyCheckIn(address) {
   await rpc.getMarsScore("dailyCheckIn", address);
 }
 
+async function uniswap(address) {
+  await rpc.getMarsScore("uniswap", address);
+}
+
 const Mars = () => {
   const { chain } = useNetwork();
 
@@ -97,6 +101,8 @@ const Mars = () => {
 
   const marsScore = backendUser?.marsScore; //  marsScore
 
+  const marsUniswap = backendUser?.marsUniswap; //  marsUniswap
+
   console.log(marsX, marsTelegram);
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
@@ -109,7 +115,11 @@ const Mars = () => {
 
   const stakeAmount = 1; //质押数量
   const unStakeAmount = 1; //解除质押数量
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   const stake = {
     buttonName: "Stake",
     data: {
