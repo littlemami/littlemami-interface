@@ -1,7 +1,7 @@
 import WriteButton from "@/components/WriteButton";
 import { useNetwork, useAccount, useContractReads } from "wagmi";
 import { contract } from "@/config";
-import USDTABI from "@/abi/USDTABI.json";
+import LMCABI from "@/abi/LMCABI.json";
 import { useEffect, useState } from "react";
 import rpc from "@/components/Rpc";
 
@@ -61,6 +61,8 @@ const Mars = () => {
   console.log('reads0', reads0)
   const invites = data?.user?.invites;
 
+  const marsReferrals = data?.user?.marsReferrals; //mars活动新邀请进来的人
+
   const searchInvites = invites?.map((item) => {
     return {
       ...marsContract,
@@ -76,7 +78,7 @@ const Mars = () => {
     contracts: [
       {
         address: lmc,
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "allowance",
         args: [address, marsContract?.address],
       },
@@ -139,7 +141,7 @@ const Mars = () => {
     buttonName: "Approve",
     data: {
       address: lmc,
-      abi: USDTABI,
+      abi: LMCABI,
       functionName: "approve",
       args: [marsContract?.address, 2 ** 255],
     },

@@ -4,7 +4,7 @@ import WriteButton from "@/components/WriteButton";
 import { useEffect, useState } from "react";
 import { contract } from "@/config";
 import { useNetwork, useContractReads, useAccount } from "wagmi";
-import usdtABI from "@/abi/USDTABI.json";
+import lmcABI from "@/abi/LMCABI.json";
 import { useRouter } from "next/router";
 import InputNumber from "@/components/InputNumber";
 import ProgressLine from "@/components/ProgressLine";
@@ -60,7 +60,7 @@ const Node = ({ ...props }) => {
 
   const tokenContract = {
     address: tokenAddress,
-    abi: usdtABI,
+    abi: lmcABI,
   };
 
   const { data: read1, refetch: read1refetch } = useContractReads({
@@ -153,7 +153,7 @@ const Node = ({ ...props }) => {
   }, []);
 
   const approve = {
-    buttonName: "Approve USDT",
+    buttonName: "Approve LMC",
     data: {
       ...tokenContract,
       functionName: "approve",
@@ -254,7 +254,7 @@ const Node = ({ ...props }) => {
                 <h2>MarsNode</h2>
                 <p>
                   <strong>{price || "--"}</strong>
-                  <span>USDT</span>
+                  <span>LMC</span>
                 </p>
               </div>
             </div>
@@ -276,7 +276,7 @@ const Node = ({ ...props }) => {
                 precision={0}
               />
 
-              <p>{totalCost > 0 && `${totalCost} USDT`}</p>
+              <p>{totalCost > 0 && `${totalCost} LMC`}</p>
               <div className={styles["btns-box"]}>
                 {showApprove ? (
                   <WriteButton {...approve} />
@@ -376,13 +376,13 @@ const Node = ({ ...props }) => {
                           </div>
                         </em>
                       </div>
-                      <span>{tokenPrize ?? "--"} USDT</span>
+                      <span>{tokenPrize ?? "--"} LMC</span>
                     </li>
                     <li>
                       <div>
                         <p className={styles["tit"]}>Referral Rewards</p>
                       </div>
-                      <span>{referralPrize ?? "--"} USDT</span>
+                      <span>{referralPrize ?? "--"} LMC</span>
                     </li>
                   </>
                 )}

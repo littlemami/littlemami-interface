@@ -2,7 +2,7 @@ import WriteButton from "@/components/WriteButton";
 import { contract } from "@/config";
 import { useEffect, useState } from "react";
 import { useNetwork, useContractReads, useAccount, useConnectors } from "wagmi";
-import USDTABI from "@/abi/USDTABI.json";
+import LMCABI from "@/abi/LMCABI.json";
 import NFTABI from "@/abi/NFTABI.json";
 
 const StakePool = (props) => {
@@ -86,7 +86,7 @@ const StakePool = (props) => {
       },
       {
         address: tokenAddress,
-        abi: USDTABI,
+        abi: LMCABI,
         functionName: "allowance",
         args: [address, stakeContract?.address],
       },
@@ -181,7 +181,7 @@ const StakePool = (props) => {
     buttonName: "Approve Token",
     data: {
       address: tokenAddress,
-      abi: USDTABI,
+      abi: LMCABI,
       functionName: "approve",
       args: [stakeContract?.address, 2 ** 255],
     },
