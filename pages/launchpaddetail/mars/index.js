@@ -115,11 +115,6 @@ const Mars = () => {
 
   const stakeAmount = 1; //质押数量
   const unStakeAmount = 1; //解除质押数量
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> a1781ff026e393f4552c0c22d640b40df8fac869
   const stake = {
     buttonName: "Stake",
     data: {
