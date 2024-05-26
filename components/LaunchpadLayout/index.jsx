@@ -10,6 +10,7 @@ import X from '@/public/images/x.png'
 import XActive from '@/public/images/xActive.png'
 import DC from '@/public/images/dc.png'
 import DCActive from '@/public/images/dcActive.png'
+import InviteLinkIcon from '@/public/images/invite_link.png'
 import TG from '@/public/images/tg.png'
 import TGActive from '@/public/images/tgActive.png'
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -18,7 +19,8 @@ import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import styles from "@/pages/ranklist/index.module.scss";
 import rpc from "@/components/Rpc";
-import { Col, Row } from 'antd'
+import { Col, Row, message } from 'antd'
+import copy from "copy-to-clipboard";
 
 export const Container = ({ children }) => {
     return (
@@ -367,9 +369,26 @@ export const LeaderBoardModal = ({ open, handleClose}) => {
     </Modal>
     )
 }
-export const InviteModal = ({ list, open, handleClose}) => {
-    const [more, seMore] = useState(true);
 
+
+const CopyInviteLink = styled.div`
+
+
+    width: 420px;
+    height: 52px;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+    padding: 12px 24px;
+    border-radius: 15px;
+    background: rgba(105, 68, 255, 1);
+
+`
+export const InviteModal = ({ list, open, handleClose, userId}) => {
+    const [more, seMore] = useState(true);
+    const [messageApi, contextHolder] = message.useMessage();
     const splitAddress = (addr) => {
         const start = addr.substring(0,6)
         const end = addr.substring(addr.length - 5,addr.length)
@@ -389,10 +408,23 @@ export const InviteModal = ({ list, open, handleClose}) => {
         >         
         
         <div className="new-list-box w100 ">
+            {contextHolder}
             <div className='fz28 fw500 white w100 center'>
                 Your Invitation
             </div>
-           
+            <div className="center w100 mt36">
+                <CopyInviteLink className='fx-row ai-ct click' onClick={() => {
+                    copy(window.location.href + '/' + userId);
+
+                    messageApi.open({
+                        type: "success",
+                        content: "Copied",
+                    });
+                }}>
+                    <Image src={InviteLinkIcon} width={16.6} height={14.7} alt='InviteLinkIcon'/>
+                    <span className='fz16 white '>Copy Invite Link</span>
+                </CopyInviteLink>
+            </div>
             <div
                 id="scrollableDiv"
                 style={{           
