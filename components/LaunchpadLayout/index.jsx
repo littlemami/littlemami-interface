@@ -246,7 +246,8 @@ export const ContractWrappr = styled.div`
 
 `
 export const FooterWrapper = styled.div`
-    width:1000px
+  width: 1000px;
+  margin-top: 150px;
 
 `
 export const LinkWrapper = styled.div`
@@ -260,9 +261,6 @@ export const LinkWrapper = styled.div`
 
   &:hover {
     color: rgba(255, 255, 255, 1);
-    font-family: Heebo;
-    font-weight: 500;
-    font-size: 20px;
     cursor: pointer;
   }
 `
@@ -289,30 +287,6 @@ export const ContractBar = () => {
     const router = useRouter();
     return (
         <Container>
-            <ContractWrappr className=''>
-                <div className='fx-row ai-ct jc-sb'>
-                    {
-                        [
-                            {url: 'https://www.littlemami.io/', icon: Mars, active: MarsActive},
-                            {url: 'https://twitter.com/Littlemamilabs', icon: X, active: XActive},
-                            {url: 'https://discord.com/invite/xa4BpDJV4V', icon: DC, active: DCActive},
-                            {url: 'https://t.me/XNM0620', icon: TG, active: TGActive},
-                        ].map((item, idx) => (
-                            <IconWrapper
-                                onMouseEnter={() => setHover(idx)}
-                                onMouseLeave={() => setHover(-1)}
-                                key={item} onClick={() => window.open(item.url, '_black')}>
-                                <Image
-                                    src={isHover === idx ? item.active : item.icon}
-                                    width={25}
-                                    height={25}
-                                    alt={`link1`}
-                                />
-                            </IconWrapper>
-                        ))
-                    }
-                </div>
-            </ContractWrappr>
             <FooterWrapper className='fx-row jc-sb'>
                 <div>
                     <LinkTitleWrapper>MarsProtocol</LinkTitleWrapper>
@@ -340,7 +314,7 @@ export const ContractBar = () => {
                     </div>
                 </div>
                 <div className='fx-row jc-sb' style={{width: '252px'}}>
-                    <div style={{marginRight:"140px"}}>
+                    <div style={{marginRight: "140px"}}>
                         <LinkTitleWrapper>About</LinkTitleWrapper>
                         {
                             [

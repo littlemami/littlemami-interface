@@ -57,7 +57,7 @@ export const Launchpad = () => {
         // user?.leader
         setInvites(user?.leader || false)
     }
-   
+
 
     const onDetail = () => {
         console.log('address', address)
@@ -113,8 +113,7 @@ export const Launchpad = () => {
                         </div>
                     </div>
                 )
-            }            
-            <ContractBar/>
+            }
         </div>
     )
 }
