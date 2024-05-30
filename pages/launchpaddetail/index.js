@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal} from '@/components/LaunchpadLayout'
+import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -13,17 +13,23 @@ import Image from "next/image"
 import Mars from './mars'
 import { useNetwork, useAccount, useContractReads, useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi"
 import { contract } from "@/config"
-import LMCABI from "@/abi/LMCABI.json"
+import USDTABI from "@/abi/USDTABI.json"
 import rpc from "@/components/Rpc"
 import { ethers, BigNumber } from 'ethers'
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useRouter } from "next/router";
 
-const LinearBg = styled.div`
+import { Tabs } from "@/pages/ranklist/index"
+import Box from '@/components/LaunchpadLayout/Box'
+import Grid from '@/components/LaunchpadLayout/Grid'
+import Text from '@/components/LaunchpadLayout/Text'
+
+const LinearBg = styled(Box)`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
   width: 284px;
   height: 2px;
-  margin: 34px 0px;
+  
+
 `
 
 const LeaderBoardButton = styled.div`
@@ -44,32 +50,31 @@ const LeaderBoardButton = styled.div`
   margin-top: 40px;
 `
 
-const LeftCard = styled.div`
+
+const LeftCard = styled(Box)`
   
   background: rgba(38, 32, 70, 0.1);
   width: 100%;
-  height: 734px;
   border-radius: 30px;
   box-sizing: border-box;
   border-radius: 30px;
-  padding: 126px;
+ 
   border: 1px solid rgb(54,34,92)
 
 `
-const RightItem = styled.div`
+const RightItem = styled(Box)`
   border-radius: 20px;
-  // background: linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%); 
-  // background: ${(props) => props.isDone ? 'linear-gradient(192.31deg, rgba(157, 155, 255, 0.16) 1.44%, rgba(123, 120, 255, 0.14) 91.64%)' : 'linear-gradient(192.31deg, rgba(178, 151, 255, 0.23) 1.44%, rgba(89, 63, 161, 0.36) 91.64%)'};
   background: ${(props) => props.isDone ? 'linear-gradient(to right,#16182E,#100E27)' : 'linear-gradient(to right,#1C153A,#1C1745)'};
   width: 100%;
   height: 102px;
-  padding: 40px 38px;
+ 
+
   border: 1px solid rgb(66,50,108);
   display: flex;
   flex-direction: row;
   aligin-items: center;
   justify-content: space-between
-  
+
 `
 const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
@@ -152,8 +157,7 @@ const ONE_DAY = 86400000
 
 const LeftTimeWrapper = (props) => {
   const stamp = props.stamp
-  const [leftTime, setLeftTime] = useState(stamp)
-
+  const [leftTime, setLeftTime] = useState(0)
   const A = 86400000
   const B = 3600000
   const C = 60000
@@ -168,23 +172,33 @@ const LeftTimeWrapper = (props) => {
   } 
 
   useEffect(() => {
-
     const interval = setInterval(calculateTimeRemaining, 1000);
-
     return () => clearInterval(interval);
-    
   },[])
+  const addZero = (val) => {
+    return Number(val) < 9 ? `0${val}` : `${val}`
+  }
   const formatTime = (time) => {
-    const hours = Math.floor((time % (A)) / (B));
-    const minutes = Math.floor((time % (B)) / (C));
-    const seconds = Math.floor((time % (C)) / 1000);
-    return `${hours}: ${minutes}: ${seconds}`;
+    if(time > 0)  {
+      const hours = Math.floor((time % (A)) / (B));
+      const minutes = Math.floor((time % (B)) / (C));
+      const seconds = Math.floor((time % (C)) / 1000);
+      return `${addZero(hours)}: ${addZero(minutes)}: ${addZero(seconds)}`;
+    }
   };
 
   return (
-   <div style={{ width: '150px'}} className='fx jc-end'>
-     <span className='fz18 fw400 gray'>{formatTime(leftTime)}</span>
-   </div>
+   <Box>
+    <Box display={['none','none','none','flex','flex']} >
+      <div style={{ width: '150px'}} className='fx jc-end'>
+        <span className='fz18 fw400 gray'>{formatTime(leftTime)}</span>
+      </div>
+    </Box>
+    <Box display={['flex','flex','flex','none','none' ]} >      
+      <Text className='fw400' style={{color: 'rgb(185, 174, 255)'}} fontSize={['12px','12px','12px','18px','18px']}>{formatTime(leftTime)}</Text>
+    </Box>
+   </Box>
+
   )
 }
 const LaunchpadDetail = () => {
@@ -192,13 +206,13 @@ const LaunchpadDetail = () => {
   const [modalLoading,setModalLoading] = useState(false)
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
-
+  const [activeIdx, setActiveIdx] = useState(0)
   const [isOpen,setOpen] = useState(false)
   const [activeNFTIdx, setActiveNFTIdx] = useState(-1)
   const { address } = useAccount()
   const { chain } = useNetwork()
-  const [rightData, setRightData] = useState({})
   const [rank, setRank] = useState(0)
+  const [inviteUserId, setInviteUserId] = useState('')
   const [points, setPoints] = useState(0)
   const [defaultInputValue, setDefaultInputValue] = useState('')
   const router = useRouter();
@@ -210,6 +224,7 @@ const LaunchpadDetail = () => {
   const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn Points', done: false, countdown: 0 })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
+  const [row7Data, setRow7Data] = useState({ id: 7, title: 'Get LMC on Uniswap', points: '+ 600 LMC Points', done: false, countdown: 0 })
 
 
 
@@ -256,14 +271,14 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: lmc,
-        abi: LMCABI,
+        abi: USDTABI,
         functionName: "allowance",
         args: [address, marsContract?.address],
       },
     ],
   })
 
-  console.log('setRow1Data', row1Data)
+
   console.log('reads0', reads0)
   console.log('reads1', reads1)
   
@@ -293,7 +308,10 @@ const LaunchpadDetail = () => {
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
-              marsRefecrral} = res
+              marsRefecrral,
+              id
+            } = res
+      setInviteUserId(id)
       setRank(marsRank)
       setPoints(marsScore)
       setRow1Data((q) => ({ ...q, done: dailyCheckedIn }))
@@ -304,9 +322,7 @@ const LaunchpadDetail = () => {
     setLoading(false)
   }
   
-  const handleRightItem = async(item) => {
-    
-
+  const handleRightItem = async(item) => {    
     if(item.id === 1) {
       const a = await rpc.getMarsScore("dailyCheckIn", address)
       setRow1Data((q) => ({ ...q, countdown: today() + ONE_DAY }))
@@ -317,15 +333,12 @@ const LaunchpadDetail = () => {
     }
     if(item.id === 3) {
       window.open('https://twitter.com/Littlemamilabs','_black')
-      await rpc.getMarsScore("x", address)
-      
-      
+      await rpc.getMarsScore("x", address)      
       fetchRightData()
     }
     if(item.id === 4) {
       window.open('https://t.me/XNM0620','_black')
       await rpc.getMarsScore("telegram", address)
-      
       fetchRightData()
      
     }
@@ -337,12 +350,20 @@ const LaunchpadDetail = () => {
       setDeposit(false)
       setOpen(true)
     }
+
+    if(item.id === 7) { 
+      window.open('https://app.uniswap.org/swap?outputCurrency=0x8983cf891867942d06ad6ceb9b9002de860e202d','_black')
+      await rpc.getMarsScore("uniswap", address)
+      setRow7Data((q) => ({ ...q, done: true }))
+      fetchRightData()
+    }
+
   }
 
   // approve
   const { data: approveTx, write:approveWhite } = useContractWrite({
     address: lmc,
-    abi: LMCABI,
+    abi: USDTABI,
     functionName: "approve",
     onError(error) {
       setModalLoading(false)
@@ -400,7 +421,7 @@ const LaunchpadDetail = () => {
     contracts: [
       {
         address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
-        abi: LMCABI,
+        abi: USDTABI,
         functionName: "balanceOf",
         args: [address],
       },
@@ -492,7 +513,7 @@ const LaunchpadDetail = () => {
   }
 
   useEffect(() => {
-    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${_pendingPoint} Points` : 'Earn Points' }))
+    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${ Math.floor(_pendingPoint * 100) / 100} Points` : 'Earn Points' }))
   },[_pendingPoint])
 
   const onResetStamp = (id) => {
@@ -516,15 +537,30 @@ const LaunchpadDetail = () => {
     }
   }
 
-  const LeftItem = (data) => (
-    <RightItem isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
-          <span className='white fz18 fw400'>{data.title}</span>
+
+
+  const LeftItem = (data) => {
+  
+    return (
+      <RightItem className='fx-row ai-ct' padding={['18px 24px','18px 24px','18px 24px','40px 38px','40px 38px']} isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
+          <Box className='fx-col'>
+            <Text className='white fw400 ' fontSize={['14px','14px','14px','18px','18px']}>{data.title}</Text>
+            <Box display={['flex','flex','flex','none','none']} marginTop="5px">
+              {
+                data.countdown > 0 ?
+                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
+              }
+            </Box>
+          </Box>
           <div className='fx-row ai-ct'>
-            {
-              data.countdown > 0 ?
-              <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
-              <span className='fz18 fw400 color1 '>{data.points}</span> 
-            }
+          <Box display={['none','none','none','flex','flex']}>
+              {
+                data.countdown > 0 ?
+                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
+              }
+            </Box>
             <>
               {
               data.done ? 
@@ -549,108 +585,129 @@ const LaunchpadDetail = () => {
 
 
           </div>
-    </RightItem>
-  )
+      </RightItem>
+    )
+  } 
   return (
-    <div>
-      
-      <Container>
-        <div className='fx-row ai-ct click' style={{ marginTop: '78px'}} onClick={() => router.back()}>
-          <Image
-            src={Back}
-            height={12}
-            width={8}
-            alt='Back'
-          />
-          <span className='white fw400 fz18 ml12'>Back</span>
-        </div>
-        <Row className="w100 fx-row jc-sb ai-ct "  gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: 1, xxl: 1}} style={{marginTop: '60px'}}> 
-          <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} >
-            <LeftCard className={
-            `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
-            after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
-            after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
-            `
-            } >
-              <p className="color1 fw400 fz22" style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</p>
-              <span className="white fw400 fz64 ">{points || 0}</span>
-              <LinearBg />
-              <span className="color1 fw400 fz22">Rank</span>
-              <span className="white fw400 fz42 mt10">#{rank || 0}</span>
-              <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
-                LeaderBoard
-              </LeaderBoardButton>
-            </LeftCard>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14} className="fx-col w100">
-            {LeftItem(row1Data)}
-            {LeftItem(row2Data)}
-            {LeftItem(row3Data)}
-            {LeftItem(row4Data)}
-            {LeftItem(row5Data)}
-            {LeftItem(row6Data)}
-          </Col>
-        </Row>
-        <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
-          {
-            NFTList.map((item,idx) => (
-              <Col 
-                // span={8}
-              // offset={0}
-              // pull={0.5}
-                className='center mb26 relative'
-                key={item.id} 
-                onMouseOver={() => setActiveNFTIdx(idx)}
-                onMouseLeave={() => setActiveNFTIdx(-1)}
-                // gutter={{ xs: 0, sm: 0, md: 0, lg: 1, xl: '36px', xxl: '36px'}}
-                // xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}
-                >
-                <Image
-                  src={item.url}
-                  width={300}
-                  height={300}
-                  alt={item.id}
-                />
-                {
-                  activeNFTIdx === idx && 
-                  <NFTMask>
-                    <p className='fz18 fw400 white'>{item.name}</p>
-                    <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
-                    <PriceBg className='center'>
-                      <span className='fz14 fw500 black'>{item.price}</span>
-                    </PriceBg>
-                  </NFTMask>
-                }
-              </Col>
-             
-            ))
-          }
-        </Row>
-        <DepositMdoal 
-          pendingPoint={_pendingPoint}
-          stakedBalance={ stakedBalance }
-          isLoading={
-            modalLoading ||
-            approveConfirming || 
-            depositConfirming ||
-            withdrawConfirming
-          }
-          isOpen={isOpen} 
-          handleClose={() => {
-            setDepositAmount(0)
-            setWithdrawAmount(0)
-            setOpen(false)
-            
-          }}
-          onDeposit={onDeposit}
-          onWidhdraw={onWidhdraw}
-          onMax={onMax}
-          defaultInputValue={defaultInputValue}
+    <div className=''>
+      <div className="fx-row w100 center mt36">
+        <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MarsAirdrop</Tabs>
+        <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>MarsMint</Tabs>
+      </div>
+      {
+        activeIdx === 0 && (
+          <Container>
+            <div className='fx-row ai-ct click' style={{ marginTop: '46px'}} onClick={() => router.back()}>
+              <Image
+                src={Back}
+                height={12}
+                width={8}
+                alt='Back'
+              />
+              <span className='white fw400 fz18 ml12'>Back</span>
+            </div>
+            <Grid className='' marginTop={['30px','30px','30px','60px','60px']} gridTemplateColumns={['303px','303px','303px','9fr 14fr','9fr 14fr']} gridGap={['36px']}>
+              <Box className='fx-col'>
+                <LeftCard 
+                   height={['370px','370px','370px','870px','870px']}
+                   padding={['48px','48px','48px','126px','126px']}
+                 
+                  className={
+                  `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
+                  after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
+                  after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
+                  `
+                  } >
+                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']} style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</Text>
+                    <Text className="white fw400 " fontSize={['28px','28px','28px','64px','64px']}>{points || 0}</Text>
+                    <LinearBg marginTop={['14px','14px','14px','34px','34px']} marginBottom={['14px','14px','14px','34px','34px']}/>
+                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']}>Rank</Text>
+                    <Text className="white fw400 mt10" fontSize={['28px','28px','28px','42px','42px']}>#{rank || 0}</Text>
+                    <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
+                      LeaderBoard
+                    </LeaderBoardButton>
+                  </LeftCard>
+              </Box>
+              <Box className='fx-col' width={['345px','345px','345px','100%','100%']} marginLeft={['-21px','-21px','-21px','0px','0px']}>
+                {LeftItem(row1Data)}
+                {LeftItem(row2Data)}
+                {LeftItem(row3Data)}
+                {LeftItem(row4Data)}
+                {LeftItem(row7Data)}
+                {LeftItem(row5Data)}
+                {LeftItem(row6Data)}
+              </Box>
 
-        />
-        <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-        <InviteModal list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
-      </Container>
+            </Grid>
+
+            
+
+
+            <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
+              {
+                NFTList.map((item,idx) => (
+                  <Col 
+                    className='center mb26 relative'
+                    key={item.id} 
+                    onMouseOver={() => setActiveNFTIdx(idx)}
+                    onMouseLeave={() => setActiveNFTIdx(-1)}
+                    >
+                    <Image
+                      src={item.url}
+                      width={300}
+                      height={300}
+                      alt={item.id}
+                    />
+                    {
+                      activeNFTIdx === idx && 
+                      <NFTMask>
+                        <p className='fz18 fw400 white'>{item.name}</p>
+                        <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                        <PriceBg className='center'>
+                          <span className='fz14 fw500 black'>{item.price}</span>
+                        </PriceBg>
+                      </NFTMask>
+                    }
+                  </Col>
+                
+                ))
+              }
+            </Row>
+
+
+            <DepositMdoal 
+              pendingPoint={_pendingPoint}
+              stakedBalance={ stakedBalance }
+              isLoading={
+                modalLoading ||
+                approveConfirming || 
+                depositConfirming ||
+                withdrawConfirming
+              }
+              isOpen={isOpen} 
+              handleClose={() => {
+                setDepositAmount(0)
+                setWithdrawAmount(0)
+                setOpen(false)
+                
+              }}
+              onDeposit={onDeposit}
+              onWidhdraw={onWidhdraw}
+              onMax={onMax}
+              defaultInputValue={defaultInputValue}
+            />
+            <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
+            <InviteModal userId={inviteUserId} list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+          </Container>
+        )
+      }
+      {
+        activeIdx === 1 && (
+          <Container>
+            <MarsMintCard/>
+          </Container>
+        )
+      }
       <ContractBar/>
     </div>
   );
