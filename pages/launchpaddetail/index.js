@@ -353,7 +353,7 @@ const LaunchpadDetail = () => {
 
     if(item.id === 7) { 
       window.open('https://www.dextools.io/app/en/ether/pair-explorer/0x73d9bb012d3675e593dc4f5b72baf5dc5abbd71a?t=1708172567544','_black')
-      await rpc.getMarsScore("marsUniswap", address)
+      await rpc.getMarsScore("uniswap", address)
       fetchRightData()
     }
 
