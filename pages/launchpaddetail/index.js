@@ -608,29 +608,31 @@ const LaunchpadDetail = () => {
               />
               <span className='white fw400 fz18 ml12'>Back</span>
             </div>
-            <Grid className='' marginTop={['30px','30px','30px','60px','60px']} gridTemplateColumns={['303px','303px','303px','9fr 14fr','9fr 14fr']} gridGap={['36px']}>
-              <Box className='fx-col'>
-                <LeftCard 
-                   height={['370px','370px','370px','870px','870px']}
-                   padding={['48px','48px','48px','126px','126px']}
-                 
-                  className={
-                  `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
-                  after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
-                  after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
-                  `
-                  } >
-                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']} style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</Text>
-                    <Text className="white fw400 " fontSize={['28px','28px','28px','64px','64px']}>{points || 0}</Text>
-                    <LinearBg marginTop={['14px','14px','14px','34px','34px']} marginBottom={['14px','14px','14px','34px','34px']}/>
-                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']}>Rank</Text>
-                    <Text className="white fw400 mt10" fontSize={['28px','28px','28px','42px','42px']}>#{rank || 0}</Text>
-                    <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
-                      LeaderBoard
-                    </LeaderBoardButton>
-                  </LeftCard>
+            <Grid className='' marginTop={['30px','30px','30px','60px','60px']} gridTemplateColumns={['345px','345px','345px','9fr 14fr','9fr 14fr']} gridGap={['36px']}>
+              <Box className='w100 center'>
+                <Box className='fx-col '>
+                  <LeftCard 
+                    height={['370px','370px','370px','870px','870px']}
+                    padding={['48px','48px','48px','126px','126px']}
+                  
+                    className={
+                    `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
+                    after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
+                    after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
+                    `
+                    } >
+                      <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']} style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</Text>
+                      <Text className="white fw400 " fontSize={['28px','28px','28px','64px','64px']}>{points || 0}</Text>
+                      <LinearBg marginTop={['14px','14px','14px','34px','34px']} marginBottom={['14px','14px','14px','34px','34px']}/>
+                      <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']}>Rank</Text>
+                      <Text className="white fw400 mt10" fontSize={['28px','28px','28px','42px','42px']}>#{rank || 0}</Text>
+                      <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
+                        LeaderBoard
+                      </LeaderBoardButton>
+                    </LeftCard>
+                </Box>
               </Box>
-              <Box className='fx-col' width={['345px','345px','345px','100%','100%']} marginLeft={['-21px','-21px','-21px','0px','0px']}>
+              <Box className='fx-col' width={['345px','345px','345px','100%','100%']} >
                 {LeftItem(row1Data)}
                 {LeftItem(row2Data)}
                 {LeftItem(row3Data)}
@@ -641,40 +643,72 @@ const LaunchpadDetail = () => {
               </Box>
 
             </Grid>
-
             
+            <Box  display={['none','none','none','flex','flex']}>
+              <Box className='fx-row ai-ct jc-sb w100' style={{ marginTop: '80px',}} >
+                {
+                  NFTList.map((item,idx) => (
+                    <Col 
+                      className='center mb26 relative'
+                      key={item.id} 
+                      onMouseOver={() => setActiveNFTIdx(idx)}
+                      onMouseLeave={() => setActiveNFTIdx(-1)}
+                      >
+                      <Image
+                        src={item.url}
+                        width={300}
+                        height={300}
+                        alt={item.id}
+                      />
+                      {
+                        activeNFTIdx === idx && 
+                        <NFTMask>
+                          <p className='fz18 fw400 white'>{item.name}</p>
+                          <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                          <PriceBg className='center'>
+                            <span className='fz14 fw500 black'>{item.price}</span>
+                          </PriceBg>
+                        </NFTMask>
+                      }
+                    </Col>
+                  
+                  ))
+                }
+              </Box>
+            </Box>
 
-
-            <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
-              {
-                NFTList.map((item,idx) => (
-                  <Col 
-                    className='center mb26 relative'
-                    key={item.id} 
-                    onMouseOver={() => setActiveNFTIdx(idx)}
-                    onMouseLeave={() => setActiveNFTIdx(-1)}
-                    >
-                    <Image
-                      src={item.url}
-                      width={300}
-                      height={300}
-                      alt={item.id}
-                    />
-                    {
-                      activeNFTIdx === idx && 
-                      <NFTMask>
-                        <p className='fz18 fw400 white'>{item.name}</p>
-                        <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
-                        <PriceBg className='center'>
-                          <span className='fz14 fw500 black'>{item.price}</span>
-                        </PriceBg>
-                      </NFTMask>
-                    }
-                  </Col>
-                
-                ))
-              }
-            </Row>
+            <Box display={['flex','flex','flex','none','none' ]} className=''>
+              <Box className='fx-col ai-ct' style={{ marginTop: '80px',}} width="345px">
+                {
+                  NFTList.map((item,idx) => (
+                    <Col 
+                      className='center mb26 relative'
+                      key={item.id} 
+                      onMouseOver={() => setActiveNFTIdx(idx)}
+                      onMouseLeave={() => setActiveNFTIdx(-1)}
+                      >
+                      <Image
+                        src={item.url}
+                        width={300}
+                        height={300}
+                        alt={item.id}
+                      />
+                      {
+                        activeNFTIdx === idx && 
+                        <NFTMask>
+                          <p className='fz18 fw400 white'>{item.name}</p>
+                          <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                          <PriceBg className='center'>
+                            <span className='fz14 fw500 black'>{item.price}</span>
+                          </PriceBg>
+                        </NFTMask>
+                      }
+                    </Col>
+                  
+                  ))
+                }
+              </Box>
+            </Box>
 
 
             <DepositMdoal 
