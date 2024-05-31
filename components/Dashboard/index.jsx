@@ -325,9 +325,7 @@ const Dashboard = (props) => {
                 </div>
                 <Page2/>
                 <Page3/>
-                <div style={{marginTop: '140px'}}>
-                    <ContractBar/>
-                </div>
+               
             </Col>
            
             <Col xs={24} sm={24} md={0} lg={0} xl={0}>

@@ -301,22 +301,25 @@ const LaunchpadDetail = () => {
   const fetchRightData = async() => {
     setLoading(true)
     const res = await rpc.getUser(address)
-    console.log('useruser', res)
+    console.log('useruser', res) 
     if(res) {
       const { dailyCheckedIn,//是否每日已签到
+              dailyCheckIn,
               marsX,//是否点了推特
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
               marsRefecrral,
-              id
+              id,
+              marsUniswap
             } = res
       setInviteUserId(id)
       setRank(marsRank)
       setPoints(marsScore)
-      setRow1Data((q) => ({ ...q, done: dailyCheckedIn }))
+      setRow1Data((q) => ({ ...q, done: dailyCheckedIn, countdown: Number(dailyCheckIn) + ONE_DAY }))
       setRow3Data((q) => ({ ...q, done: marsX }))
       setRow4Data((q) => ({ ...q, done: marsTelegram }))
+      setRow7Data((q) => ({ ...q, done: marsUniswap }))
       setRefecrral(marsRefecrral || [])
     }
     setLoading(false)
@@ -500,10 +503,10 @@ const LaunchpadDetail = () => {
 
   const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
   const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
-  console.log('pendingPoint', pendingPoint)
-  console.log('_pendingPoint', _pendingPoint)
-  console.log('stakedBalance', stakedBalance)
-  console.log('_LMCBalance', _LMCBalance)
+  // console.log('pendingPoint', pendingPoint)
+  // console.log('_pendingPoint', _pendingPoint)
+  // console.log('stakedBalance', stakedBalance)
+  // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
     if(idx === 0) {
       setDefaultInputValue(_LMCBalance)
@@ -540,15 +543,14 @@ const LaunchpadDetail = () => {
 
 
   const LeftItem = (data) => {
-  
     return (
       <RightItem className='fx-row ai-ct' padding={['18px 24px','18px 24px','18px 24px','40px 38px','40px 38px']} isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
           <Box className='fx-col'>
             <Text className='white fw400 ' fontSize={['14px','14px','14px','18px','18px']}>{data.title}</Text>
             <Box display={['flex','flex','flex','none','none']} marginTop="5px">
               {
-                data.countdown > 0 ?
-                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                Number(data.countdown) > 0 ?
+                <LeftTimeWrapper stamp={Number(data.countdown)} reset={() => onResetStamp(data.id)}/> : 
                 <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
               }
             </Box>
@@ -556,8 +558,8 @@ const LaunchpadDetail = () => {
           <div className='fx-row ai-ct'>
           <Box display={['none','none','none','flex','flex']}>
               {
-                data.countdown > 0 ?
-                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                Number(data.countdown) > 0 ?
+                <LeftTimeWrapper stamp={Number(data.countdown)} reset={() => onResetStamp(data.id)}/> : 
                 <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
               }
             </Box>
@@ -575,8 +577,8 @@ const LaunchpadDetail = () => {
                   <>
                     {
                       data.points === 'Upcoming' ? null :
-                      <GoButton stamp={data.countdown} onClick={
-                        data.countdown > 0 ? () => null :
+                      <GoButton stamp={Number(data.countdown)} onClick={
+                        Number(data.countdown) > 0 ? () => null :
                         () => handleRightItem(data)}>Go</GoButton>
                     }
                   </>
@@ -708,7 +710,6 @@ const LaunchpadDetail = () => {
           </Container>
         )
       }
-      <ContractBar/>
     </div>
   );
 };
