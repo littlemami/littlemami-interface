@@ -26,8 +26,42 @@ const navigation = [
   // { name: "Faq", href: "/faq" },
 ];
 
+export const FinanceWrapper = styled.div` 
+  color: rgba(255, 255, 255, 1);
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 18px;
+  &:hover span{
+    color:#FF45B5
+  }
+  &:hover .selectBox{
+    display: block;
+  }
+  &:hover img {
+    content: url(/images/active-group.png);
+  }
+`
 
-
+export const SelectWrapper = styled.div` 
+  display: none;
+  position: absolute;
+  width: 144px;
+  height: 270px;
+  background-color:#161332 ;
+  top:80px;
+  border-radius: 12px;
+  border: 1px solid rgba(204, 139, 255, 0.12);
+  padding-top: 18px;
+  z-index: 999;
+`
+export const OptionWarpper = styled.div` 
+  text-align: left;
+  padding-left: 16px;
+  font-size:16px;
+  &:not(:nth-child(1)){
+    margin-top: 28px;
+  }
+`
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -38,7 +72,7 @@ export default function Example() {
   const [isOpen, setOpen] = useState(false)
 
   return (
-  
+
       <Disclosure as="nav" className=''>
         {({ open }) => (
           <>
@@ -47,9 +81,9 @@ export default function Example() {
                 className={`relative z-50 flex items-center justify-between nav-bar-box ${styles["nav-box"]}`}
               >
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden "  onClick={() => setOpen(true)}>
-                    <div className="ml36 mt22"> 
+                    <div className="ml36 mt22">
                       <Image src="/images/menu.png" height={20} width={16} alt="menu" className=""/>
-                    </div>                
+                    </div>
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
@@ -78,35 +112,39 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <div className="hidden sm:ml-24 sm:flex items-center">
-                    <div className={`flex ${styles["nav-link"]}`}>
-                      {navigation.map((item) => (
-                        <span
-                          key={item.name}
-                          className={classNames(
-                            router.pathname === item.href
-                              ? "text-white active"
-                              : "text-white/[0.5] hover:text-white",
-                            "px-3 mr-14 cursor-pointer nav-title"
-                          )}
-                          onClick={() => {
-                            if (item?.disabled) return;
-                            if (
-                              router.pathname !== item.href ||
-                              item.name === "Stake"
-                            ) {
-                              router.push(item.href);
+                  <FinanceWrapper className="click hidden sm:ml-24 sm:flex items-center">
+                   <div className="fx-row ai-ct">
+                     <span>Finance</span>
+                     <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
+                   </div>
+                    <SelectWrapper className="selectBox">
+                      { navigation.map((item)=>{
+                       return( <OptionWarpper
+                            key={item.name}
+                            className={classNames(
+                                router.pathname === item.href
+                                    ? "nav-color"
+                                    : "",
+                                "px-3 mr-14 cursor-pointer nav-title"
+                            )}
+                            onClick={() => {
+                              if (item?.disabled) return;
+                              if (
+                                  router.pathname !== item.href ||
+                                  item.name === "Stake"
+                              ) {
+                                router.push(item.href);
+                              }
+                            }}
+                            aria-current={
+                              router.pathname === item.href ? "page" : undefined
                             }
-                          }}
-                          aria-current={
-                            router.pathname === item.href ? "page" : undefined
-                          }
                         >
                           {item.name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                        </OptionWarpper>)
+                    })}
+                    </SelectWrapper>
+                  </FinanceWrapper>
                 </div>
 
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden md:block ">
@@ -115,7 +153,7 @@ export default function Example() {
 
               </div>
             </div>
-                    
+
 
             <Drawer
               onClose={() => setOpen(false)}
@@ -128,9 +166,9 @@ export default function Example() {
               placement="left"
               className="click"
               maskClosable
-              style={{ background: '#101025' }} 
+              style={{ background: '#101025' }}
               open={isOpen}
-             
+
             >
               <div className="fx-col ml36 mt26">
                 <div className="mb40" onClick={() => {
@@ -139,11 +177,11 @@ export default function Example() {
                       router.push("/");
                     }
                   }}
-                > 
+                >
                   <Image src="/images/mobile_logo.png" height={25.6} width={148} alt="mobile_logo"/>
-                </div>       
+                </div>
                 <UserInfo />
-                
+
                 <div className="mt10">
                   {navigation.map((item) => (
                     <div
@@ -161,7 +199,7 @@ export default function Example() {
                     </div>
                   ))}
                 </div>
-                
+
               </div>
             </Drawer>
 
@@ -198,6 +236,6 @@ export default function Example() {
           </>
         )}
       </Disclosure>
-    
+
   );
 }

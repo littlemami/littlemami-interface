@@ -844,25 +844,30 @@ body {
 .nav-title {
   position: relative;
   font-size: var(--nav-size);
-
-  &:after {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    content: '';
-    width: 2.375rem;
-    height: .125rem;
-    background: transparent;
-    border-radius: 2px;
-    transform: translate(-50%, .1875rem);
+  &:hover{
+    color:#FF45B5
   }
+  //&:after {
+  //  position: absolute;
+  //  top: 100%;
+  //  left: 50%;
+  //  content: '';
+  //  width: 2.375rem;
+  //  height: .125rem;
+  //  background: transparent;
+  //  border-radius: 2px;
+  //  transform: translate(-50%, .1875rem);
+  //}
 
-  &.active:after {
-    background: #FF2FC4;
-
-  }
+  //&.active:after {
+  //  background: #FF2FC4;
+  //
+  //}
 }
 
+.nav-color{
+  color:#FF45B5
+}
 .new-list-box {
   flex: 1;
   display: flex;
