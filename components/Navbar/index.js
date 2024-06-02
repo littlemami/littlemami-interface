@@ -11,7 +11,7 @@ import styles from "./index.module.scss";
 import dynamic from "next/dynamic";
 import { Drawer }  from 'antd'
 import { styled } from 'styled-components'
-
+import Box from '@/components/LaunchpadLayout/Box'
 const UserInfo = dynamic(() => import("@/components/UserInfo"), {
   ssr: false,
   loading: () => <>Loading...</>,
@@ -42,13 +42,13 @@ export const FinanceWrapper = styled.div`
   }
 `
 
-export const SelectWrapper = styled.div` 
+export const SelectWrapper = styled(Box)` 
   display: none;
   position: absolute;
   width: 144px;
   height: 270px;
   background-color:#161332 ;
-  top:80px;
+  top: 70px;
   border-radius: 12px;
   border: 1px solid rgba(204, 139, 255, 0.12);
   padding-top: 18px;
@@ -117,7 +117,7 @@ export default function Example() {
                      <span>Finance</span>
                      <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
                    </div>
-                    <SelectWrapper className="selectBox">
+                    <SelectWrapper className="selectBox" >
                       { navigation.map((item)=>{
                        return( <OptionWarpper
                             key={item.name}
