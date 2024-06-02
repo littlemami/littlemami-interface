@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
+import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -733,7 +733,11 @@ const LaunchpadDetail = () => {
               defaultInputValue={defaultInputValue}
             />
             <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-            <InviteModal userId={inviteUserId} list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+            <InviteModal 
+              userId={inviteUserId} 
+              list={refecrral} 
+              open={inviteOpen} 
+              handleClose={() => setInviteOpen(false)}/>
           </Container>
         )
       }

@@ -1,4 +1,4 @@
-import {  ContractBar, Container,  } from '@/components/LaunchpadLayout'
+import {  Container,  } from '@/components/LaunchpadLayout'
 import { styled } from 'styled-components'
 import Image from "next/image"
 import ETHIcon from '@/public/images/eth.png'
@@ -11,10 +11,13 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from 'react'
 import rpc from "@/components/Rpc";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import Box from '@/components/LaunchpadLayout/Box'
+import Grid from '@/components/LaunchpadLayout/Grid'
+import Text from '@/components/LaunchpadLayout/Text'
+import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
 
-const AirdropWrapper = styled.div`
-    width: 496px;
-    height: 439px;
+const AirdropWrapper = styled(Box)`
+   
     opacity: 0.8;
     border-radius: 30px;
     box-sizing: border-box;
@@ -22,7 +25,7 @@ const AirdropWrapper = styled.div`
     box-shadow: 0px 4px 13.8px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(50px);
     margin-top: 40px;
-    padding: 49px 44px  42px 44px;
+   
 `
 const InProcess = styled.div`   
     width: 120px;
@@ -46,6 +49,8 @@ export const Launchpad = () => {
 
     const { address } = useAccount();
     const { openConnectModal } = useConnectModal();
+
+    const { isMobile, isTablet, isDesktop } = useMatchBreakpoints()
     useEffect(() => {
         fetchData()
     },[address])
@@ -60,7 +65,6 @@ export const Launchpad = () => {
 
 
     const onDetail = () => {
-        console.log('address', address)
         if(address)  {
             if(!!invites) {
                 router.push('/launchpaddetail')
@@ -80,17 +84,20 @@ export const Launchpad = () => {
                         <StakeTitle
                             title="Launching Feature"
                             extraNode={
-                            <div
+                            <Box
+                                ml={['14px','14px','14px','0px','0px']}
                                 className={`${styles.titleInfo} relative text-[rgba(255,255,255,0.90)] font-Poppins text-[1rem] font-not-italic font-400 leading-normal tracking-0.48px before:block before:absolute before:w-full before:h-0.5 `}
                             >
                                 ACTIVE & UPCOMING
-                            </div>
+                            </Box>
                             }
                         />
-                        <div className='fx-col'>
-
-
-                            <AirdropWrapper className='fx-col ai-ct click' onClick={onDetail}>
+                        <Box className={isMobile || isTablet ? "w100 center" : "w100"}>
+                            <AirdropWrapper 
+                                p={['24px','24px','24px','44px','44px']} 
+                                width={['345px','345px','345px','496px','496px']}   
+                                height={['339px','339px','339px','439px','439px']}   
+                                className='fx-col ai-ct click' onClick={onDetail}>
                                 <BgWrapper>
                                     <Image
                                         src={Airdrop}
@@ -110,7 +117,7 @@ export const Launchpad = () => {
                                     </div>
                                 </div>
                             </AirdropWrapper>
-                        </div>
+                        </Box>
                     </div>
                 )
             }

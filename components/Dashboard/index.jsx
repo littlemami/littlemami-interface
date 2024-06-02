@@ -1,7 +1,6 @@
 import {useEffect, useState, useRef} from "react";
 import {styled} from 'styled-components'
 import Image from "next/image";
-import {ContractBar,} from '@/components/LaunchpadLayout'
 import * as echarts from 'echarts'
 import MarsActive from '@/public/images/marsActive.png'
 import LMC from '@/public/images/LMC.png'
