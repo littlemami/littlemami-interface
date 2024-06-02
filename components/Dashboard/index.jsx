@@ -7,6 +7,11 @@ import LMC from '@/public/images/LMC.png'
 import arrowPink from '@/public/images/arrow_pink.png'
 import { DashboardMobile } from './DashboardMobile'
 import { Col, Row } from 'antd'
+import Box from '@/components/LaunchpadLayout/Box'
+import Grid from '@/components/LaunchpadLayout/Grid'
+import Text from '@/components/LaunchpadLayout/Text'
+import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
+
 const Wrapper = styled.div`
   max-width: 1056px;
   margin-top: 182px;
@@ -28,7 +33,9 @@ const LinkWrapper = styled.div`
     background-color: #C55FDB;
     opacity: 0;
   }
-
+  &:hover .email {
+    animation: emailAnimation 1.5s linear !important;
+  }
   &:hover > span,&:hover > img {
     animation: colorChange 1s linear, moveAnimation 1.5s linear !important; 
  }
@@ -210,8 +217,10 @@ const Page1 = () => {
                 <div className="fx-col" style={{maxWidth: '506px'}}>
                     <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
                     <LinkWrapper className="fx-row ai-ct jc-sb mt24" onClick={() => window.open('https://x.com/Littlemamilabs', "_blank")}>
+                    {/* style={{ color: 'rgb(128,108,108)'}} */}
                         <span className="fz20">Contect Us</span>
-                        <Image src={arrowPink} alt="arrowPink" height={18} width={18}/>
+                        <div className="fz20 email" style={{ opacity: 0}} >littlemamigroup@gmail.com</div>
+                        {/* <Image src={arrowPink} alt="arrowPink" height={18} width={18}/> */}
                     </LinkWrapper>
                 </div>
             </div>
@@ -316,7 +325,7 @@ const Dashboard = (props) => {
 
     return (
         <Col>
-            <Col className="w100" xs={0} sm={0} md={24} lg={24} xl={24}>
+            <Col className="w100" xs={0} sm={0} md={0} lg={24} xl={24} >
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
@@ -324,10 +333,9 @@ const Dashboard = (props) => {
                 </div>
                 <Page2/>
                 <Page3/>
-               
             </Col>
            
-            <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+            <Col xs={24} sm={24} md={24} lg={0} xl={0}> 
                 <DashboardMobile/>
             </Col>
 

@@ -26,20 +26,21 @@ const navigation = [
   // { name: "Faq", href: "/faq" },
 ];
 
-export const FinanceWrapper = styled.div` 
+export const FinanceWrapper = styled(Box)` 
   color: rgba(255, 255, 255, 1);
   font-family: Poppins;
   font-weight: 500;
   font-size: 18px;
+  position: relative;
   &:hover span{
     color:#FF45B5
   }
   &:hover .selectBox{
     display: block;
   }
-  &:hover img {
-    content: url(/images/active-group.png);
-  }
+  // &:hover img {
+  //   content: url(/images/active-group.png);
+  // }
 `
 
 export const SelectWrapper = styled(Box)` 
@@ -48,7 +49,7 @@ export const SelectWrapper = styled(Box)`
   width: 144px;
   height: 270px;
   background-color:#161332 ;
-  top: 70px;
+  // top: 50px;
   border-radius: 12px;
   border: 1px solid rgba(204, 139, 255, 0.12);
   padding-top: 18px;
@@ -112,11 +113,11 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <FinanceWrapper className="click hidden sm:ml-24 sm:flex items-center">
-                   <div className="fx-row ai-ct">
-                     <span>Finance</span>
-                     <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
-                   </div>
+                  <FinanceWrapper className="click ml24 ai-ct pt18" display={['none','none','block','block','block']}>
+                    <div className="fx-row ai-ct ">
+                      <span>Finance</span>
+                      <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
+                    </div>
                     <SelectWrapper className="selectBox" >
                       { navigation.map((item)=>{
                        return( <OptionWarpper

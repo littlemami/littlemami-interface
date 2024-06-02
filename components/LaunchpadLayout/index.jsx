@@ -41,12 +41,7 @@ export const Container = ({children}) => {
     )
 }
 
-const ItemWrapper = styled(Box)`
-  width: ${(props) => props.w};
-  height: ${(props) => props.h};
-  border-radius: 20px;
-  background: rgba(39, 39, 73, 0.4);
-`
+
 const Tab = styled(Box)`
   display: flex;
   justify-content: center;
@@ -222,11 +217,11 @@ export const DepositMdoal = ({
                         <span className='fw500 white ml14' fontSize={['12px','12px','12px','18px','18px',]}>Amount</span>
                         <div style={{position: 'relative', marginTop: '26px'}}>
                             <input 
-                                className='deposit-input-number' 
+                                className='deposit-input-number ' 
                                 type='number' 
                                 value={value}
                                 style={{
-                                    width: isMobile || isTablet ? "297px" : "470px",
+                                    width: isMobile || isTablet ? "278px" : "470px",
                                     height: isMobile || isTablet ? "30px" : "44px",
                                     borderRadius: isMobile || isTablet ? "4px" : "12px",
                                     fontSize: isMobile || isTablet ? "12px" : "16px",
@@ -237,6 +232,7 @@ export const DepositMdoal = ({
                                 height={['20px','20px','20px','30px','30px']}
                                 fontSize={['10px','10px','10px','14px','14px',]}
                                 borderRadius={['4px','4px','4px','10px','10px']}
+                                mt={['-2px','-2px','0px','0px','0px']}
                                 padding={['0px 8px 0px 8px','0px 8px 0px 8px','0px 8px 0px 8px','5px 15px 5px 15px','5px 15px 5px 15px']}
                                 onClick={() => onMax(activeIdx)}>
                                 Max
@@ -512,9 +508,6 @@ export const LeaderBoardModal = ({open, handleClose}) => {
 
 
 const CopyInviteLink = styled(Box)`
-
-
- 
   display: flex;
   place-content: center;
   place-items: center;

@@ -1109,6 +1109,14 @@ body {
     opacity: 1;
   }
 }
+@keyframes emailAnimation {
+  0%  {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes moveAnimation {
   0%, 100% {
     transform: translateX(0);
