@@ -11,7 +11,7 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
-
+import {useRouter} from "next/router";
 const Wrapper = styled.div`
   max-width: 1056px;
   margin-top: 182px;
@@ -152,38 +152,51 @@ export const PieOption = {
         }
     ]
 }
+
 const page2List = [
     {
         img: '/images/item1.png',
         num: '01',
         name: 'MarsNode',
+        url: '/marsnode',
         text: 'With a total supply of 30,000, MarsNode leverages the LMC economic model and user sociagraphs to foster Web3 interactions, enhancing point-to-multipoint engagement and drivingprofitability.'
     },
     {
         img: '/images/item2.png',
         num: '02',
         name: 'Stake',
+        url: '/stake',
         text: "Boost your profits with LittleMami’s easy and innovative staking, offering rewards and secure governance."
     },
     {
         img: '/images/item3.png',
         num: '03',
         name: 'LaunchPad',
+        url: '/launchpad',
         text: "Open doors to diverse earnings for users by supporting emerging projects with our extensive LaunchPad network."
     },
     {
         img: '/images/item4.png',
         num: '04',
         name: 'Loan',
+        url: '',
         text: "By holding LittleMami assets and compatible tokens, users can engage in hassle-free loan services using NFTs as collateral without the need to sell, optimizing asset utilization."
     },
 ]
 const Page2 = (props) => {
+    const router = useRouter();
     return (
         <Wrapper className="" style={{marginTop: '310px',}}>
             {page2List.map((item, index) => {
                 return (
-                    <Page2Wrapper key={item.name} className="page1wrapper">
+                    <Page2Wrapper 
+                        key={item.name} 
+                        className="page1wrapper" 
+                        style={{ cursor: item.url ? 'pointer' : 'default'}}
+                        onClick={() => {
+                            item.url && router.push(item.url)
+                        }}
+                    >
                         <div className="fx jc-start box1">
                             <span className='fz20 fw500'>/{item.num}</span>
                             <div style={{marginRight: '46px'}}>

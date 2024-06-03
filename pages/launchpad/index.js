@@ -106,7 +106,7 @@ export const Launchpad = () => {
                                         alt={`eth`}
                                     />
                                     <InProcess className='center'>
-                                        <span className='fz14 fw500 white'>IN PROCESS</span>
+                                        <span className='fz14 fw500 white'>In Progress</span>
                                     </InProcess>
                                 </BgWrapper>
                                 <div className='w100 ai-start mt36'>
