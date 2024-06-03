@@ -230,10 +230,11 @@ const Page1 = () => {
                 <div className="fx-col" style={{maxWidth: '506px'}}>
                     <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
                     <LinkWrapper className="fx-row ai-ct jc-sb mt24" onClick={() => window.open('https://x.com/Littlemamilabs', "_blank")}>
-                    {/* style={{ color: 'rgb(128,108,108)'}} */}
+                        {/* style={{ color: 'rgb(128,108,108)'}} */}
                         <span className="fz20">Contect Us</span>
                         <div className="fz20 email" style={{ opacity: 0}} >littlemamigroup@gmail.com</div>
                         {/* <Image src={arrowPink} alt="arrowPink" height={18} width={18}/> */}
+
                     </LinkWrapper>
                 </div>
             </div>

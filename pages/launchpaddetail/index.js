@@ -633,6 +633,7 @@ const LaunchpadDetail = () => {
                 </Box>
               </Box>
               <Box className='fx-col' width={['345px','345px','345px','100%','100%']} >
+
                 {LeftItem(row1Data)}
                 {LeftItem(row2Data)}
                 {LeftItem(row3Data)}
@@ -643,6 +644,7 @@ const LaunchpadDetail = () => {
               </Box>
 
             </Grid>
+
             
             <Box  display={['none','none','none','flex','flex']}>
               <Box className='fx-row ai-ct jc-sb w100' style={{ marginTop: '80px',}} >
@@ -711,6 +713,7 @@ const LaunchpadDetail = () => {
             </Box>
 
 
+
             <DepositMdoal 
               pendingPoint={_pendingPoint}
               stakedBalance={ stakedBalance }
@@ -738,6 +741,7 @@ const LaunchpadDetail = () => {
               list={refecrral} 
               open={inviteOpen} 
               handleClose={() => setInviteOpen(false)}/>
+
           </Container>
         )
       }

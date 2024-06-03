@@ -41,7 +41,6 @@ export const Container = ({children}) => {
     )
 }
 
-
 const Tab = styled(Box)`
   display: flex;
   justify-content: center;
@@ -68,13 +67,14 @@ const ConfirmButton = styled(Box)`
  
   color: rgb(255, 255, 255);
   font-family: Poppins;
-  
+
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0%;
   text-align: center;
 
   &:hover {
+
     cursor: pointer;
     background: #fff;
     color: #000;
@@ -279,10 +279,9 @@ export const ContractWrappr = styled.div`
   margin-bottom: 142px;
 
 `
+
 export const FooterWrapper = styled(Box)`
   
-
-
 `
 export const LinkWrapper = styled.div`
   margin-bottom: 22px;
@@ -391,6 +390,7 @@ export const Footer = () => {
             </Grid>
         </Box>
        
+
     )
 }
 
@@ -402,8 +402,8 @@ export const LeaderBoardModal = ({open, handleClose}) => {
     const [mount, setMount] = useState(true);
     const [more, seMore] = useState(true);
     const [page, setPage] = useState(1);
-
     const { isMobile, isTablet } = useMatchBreakpoints()
+
 
     const fetchData = async () => {
         const marsRank = await rpc.getMarsRank(page, pageSize);
@@ -508,6 +508,7 @@ export const LeaderBoardModal = ({open, handleClose}) => {
 
 
 const CopyInviteLink = styled(Box)`
+
   display: flex;
   place-content: center;
   place-items: center;
@@ -718,6 +719,7 @@ export const MarsMintCard = () => {
                     </MintButton>
                 </Box>
             </Grid>
+
         </MarsMintWrapper>
     )
 }

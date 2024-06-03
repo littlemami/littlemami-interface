@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
 import "@/styles/index.scss";
 import "animate.css";
-import '@/pages/launchpaddetail/styles/common.css'
-import '@/pages/launchpaddetail/styles/font.css'
-import '@/pages/launchpaddetail/styles/layout.css'
+import "@/pages/launchpaddetail/styles/common.css";
+import "@/pages/launchpaddetail/styles/font.css";
+import "@/pages/launchpaddetail/styles/layout.css";
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -37,7 +37,13 @@ const { chains, publicClient } = configureChains(
   [alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" })]
 );
 
-const injectedWallet = ({ chains }) => ({
+const { wallets } = getDefaultWallets({
+  appName: "Project",
+  chains,
+  projectId: "2a612b9a18e81ce3fda2f82787eb6a4a",
+});
+
+const okxWallet = ({ chains }) => ({
   id: "injected",
   name: "OKX Wallet",
   iconUrl: "https://www.okx.com/cdn/assets/imgs/226/EB771F0EE8994DD5.png",
@@ -62,19 +68,27 @@ const gateWallet = ({ chains }) => ({
     }),
   }),
 });
+
 const connectors = connectorsForWallets([
+  ...wallets,
   {
-    groupName: "Recommended",
-    wallets: [
-      gateWallet({ chains }),
-      injectedWallet({ chains }),
-      metaMaskWallet({
-        chains,
-        projectId: "2a612b9a18e81ce3fda2f82787eb6a4a",
-      }),
-    ],
+    groupName: "Other",
+    wallets: [okxWallet({ chains }), gateWallet({ chains })],
   },
 ]);
+// const connectors = connectorsForWallets([
+//   {
+//     groupName: "Recommended",
+//     wallets: [
+//       gateWallet({ chains }),
+//       injectedWallet({ chains }),
+//       metaMaskWallet({
+//         chains,
+//         projectId: "2a612b9a18e81ce3fda2f82787eb6a4a",
+//       }),
+//     ],
+//   },
+// ]);
 
 const wagmiConfig = createConfig({
   autoConnect: true,
