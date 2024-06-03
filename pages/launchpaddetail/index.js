@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, ContractBar, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
+import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -220,7 +220,7 @@ const LaunchpadDetail = () => {
 
   const [row1Data, setRow1Data] = useState({id: 1, title: 'Daily Bonus', points: '+ 10 LMC Points', done: false, countdown: 0 })
   const [row2Data, setRow2Data] = useState({ id: 2, title: 'Invite More Members', points: '+ 300 LMC Points', done: false, countdown: 0 })
-  const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X Acconut', points: '+ 300 LMC Points', done: false, countdown: 0 })
+  const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn Points', done: false, countdown: 0 })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
@@ -301,22 +301,25 @@ const LaunchpadDetail = () => {
   const fetchRightData = async() => {
     setLoading(true)
     const res = await rpc.getUser(address)
-    console.log('useruser', res)
+    console.log('useruser', res) 
     if(res) {
       const { dailyCheckedIn,//是否每日已签到
+              dailyCheckIn,
               marsX,//是否点了推特
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
               marsRefecrral,
-              id
+              id,
+              marsUniswap
             } = res
       setInviteUserId(id)
       setRank(marsRank)
       setPoints(marsScore)
-      setRow1Data((q) => ({ ...q, done: dailyCheckedIn }))
+      setRow1Data((q) => ({ ...q, done: dailyCheckedIn, countdown: Number(dailyCheckIn) + ONE_DAY }))
       setRow3Data((q) => ({ ...q, done: marsX }))
       setRow4Data((q) => ({ ...q, done: marsTelegram }))
+      setRow7Data((q) => ({ ...q, done: marsUniswap }))
       setRefecrral(marsRefecrral || [])
     }
     setLoading(false)
@@ -500,10 +503,10 @@ const LaunchpadDetail = () => {
 
   const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
   const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
-  console.log('pendingPoint', pendingPoint)
-  console.log('_pendingPoint', _pendingPoint)
-  console.log('stakedBalance', stakedBalance)
-  console.log('_LMCBalance', _LMCBalance)
+  // console.log('pendingPoint', pendingPoint)
+  // console.log('_pendingPoint', _pendingPoint)
+  // console.log('stakedBalance', stakedBalance)
+  // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
     if(idx === 0) {
       setDefaultInputValue(_LMCBalance)
@@ -540,15 +543,14 @@ const LaunchpadDetail = () => {
 
 
   const LeftItem = (data) => {
-  
     return (
       <RightItem className='fx-row ai-ct' padding={['18px 24px','18px 24px','18px 24px','40px 38px','40px 38px']} isDone={data.done} style={{ marginTop: data.id  > 1 ? '26px' : 0 }} > 
           <Box className='fx-col'>
             <Text className='white fw400 ' fontSize={['14px','14px','14px','18px','18px']}>{data.title}</Text>
             <Box display={['flex','flex','flex','none','none']} marginTop="5px">
               {
-                data.countdown > 0 ?
-                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                Number(data.countdown) > 0 ?
+                <LeftTimeWrapper stamp={Number(data.countdown)} reset={() => onResetStamp(data.id)}/> : 
                 <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
               }
             </Box>
@@ -556,8 +558,8 @@ const LaunchpadDetail = () => {
           <div className='fx-row ai-ct'>
           <Box display={['none','none','none','flex','flex']}>
               {
-                data.countdown > 0 ?
-                <LeftTimeWrapper stamp={data.countdown} reset={() => onResetStamp(data.id)}/> : 
+                Number(data.countdown) > 0 ?
+                <LeftTimeWrapper stamp={Number(data.countdown)} reset={() => onResetStamp(data.id)}/> : 
                 <Text className='fw400 color1 ' fontSize={['14px','14px','14px','18px','18px']}>{data.points}</Text> 
               }
             </Box>
@@ -575,8 +577,8 @@ const LaunchpadDetail = () => {
                   <>
                     {
                       data.points === 'Upcoming' ? null :
-                      <GoButton stamp={data.countdown} onClick={
-                        data.countdown > 0 ? () => null :
+                      <GoButton stamp={Number(data.countdown)} onClick={
+                        Number(data.countdown) > 0 ? () => null :
                         () => handleRightItem(data)}>Go</GoButton>
                     }
                   </>
@@ -606,29 +608,32 @@ const LaunchpadDetail = () => {
               />
               <span className='white fw400 fz18 ml12'>Back</span>
             </div>
-            <Grid className='' marginTop={['30px','30px','30px','60px','60px']} gridTemplateColumns={['303px','303px','303px','9fr 14fr','9fr 14fr']} gridGap={['36px']}>
-              <Box className='fx-col'>
-                <LeftCard 
-                   height={['370px','370px','370px','870px','870px']}
-                   padding={['48px','48px','48px','126px','126px']}
-                 
-                  className={
-                  `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
-                  after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
-                  after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
-                  `
-                  } >
-                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']} style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</Text>
-                    <Text className="white fw400 " fontSize={['28px','28px','28px','64px','64px']}>{points || 0}</Text>
-                    <LinearBg marginTop={['14px','14px','14px','34px','34px']} marginBottom={['14px','14px','14px','34px','34px']}/>
-                    <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']}>Rank</Text>
-                    <Text className="white fw400 mt10" fontSize={['28px','28px','28px','42px','42px']}>#{rank || 0}</Text>
-                    <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
-                      LeaderBoard
-                    </LeaderBoardButton>
-                  </LeftCard>
+            <Grid className='' marginTop={['30px','30px','30px','60px','60px']} gridTemplateColumns={['345px','345px','345px','9fr 14fr','9fr 14fr']} gridGap={['36px']}>
+              <Box className='w100 center'>
+                <Box className='fx-col '>
+                  <LeftCard 
+                    height={['370px','370px','370px','870px','870px']}
+                    padding={['48px','48px','48px','126px','126px']}
+                  
+                    className={
+                    `fx-col ai-ct relative after:block after:absolute after:-bottom-[4px] 
+                    after:left-[50%] after:-translate-x-[50%] after:w-[60%] after:h-[4px] after:rounded-[0_0_4px_4px] 
+                    after:shadow-[0px_2px_10px_0px_#9C21FDF5] 
+                    `
+                    } >
+                      <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']} style={{ whiteSpace: 'nowrap'}}>YOUR POINTS</Text>
+                      <Text className="white fw400 " fontSize={['28px','28px','28px','64px','64px']}>{points || 0}</Text>
+                      <LinearBg marginTop={['14px','14px','14px','34px','34px']} marginBottom={['14px','14px','14px','34px','34px']}/>
+                      <Text className="color1 fw400" fontSize={['18px','18px','18px','22px','22px']}>Rank</Text>
+                      <Text className="white fw400 mt10" fontSize={['28px','28px','28px','42px','42px']}>#{rank || 0}</Text>
+                      <LeaderBoardButton className='' onClick={() => setLeaderBoardOpen(true)}>
+                        LeaderBoard
+                      </LeaderBoardButton>
+                    </LeftCard>
+                </Box>
               </Box>
-              <Box className='fx-col' width={['345px','345px','345px','100%','100%']} marginLeft={['-21px','-21px','-21px','0px','0px']}>
+              <Box className='fx-col' width={['345px','345px','345px','100%','100%']} >
+
                 {LeftItem(row1Data)}
                 {LeftItem(row2Data)}
                 {LeftItem(row3Data)}
@@ -641,38 +646,72 @@ const LaunchpadDetail = () => {
             </Grid>
 
             
+            <Box  display={['none','none','none','flex','flex']}>
+              <Box className='fx-row ai-ct jc-sb w100' style={{ marginTop: '80px',}} >
+                {
+                  NFTList.map((item,idx) => (
+                    <Col 
+                      className='center mb26 relative'
+                      key={item.id} 
+                      onMouseOver={() => setActiveNFTIdx(idx)}
+                      onMouseLeave={() => setActiveNFTIdx(-1)}
+                      >
+                      <Image
+                        src={item.url}
+                        width={300}
+                        height={300}
+                        alt={item.id}
+                      />
+                      {
+                        activeNFTIdx === idx && 
+                        <NFTMask>
+                          <p className='fz18 fw400 white'>{item.name}</p>
+                          <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                          <PriceBg className='center'>
+                            <span className='fz14 fw500 black'>{item.price}</span>
+                          </PriceBg>
+                        </NFTMask>
+                      }
+                    </Col>
+                  
+                  ))
+                }
+              </Box>
+            </Box>
 
+            <Box display={['flex','flex','flex','none','none' ]} className=''>
+              <Box className='fx-col ai-ct' style={{ marginTop: '80px',}} width="345px">
+                {
+                  NFTList.map((item,idx) => (
+                    <Col 
+                      className='center mb26 relative'
+                      key={item.id} 
+                      onMouseOver={() => setActiveNFTIdx(idx)}
+                      onMouseLeave={() => setActiveNFTIdx(-1)}
+                      >
+                      <Image
+                        src={item.url}
+                        width={300}
+                        height={300}
+                        alt={item.id}
+                      />
+                      {
+                        activeNFTIdx === idx && 
+                        <NFTMask>
+                          <p className='fz18 fw400 white'>{item.name}</p>
+                          <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
+                          <PriceBg className='center'>
+                            <span className='fz14 fw500 black'>{item.price}</span>
+                          </PriceBg>
+                        </NFTMask>
+                      }
+                    </Col>
+                  
+                  ))
+                }
+              </Box>
+            </Box>
 
-            <Row className='fx-row ai-ct jc-sb ' style={{ marginTop: '80px',}}>
-              {
-                NFTList.map((item,idx) => (
-                  <Col 
-                    className='center mb26 relative'
-                    key={item.id} 
-                    onMouseOver={() => setActiveNFTIdx(idx)}
-                    onMouseLeave={() => setActiveNFTIdx(-1)}
-                    >
-                    <Image
-                      src={item.url}
-                      width={300}
-                      height={300}
-                      alt={item.id}
-                    />
-                    {
-                      activeNFTIdx === idx && 
-                      <NFTMask>
-                        <p className='fz18 fw400 white'>{item.name}</p>
-                        <p className='fz20 fw500 white' style={{ marginTop: '157px'}}>{item.value}</p>
-                        <PriceBg className='center'>
-                          <span className='fz14 fw500 black'>{item.price}</span>
-                        </PriceBg>
-                      </NFTMask>
-                    }
-                  </Col>
-                
-                ))
-              }
-            </Row>
 
 
             <DepositMdoal 
@@ -697,7 +736,12 @@ const LaunchpadDetail = () => {
               defaultInputValue={defaultInputValue}
             />
             <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
-            <InviteModal userId={inviteUserId} list={refecrral} open={inviteOpen} handleClose={() => setInviteOpen(false)}/>
+            <InviteModal 
+              userId={inviteUserId} 
+              list={refecrral} 
+              open={inviteOpen} 
+              handleClose={() => setInviteOpen(false)}/>
+
           </Container>
         )
       }
@@ -708,7 +752,6 @@ const LaunchpadDetail = () => {
           </Container>
         )
       }
-      <ContractBar/>
     </div>
   );
 };

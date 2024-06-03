@@ -191,10 +191,10 @@ const Ranklist = () => {
                     >
                       {data2?.marsRank?.map((item, index) => {
                         return (
-                          <div className="item" key={index}>
-                            <p> {index + 1}</p>
-                            <strong>{item.address}</strong>
-                            <p> {item.score}</p>
+                          <div className="item" key={index} style={{ overflowX: 'hidden'}}>
+                            <p className="" > {index + 1}</p>
+                            <p className="" style={{ textAlign:'left', width: '470px', color: 'rgb(3,177,210)'}}>{item.address}</p>
+                            <p className="" > {item.score}</p>
                           </div>
                         );
                       })}

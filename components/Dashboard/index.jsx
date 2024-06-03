@@ -1,13 +1,17 @@
 import {useEffect, useState, useRef} from "react";
 import {styled} from 'styled-components'
 import Image from "next/image";
-import {ContractBar,} from '@/components/LaunchpadLayout'
 import * as echarts from 'echarts'
 import MarsActive from '@/public/images/marsActive.png'
 import LMC from '@/public/images/LMC.png'
 import arrowPink from '@/public/images/arrow_pink.png'
 import { DashboardMobile } from './DashboardMobile'
 import { Col, Row } from 'antd'
+import Box from '@/components/LaunchpadLayout/Box'
+import Grid from '@/components/LaunchpadLayout/Grid'
+import Text from '@/components/LaunchpadLayout/Text'
+import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
+import {useRouter} from "next/router";
 const Wrapper = styled.div`
   max-width: 1056px;
   margin-top: 182px;
@@ -29,7 +33,9 @@ const LinkWrapper = styled.div`
     background-color: #C55FDB;
     opacity: 0;
   }
-
+  &:hover .email {
+    animation: emailAnimation 1.5s linear !important;
+  }
   &:hover > span,&:hover > img {
     animation: colorChange 1s linear, moveAnimation 1.5s linear !important; 
  }
@@ -146,38 +152,51 @@ export const PieOption = {
         }
     ]
 }
+
 const page2List = [
     {
         img: '/images/item1.png',
         num: '01',
         name: 'MarsNode',
+        url: '/marsnode',
         text: 'With a total supply of 30,000, MarsNode leverages the LMC economic model and user sociagraphs to foster Web3 interactions, enhancing point-to-multipoint engagement and drivingprofitability.'
     },
     {
         img: '/images/item2.png',
         num: '02',
         name: 'Stake',
+        url: '/stake',
         text: "Boost your profits with LittleMami’s easy and innovative staking, offering rewards and secure governance."
     },
     {
         img: '/images/item3.png',
         num: '03',
         name: 'LaunchPad',
+        url: '/launchpad',
         text: "Open doors to diverse earnings for users by supporting emerging projects with our extensive LaunchPad network."
     },
     {
         img: '/images/item4.png',
         num: '04',
         name: 'Loan',
+        url: '',
         text: "By holding LittleMami assets and compatible tokens, users can engage in hassle-free loan services using NFTs as collateral without the need to sell, optimizing asset utilization."
     },
 ]
 const Page2 = (props) => {
+    const router = useRouter();
     return (
         <Wrapper className="" style={{marginTop: '310px',}}>
             {page2List.map((item, index) => {
                 return (
-                    <Page2Wrapper key={item.name} className="page1wrapper">
+                    <Page2Wrapper 
+                        key={item.name} 
+                        className="page1wrapper" 
+                        style={{ cursor: item.url ? 'pointer' : 'default'}}
+                        onClick={() => {
+                            item.url && router.push(item.url)
+                        }}
+                    >
                         <div className="fx jc-start box1">
                             <span className='fz20 fw500'>/{item.num}</span>
                             <div style={{marginRight: '46px'}}>
@@ -211,8 +230,11 @@ const Page1 = () => {
                 <div className="fx-col" style={{maxWidth: '506px'}}>
                     <span className="fz18 white3">A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</span>
                     <LinkWrapper className="fx-row ai-ct jc-sb mt24" onClick={() => window.open('https://x.com/Littlemamilabs', "_blank")}>
+                        {/* style={{ color: 'rgb(128,108,108)'}} */}
                         <span className="fz20">Contect Us</span>
-                        <Image src={arrowPink} alt="arrowPink" height={18} width={18}/>
+                        <div className="fz20 email" style={{ opacity: 0}} >littlemamigroup@gmail.com</div>
+                        {/* <Image src={arrowPink} alt="arrowPink" height={18} width={18}/> */}
+
                     </LinkWrapper>
                 </div>
             </div>
@@ -317,7 +339,7 @@ const Dashboard = (props) => {
 
     return (
         <Col>
-            <Col className="w100" xs={0} sm={0} md={24} lg={24} xl={24}>
+            <Col className="w100" xs={0} sm={0} md={0} lg={24} xl={24} >
                 <div className="center w100">
                     <Wrapper className=" w100">
                         <Page1/>
@@ -325,12 +347,9 @@ const Dashboard = (props) => {
                 </div>
                 <Page2/>
                 <Page3/>
-                <div style={{marginTop: '140px'}}>
-                    <ContractBar/>
-                </div>
             </Col>
            
-            <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+            <Col xs={24} sm={24} md={24} lg={0} xl={0}> 
                 <DashboardMobile/>
             </Col>
 
