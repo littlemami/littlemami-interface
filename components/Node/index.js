@@ -167,10 +167,12 @@ const Node = ({ ...props }) => {
   };
 
   const price =
-    tokenPrice && (tokenPrice / 10n ** BigInt(decimals || 0))?.toString();
+    tokenPrice &&
+    (BigInt(tokenPrice) / 10n ** BigInt(decimals || 0))?.toString();
 
   const balance =
-    tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString();
+    tokenBalance &&
+    (BigInt(tokenBalance) / 10n ** BigInt(decimals || 0))?.toString();
 
   let showApprove;
   if (allowance < Number(data?.amount) * 10 ** Number(decimals) && phase != 0) {
