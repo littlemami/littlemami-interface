@@ -166,13 +166,25 @@ const Node = ({ ...props }) => {
     },
   };
 
+  function bigIntPow(base, exponent) {
+    let result = 1n;
+    for (let i = 0n; i < exponent; i++) {
+      result *= base;
+    }
+    return result;
+  }
+
+  console.log(tokenPrice, decimals);
+
   const price =
     tokenPrice &&
-    (BigInt(tokenPrice) / 10n ** BigInt(decimals || 0))?.toString();
+    (
+      BigInt(tokenPrice || 0) / bigIntPow(10n, BigInt(decimals || 0))
+    ).toString();
 
   const balance =
     tokenBalance &&
-    (BigInt(tokenBalance) / 10n ** BigInt(decimals || 0))?.toString();
+    (tokenBalance / bigIntPow(10n, BigInt(decimals || 0))).toString();
 
   let showApprove;
   if (allowance < Number(data?.amount) * 10 ** Number(decimals) && phase != 0) {
