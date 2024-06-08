@@ -50,10 +50,17 @@ const UserInfo = () => {
 
   const tokenBalance = read1?.[0]?.result;
   const decimals = read1?.[1]?.result;
-
+  function bigIntPow(base, exponent) {
+    let result = 1n;
+    for (let i = 0n; i < exponent; i++) {
+      result *= base;
+    }
+    return result;
+  }
   useEffect(() => {
     setBalance(
-      tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString()
+      tokenBalance &&
+        (tokenBalance / bigIntPow(10n, BigInt(decimals || 0)))?.toString()
     );
   }, [decimals, tokenBalance]);
 
