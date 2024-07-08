@@ -4,11 +4,13 @@ import {Footer} from "../LaunchpadLayout"
 
 const Layout = ({ children }) => {
   return (
-    <main className="main-box m-auto">
+    <div>
       <Navbar />
-      {children}
-      <Footer/>
-    </main>
+      <main className="main-box m-auto">
+        {children}
+        <Footer/>
+      </main>
+    </div>
   );
 };
 
