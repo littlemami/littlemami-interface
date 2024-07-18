@@ -26,6 +26,7 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
+import { GoButton } from '@/pages/launchpaddetail';
 
 const splitAddress = (addr) => {
     const start = addr.substring(0, 6)
@@ -724,3 +725,59 @@ export const MarsMintCard = () => {
     )
 }
 
+
+
+export const XModal = ({  open, handleClose }) => {
+
+    const { isMobile, isTablet } = useMatchBreakpoints()
+    
+    return (
+      <Modal
+        centered
+        open={open}
+        onOk={handleClose}
+        onCancel={handleClose}
+        footer={null}
+        height={247}
+        width={isMobile || isTablet ? '100%' : 975}
+        wrapClassName={isMobile || isTablet ? 'cur-modal-box-deposit-mobile' : 'cur-modal-box-deposit'}
+        classNames={{mask: "cur-modal-mask"}}
+      > 
+        <div className='w100 center'>
+            <span className='fz28 fw600 white'>More Points (1/1)</span>
+        </div>
+        <div className='fx-row ai-ct jc-sb' style={{ marginTop: '55px'}}>
+            <span className='fz18 white' >Post Twitter</span>
+            <span className='fz18' style={{ color: 'rgba(185, 174, 255, 1)'}}>+100 LMC Points</span>
+            <GoButton
+                onClick={(e) => {
+                const text = encodeURIComponent(
+                `@WeAreMARS_ Airdrop Task System is now live!
+Join the fun, collect LMC points, and secure your #MARS airdrops.
+Keep an eye on the daily leaderboard to track your progress.
+Seize this amazing chance today! https://www.marsprotocol.org/
+                `);
+                const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
+                window.open(tweetUrl, "_blank");
+                }}
+            >
+                Go
+            </GoButton>
+        </div>  
+        <div style={{
+           
+            marginTop: '24px',
+            width: '788px',
+            height: '0.8px',
+            border: '0.8px solid',
+            borderImageSource: 'linear-gradient(90deg, rgba(73, 68, 193, 0.48) 0%, rgba(134, 104, 255, 0.64) 48.5%, rgba(73, 68, 193, 0.48) 100%)',
+            borderImageSlice: 1,
+            borderImageOutset: '0.4px'
+
+              
+        }}/>
+       
+
+      </Modal>
+    );
+};

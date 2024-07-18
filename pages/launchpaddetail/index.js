@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState} from 'react'
-import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard} from '@/components/LaunchpadLayout'
+import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard, XModal} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
 import checkIcon from '@/public/images/check_icon.png'
@@ -76,7 +76,7 @@ const RightItem = styled(Box)`
   justify-content: space-between
 
 `
-const GoButton = styled.div`
+export const GoButton = styled.div`
   border: 1px solid rgb(76, 48, 135);
   border-radius: 15px;
   backdrop-filter: blur(32.17px);
@@ -220,7 +220,7 @@ const LaunchpadDetail = () => {
 
   const [row1Data, setRow1Data] = useState({id: 1, title: 'Daily Bonus', points: '+ 10 LMC Points', done: false, countdown: 0 })
   const [row2Data, setRow2Data] = useState({ id: 2, title: 'Invite More Members', points: '+ 300 LMC Points', done: false, countdown: 0 })
-  const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X', points: '+ 300 LMC Points', done: false, countdown: 0 })
+  const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X', points: '+ 300 LMC Points', done: false, countdown: 0, clickable: true })
   const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn LMC Points', done: false, countdown: 0 })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
@@ -232,6 +232,8 @@ const LaunchpadDetail = () => {
   const [depositAmount, setDepositAmount] = useState(0)
   const [withdrawAmount, setWithdrawAmount] = useState(0)
   const [refecrral, setRefecrral] = useState([])
+
+  const [xVisible,setXVisible] = useState(false)
 
   
 
@@ -566,7 +568,7 @@ const LaunchpadDetail = () => {
             <>
               {
               data.done ? 
-                <DoneButton >
+                <DoneButton onClick={data.clickable ? () => setXVisible(true) : () => null}>
                   <Image
                     src={checkIcon}
                     width={15}
@@ -741,7 +743,10 @@ const LaunchpadDetail = () => {
               list={refecrral} 
               open={inviteOpen} 
               handleClose={() => setInviteOpen(false)}/>
-
+            <XModal
+              open={xVisible}
+              handleClose={() => setXVisible(false)}
+            />
           </Container>
         )
       }

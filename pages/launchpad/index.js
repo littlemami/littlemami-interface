@@ -113,7 +113,7 @@ export const Launchpad = () => {
                                     <span className=' white fz24 fw500'>MARS Airdrop</span>
                                     <div className='fx-row ai-ct jc-sb mt36'>
                                         <span className=' white fz16 fw500'>Start Time</span>
-                                        <span className=' white fz16 fw500'>01/01/2024 12pm UTC</span>
+                                        <span className=' white fz16 fw500'>07/20/2024</span>
                                     </div>
                                 </div>
                             </AirdropWrapper>
