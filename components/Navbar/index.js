@@ -74,13 +74,11 @@ export default function Example() {
 
   return (
 
-      <Disclosure as="nav" className=''>
+      <Disclosure as="nav" className=' '>
         {({ open }) => (
           <>
-            <div className="mx-auto sm:px-6">
-              <div
-                className={`relative z-50 flex items-center justify-between nav-bar-box ${styles["nav-box"]}`}
-              >
+            <Box className="" paddingLeft={['5%','5%','5%','5%','0',]} paddingRight={['5%','5%','5%','5%','0',]} >
+              <div className={`relative z-50 flex items-center justify-between nav-bar-box ${styles["nav-box"]}`}>
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden "  onClick={() => setOpen(true)}>
                     <div className="ml36 mt22">
                       <Image src="/images/menu.png" height={20} width={16} alt="menu" className=""/>
@@ -113,7 +111,7 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <FinanceWrapper className="click ml24 ai-ct pt18" display={['none','none','block','block','block']}>
+                  <FinanceWrapper className="click ml24 ai-ct pt24" display={['none','none','block','block','block']}>
                     <div className="fx-row ai-ct ">
                       <span>Finance</span>
                       <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
@@ -153,7 +151,7 @@ export default function Example() {
                 </div>
 
               </div>
-            </div>
+            </Box>
 
 
             <Drawer

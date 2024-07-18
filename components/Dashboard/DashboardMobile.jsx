@@ -190,7 +190,7 @@ export const DashboardMobile = () => {
                     <Image src={Linear1} height={2} width={84} alt="Linear1" style={{ marginTop: '-5px'}}/>
                     <p className="white fz12 mt34" style={{ maxWidth: '324px',opacity: 0.8, textAlign: 'center' }}>A DEX launchpad that establishes a diverse web3 protocol tailored to user scenarios by integrating DeFi and lending functionalities.</p>
                     <div className="fx-row ai-ct mt42">
-                        <p className="fz14 white mr24">Contect Us</p>
+                        <p className="fz14 white mr24">CONTACT US</p>
 
                         <p className="fz14 white">littlemamigroup@gmail.com</p>
                         {/* <Image src={arrowPink} alt="arrowPink" height={12} width={12} className="mr20"/> */}

@@ -222,7 +222,7 @@ const LaunchpadDetail = () => {
   const [row2Data, setRow2Data] = useState({ id: 2, title: 'Invite More Members', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
-  const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn Points', done: false, countdown: 0 })
+  const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn LMC Points', done: false, countdown: 0 })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
   const [row7Data, setRow7Data] = useState({ id: 7, title: 'Get LMC on Uniswap', points: '+ 600 LMC Points', done: false, countdown: 0 })
 
@@ -516,7 +516,7 @@ const LaunchpadDetail = () => {
   }
 
   useEffect(() => {
-    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${ Math.floor(_pendingPoint * 100) / 100} Points` : 'Earn Points' }))
+    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${ Math.floor(_pendingPoint * 100) / 100} Points` : 'Earn LMC Points' }))
   },[_pendingPoint])
 
   const onResetStamp = (id) => {
