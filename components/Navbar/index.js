@@ -102,7 +102,7 @@ export default function Example() {
                         }
                       }}
                     >
-                      <div className={`hidden sm:block ${styles["logo"]}`}>
+                      <div className={` hidden sm:block ${styles["logo"]}`}>
                         <Image
                           src="/images/logo.png"
                           alt="Littlemami"
@@ -119,7 +119,7 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <FinanceWrapper className="click ml24 ai-ct pt24" display={['none','none','block','block','block']}>
+                  <FinanceWrapper className="click ml24 ai-ct pt14" display={['none','none','block','block','block']}>
                     <div className="fx-row ai-ct ">
                       <span>{currentPath}</span>
                       <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
