@@ -615,8 +615,8 @@ const LaunchpadDetail = () => {
           <Invite toPath="/launchpaddetail"/>:
           <div className=''>
             <div className="fx-row w100 center mt36">
-              <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MARSAirdrop</Tabs>
-              <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>MARSMint</Tabs>
+              <Tabs active={activeIdx === 0} onClick={() => setActiveIdx(0)}>MARS Airdrop</Tabs>
+              <Tabs className="ml30" active={activeIdx === 1} onClick={() => setActiveIdx(1)}>MARS Mint</Tabs>
             </div>
             {
               activeIdx === 0 && (

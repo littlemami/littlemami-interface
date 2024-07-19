@@ -92,8 +92,8 @@ export default function Example() {
                       <Image src="/images/menu.png" height={20} width={16} alt="menu" className=""/>
                     </div>
                 </div>
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex flex-shrink-0 items-center">
+                <div className=" flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                  <div className=" flex flex-shrink-0 items-center">
                     <div
                       className="cursor-pointer"
                       onClick={() => {
@@ -119,8 +119,8 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <FinanceWrapper className="click ml24 ai-ct pt14" display={['none','none','block','block','block']}>
-                    <div className="fx-row ai-ct ">
+                  <FinanceWrapper className=" click ml24 " display={['none','none','block','block','block']}>
+                    <div className="h100 center">
                       <span>{currentPath}</span>
                       <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
                     </div>

@@ -110,7 +110,7 @@ export const Launchpad = () => {
                                     </InProcess>
                                 </BgWrapper>
                                 <div className='w100 ai-start mt36'>
-                                    <span className=' white fz24 fw500'>MARS Airdrop</span>
+                                    <span className=' white fz24 fw500'>MARS Odyssey Hub</span>
                                     <div className='fx-row ai-ct jc-sb mt36'>
                                         <span className=' white fz16 fw500'>Start Time</span>
                                         <span className=' white fz16 fw500'>07/20/2024</span>

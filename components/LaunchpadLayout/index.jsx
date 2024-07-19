@@ -697,23 +697,23 @@ export const MarsMintCard = () => {
             borderRadius={['12px','12px','12px','40px','40px',]}
         >
             <Grid gridGap={['0px','0px','0px','66px','66px']} className='fx-row' gridTemplateColumns={['1fr','1fr','1fr','4.1fr 3fr','4.1fr 3fr',]}>
-                <Image
+                {/* <Image
                     src={MarsMintBg}
                     width={417}
                     height={535}
                     alt="MarsMintBg"
-                />
+                /> */}
     {/* MarsMintVideo */}
-                {/* <video width="417" height="535" controls preload="none">
-                    <source src="../../public/images/mars_mint_video.mp4" type="video/mp4" />
-                    <track
-                        src="/path/to/captions.vtt"
-                        kind="subtitles"
-                        srcLang="en"
-                        label="English"
-                    />
-                    Your browser does not support the video tag.
-                </video> */}
+                
+                    <video
+                        width={417}
+                        height={535}
+                        autoPlay
+                        loop preload="none"
+                        src="/mars_mint_ideo.mp4" >
+                        
+                    </video>
+             
 
                 <Box className='fx-col'  >
                     <Text className=' white fw700 mt46' fontSize={['32px','32px','32px','58px','58px']}>MARS MINT</Text>

@@ -7,7 +7,7 @@ import { styled } from 'styled-components'
 import { LeaderBoardModal } from '@/components/LaunchpadLayout'
 
 export const Tabs = styled.div`
-  width: 142px;
+  width: 168px;
   height: 40px;
   display: inline-flex;
   place-content: center;
@@ -19,6 +19,7 @@ export const Tabs = styled.div`
   font-size: 16px;
   color: ${(props) => props.active ? '#fff' : 'rgb(182, 182, 182)'};
   cursor: pointer;
+
 
 `
 
