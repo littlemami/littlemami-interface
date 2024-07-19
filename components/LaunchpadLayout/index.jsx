@@ -5,6 +5,7 @@ import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
 import Mars from '@/public/images/mars.png'
 import MarsMintBg from '@/public/images/mars_mint.png'
+
 import MarsActive from '@/public/images/marsActive.png'
 import X from '@/public/images/x.png'
 import XActive from '@/public/images/xActive.png'
@@ -702,6 +703,18 @@ export const MarsMintCard = () => {
                     height={535}
                     alt="MarsMintBg"
                 />
+    {/* MarsMintVideo */}
+                {/* <video width="417" height="535" controls preload="none">
+                    <source src="../../public/images/mars_mint_video.mp4" type="video/mp4" />
+                    <track
+                        src="/path/to/captions.vtt"
+                        kind="subtitles"
+                        srcLang="en"
+                        label="English"
+                    />
+                    Your browser does not support the video tag.
+                </video> */}
+
                 <Box className='fx-col'  >
                     <Text className=' white fw700 mt46' fontSize={['32px','32px','32px','58px','58px']}>MARS MINT</Text>
                     <Text className='lilac' mt={['12px','12px','12px','26px','26px']}  fontSize={['20px','20px','20px','24px','24px']}>0/100</Text>
@@ -752,7 +765,7 @@ export const XModal = ({  open, handleClose }) => {
             <GoButton
                 onClick={(e) => {
                 const text = encodeURIComponent(
-                `@WeAreMARS_ Airdrop Task System is now live!
+                `@WeAreMARS_ Odyssey Hub is now live!
 Join the fun, collect LMC points, and secure your #MARS airdrops.
 Keep an eye on the daily leaderboard to track your progress.
 Seize this amazing chance today! https://www.marsprotocol.org/
