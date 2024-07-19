@@ -243,6 +243,7 @@ const Page1 = () => {
                         {/* style={{ color: 'rgb(128,108,108)'}} */}
                         <span className="fz20">CONTACT US</span>
                         <Email className="fz20 email" >littlemamigroup@gmail.com</Email>
+
                         {/* <Image src={arrowPink} alt="arrowPink" height={18} width={18}/> */}
 
                     </LinkWrapper>
