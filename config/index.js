@@ -16,6 +16,10 @@ export const contract = {
       address: "0xAE40f6acA75Fe3A80932c301b4022D2dFA0d4f6A",
       abi: stakeABI,
     },
+    mars: {
+      address: "0x3Cd275B60644caDF7C5D428c4A0d2771a2be7ebD",
+      abi: marsABI,
+    },
   },
   11155111: {
     node: {
