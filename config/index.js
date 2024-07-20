@@ -2,9 +2,9 @@ import nodeABI from "@/abi/NodeABI.json";
 import stakeABI from "@/abi/StakeABI.json";
 import marsABI from "@/abi/MarsABI.json";
 
-// export const rpcUrl = "https://api.littlemami.io/";
+export const rpcUrl = "https://api.littlemami.io/";
 //test
-export const rpcUrl = "https://test-api.littlemami.io/";
+// export const rpcUrl = "https://test-api.littlemami.io/";
 
 export const contract = {
   1: {
