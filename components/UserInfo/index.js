@@ -50,10 +50,17 @@ const UserInfo = () => {
 
   const tokenBalance = read1?.[0]?.result;
   const decimals = read1?.[1]?.result;
-
+  function bigIntPow(base, exponent) {
+    let result = 1n;
+    for (let i = 0n; i < exponent; i++) {
+      result *= base;
+    }
+    return result;
+  }
   useEffect(() => {
     setBalance(
-      tokenBalance && (tokenBalance / 10n ** BigInt(decimals || 0))?.toString()
+      tokenBalance &&
+        (tokenBalance / bigIntPow(10n, BigInt(decimals || 0)))?.toString()
     );
   }, [decimals, tokenBalance]);
 
@@ -63,7 +70,7 @@ const UserInfo = () => {
       <div style={{ position: "relative", zIndex: 999 }}>
         {address ? (
           <div className={styles["connected"]}>
-            <div>{balance || 0} USDT</div>
+            <div>{balance || 0} LMC</div>
             <div onClick={() => setOpen((pre) => !pre)}>
               <Head width={"1.25rem"} />
               {address?.slice(0, 4)}...{address?.slice(-4)}

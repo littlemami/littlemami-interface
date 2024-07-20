@@ -20,12 +20,23 @@ const Invite = (props) => {
 
       if (res?.error) {
         setData({ ...data, error: res.error });
+        console.log("res.error", res.error)
+        if(res.error === 'User already register') {
+          window.location.reload();
+        }
       } else {
-        router.push({
-          pathname: "/",
-          query: {},
-        });
-        window.location.reload();
+        if(props.toPath) {
+          router.push({
+            pathname: props.toPath,
+            query: {},
+          });
+        }else {
+          router.push({
+            pathname: "/",
+            query: {},
+          });
+          window.location.reload();
+        }
       }
     },
   };
