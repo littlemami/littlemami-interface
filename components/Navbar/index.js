@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -71,7 +71,15 @@ function classNames(...classes) {
 export default function Example() {
   const router = useRouter();
   const [isOpen, setOpen] = useState(false)
+  const [currentPath, setCurrentPath] = useState('Finance')
 
+
+  useEffect(() => {
+    if(router.pathname === '/') {
+      setCurrentPath('Finance')
+    }
+  },[router.pathname])
+  
   return (
 
       <Disclosure as="nav" className=' '>
@@ -84,8 +92,8 @@ export default function Example() {
                       <Image src="/images/menu.png" height={20} width={16} alt="menu" className=""/>
                     </div>
                 </div>
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex flex-shrink-0 items-center">
+                <div className=" flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                  <div className=" flex flex-shrink-0 items-center">
                     <div
                       className="cursor-pointer"
                       onClick={() => {
@@ -94,7 +102,7 @@ export default function Example() {
                         }
                       }}
                     >
-                      <div className={`hidden sm:block ${styles["logo"]}`}>
+                      <div className={` hidden sm:block ${styles["logo"]}`}>
                         <Image
                           src="/images/logo.png"
                           alt="Littlemami"
@@ -111,9 +119,9 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-                  <FinanceWrapper className="click ml24 ai-ct pt24" display={['none','none','block','block','block']}>
-                    <div className="fx-row ai-ct ">
-                      <span>Finance</span>
+                  <FinanceWrapper className=" click ml24 " display={['none','none','block','block','block']}>
+                    <div className="h100 center">
+                      <span>{currentPath}</span>
                       <Image src="/images/group.png" width={16} height={8} style={{marginLeft:"10px",width:'16px',height:'8px'}} alt="" />
                     </div>
                     <SelectWrapper className="selectBox" >
@@ -128,12 +136,13 @@ export default function Example() {
                             )}
                             onClick={() => {
                               if (item?.disabled) return;
-                              if (
-                                  router.pathname !== item.href ||
-                                  item.name === "Stake"
-                              ) {
+                             
+                              setCurrentPath(item.name)
+                              if (router.pathname !== item.href ||item.name === "Stake") {
+                                
                                 router.push(item.href);
                               }
+
                             }}
                             aria-current={
                               router.pathname === item.href ? "page" : undefined

@@ -5,6 +5,7 @@ import Assets from '@/public/images/assets.png'
 import Earn from '@/public/images/earn.png'
 import Mars from '@/public/images/mars.png'
 import MarsMintBg from '@/public/images/mars_mint.png'
+
 import MarsActive from '@/public/images/marsActive.png'
 import X from '@/public/images/x.png'
 import XActive from '@/public/images/xActive.png'
@@ -26,6 +27,7 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
+import { GoButton } from '@/pages/launchpaddetail';
 
 const splitAddress = (addr) => {
     const start = addr.substring(0, 6)
@@ -695,12 +697,24 @@ export const MarsMintCard = () => {
             borderRadius={['12px','12px','12px','40px','40px',]}
         >
             <Grid gridGap={['0px','0px','0px','66px','66px']} className='fx-row' gridTemplateColumns={['1fr','1fr','1fr','4.1fr 3fr','4.1fr 3fr',]}>
-                <Image
+                {/* <Image
                     src={MarsMintBg}
                     width={417}
                     height={535}
                     alt="MarsMintBg"
-                />
+                /> */}
+    {/* MarsMintVideo */}
+                
+                    <video
+                        width={417}
+                        height={535}
+                        autoPlay
+                        loop preload="none"
+                        src="/mars_mint_ideo.mp4" >
+                        
+                    </video>
+             
+
                 <Box className='fx-col'  >
                     <Text className=' white fw700 mt46' fontSize={['32px','32px','32px','58px','58px']}>MARS MINT</Text>
                     <Text className='lilac' mt={['12px','12px','12px','26px','26px']}  fontSize={['20px','20px','20px','24px','24px']}>0/100</Text>
@@ -724,3 +738,59 @@ export const MarsMintCard = () => {
     )
 }
 
+
+
+export const XModal = ({  open, handleClose }) => {
+
+    const { isMobile, isTablet } = useMatchBreakpoints()
+    
+    return (
+      <Modal
+        centered
+        open={open}
+        onOk={handleClose}
+        onCancel={handleClose}
+        footer={null}
+        height={247}
+        width={isMobile || isTablet ? '100%' : 975}
+        wrapClassName={isMobile || isTablet ? 'cur-modal-box-deposit-mobile' : 'cur-modal-box-deposit'}
+        classNames={{mask: "cur-modal-mask"}}
+      > 
+        <div className='w100 center'>
+            <span className='fz28 fw600 white'>More Points (1/1)</span>
+        </div>
+        <div className='fx-row ai-ct jc-sb' style={{ marginTop: '55px'}}>
+            <span className='fz18 white' >Post Twitter</span>
+            <span className='fz18' style={{ color: 'rgba(185, 174, 255, 1)'}}>+100 LMC Points</span>
+            <GoButton
+                onClick={(e) => {
+                const text = encodeURIComponent(
+                `@WeAreMARS_ Odyssey Hub is now live!
+Join the fun, collect LMC points, and secure your #MARS airdrops.
+Keep an eye on the daily leaderboard to track your progress.
+Seize this amazing chance today! https://www.marsprotocol.org/
+                `);
+                const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
+                window.open(tweetUrl, "_blank");
+                }}
+            >
+                Go
+            </GoButton>
+        </div>  
+        <div style={{
+           
+            marginTop: '24px',
+            width: '788px',
+            height: '0.8px',
+            border: '0.8px solid',
+            borderImageSource: 'linear-gradient(90deg, rgba(73, 68, 193, 0.48) 0%, rgba(134, 104, 255, 0.64) 48.5%, rgba(73, 68, 193, 0.48) 100%)',
+            borderImageSlice: 1,
+            borderImageOutset: '0.4px'
+
+              
+        }}/>
+       
+
+      </Modal>
+    );
+};

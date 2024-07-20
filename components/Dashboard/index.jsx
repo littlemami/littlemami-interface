@@ -18,6 +18,12 @@ const Wrapper = styled.div`
 `
 const Page1Wrapper = styled.div`
 `
+const Email = styled.div`
+  opacity: 0;
+  transition: opacity 0.5s ease;
+
+`;
+
 const LinkWrapper = styled.div`
   cursor: pointer;
   position: relative;
@@ -34,8 +40,12 @@ const LinkWrapper = styled.div`
     opacity: 0;
   }
   &:hover .email {
-    animation: emailAnimation 1.5s linear !important;
+    opacity: 1;
   }
+
+//   &:hover .email {
+//     animation: emailAnimation 1.5s linear !important;
+//   }
   &:hover > span,&:hover > img {
     animation: colorChange 1s linear, moveAnimation 1.5s linear !important; 
  }
@@ -232,7 +242,8 @@ const Page1 = () => {
                     <LinkWrapper className="fx-row ai-ct jc-sb mt24" onClick={() => window.open('https://x.com/Littlemamilabs', "_blank")}>
                         {/* style={{ color: 'rgb(128,108,108)'}} */}
                         <span className="fz20">CONTACT US</span>
-                        <div className="fz20 email" style={{ opacity: 0}} >littlemamigroup@gmail.com</div>
+                        <Email className="fz20 email" >littlemamigroup@gmail.com</Email>
+
                         {/* <Image src={arrowPink} alt="arrowPink" height={18} width={18}/> */}
 
                     </LinkWrapper>
@@ -324,10 +335,10 @@ const Page3 = () => {
                                 </div>
                             </div>
                         </div>
-                        <Page3Box>
+                        {/* <Page3Box>
                             {['MARS＆MARS LP stake 250,000,000 LMC', 'Node stake 100,000,000 LMC', 'SSR LP stake 100,000,000 LMC', 'LSP LP ＆ Outer Space LP stake 150,000,000 LMC', 'Game＆Metaverse 150,000,000 LMC'].map(item =>
                                 <p className="mt12 white fz16" key={item}>{item}</p>)}
-                        </Page3Box>
+                        </Page3Box> */}
                     </div>
                 </div>
             </div>
