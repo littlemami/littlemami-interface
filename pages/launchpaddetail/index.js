@@ -317,7 +317,7 @@ const LaunchpadDetail = () => {
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
-              marsRefecrral,
+              marsReferral,
               id,
               marsUniswap,
               xRepost
@@ -331,7 +331,7 @@ const LaunchpadDetail = () => {
       setRow3Data((q) => ({ ...q, done: marsX }))
       setRow4Data((q) => ({ ...q, done: marsTelegram }))
       setRow7Data((q) => ({ ...q, done: marsUniswap }))
-      setRefecrral(marsRefecrral || [])
+      setRefecrral(marsReferral || [])
     }else {
       setXRepost(false)
       setInviteUserId('')

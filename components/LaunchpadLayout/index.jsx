@@ -256,7 +256,7 @@ export const DepositMdoal = ({
                             </>
                             :
                             <>
-                                {activeIdx === 0 ? 'Deposit' : 'Withdraw'} Now
+                                {activeIdx === 0 ? 'Approve' : 'Withdraw Now'} 
                             </>
                     }
                 </ConfirmButton>
