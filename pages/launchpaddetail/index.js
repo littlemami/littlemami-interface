@@ -204,7 +204,7 @@ const LeftTimeWrapper = (props) => {
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
-  const [depositBtnText,setDepositBtnText] = useState('Deposit Now')
+  const [depositBtnText,setDepositBtnText] = useState('Approve')
 
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
@@ -394,7 +394,6 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
-      setDepositBtnText('Deposit Now')
     },
   })
   const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
@@ -413,6 +412,7 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
+      setDepositBtnText('Approve')
     },
   })
   const { isSuccess: depositConfirmed, isLoading: depositConfirming } = useWaitForTransaction(
@@ -421,6 +421,7 @@ const LaunchpadDetail = () => {
       onError(error) {
         setModalLoading(false)
         Notify.failure(error.message);
+        setDepositBtnText('Approve')
       },
     }
   )
@@ -458,6 +459,7 @@ const LaunchpadDetail = () => {
   useEffect(() => {
     if (approveConfirmed) {
       Notify.success('Approved')
+      setDepositBtnText('Deposit Now')
       if(isDeposit) {
         onDeposit(depositAmount)
       } else {
@@ -473,6 +475,7 @@ const LaunchpadDetail = () => {
       setOpen(false)
       refetch()
       refetch3()
+      setDepositBtnText('Approve')
     }
   },[depositConfirmed])
 
@@ -499,7 +502,6 @@ const LaunchpadDetail = () => {
         args: [marsContract?.address, _amount ],    
       })    
     }else {
-      setDepositBtnText('Deposit Now')
       depositWhite({
         args: [_amount]
       })
