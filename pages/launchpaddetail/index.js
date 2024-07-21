@@ -394,6 +394,7 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
+      setDepositBtnText('Deposit Now')
     },
   })
   const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
@@ -502,6 +503,7 @@ const LaunchpadDetail = () => {
         args: [marsContract?.address, _amount ],    
       })    
     }else {
+      setDepositBtnText('Deposit Now')
       depositWhite({
         args: [_amount]
       })
