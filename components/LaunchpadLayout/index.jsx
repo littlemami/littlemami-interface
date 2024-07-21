@@ -740,7 +740,9 @@ export const MarsMintCard = () => {
 
 
 
+
 export const XModal = ({  open, handleClose, userId}) => {
+
 
     const { isMobile, isTablet } = useMatchBreakpoints()
     
