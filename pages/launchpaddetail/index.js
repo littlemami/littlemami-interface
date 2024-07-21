@@ -205,7 +205,6 @@ const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
   const [depositBtnText,setDepositBtnText] = useState('Approve')
-
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
   const [activeIdx, setActiveIdx] = useState(0)
@@ -394,6 +393,7 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
+      setDepositBtnText('Deposit Now')
     },
   })
   const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
@@ -502,6 +502,7 @@ const LaunchpadDetail = () => {
         args: [marsContract?.address, _amount ],    
       })    
     }else {
+      setDepositBtnText('Deposit Now')
       depositWhite({
         args: [_amount]
       })
