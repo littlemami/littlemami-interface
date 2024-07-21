@@ -4,6 +4,7 @@ import { contract } from "@/config";
 import LMCABI from "@/abi/LMCABI.json";
 import { useEffect, useState } from "react";
 import rpc from "@/components/Rpc";
+import Loading from "@/components/Loading/Index";
 
 async function x(address) {
   await rpc.getMarsScore("x", address);
@@ -168,7 +169,7 @@ const Mars = () => {
   }
 
   return (
-    mount && (
+    mount ?(
       <>
         <div>User Info</div>
         <div>Point {pendingPoint?.toString()}</div>
@@ -192,7 +193,7 @@ const Mars = () => {
           );
         })}
       </>
-    )
+    ):<Loading/>
   );
 };
 
