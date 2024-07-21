@@ -212,6 +212,7 @@ const LaunchpadDetail = () => {
   const { address } = useAccount()
   const { chain } = useNetwork()
   const [rank, setRank] = useState(0)
+  const [isXRepost, setXRepost] = useState(false)
   const [inviteUserId, setInviteUserId] = useState('')
   const [isMount, setMount] = useState(false)
   const [points, setPoints] = useState(0)
@@ -318,8 +319,10 @@ const LaunchpadDetail = () => {
               marsScore, 
               marsRefecrral,
               id,
-              marsUniswap
+              marsUniswap,
+              xRepost
             } = res
+      setXRepost(xRepost)
       setInviteUserId(id)
       
       setRank(marsRank)
@@ -330,6 +333,7 @@ const LaunchpadDetail = () => {
       setRow7Data((q) => ({ ...q, done: marsUniswap }))
       setRefecrral(marsRefecrral || [])
     }else {
+      setXRepost(false)
       setInviteUserId('')
       setRank(0)
       setPoints(0)
@@ -557,7 +561,13 @@ const LaunchpadDetail = () => {
     }
   }
 
-
+  const handleXModal = async() => {
+    if(!isXRepost) {
+      setXVisible(true)
+      await rpc.getMarsScore("xRepost", address)
+      fetchRightData()
+    }
+  }
 
   const LeftItem = (data) => {
     return (
@@ -583,7 +593,7 @@ const LaunchpadDetail = () => {
             <>
               {
               data.done ? 
-                <DoneButton onClick={data.clickable ? () => setXVisible(true) : () => null}>
+                <DoneButton onClick={data.clickable ? handleXModal : () => null}>
                   <Image
                     src={checkIcon}
                     width={15}
@@ -766,6 +776,7 @@ const LaunchpadDetail = () => {
                   <XModal
                     open={xVisible}
                     handleClose={() => setXVisible(false)}
+                    userId={inviteUserId} 
                   />
                 </Container>
               )

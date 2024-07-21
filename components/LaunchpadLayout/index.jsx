@@ -740,7 +740,9 @@ export const MarsMintCard = () => {
 
 
 
-export const XModal = ({  open, handleClose }) => {
+
+export const XModal = ({  open, handleClose, userId}) => {
+
 
     const { isMobile, isTablet } = useMatchBreakpoints()
     
@@ -768,7 +770,7 @@ export const XModal = ({  open, handleClose }) => {
                 `@WeAreMARS_ Odyssey Hub is now live!
 Join the fun, collect LMC points, and secure your #MARS airdrops.
 Keep an eye on the daily leaderboard to track your progress.
-Seize this amazing chance today! https://www.marsprotocol.org/
+Seize this amazing chance today! https://www.marsprotocol.org/launchpaddetail/${userId}
                 `);
                 const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
                 window.open(tweetUrl, "_blank");
