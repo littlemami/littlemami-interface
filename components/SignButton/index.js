@@ -5,7 +5,16 @@ import ArrowSvg from "@/public/images/svg/arrow.svg";
 import Loading from "@/public/images/svg/loading.svg";
 import Tip from "@/public/images/svg/tip.svg";
 
+import { useAccount } from "wagmi"
+import {
+  useConnectModal,
+
+} from "@rainbow-me/rainbowkit";
+
 function SignButton(props) {
+  const { address } = useAccount()
+  const { openConnectModal } = useConnectModal();
+
   const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
     message: props.message,
   });
@@ -21,7 +30,14 @@ function SignButton(props) {
       <button
         className={"lit-btn"}
         disabled={props?.disabled || isLoading}
-        onClick={() => signMessage()}
+        onClick={() => {
+          console.log('address', address)
+          if(address) {
+            signMessage()
+          }else {
+            openConnectModal()
+          }
+        }}
       >
         <ArrowSvg width={"2.125rem"} />
       </button>
