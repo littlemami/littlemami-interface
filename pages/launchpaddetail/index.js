@@ -204,6 +204,8 @@ const LeftTimeWrapper = (props) => {
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
+  const [depositBtnText,setDepositBtnText] = useState('Approve')
+
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
   const [activeIdx, setActiveIdx] = useState(0)
@@ -317,7 +319,7 @@ const LaunchpadDetail = () => {
               marsTelegram,//是否点了telegram
               marsRank,//marsRank
               marsScore, 
-              marsRefecrral,
+              marsReferral,
               id,
               marsUniswap,
               xRepost
@@ -331,7 +333,7 @@ const LaunchpadDetail = () => {
       setRow3Data((q) => ({ ...q, done: marsX }))
       setRow4Data((q) => ({ ...q, done: marsTelegram }))
       setRow7Data((q) => ({ ...q, done: marsUniswap }))
-      setRefecrral(marsRefecrral || [])
+      setRefecrral(marsReferral || [])
     }else {
       setXRepost(false)
       setInviteUserId('')
@@ -410,6 +412,7 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
+      setDepositBtnText('Approve')
     },
   })
   const { isSuccess: depositConfirmed, isLoading: depositConfirming } = useWaitForTransaction(
@@ -418,6 +421,7 @@ const LaunchpadDetail = () => {
       onError(error) {
         setModalLoading(false)
         Notify.failure(error.message);
+        setDepositBtnText('Approve')
       },
     }
   )
@@ -455,6 +459,7 @@ const LaunchpadDetail = () => {
   useEffect(() => {
     if (approveConfirmed) {
       Notify.success('Approved')
+      setDepositBtnText('Deposit Now')
       if(isDeposit) {
         onDeposit(depositAmount)
       } else {
@@ -470,6 +475,7 @@ const LaunchpadDetail = () => {
       setOpen(false)
       refetch()
       refetch3()
+      setDepositBtnText('Approve')
     }
   },[depositConfirmed])
 
@@ -491,6 +497,7 @@ const LaunchpadDetail = () => {
     setDeposit(true)
     setModalLoading(true)
     if(Number(allowance) < _amount) {
+      setDepositBtnText('Approve')
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
@@ -766,6 +773,7 @@ const LaunchpadDetail = () => {
                     onWidhdraw={onWidhdraw}
                     onMax={onMax}
                     defaultInputValue={defaultInputValue}
+                    depositBtnText={depositBtnText}
                   />
                   <LeaderBoardModal open={leaderBoardOpen} handleClose={() => setLeaderBoardOpen(false)}/>
                   <InviteModal 
