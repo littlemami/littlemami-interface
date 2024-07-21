@@ -1,8 +1,10 @@
+
 import {  Container,  } from '@/components/LaunchpadLayout'
 import { styled } from 'styled-components'
 import Image from "next/image"
 import ETHIcon from '@/public/images/eth.png'
 import Airdrop from '@/public/images/airdrop.png'
+
 import { useRouter } from "next/router";
 import StakeTitle from "@/components/Stake/StakeTitle";
 import styles from "@/pages/stake/index.module.scss";
