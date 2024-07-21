@@ -134,7 +134,9 @@ export const DepositMdoal = ({
                                  onMax,
                                  defaultInputValue,
                                  stakedBalance,
-                                 pendingPoint
+                                 pendingPoint,
+                                 btnTextDeposit,
+                                 btnTextWithdraw
                              }) => {
     const [activeIdx, setActiveIdx] = useState(0)
     const [value, setValue] = useState('')
@@ -256,7 +258,8 @@ export const DepositMdoal = ({
                             </>
                             :
                             <>
-                                {activeIdx === 0 ? 'Approve' : 'Withdraw Now'} 
+                                {activeIdx === 0 ? btnTextDeposit : btnTextWithdraw}  
+                                
                             </>
                     }
                 </ConfirmButton>

@@ -204,6 +204,8 @@ const LeftTimeWrapper = (props) => {
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
+  const [btnTextDeposit,setBtnTextDeposit] = useState('Approve')
+  const [btnTextWithdraw,setBtnTextWithdraw] = useState('Approve')
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
   const [activeIdx, setActiveIdx] = useState(0)
@@ -467,6 +469,7 @@ const LaunchpadDetail = () => {
     if(depositConfirmed) {
       setModalLoading(false)
       Notify.success('Deposit successful')
+      setBtnTextDeposit('Approve')
       setOpen(false)
       refetch()
       refetch3()
@@ -477,6 +480,7 @@ const LaunchpadDetail = () => {
     if(withdrawConfirmed) {
       setModalLoading(false)
       Notify.success('Withdraw successful')
+      setBtnTextWithdraw('Approve')
       setOpen(false)
       refetch()
       refetch3()
@@ -485,16 +489,16 @@ const LaunchpadDetail = () => {
  
   const onDeposit = async(amount) => {
     setDepositAmount(amount)
-    // const _amount = amount * 1e18
-    console.log('onDeposit amount', amount)
     const _amount = ethers.utils.parseEther(`${amount}`)
     setDeposit(true)
     setModalLoading(true)
     if(Number(allowance) < _amount) {
+      setBtnTextDeposit('Approve')
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
     }else {
+      setBtnTextDeposit('Deposit')
       depositWhite({
         args: [_amount]
       })
@@ -507,10 +511,12 @@ const LaunchpadDetail = () => {
     const _amount = ethers.utils.parseEther(`${amount}`)
     setModalLoading(true)
     if(Number(allowance) < _amount) {
+      setBtnTextWithdraw('Approve')
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
     }else {
+      setBtnTextWithdraw('Withdraw')
       withdrawWhite({
         args: [_amount]
       })
@@ -762,6 +768,8 @@ const LaunchpadDetail = () => {
                       setOpen(false)
                       
                     }}
+                    btnTextDeposit={btnTextDeposit}
+                    btnTextWithdraw={btnTextWithdraw}
                     onDeposit={onDeposit}
                     onWidhdraw={onWidhdraw}
                     onMax={onMax}
