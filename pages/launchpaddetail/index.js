@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState} from 'react'
 import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard, XModal} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
@@ -24,6 +24,8 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import Invite from "@/components/Invite";
+
+
 const LinearBg = styled(Box)`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
   width: 284px;
@@ -459,13 +461,26 @@ const LaunchpadDetail = () => {
 
   useEffect(() => {
     if (approveConfirmed) {
+   
+    
       Notify.success('Approved')
       setDepositBtnText('Deposit Now')
-      if(isDeposit) {
-        onDeposit(depositAmount)
-      } else {
-        onWidhdraw(withdrawAmount)
-      }
+      
+
+      refetch1().then((updatedReads) => {
+
+        const currentAllowance = updatedReads.data[0]?.result || 0      
+
+        if (isDeposit) {
+          onDeposit(depositAmount, currentAllowance);
+        } else {
+          onWithdraw(withdrawAmount, currentAllowance);
+        }
+      });
+
+      
+
+
     }
   }, [approveConfirmed, isDeposit,depositAmount, withdrawAmount])
 
@@ -489,15 +504,18 @@ const LaunchpadDetail = () => {
       refetch3()
     }
   },[withdrawConfirmed])
- 
-  const onDeposit = async(amount) => {
+  
+   
+
+  const onDeposit = async(amount, _allowance) => {
     setDepositAmount(amount)
     // const _amount = amount * 1e18
-    console.log('onDeposit amount', amount)
+   
     const _amount = ethers.utils.parseEther(`${amount}`)
+    const ___allowance = _allowance || allowance
     setDeposit(true)
     setModalLoading(true)
-    if(Number(allowance) < _amount) {
+    if(Number(___allowance) < _amount) {
       setDepositBtnText('Approve')
       approveWhite({
         args: [marsContract?.address, _amount ],    
@@ -509,13 +527,15 @@ const LaunchpadDetail = () => {
       })
     }
   }
-  const onWidhdraw = (amount) => {
+ 
+  const onWithdraw = (amount, _allowance) => {
     setWithdrawAmount(amount)
     setDeposit(false)
+    const ___allowance = _allowance || allowance
     // const _amount = amount * 1e18
     const _amount = ethers.utils.parseEther(`${amount}`)
     setModalLoading(true)
-    if(Number(allowance) < _amount) {
+    if(Number(___allowance) < _amount) {
       approveWhite({
         args: [marsContract?.address, _amount ],    
       })    
@@ -772,7 +792,7 @@ const LaunchpadDetail = () => {
                       
                     }}
                     onDeposit={onDeposit}
-                    onWidhdraw={onWidhdraw}
+                    onWidhdraw={onWithdraw}
                     onMax={onMax}
                     defaultInputValue={defaultInputValue}
                     depositBtnText={depositBtnText}
