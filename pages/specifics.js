@@ -18,7 +18,11 @@ const Mars = () => {
     async function fetchData() {
       const res = await rpc.getSpecifics();
 
-      setData({ ...data, totalPoint: res?.totalScore });
+      setData({
+        ...data,
+        totalPoint: res?.totalScore,
+        totalAddr: res?.totalAddr,
+      });
       setMount(true);
     }
 
@@ -111,7 +115,7 @@ const Mars = () => {
           <div className="border">
             <div>Mars</div>
             <div>launch 参与质押地址数 : {userLength?.toString() || 0}</div>
-            <div>launch做任务地址数 :{}</div>
+            <div>launch做任务地址数 :{data?.totalAddr}</div>
 
             <div>
               总质押lmc参与launch数据 :
