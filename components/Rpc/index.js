@@ -19,6 +19,10 @@ const getMarsScore = async (type, address) => {
   return send("getMarsScore", [type, address]);
 };
 
+const getSpecifics = async () => {
+  return send("getSpecifics", []);
+};
+
 const send = async (method, params) => {
   let res;
   try {
@@ -52,4 +56,5 @@ module.exports = {
   getScoreRank,
   getMarsRank,
   getMarsScore,
+  getSpecifics,
 };

@@ -2,6 +2,8 @@ import { useNetwork, useAccount, useContractReads } from "wagmi";
 import { useEffect, useState } from "react";
 import { contract } from "@/config";
 import LMCABI from "@/abi/LMCABI.json";
+import rpc from "@/components/Rpc";
+
 const Mars = () => {
   const { chain } = useNetwork();
 
@@ -11,6 +13,17 @@ const Mars = () => {
 
   const marsContract = contract[chain?.id]?.mars;
   const nodeContract = contract[chain?.id]?.node;
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await rpc.getSpecifics();
+
+      setData({ ...data, totalPoint: res?.totalScore });
+      setMount(true);
+    }
+
+    fetchData();
+  }, []);
 
   const { data: reads0, refetch } = useContractReads({
     contracts: [
@@ -53,7 +66,7 @@ const Mars = () => {
     searchPoint.push({
       ...marsContract,
       functionName: "getPendingPoint",
-      args: [reads1[i]?.value],
+      args: [reads1?.[i]?.value],
     });
   }
 
@@ -68,7 +81,7 @@ const Mars = () => {
   let totalPoint = 0;
 
   for (let i = 0; i < userLength; i++) {
-    totalPoint += reads2[i]?.result;
+    totalPoint += reads2?.[i]?.result;
   }
 
   const { data: reads4 } = useContractReads({
@@ -92,25 +105,34 @@ const Mars = () => {
   const nodeBalance = reads4?.[1]?.result;
 
   return (
-    <>
-      <div className="text-center font-black text-5xl">
-        <div className="border">
-          <div>Mars</div>
-          <div>质押lmc总量:{marsBalance?.toString()}</div>
-          <div>总分数 :{totalPoint?.toString()}</div>
-        </div>
-        <div className="border mt-10">
-          <div>Node</div>
-          <div>
-            购买lmc总量:{((nodeBalance || 0n) / BigInt(1e18))?.toString()}
+    mount && (
+      <>
+        <div className="text-center font-black text-5xl">
+          <div className="border">
+            <div>Mars</div>
+            <div>
+              质押lmc总量:{((marsBalance || 0n) / BigInt(1e18))?.toString()}
+            </div>
+            <div>
+              总分数 :
+              {(
+                (totalPoint || 0n) + BigInt(data?.totalPoint || 0n)
+              )?.toString()}
+            </div>
           </div>
-          <div>
-            lmc卖的节点数量:
-            {((totalSell || 0n) - 648n)?.toString()}
+          <div className="border mt-10">
+            <div>Node</div>
+            <div>
+              购买lmc总量:{((nodeBalance || 0n) / BigInt(1e18))?.toString()}
+            </div>
+            <div>
+              lmc卖的节点数量:
+              {((totalSell || 0n) - 648n)?.toString()}
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 };
 
