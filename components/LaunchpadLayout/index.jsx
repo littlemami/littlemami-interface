@@ -251,11 +251,11 @@ export const DepositMdoal = ({
                     marginTop={['24px','24px','24px','104px','104px',]}
                     onClick={!isLoading ? () => onHandle() : () => null}>
                     {
-                        // isLoading ?
-                        //     <>
-                        //         <span className="loading loading-spinner"></span>loading
-                        //     </>
-                            // :
+                        isLoading ?
+                            <>
+                                <span className="loading loading-spinner"></span>loading
+                            </>
+                            :
                             <>
                                 {activeIdx === 0 ? depositBtnText : 'Withdraw Now'} 
                             </>
