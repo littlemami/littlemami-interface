@@ -10,6 +10,7 @@ const Mars = () => {
   const { address } = useAccount();
 
   const marsContract = contract[chain?.id]?.mars;
+  const nodeContract = contract[chain?.id]?.node;
 
   const { data: reads0, refetch } = useContractReads({
     contracts: [
@@ -23,11 +24,13 @@ const Mars = () => {
         functionName: "lmc",
         args: [],
       },
+      { ...nodeContract, functionName: "totalSell", args: [] },
     ],
   });
 
   const userLength = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
+  const totalSell = reads0?.[2]?.result;
   console.log(userLength);
 
   const searchUsers = [];
@@ -61,7 +64,12 @@ const Mars = () => {
   });
 
   console.log(reads2);
-  
+
+  let totalPoint = 0;
+
+  for (let i = 0; i < userLength; i++) {
+    totalPoint += reads2[i]?.result;
+  }
 
   const { data: reads4 } = useContractReads({
     contracts: [
@@ -75,12 +83,18 @@ const Mars = () => {
   });
 
   const balance = reads4?.[0]?.result;
-
+  console.log(balance);
   return (
     <>
       <div className="text-center font-black text-5xl">
-        <div>totalStakeLMC :{balance?.toString()}</div>
-        <div></div>
+        <div>Total Stake LMC :{balance?.toString()}</div>
+
+        <div>Total Point :{totalPoint?.toString()}</div>
+
+        <div>
+          Total Node Sell Number For LMC:
+          {((totalSell || 0n) - 648n)?.toString()}
+        </div>
       </div>
     </>
   );
