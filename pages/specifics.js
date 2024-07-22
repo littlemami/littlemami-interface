@@ -110,6 +110,9 @@ const Mars = () => {
         <div className="text-center font-black text-5xl">
           <div className="border">
             <div>Mars</div>
+            <div>launch 参与质押地址数 : {userLength?.toString() || 0}</div>
+            <div>launch做任务地址数 :{}</div>
+
             <div>
               总质押lmc参与launch数据 :
               {((marsBalance || 0n) / BigInt(1e18))?.toString()} LMC
