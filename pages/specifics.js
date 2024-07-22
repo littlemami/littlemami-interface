@@ -111,10 +111,11 @@ const Mars = () => {
           <div className="border">
             <div>Mars</div>
             <div>
-              质押lmc总量:{((marsBalance || 0n) / BigInt(1e18))?.toString()}
+              总质押lmc参与launch数据 :
+              {((marsBalance || 0n) / BigInt(1e18))?.toString()}
             </div>
             <div>
-              总分数 :
+              launch产生总积分（包含任务积分和质押lmc积分） :
               {(
                 (totalPoint || 0n) + BigInt(data?.totalPoint || 0n)
               )?.toString()}
@@ -123,7 +124,8 @@ const Mars = () => {
           <div className="border mt-10">
             <div>Node</div>
             <div>
-              购买lmc总量:{((nodeBalance || 0n) / BigInt(1e18))?.toString()}
+              lmc购买节点总数统计:
+              {((nodeBalance || 0n) / BigInt(1e18))?.toString()}
             </div>
             <div>
               lmc卖的节点数量:
