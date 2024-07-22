@@ -206,7 +206,7 @@ const LeftTimeWrapper = (props) => {
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
-  const [depositBtnText,setDepositBtnText] = useState('Approve')
+  
  
 
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
@@ -241,7 +241,9 @@ const LaunchpadDetail = () => {
   const [refecrral, setRefecrral] = useState([])
 
   const [xVisible,setXVisible] = useState(false)
-
+  const [isApproveConfirmed,setIsApproveConfirmed] = useState(false)
+  
+  
   
 
 
@@ -293,8 +295,13 @@ const LaunchpadDetail = () => {
   
   
   const allowance = reads1?.[0]?.result; //授权数量
+
+  const [depositBtnText,setDepositBtnText] = useState('')
   console.log('授权数量', Number(allowance))
   
+  console.log('授权 approveConfirmed', Number(allowance) > 2** 254)
+  console.log('授权 depositBtnText', depositBtnText)
+
   const userLast = user?.[1]; //最后区块
   console.log('最后区块', userLast)
   
@@ -302,6 +309,10 @@ const LaunchpadDetail = () => {
   console.log('已经质押数量', userStaked)
 
 
+  useEffect(() => {
+    setDepositBtnText(Number(allowance) > 2** 254 ? 'Deposit Now' : 'Approve')
+      
+  },[allowance])
 
   useEffect(() => {
     fetchRightData()
@@ -406,7 +417,9 @@ const LaunchpadDetail = () => {
       onError(error) {
         setModalLoading(false)
         Notify.failure(error.message);
+        setDepositBtnText('Approve')
       },
+      
     }
   )
   // deposit 
@@ -416,7 +429,6 @@ const LaunchpadDetail = () => {
     onError(error) {
       setModalLoading(false)
       Notify.failure(error.message);
-      setDepositBtnText('Approve')
     },
   })
   const { isSuccess: depositConfirmed, isLoading: depositConfirming } = useWaitForTransaction(
@@ -425,7 +437,6 @@ const LaunchpadDetail = () => {
       onError(error) {
         setModalLoading(false)
         Notify.failure(error.message);
-        setDepositBtnText('Approve')
       },
     }
   )
@@ -461,30 +472,32 @@ const LaunchpadDetail = () => {
   })
 
   useEffect(() => {
-    if (approveConfirmed ) {    
+    if(approveConfirmed) {
+      setIsApproveConfirmed(true)
+    }
+  },[approveConfirmed])
+  useEffect(() => {
+    if (isApproveConfirmed) {          
       Notify.success('Approved')
       setDepositBtnText('Deposit Now')
       refetch1().then((updatedReads) => {
 
         const currentAllowance = updatedReads.data[0]?.result || 0      
 
-        if (isDeposit) {
-          onDeposit(depositAmount, currentAllowance);
-        } else {
-          onWithdraw(withdrawAmount, currentAllowance);
-        }
+        onDeposit(depositAmount, currentAllowance);
+        
       });
     }
-  }, [approveConfirmed, isDeposit,depositAmount, withdrawAmount])
+  }, [isApproveConfirmed, isDeposit,depositAmount, withdrawAmount])
 
   useEffect(() => {
     if(depositConfirmed) {
       setModalLoading(false)
       Notify.success('Deposit successful')
       setOpen(false)
+      setIsApproveConfirmed(false)
       refetch()
       refetch3()
-      setDepositBtnText('Approve')
     }
   },[depositConfirmed])
 
@@ -502,6 +515,7 @@ const LaunchpadDetail = () => {
     setModalLoading(false)
     refetch()
     refetch3()
+    setIsApproveConfirmed(false)
   }
 
   const onDeposit = async(amount, _allowance) => {
