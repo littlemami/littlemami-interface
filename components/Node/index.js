@@ -520,7 +520,7 @@ const Node = ({ ...props }) => {
                 disabled={!user?.inviteOpen}
                 className={`price-btn small ${styles["block-btn"]}`}
                 onClick={(e) => {
-                  copy(window.location.href + user?.id);
+                  copy(window.location.href + '/' + user?.id);
 
                   messageApi.open({
                     type: "success",

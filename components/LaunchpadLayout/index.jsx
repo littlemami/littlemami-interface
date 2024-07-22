@@ -129,7 +129,7 @@ export const DepositMdoal = ({
                                  isOpen,
                                  handleClose,
                                  onDeposit,
-                                 onWidhdraw,
+                                 onWithdraw,
                                  isLoading,
                                  onMax,
                                  defaultInputValue,
@@ -165,7 +165,7 @@ export const DepositMdoal = ({
             if (activeIdx === 0) {//deposit
                 onDeposit(Number(value))
             } else {
-                onWidhdraw(Number(value))
+                onWithdraw(Number(value))
             }
         } else {
             Notify.failure('Please enter amount')
@@ -249,7 +249,7 @@ export const DepositMdoal = ({
                     height={['34px','34px','34px','52px','52px']}
                     fontSize={['12px','12px','12px','16px','16px',]}
                     marginTop={['24px','24px','24px','104px','104px',]}
-                     onClick={!isLoading ? () => onHandle() : () => null}>
+                    onClick={!isLoading ? () => onHandle() : () => null}>
                     {
                         isLoading ?
                             <>

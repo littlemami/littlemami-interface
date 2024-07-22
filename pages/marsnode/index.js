@@ -8,12 +8,14 @@ import Welcome from "@/components/Welcome";
 
 const MarsNode = (props) => {
   const [mount, setMount] = useState(false);
+  const [inviteUserId, setInviteUserId] = useState('')
   const { address } = useAccount();
   const [data, setData] = useState({});
   useEffect(() => {
     async function fetchData() {
       const user = await rpc.getUser(address);
       if (user) {
+        setInviteUserId(user.id)
         setData({ ...data, user });
       } else {
         delete data.user;
@@ -34,15 +36,20 @@ const MarsNode = (props) => {
     }
   }, [address, user?.leader]);
 
-  return mount ? (
-    !address ? (
-      <Welcome />
-    ) : !user?.leader ? (
-      <Invite />
-    ) : (
-      <Node {...user} />
-    )
-  ) : (
+  return mount ? ( <>
+    {
+      !inviteUserId ? <Invite toPath="/marsnode"/> : 
+      (
+        !address ? (
+          <Welcome />
+        ) : !user?.leader ? (
+          <Invite />
+        ) : (
+          <Node {...user} />
+        )
+      )
+    }
+  </>) : (
     <Loading />
   );
 };

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState} from 'react'
 import { DepositMdoal, Container, LeaderBoardModal, InviteModal, MarsMintCard, XModal} from '@/components/LaunchpadLayout'
 import { Col, Row } from 'antd'
 import { styled } from 'styled-components'
@@ -24,6 +24,8 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import Invite from "@/components/Invite";
+
+
 const LinearBg = styled(Box)`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
   width: 284px;
@@ -204,7 +206,8 @@ const LeftTimeWrapper = (props) => {
 const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
-  const [depositBtnText,setDepositBtnText] = useState('Deposit Now')
+  
+ 
 
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
@@ -238,7 +241,9 @@ const LaunchpadDetail = () => {
   const [refecrral, setRefecrral] = useState([])
 
   const [xVisible,setXVisible] = useState(false)
-
+  const [isApproveConfirmed,setIsApproveConfirmed] = useState(false)
+  
+  
   
 
 
@@ -290,8 +295,13 @@ const LaunchpadDetail = () => {
   
   
   const allowance = reads1?.[0]?.result; //授权数量
+
+  const [depositBtnText,setDepositBtnText] = useState('')
   console.log('授权数量', Number(allowance))
   
+  console.log('授权 approveConfirmed', Number(allowance) > 2** 254)
+  console.log('授权 depositBtnText', depositBtnText)
+
   const userLast = user?.[1]; //最后区块
   console.log('最后区块', userLast)
   
@@ -299,6 +309,10 @@ const LaunchpadDetail = () => {
   console.log('已经质押数量', userStaked)
 
 
+  useEffect(() => {
+    setDepositBtnText(Number(allowance) > 2** 254 ? 'Deposit Now' : 'Approve')
+      
+  },[allowance])
 
   useEffect(() => {
     fetchRightData()
@@ -397,13 +411,15 @@ const LaunchpadDetail = () => {
       setDepositBtnText('Deposit Now')
     },
   })
-  const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
+  const { isSuccess: approveConfirmed, isLoading: approveConfirming  } = useWaitForTransaction(
     {
       ...approveTx,
       onError(error) {
         setModalLoading(false)
         Notify.failure(error.message);
+        setDepositBtnText('Approve')
       },
+      
     }
   )
   // deposit 
@@ -456,21 +472,30 @@ const LaunchpadDetail = () => {
   })
 
   useEffect(() => {
-    if (approveConfirmed) {
-      Notify.success('Approved')
-      if(isDeposit) {
-        onDeposit(depositAmount)
-      } else {
-        onWidhdraw(withdrawAmount)
-      }
+    if(approveConfirmed) {
+      setIsApproveConfirmed(true)
     }
-  }, [approveConfirmed, isDeposit,depositAmount, withdrawAmount])
+  },[approveConfirmed])
+  useEffect(() => {
+    if (isApproveConfirmed) {          
+      Notify.success('Approved')
+      setDepositBtnText('Deposit Now')
+      refetch1().then((updatedReads) => {
+
+        const currentAllowance = updatedReads.data[0]?.result || 0      
+
+        onDeposit(depositAmount, currentAllowance);
+        
+      });
+    }
+  }, [isApproveConfirmed, isDeposit,depositAmount, withdrawAmount])
 
   useEffect(() => {
     if(depositConfirmed) {
       setModalLoading(false)
       Notify.success('Deposit successful')
       setOpen(false)
+      setIsApproveConfirmed(false)
       refetch()
       refetch3()
     }
@@ -478,48 +503,66 @@ const LaunchpadDetail = () => {
 
   useEffect(() => {
     if(withdrawConfirmed) {
-      setModalLoading(false)
-      Notify.success('Withdraw successful')
-      setOpen(false)
-      refetch()
-      refetch3()
+      Notify.success('Withdraw successful')  
+      depositModalClose()   
     }
   },[withdrawConfirmed])
- 
-  const onDeposit = async(amount) => {
+
+  const depositModalClose = () => {
+    setDepositAmount(0)
+    setWithdrawAmount(0)
+    setOpen(false)
+    setModalLoading(false)
+    refetch()
+    refetch3()
+    setIsApproveConfirmed(false)
+  }
+
+  const onDeposit = async(amount, _allowance) => {
     setDepositAmount(amount)
     // const _amount = amount * 1e18
-    console.log('onDeposit amount', amount)
+
     const _amount = ethers.utils.parseEther(`${amount}`)
+ 
+    const ___allowance = _allowance || allowance
+
+
     setDeposit(true)
     setModalLoading(true)
-    if(Number(allowance) < _amount) {
-      setDepositBtnText('Approve')
-      approveWhite({
-        args: [marsContract?.address, _amount ],    
-      })    
-    }else {
-      setDepositBtnText('Deposit Now')
-      depositWhite({
-        args: [_amount]
-      })
+
+    if(Number(_amount) < 2**255) { //（输入值 乘以1e18） 应小于 2*255；否则禁止Approve；
+      if(Number(___allowance) < _amount) { 
+        setDepositBtnText('Approve')
+        approveWhite({
+          args: [marsContract?.address, 2**255 ],       // Approve的时，“自定义支出上限”使用固定值=2**255；而不是输入值；
+        })     
+      }else {
+        setDepositBtnText('Deposit Now')
+        depositWhite({
+          args: [_amount]
+        })
+      }
     }
   }
-  const onWidhdraw = (amount) => {
+ 
+  const onWithdraw = (amount, _allowance) => {
     setWithdrawAmount(amount)
     setDeposit(false)
-    // const _amount = amount * 1e18
+    const ___allowance = _allowance || allowance
     const _amount = ethers.utils.parseEther(`${amount}`)
     setModalLoading(true)
-    if(Number(allowance) < _amount) {
-      approveWhite({
-        args: [marsContract?.address, _amount ],    
-      })    
-    }else {
-      withdrawWhite({
-        args: [_amount]
-      })
-    }
+    // if(Number(___allowance) < _amount) {
+    //   approveWhite({
+    //     args: [marsContract?.address, _amount ],    
+    //   })    
+    // }else {
+      
+    // }
+
+    withdrawWhite({
+      args: [_amount]
+    })
+
   } 
 
     
@@ -622,6 +665,8 @@ const LaunchpadDetail = () => {
       </RightItem>
     )
   } 
+
+
   return (
     <>
     { !isMount ? <div/> :
@@ -761,14 +806,9 @@ const LaunchpadDetail = () => {
                       withdrawConfirming
                     }
                     isOpen={isOpen} 
-                    handleClose={() => {
-                      setDepositAmount(0)
-                      setWithdrawAmount(0)
-                      setOpen(false)
-                      
-                    }}
+                    handleClose={ depositModalClose }
                     onDeposit={onDeposit}
-                    onWidhdraw={onWidhdraw}
+                    onWithdraw={onWithdraw}
                     onMax={onMax}
                     defaultInputValue={defaultInputValue}
                     depositBtnText={depositBtnText}
