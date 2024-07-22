@@ -129,7 +129,7 @@ export const DepositMdoal = ({
                                  isOpen,
                                  handleClose,
                                  onDeposit,
-                                 onWidhdraw,
+                                 onWithdraw,
                                  isLoading,
                                  onMax,
                                  defaultInputValue,
@@ -165,7 +165,7 @@ export const DepositMdoal = ({
             if (activeIdx === 0) {//deposit
                 onDeposit(Number(value))
             } else {
-                onWidhdraw(Number(value))
+                onWithdraw(Number(value))
             }
         } else {
             Notify.failure('Please enter amount')

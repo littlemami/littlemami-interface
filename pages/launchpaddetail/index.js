@@ -207,6 +207,7 @@ const LaunchpadDetail = () => {
   const [isLoading,setLoading] = useState(false)
   const [modalLoading,setModalLoading] = useState(false)
   const [depositBtnText,setDepositBtnText] = useState('Approve')
+ 
 
   const [leaderBoardOpen,setLeaderBoardOpen] = useState(false)
   const [inviteOpen,setInviteOpen] = useState(false)
@@ -399,7 +400,7 @@ const LaunchpadDetail = () => {
       setDepositBtnText('Deposit Now')
     },
   })
-  const { isSuccess: approveConfirmed, isLoading: approveConfirming } = useWaitForTransaction(
+  const { isSuccess: approveConfirmed, isLoading: approveConfirming  } = useWaitForTransaction(
     {
       ...approveTx,
       onError(error) {
@@ -460,13 +461,9 @@ const LaunchpadDetail = () => {
   })
 
   useEffect(() => {
-    if (approveConfirmed) {
-   
-    
+    if (approveConfirmed ) {    
       Notify.success('Approved')
       setDepositBtnText('Deposit Now')
-      
-
       refetch1().then((updatedReads) => {
 
         const currentAllowance = updatedReads.data[0]?.result || 0      
@@ -477,10 +474,6 @@ const LaunchpadDetail = () => {
           onWithdraw(withdrawAmount, currentAllowance);
         }
       });
-
-      
-
-
     }
   }, [approveConfirmed, isDeposit,depositAmount, withdrawAmount])
 
@@ -497,34 +490,44 @@ const LaunchpadDetail = () => {
 
   useEffect(() => {
     if(withdrawConfirmed) {
-      setModalLoading(false)
-      Notify.success('Withdraw successful')
-      setOpen(false)
-      refetch()
-      refetch3()
+      Notify.success('Withdraw successful')  
+      depositModalClose()   
     }
   },[withdrawConfirmed])
-  
-   
+
+  const depositModalClose = () => {
+    setDepositAmount(0)
+    setWithdrawAmount(0)
+    setOpen(false)
+    setModalLoading(false)
+    refetch()
+    refetch3()
+  }
 
   const onDeposit = async(amount, _allowance) => {
     setDepositAmount(amount)
     // const _amount = amount * 1e18
-   
+
     const _amount = ethers.utils.parseEther(`${amount}`)
+ 
     const ___allowance = _allowance || allowance
+
+
     setDeposit(true)
     setModalLoading(true)
-    if(Number(___allowance) < _amount) {
-      setDepositBtnText('Approve')
-      approveWhite({
-        args: [marsContract?.address, _amount ],    
-      })    
-    }else {
-      setDepositBtnText('Deposit Now')
-      depositWhite({
-        args: [_amount]
-      })
+
+    if(Number(_amount) < 2**255) { //（输入值 乘以1e18） 应小于 2*255；否则禁止Approve；
+      if(Number(___allowance) < _amount) { 
+        setDepositBtnText('Approve')
+        approveWhite({
+          args: [marsContract?.address, 2**255 ],       // Approve的时，“自定义支出上限”使用固定值=2**255；而不是输入值；
+        })     
+      }else {
+        setDepositBtnText('Deposit Now')
+        depositWhite({
+          args: [_amount]
+        })
+      }
     }
   }
  
@@ -532,18 +535,20 @@ const LaunchpadDetail = () => {
     setWithdrawAmount(amount)
     setDeposit(false)
     const ___allowance = _allowance || allowance
-    // const _amount = amount * 1e18
     const _amount = ethers.utils.parseEther(`${amount}`)
     setModalLoading(true)
-    if(Number(___allowance) < _amount) {
-      approveWhite({
-        args: [marsContract?.address, _amount ],    
-      })    
-    }else {
-      withdrawWhite({
-        args: [_amount]
-      })
-    }
+    // if(Number(___allowance) < _amount) {
+    //   approveWhite({
+    //     args: [marsContract?.address, _amount ],    
+    //   })    
+    // }else {
+      
+    // }
+
+    withdrawWhite({
+      args: [_amount]
+    })
+
   } 
 
     
@@ -646,6 +651,8 @@ const LaunchpadDetail = () => {
       </RightItem>
     )
   } 
+
+
   return (
     <>
     { !isMount ? <div/> :
@@ -785,14 +792,9 @@ const LaunchpadDetail = () => {
                       withdrawConfirming
                     }
                     isOpen={isOpen} 
-                    handleClose={() => {
-                      setDepositAmount(0)
-                      setWithdrawAmount(0)
-                      setOpen(false)
-                      
-                    }}
+                    handleClose={ depositModalClose }
                     onDeposit={onDeposit}
-                    onWidhdraw={onWithdraw}
+                    onWithdraw={onWithdraw}
                     onMax={onMax}
                     defaultInputValue={defaultInputValue}
                     depositBtnText={depositBtnText}
