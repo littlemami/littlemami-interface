@@ -87,13 +87,17 @@ const Mars = () => {
   return (
     <>
       <div className="text-center font-black text-5xl">
-        <div>Total Stake LMC :{balance?.toString()}</div>
-
-        <div>Total Point :{totalPoint?.toString()}</div>
-
-        <div>
-          Total Node Sell Number For LMC:
-          {((totalSell || 0n) - 648n)?.toString()}
+        <div className="border">
+          <div>Mars</div>
+          <div>Total Stake LMC :{balance?.toString()}</div>
+          <div>Total Point :{totalPoint?.toString()}</div>
+        </div>
+        <div className="border mt-10">
+          <div>Node</div>
+          <div>
+            Total Node Sell For LMC:
+            {((totalSell || 0n) - 648n)?.toString()}
+          </div>
         </div>
       </div>
     </>
