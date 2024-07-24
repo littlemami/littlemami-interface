@@ -516,6 +516,7 @@ const LaunchpadDetail = () => {
     refetch()
     refetch3()
     setIsApproveConfirmed(false)
+    setDefaultInputValue('')
   }
 
   const onDeposit = async(amount, _allowance) => {
