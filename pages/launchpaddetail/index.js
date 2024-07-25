@@ -24,7 +24,7 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import Invite from "@/components/Invite";
-
+import TokenABI from "@/abi/TokenABI.json";
 
 const LinearBg = styled(Box)`
   background: linear-gradient(to right,transparent, #8668FF, transparent);
@@ -103,7 +103,7 @@ export const GoButton = styled.div`
     color:${(props) => props.stamp > 0 ? 'rgb(148, 140, 175)' : '#000'};
   }
 `
-const DoneButton = styled.div`
+export const DoneButton = styled.div`
   background: rgba(47, 255, 218, 0.9);
   border: 1px solid rgb(76, 48, 135);
   border-radius: 15px;
@@ -228,10 +228,10 @@ const LaunchpadDetail = () => {
   const [row1Data, setRow1Data] = useState({id: 1, title: 'Daily Bonus', points: '+ 10 LMC Points', done: false, countdown: 0 })
   const [row2Data, setRow2Data] = useState({ id: 2, title: 'Invite More Members', points: '+ 300 LMC Points', done: false, countdown: 0 })
   const [row3Data, setRow3Data] = useState({ id: 3, title: 'Follow X', points: '+ 300 LMC Points', done: false, countdown: 0, clickable: true })
-  const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0 })
-  const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn LMC Points', done: false, countdown: 0 })
+  const [row4Data, setRow4Data] = useState({ id: 4, title: 'Join Telegram', points: '+ 300 LMC Points', done: false, countdown: 0, clickable: true  })
+  const [row5Data, setRow5Data] = useState({ id: 5, title: 'LMC Deposit', points: 'Earn LMC Points', done: false, countdown: 0,   })
   const [row6Data, setRow6Data] = useState({ id: 6, title: 'NFT Stake', points: 'Upcoming', done: false, countdown: 0 })
-  const [row7Data, setRow7Data] = useState({ id: 7, title: 'Get LMC on Uniswap', points: '+ 600 LMC Points', done: false, countdown: 0 })
+  const [row7Data, setRow7Data] = useState({ id: 7, title: 'Get LMC on Uniswap', points: '+ 600 LMC Points', done: false, countdown: 0, clickable: true })
 
 
 
@@ -460,11 +460,13 @@ const LaunchpadDetail = () => {
     }
   )
 
+  
+
   const { data: reads3, refetch: refetch3 } = useContractReads({
     contracts: [
       {
-        address: "0x5195b2709770180903b7aCB3841B081Ec7b6DfFf",
-        abi: USDTABI,
+        address: '0x8983CF891867942d06AD6CEb9B9002de860E202d',
+        abi: TokenABI,
         functionName: "balanceOf",
         args: [address],
       },
@@ -576,12 +578,14 @@ const LaunchpadDetail = () => {
   // console.log('pendingPoint', pendingPoint)
   // console.log('_pendingPoint', _pendingPoint)
   // console.log('stakedBalance', stakedBalance)
+  // console.log('reads3', reads3)
+  console.log('LMCBalance', LMCBalance)
   // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
-    if(idx === 0) {
-      setDefaultInputValue(_LMCBalance)
+    if(idx === 0) {      
+      setDefaultInputValue(Math.floor(_LMCBalance * 100) / 100)
     }else {
-      setDefaultInputValue(stakedBalance)
+      setDefaultInputValue(Math.floor(stakedBalance * 100) / 100)
     }
   }
 
@@ -609,13 +613,16 @@ const LaunchpadDetail = () => {
       setRow6Data((q) => ({ ...q, countdown: 0 }))
     }
   }
-
-  const handleXModal = async() => {
-    if(!isXRepost) {
+  const handleClickable = async(data) => {
+    if(data.title === 'Follow X') {
       setXVisible(true)
       await rpc.getMarsScore("xRepost", address)
       fetchRightData()
+    } 
+    if(data.title === 'Join Telegram' || data.title === 'Get LMC on Uniswap') {
+      handleRightItem(data)
     }
+
   }
 
   const LeftItem = (data) => {
@@ -642,7 +649,7 @@ const LaunchpadDetail = () => {
             <>
               {
               data.done ? 
-                <DoneButton onClick={data.clickable ? handleXModal : () => null}>
+                <DoneButton onClick={data.clickable ? () => handleClickable(data) : () => null}>
                   <Image
                     src={checkIcon}
                     width={15}
@@ -821,6 +828,7 @@ const LaunchpadDetail = () => {
                     open={inviteOpen} 
                     handleClose={() => setInviteOpen(false)}/>
                   <XModal
+                    done={isXRepost}
                     open={xVisible}
                     handleClose={() => setXVisible(false)}
                     userId={inviteUserId} 
