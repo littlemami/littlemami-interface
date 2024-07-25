@@ -608,7 +608,7 @@ export const InviteModal = ({list, open, handleClose, userId}) => {
                                     className=' white8 fw500 center' 
                                     fontSize={['10px','10px','10px','16px','16px',]} 
                                     width={['32px','32px','32px','70px','70px']}
-                                    >200</Text>
+                                    >300</Text>
                             </Box>
                         ))}
                     </InfiniteScroll>
