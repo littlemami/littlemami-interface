@@ -516,6 +516,7 @@ const LaunchpadDetail = () => {
     refetch()
     refetch3()
     setIsApproveConfirmed(false)
+    setDefaultInputValue('')
   }
 
   const onDeposit = async(amount, _allowance) => {
@@ -571,7 +572,7 @@ const LaunchpadDetail = () => {
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
   const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
-  const _pendingPoint = ethers.utils.formatEther(pendingPoint || 0)
+  const _pendingPoint = Number(pendingPoint || 0)// ethers.utils.formatEther(pendingPoint || 0)
   // console.log('pendingPoint', pendingPoint)
   // console.log('_pendingPoint', _pendingPoint)
   // console.log('stakedBalance', stakedBalance)
