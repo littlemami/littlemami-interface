@@ -27,8 +27,8 @@ import Box from '@/components/LaunchpadLayout/Box'
 import Grid from '@/components/LaunchpadLayout/Grid'
 import Text from '@/components/LaunchpadLayout/Text'
 import { useMatchBreakpoints } from '@/hooks/useMatchBreakpoints'
-import { GoButton } from '@/pages/launchpaddetail';
-
+import { GoButton, DoneButton } from '@/pages/launchpaddetail';
+import checkIcon from '@/public/images/check_icon.png'
 const splitAddress = (addr) => {
     const start = addr.substring(0, 6)
     const end = addr.substring(addr.length - 5, addr.length)
@@ -742,11 +742,25 @@ export const MarsMintCard = () => {
 
 
 
-export const XModal = ({  open, handleClose, userId}) => {
+export const XModal = ({  open, handleClose, userId, done }) => {
 
 
     const { isMobile, isTablet } = useMatchBreakpoints()
-    
+
+    const onLink = () => {
+     
+        const text = encodeURIComponent(
+        `@WeAreMARS_ Odyssey Hub is now live!
+Join the fun, collect LMC points, and secure your #MARS airdrops.
+Keep an eye on the daily leaderboard to track your progress.
+
+Seize this amazing chance today! https://www.marsprotocol.org/launchpaddetail/${userId}
+
+        `);
+        const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
+        window.open(tweetUrl, "_blank");
+            
+    }
     return (
       <Modal
         centered
@@ -765,22 +779,19 @@ export const XModal = ({  open, handleClose, userId}) => {
         <div className='fx-row ai-ct jc-sb' style={{ marginTop: '55px'}}>
             <span className='fz18 white' >Post Twitter</span>
             <span className='fz18' style={{ color: 'rgba(185, 174, 255, 1)'}}>+100 LMC Points</span>
-            <GoButton
-                onClick={(e) => {
-                const text = encodeURIComponent(
-                `@WeAreMARS_ Odyssey Hub is now live!
-Join the fun, collect LMC points, and secure your #MARS airdrops.
-Keep an eye on the daily leaderboard to track your progress.
-
-Seize this amazing chance today! https://www.marsprotocol.org/launchpaddetail/${userId}
-
-                `);
-                const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
-                window.open(tweetUrl, "_blank");
-                }}
-            >
-                Go
-            </GoButton>
+            {
+                done ? 
+                <DoneButton onClick={onLink}>
+                  <Image
+                    src={checkIcon}
+                    width={15}
+                    height={10}
+                    alt="checkIcon"
+                  />
+                </DoneButton>:
+                <GoButton onClick={onLink}>Go</GoButton>
+                
+            }
         </div>  
         <div style={{
            

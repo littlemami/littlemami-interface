@@ -103,7 +103,7 @@ export const GoButton = styled.div`
     color:${(props) => props.stamp > 0 ? 'rgb(148, 140, 175)' : '#000'};
   }
 `
-const DoneButton = styled.div`
+export const DoneButton = styled.div`
   background: rgba(47, 255, 218, 0.9);
   border: 1px solid rgb(76, 48, 135);
   border-radius: 15px;
@@ -828,6 +828,7 @@ const LaunchpadDetail = () => {
                     open={inviteOpen} 
                     handleClose={() => setInviteOpen(false)}/>
                   <XModal
+                    done={isXRepost}
                     open={xVisible}
                     handleClose={() => setXVisible(false)}
                     userId={inviteUserId} 
