@@ -65,8 +65,6 @@ const Mars = () => {
 
   const searchPoint = [];
 
-  console.log(reads1);
-
   for (let i = 0; i < userLength; i++) {
     searchPoint.push({
       ...marsContract,
@@ -82,7 +80,7 @@ const Mars = () => {
   let totalPoint = BigInt(0);
 
   for (let i = 0; i < userLength; i++) {
-    totalPoint += reads2?.[i]?.result;
+    totalPoint += reads2?.[i]?.result || 0n;
   }
 
   const { data: reads4 } = useContractReads({
