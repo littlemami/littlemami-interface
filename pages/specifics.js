@@ -48,14 +48,13 @@ const Mars = () => {
   const userLength = reads0?.[0]?.result;
   const lmc = reads0?.[1]?.result;
   const totalSell = reads0?.[2]?.result;
-  console.log(userLength);
 
   const searchUsers = [];
 
   for (let i = 0; i < userLength; i++) {
     searchUsers.push({
       ...marsContract,
-      functionName: "getUserAddress",
+      functionName: "userAddresses",
       args: [i],
     });
   }
@@ -66,23 +65,21 @@ const Mars = () => {
 
   const searchPoint = [];
 
+  console.log(reads1);
+
   for (let i = 0; i < userLength; i++) {
     searchPoint.push({
       ...marsContract,
       functionName: "getPendingPoint",
-      args: [reads1?.[i]?.value],
+      args: [reads1?.[i]?.result],
     });
   }
-
-  console.log(searchPoint);
 
   const { data: reads2 } = useContractReads({
     contracts: searchPoint,
   });
 
-  console.log(reads2);
-
-  let totalPoint = 0;
+  let totalPoint = BigInt(0);
 
   for (let i = 0; i < userLength; i++) {
     totalPoint += reads2?.[i]?.result;
