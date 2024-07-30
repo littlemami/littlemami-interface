@@ -22,6 +22,7 @@ const Mars = () => {
         ...data,
         totalPoint: res?.totalScore,
         totalAddr: res?.totalAddr,
+        totalContractAddr: res?.totalContractAddr,
       });
       setMount(true);
     }
@@ -33,11 +34,6 @@ const Mars = () => {
     contracts: [
       {
         ...marsContract,
-        functionName: "getUserAddressesLength",
-        args: [],
-      },
-      {
-        ...marsContract,
         functionName: "lmc",
         args: [],
       },
@@ -45,43 +41,8 @@ const Mars = () => {
     ],
   });
 
-  const userLength = reads0?.[0]?.result;
-  const lmc = reads0?.[1]?.result;
-  const totalSell = reads0?.[2]?.result;
-
-  const searchUsers = [];
-
-  for (let i = 0; i < userLength; i++) {
-    searchUsers.push({
-      ...marsContract,
-      functionName: "userAddresses",
-      args: [i],
-    });
-  }
-
-  const { data: reads1 } = useContractReads({
-    contracts: searchUsers,
-  });
-
-  const searchPoint = [];
-
-  for (let i = 0; i < userLength; i++) {
-    searchPoint.push({
-      ...marsContract,
-      functionName: "getPendingPoint",
-      args: [reads1?.[i]?.result],
-    });
-  }
-
-  const { data: reads2 } = useContractReads({
-    contracts: searchPoint,
-  });
-
-  let totalPoint = BigInt(0);
-
-  for (let i = 0; i < userLength; i++) {
-    totalPoint += reads2?.[i]?.result || 0n;
-  }
+  const lmc = reads0?.[0]?.result;
+  const totalSell = reads0?.[1]?.result;
 
   const { data: reads4 } = useContractReads({
     contracts: [
@@ -109,7 +70,7 @@ const Mars = () => {
         <div className="text-center font-black text-5xl">
           <div className="border">
             <div>Mars</div>
-            <div>launch 参与质押地址数 : {userLength?.toString() || 0}</div>
+            <div>launch 参与质押地址数 : {data?.totalContractAddr}</div>
             <div>launch做任务地址数 :{data?.totalAddr}</div>
 
             <div>
@@ -118,9 +79,7 @@ const Mars = () => {
             </div>
             <div>
               launch产生总积分（包含任务积分和质押lmc积分） :
-              {(
-                (totalPoint || 0n) + BigInt(data?.totalPoint || 0n)
-              )?.toString()}
+              {BigInt(data?.totalPoint || 0n)?.toString()}
             </div>
           </div>
           <div className="border mt-10">
