@@ -582,8 +582,6 @@ const LaunchpadDetail = () => {
   // console.log('pendingPoint', pendingPoint)
   // console.log('_pendingPoint', _pendingPoint)
   // console.log('stakedBalance', stakedBalance)
-  // console.log('reads3', reads3)
-  // console.log('LMCBalance', LMCBalance)
   // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
     if(idx === 0) {      
