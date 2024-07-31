@@ -244,7 +244,7 @@ const LaunchpadDetail = () => {
   const [isApproveConfirmed,setIsApproveConfirmed] = useState(false)
   
   
-  
+  const [pendingPoint, setPendingPoint] = useState(0)
 
 
   const marsContract = contract[chain?.id]?.mars
@@ -336,8 +336,11 @@ const LaunchpadDetail = () => {
               marsReferral,
               id,
               marsUniswap,
-              xRepost
+              xRepost,
+              marsContractPoint
             } = res
+        
+      setPendingPoint(Number(marsContractPoint))
       setXRepost(xRepost)
       setInviteUserId(id)
       
@@ -349,6 +352,7 @@ const LaunchpadDetail = () => {
       setRow7Data((q) => ({ ...q, done: marsUniswap }))
       setRefecrral(marsReferral || [])
     }else {
+      setPendingPoint(0)
       setXRepost(false)
       setInviteUserId('')
       setRank(0)
@@ -573,13 +577,11 @@ const LaunchpadDetail = () => {
   const _LMCBalance = ethers.utils.formatEther(LMCBalance || 0)
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
-  const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
-  const _pendingPoint = Number(pendingPoint || 0)// ethers.utils.formatEther(pendingPoint || 0)
+  // const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
+  // const _pendingPoint = Number(pendingPoint || 0)// ethers.utils.formatEther(pendingPoint || 0)
   // console.log('pendingPoint', pendingPoint)
   // console.log('_pendingPoint', _pendingPoint)
   // console.log('stakedBalance', stakedBalance)
-  // console.log('reads3', reads3)
-  console.log('LMCBalance', LMCBalance)
   // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
     if(idx === 0) {      
@@ -590,8 +592,8 @@ const LaunchpadDetail = () => {
   }
 
   useEffect(() => {
-    setRow5Data((q) => ({ ...q, points: _pendingPoint > 0 ? `${ Math.floor(_pendingPoint * 100) / 100} Points` : 'Earn LMC Points' }))
-  },[_pendingPoint])
+    setRow5Data((q) => ({ ...q, points: pendingPoint > 0 ? `${ Math.floor(pendingPoint * 100) / 100} Points` : 'Earn LMC Points' }))
+  },[pendingPoint])
 
   const onResetStamp = (id) => {
     if(id === 1) {
@@ -805,7 +807,7 @@ const LaunchpadDetail = () => {
     
     
                   <DepositMdoal 
-                    pendingPoint={_pendingPoint}
+                    pendingPoint={pendingPoint}
                     stakedBalance={ stakedBalance }
                     isLoading={
                       modalLoading ||
