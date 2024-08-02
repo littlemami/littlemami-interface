@@ -11,7 +11,7 @@ const hash = (msgSender, max) => {
   try {
     return keccak256(encodePacked(["address", "uint256"], [msgSender, max]));
   } catch (error) {
-    console.log(error);
+
     return "";
   }
 };
@@ -82,7 +82,6 @@ const LMCClaim = () => {
     },
   };
 
-  console.log(reads0)
 
   useEffect(() => {
     setMount(true);
