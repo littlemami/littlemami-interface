@@ -31,7 +31,7 @@ function SignButton(props) {
         className={"lit-btn"}
         disabled={props?.disabled || isLoading}
         onClick={() => {
-          console.log('address', address)
+  
           if(address) {
             signMessage()
           }else {

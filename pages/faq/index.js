@@ -145,7 +145,7 @@ const items = [
 
 const Faq = () => {
   const onChange = (key) => {
-    console.log(key);
+   
   };
 
   return (

@@ -16,6 +16,7 @@ const WriteButton = ({
   color = "#b844ff",
   ...props
 }) => {
+  console.log(data)
   const { locale, locales, defaultLocale, asPath } = useRouter();
   const addRecentTransaction = useAddRecentTransaction();
   const [mounted, setMounted] = useState(false);

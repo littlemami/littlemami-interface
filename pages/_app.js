@@ -33,7 +33,7 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 
 const { chains, publicClient } = configureChains(
-  [mainnet],
+  [mainnet,sepolia],
   [alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" })]
 );
 

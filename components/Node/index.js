@@ -174,8 +174,6 @@ const Node = ({ ...props }) => {
     return result;
   }
 
-  console.log(tokenPrice, decimals);
-
   const price =
     tokenPrice &&
     (
@@ -520,7 +518,7 @@ const Node = ({ ...props }) => {
                 disabled={!user?.inviteOpen}
                 className={`price-btn small ${styles["block-btn"]}`}
                 onClick={(e) => {
-                  copy(window.location.href + '/' + user?.id);
+                  copy(window.location.href + "/" + user?.id);
 
                   messageApi.open({
                     type: "success",
@@ -550,12 +548,14 @@ const Node = ({ ...props }) => {
                 Record
               </button>
               {phase != 1 && (
-                <button
+                <div
                   className={`price-btn small ${styles["block-btn"]}`}
-                  disabled
+                  onClick={() => {
+                    router.push("/marsnode/claim");
+                  }}
                 >
                   Claim
-                </button>
+                </div>
               )}
             </div>
           </div>

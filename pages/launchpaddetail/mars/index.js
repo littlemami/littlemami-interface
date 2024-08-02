@@ -67,7 +67,7 @@ const Mars = () => {
       },
     ],
   });
-  console.log("reads0", reads0);
+
   const invites = data?.user?.invites;
 
   const marsReferrals = data?.user?.marsReferrals; //mars活动新邀请进来的人
@@ -107,8 +107,6 @@ const Mars = () => {
   const marsScore = backendUser?.marsScore; //  marsScore
 
   const marsUniswap = backendUser?.marsUniswap; //  marsUniswap
-
-  console.log(marsX, marsTelegram);
 
   const { data: reads2 } = useContractReads({ contracts: searchInvites });
 

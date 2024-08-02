@@ -1,6 +1,7 @@
 import nodeABI from "@/abi/NodeABI.json";
 import stakeABI from "@/abi/StakeABI.json";
 import marsABI from "@/abi/MarsABI.json";
+import lmcClaimABI from "@/abi/LMCClaimABI.json";
 
 export const rpcUrl = "https://api.littlemami.io/";
 //test
@@ -20,6 +21,10 @@ export const contract = {
       address: "0xEB3611Ed793c7e3664cD5aaCAFd1167C8Fc49801",
       abi: marsABI,
     },
+    lmcClaim: {
+      address: "0x74Fd2fc13f98466Cc102dE03a2d2CB50251e6Fa7",
+      abi: lmcClaimABI,
+    },
   },
   11155111: {
     node: {
@@ -33,6 +38,10 @@ export const contract = {
     mars: {
       address: "0x774CBaF5BFde76b948cC3D6010b1A55cd1a5eF80",
       abi: marsABI,
+    },
+    lmcClaim: {
+      address: "0x89Ac8f129b75Fd6e4A1599947AD82aC46121186c",
+      abi: lmcClaimABI,
     },
   },
 };

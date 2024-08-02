@@ -249,7 +249,7 @@ const LaunchpadDetail = () => {
 
   const marsContract = contract[chain?.id]?.mars
 
-  console.log('marsContract', marsContract)
+
 
  
   const today = () => {
@@ -290,23 +290,19 @@ const LaunchpadDetail = () => {
   })
 
 
-  console.log('reads0', reads0)
-  console.log('reads1', reads1)
+
   
   
   const allowance = reads1?.[0]?.result; //授权数量
 
   const [depositBtnText,setDepositBtnText] = useState('')
-  console.log('授权数量', Number(allowance))
-  
-  console.log('授权 approveConfirmed', Number(allowance) > 2** 254)
-  console.log('授权 depositBtnText', depositBtnText)
+
 
   const userLast = user?.[1]; //最后区块
-  console.log('最后区块', userLast)
+
   
   const userStaked = user?.[0]; //已经质押数量
-  console.log('已经质押数量', userStaked)
+
 
 
   useEffect(() => {
@@ -324,7 +320,7 @@ const LaunchpadDetail = () => {
   const fetchRightData = async() => {
     setLoading(true)
     const res = await rpc.getUser(address)
-    console.log('useruser', res) 
+
     setMount(true)
     if(res) {
       const { dailyCheckedIn,//是否每日已签到
@@ -577,12 +573,6 @@ const LaunchpadDetail = () => {
   const _LMCBalance = ethers.utils.formatEther(LMCBalance || 0)
   const stakedBalance = ethers.utils.formatEther(userStaked || 0)
 
-  // const pendingPoint = reads0?.[2]?.result; //用户通过stake获得point总数
-  // const _pendingPoint = Number(pendingPoint || 0)// ethers.utils.formatEther(pendingPoint || 0)
-  // console.log('pendingPoint', pendingPoint)
-  // console.log('_pendingPoint', _pendingPoint)
-  // console.log('stakedBalance', stakedBalance)
-  // console.log('_LMCBalance', _LMCBalance)
   const onMax = (idx) => {
     if(idx === 0) {      
       setDefaultInputValue(Math.floor(_LMCBalance * 100) / 100)

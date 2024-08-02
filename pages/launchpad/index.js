@@ -62,7 +62,7 @@ export const Launchpad = () => {
 
   const fetchData = async () => {
     const user = await rpc.getUser(address);
-    console.log("user111");
+
     // user?.leader
     setInvites(user?.leader || false);
     setMount(true);
