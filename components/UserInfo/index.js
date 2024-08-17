@@ -58,10 +58,10 @@ const UserInfo = () => {
     return result;
   }
   useEffect(() => {
-    setBalance(
-      tokenBalance &&
-        (tokenBalance / bigIntPow(10n, BigInt(decimals || 0)))?.toString()
-    );
+    // setBalance(
+    //   tokenBalance &&
+    //     (tokenBalance / bigIntPow(10n, BigInt(decimals || 0)))?.toString()
+    // );
   }, [decimals, tokenBalance]);
 
   return (

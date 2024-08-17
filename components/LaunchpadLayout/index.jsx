@@ -742,23 +742,47 @@ export const MarsMintCard = () => {
 
 
 
-export const XModal = ({  open, handleClose, userId, done }) => {
-
+export const XModal = ({  open, handleClose, userId, doneList, onItem }) => {
+    
 
     const { isMobile, isTablet } = useMatchBreakpoints()
 
-    const onLink = () => {
-     
-        const text = encodeURIComponent(
-        `@WeAreMARS_ Odyssey Hub is now live!
-Join the fun, collect LMC points, and secure your #MARS airdrops.
-Keep an eye on the daily leaderboard to track your progress.
+    const onLink = (idx) => {
+        const inviteUrl = `https://www.marsprotocol.org/launchpaddetail/${userId}`
 
-Seize this amazing chance today! https://www.marsprotocol.org/launchpaddetail/${userId}
-
-        `);
-        const tweetUrl = `https://twitter.com/intent/tweet?text=${text}`;
-        window.open(tweetUrl, "_blank");
+        if(idx === 1) {
+            onItem(1)
+            const text = encodeURIComponent(
+            `@WeAreMARS_ Odyssey Hub is now live!
+    Join the fun, collect LMC points, and secure your #MARS airdrops.
+    Keep an eye on the daily leaderboard to track your progress.
+    
+    Seize this amazing chance today! ${inviteUrl}
+    
+            `);
+            const xUrl = `https://twitter.com/intent/tweet?text=${text}`;
+            
+            window.open(xUrl, "_blank");
+        }
+        if(idx === 2) {
+            onItem(2)
+            const text = encodeURIComponent(
+                `More Venture, Be Rich!!! 
+Seize this amazing chance Now! 
+${inviteUrl}
+                `);
+            const xUrl = `https://twitter.com/intent/tweet?text=${text}`;
+            window.open(xUrl, "_blank");
+        }
+        if(idx === 3) {
+            onItem(3)
+            const text = encodeURIComponent(
+                `Celebrating Over More Participants in the MARS Odyssey Airdrop! 
+                ${inviteUrl}
+                `);
+            const xUrl = `https://twitter.com/intent/tweet?text=${text}`;
+            window.open(xUrl, "_blank");
+        }
             
     }
     return (
@@ -774,25 +798,29 @@ Seize this amazing chance today! https://www.marsprotocol.org/launchpaddetail/${
         classNames={{mask: "cur-modal-mask"}}
       > 
         <div className='w100 center'>
-            <span className='fz28 fw600 white'>More Points (1/1)</span>
+            <span className='fz28 fw600 white'>More Points (1/3)</span>
         </div>
-        <div className='fx-row ai-ct jc-sb' style={{ marginTop: '55px'}}>
-            <span className='fz18 white' >Post Twitter</span>
-            <span className='fz18' style={{ color: 'rgba(185, 174, 255, 1)'}}>+100 LMC Points</span>
-            {
-                done ? 
-                <DoneButton onClick={onLink}>
-                  <Image
-                    src={checkIcon}
-                    width={15}
-                    height={10}
-                    alt="checkIcon"
-                  />
-                </DoneButton>:
-                <GoButton onClick={onLink}>Go</GoButton>
-                
-            }
-        </div>  
+        {
+            doneList.map((item,index) => (
+                <div key={item} className='fx-row ai-ct jc-sb' style={{ marginTop: '55px'}}>
+                    <span className='fz18 white' >{`Post Twitter-${index+1}`}</span>
+                    <span className='fz18' style={{ color: 'rgba(185, 174, 255, 1)'}}>+100 LMC Points</span>
+                    {
+                        item ? 
+                        <DoneButton onClick={() => onLink(index+1)}>
+                        <Image
+                            src={checkIcon}
+                            width={15}
+                            height={10}
+                            alt="checkIcon"
+                        />
+                        </DoneButton>:
+                        <GoButton onClick={() => onLink(index+1)}>Go</GoButton>
+                        
+                    }
+                </div>  
+            ))
+        }
         <div style={{
            
             marginTop: '24px',
