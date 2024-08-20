@@ -217,7 +217,8 @@ const LaunchpadDetail = () => {
   const { address } = useAccount()
   const { chain } = useNetwork()
   const [rank, setRank] = useState(0)
-  const [isXRepost, setXRepost] = useState(false)
+  const [isXRepostList, setXRepostList] = useState([false, false, false])
+
   const [inviteUserId, setInviteUserId] = useState('')
   const [isMount, setMount] = useState(false)
   const [points, setPoints] = useState(0)
@@ -320,7 +321,9 @@ const LaunchpadDetail = () => {
   const fetchRightData = async() => {
     setLoading(true)
     const res = await rpc.getUser(address)
-
+    // const xRepost1 = await rpc.getMarsScore('xRepost1',address)
+    // console.log('getUser111 xRepost1', xRepost1)
+    console.log('getUser', res)
     setMount(true)
     if(res) {
       const { dailyCheckedIn,//是否每日已签到
@@ -333,11 +336,13 @@ const LaunchpadDetail = () => {
               id,
               marsUniswap,
               xRepost,
+              xRepost1,
+              xRepost2,
               marsContractPoint
             } = res
         
       setPendingPoint(Number(marsContractPoint))
-      setXRepost(xRepost)
+      setXRepostList([xRepost || false, xRepost1 || false, xRepost2 || false])
       setInviteUserId(id)
       
       setRank(marsRank)
@@ -349,7 +354,8 @@ const LaunchpadDetail = () => {
       setRefecrral(marsReferral || [])
     }else {
       setPendingPoint(0)
-      setXRepost(false)
+      
+      setXRepostList([false, false, false])
       setInviteUserId('')
       setRank(0)
       setPoints(0)
@@ -605,11 +611,24 @@ const LaunchpadDetail = () => {
       setRow6Data((q) => ({ ...q, countdown: 0 }))
     }
   }
+  const onXModalItem = async(idx) => {
+    if(idx === 1) {
+      await rpc.getMarsScore("xRepost", address)
+      fetchRightData()
+    }
+    if(idx === 2) {
+      await rpc.getMarsScore("xRepost1", address)
+      fetchRightData()
+    }
+    if(idx === 3) {
+      await rpc.getMarsScore("xRepost2", address)
+      fetchRightData()
+    }
+  }
   const handleClickable = async(data) => {
     if(data.title === 'Follow X') {
       setXVisible(true)
-      await rpc.getMarsScore("xRepost", address)
-      fetchRightData()
+      
     } 
     if(data.title === 'Join Telegram' || data.title === 'Get LMC on Uniswap') {
       handleRightItem(data)
@@ -820,7 +839,8 @@ const LaunchpadDetail = () => {
                     open={inviteOpen} 
                     handleClose={() => setInviteOpen(false)}/>
                   <XModal
-                    done={isXRepost}
+                    onItem={onXModalItem}
+                    doneList={isXRepostList}
                     open={xVisible}
                     handleClose={() => setXVisible(false)}
                     userId={inviteUserId} 
