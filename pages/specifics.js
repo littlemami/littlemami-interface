@@ -56,7 +56,7 @@ const Mars = () => {
     contracts: searchUsers,
   });
 
-  const addresses = reads1.map((item) => item?.result);
+  const addresses = reads1.map((item) => item?.result) || [];
 
   const { data: reads3, refetch } = useContractReads({
     contracts: [
