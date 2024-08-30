@@ -342,7 +342,7 @@ const LaunchpadDetail = () => {
             } = res
         
       setPendingPoint(Number(marsContractPoint))
-      setXRepostList([xRepost || false, xRepost1 || false, xRepost2 || false])
+      setXRepostList([xRepost, xRepost1, xRepost2])
       setInviteUserId(id)
       
       setRank(marsRank)

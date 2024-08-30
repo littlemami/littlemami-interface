@@ -433,7 +433,7 @@ export const LeaderBoardModal = ({open, handleClose}) => {
     return (
         <Modal
             centered
-            open={open}
+            open={open }
             onOk={handleClose}
             onCancel={handleClose}
             footer={null}
@@ -449,7 +449,7 @@ export const LeaderBoardModal = ({open, handleClose}) => {
                 width={['326px','326px','326px','690px','690px']}
                 height={['332px','332px','332px','461px','461px']}
                 borderRadius={['8px','8px','8px','20px','20px']}
-                p={['18px 42px','18px 42px','18px 42px','60px 58px','60px 58px']}
+                p={['18px 42px','18px 42px','18px 42px','60px 28px','60px 28px']}
                 >
                 <div className="fx-row ai-ct jc-sb w100">
                     <Text className='white fw500' fontSize={['10px','10px','10px','20px','20px',]} >Rank</Text>
@@ -489,11 +489,11 @@ export const LeaderBoardModal = ({open, handleClose}) => {
                                     >{index + 1}</Text>
                                 <Text className='pink fw500 center' 
                                      fontSize={['10px','10px','1px','18px','18px',]} 
-                                     width={['100px','100px','100px','433px','433px']}
+                                    //  width={['100px','100px','100px','433px','433px']}
                                 >{ isMobile || isTablet ? splitAddress(item.address) : item.address}</Text>
-                                <Text className=' white8 fw500 fx ai-ct jc-end' 
+                                <Text className='white8 fw500 fx ai-ct jc-end' 
                                     fontSize={['10px','10px','1px','18px','18px',]} 
-                                    width={['32px','32px','32px','70px','70px']}
+                                    // width={['32px','32px','32px','100px','100px']}
                                    >{item.score}</Text>
                             </Box>
                         ))}
@@ -785,6 +785,7 @@ ${inviteUrl}
         }
             
     }
+   
     return (
       <Modal
         centered
@@ -798,7 +799,7 @@ ${inviteUrl}
         classNames={{mask: "cur-modal-mask"}}
       > 
         <div className='w100 center'>
-            <span className='fz28 fw600 white'>More Points (1/3)</span>
+            <span className='fz28 fw600 white'>More Points {`(${doneList.filter(item => item === true).length}/${doneList.length})`}</span>
         </div>
         {
             doneList.map((item,index) => (
@@ -821,20 +822,18 @@ ${inviteUrl}
                 </div>  
             ))
         }
-        <div style={{
-           
-            marginTop: '24px',
-            width: '788px',
-            height: '0.8px',
-            border: '0.8px solid',
-            borderImageSource: 'linear-gradient(90deg, rgba(73, 68, 193, 0.48) 0%, rgba(134, 104, 255, 0.64) 48.5%, rgba(73, 68, 193, 0.48) 100%)',
-            borderImageSlice: 1,
-            borderImageOutset: '0.4px'
-
-              
-        }}/>
-       
-
+        {
+            isMobile || isTablet ? <div/> :
+            <div style={{
+                marginTop: '24px',
+                width: '788px',
+                height: '0.8px',
+                border: '0.8px solid',
+                borderImageSource: 'linear-gradient(90deg, rgba(73, 68, 193, 0.48) 0%, rgba(134, 104, 255, 0.64) 48.5%, rgba(73, 68, 193, 0.48) 100%)',
+                borderImageSlice: 1,
+                borderImageOutset: '0.4px'
+            }}/>
+        }
       </Modal>
     );
 };
