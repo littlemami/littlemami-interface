@@ -30,7 +30,35 @@ const Mars = () => {
     fetchData();
   }, []);
 
-  const { data: reads0, refetch } = useContractReads({
+  const { data: reads0 } = useContractReads({
+    contracts: [
+      {
+        ...marsContract,
+        functionName: "getUserAddressesLength",
+        args: [],
+      },
+    ],
+  });
+
+  const userLength = reads0?.[0]?.result;
+
+  const searchUsers = [];
+
+  for (let i = 0; i < userLength; i++) {
+    searchUsers.push({
+      ...marsContract,
+      functionName: "userAddresses",
+      args: [i],
+    });
+  }
+
+  const { data: reads1 } = useContractReads({
+    contracts: searchUsers,
+  });
+
+  const addresses = reads1?.map((item) => item?.result) || [];
+
+  const { data: reads3, refetch } = useContractReads({
     contracts: [
       {
         ...marsContract,
@@ -41,8 +69,8 @@ const Mars = () => {
     ],
   });
 
-  const lmc = reads0?.[0]?.result;
-  const totalSell = reads0?.[1]?.result;
+  const lmc = reads3?.[0]?.result;
+  const totalSell = reads3?.[1]?.result;
 
   const { data: reads4 } = useContractReads({
     contracts: [
@@ -80,6 +108,16 @@ const Mars = () => {
             <div>
               launch产生总积分（包含任务积分和质押lmc积分） :
               {BigInt(data?.totalPoint || 0n)?.toString()}
+            </div>
+            <div>
+              launch 质押用户地址
+              {addresses?.map((item, index) => {
+                return (
+                  <div key={index} className="text-xs">
+                    {item}
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="border mt-10">
