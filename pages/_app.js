@@ -34,7 +34,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 
 const { chains, publicClient } = configureChains(
   [mainnet,sepolia],
-  [alchemyProvider({ apiKey: "LQ0xqhSEYELkJL2ToAS0S02mh8LiT_iR" })]
+  [alchemyProvider({ apiKey: "h_ejnh49CncsUUiD3NbDieD4Ieuvl_tE" })]
 );
 
 const { wallets } = getDefaultWallets({
